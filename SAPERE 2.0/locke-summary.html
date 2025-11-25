@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis: Ensayo sobre el Entendimiento Humano - John Locke</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --locke: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--locke), #219653);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .summary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--locke), #219653);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-content {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section {
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section h3 {
+            color: var(--locke);
+            border-bottom: 2px solid var(--locke);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--locke);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--locke);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--locke);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Análisis: Ensayo sobre el Entendimiento Humano</h1>
+        <p>Explorando la obra fundamental de John Locke sobre el empirismo y los límites del conocimiento humano</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="summary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Filósofo y médico inglés del siglo XVII, padre del empirismo británico y del liberalismo moderno</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="summary-description">
+                <p>Este análisis te introducirá a los principios fundamentales del empirismo lockeano. Explorarás la crítica al innatismo, la teoría de las ideas, la tabula rasa y los límites del conocimiento humano.</p>
+            </div>
+        </section>
+        
+        <section class="summary-content">
+            <div class="summary-section">
+                <h3>Resumen Ejecutivo</h3>
+                <p>El "Ensayo sobre el Entendimiento Humano" (1690) de John Locke representa una obra fundacional del empirismo moderno, estableciendo que todo conocimiento proviene de la experiencia y rechazando las ideas innatas.</p>
+                
+                <div class="concept-box">
+                    <h4>Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>Tabula Rasa:</strong> La mente como "pizarra en blanco" al nacer</li>
+                        <li><strong>Crítica al Innatismo:</strong> Rechazo de las ideas innatas</li>
+                        <li><strong>Teoría de las Ideas:</strong> Impresiones sensibles como origen del conocimiento</li>
+                        <li><strong>Ideas Simples y Complejas:</strong> Clasificación del contenido mental</li>
+                        <li><strong>Cualidades Primarias y Secundarias:</strong> Distinción entre propiedades objetivas y subjetivas</li>
+                    </ul>
+                </div>
+                
+                <p>Locke desarrolla una teoría del conocimiento que sitúa la experiencia como fuente única de todo saber, estableciendo los límites de lo que podemos conocer con certeza.</p>
+                
+                <div class="quote">
+                    "Supongamos, pues, que la mente es, como decimos, un papel en blanco, vacío de toda característica, sin ninguna idea. ¿Cómo se surte? ¿De dónde procede ese vasto almacén que la activa e inagotable fantasía del hombre ha pintado en ella con una variedad casi infinita?"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Crítica a las Ideas Innatas</h3>
+                
+                <p>Locke inicia su ensayo con una crítica sistemática a la doctrina de las ideas innatas, predominante en el racionalismo continental.</p>
+                
+                <div class="concept-box">
+                    <h4>Argumentos contra el Innatismo:</h4>
+                    <ol>
+                        <li><strong>Falta de universalidad:</strong> No existen principios universalmente aceptados</li>
+                        <li><strong>Ausencia en niños y deficientes:</strong> Si fueran innatas, todos las tendrían</li>
+                        <li><strong>No necesidad lógica:</strong> Los principios pueden ser aprendidos por experiencia</li>
+                        <li><strong>Explicación alternativa:</strong> La experiencia explica mejor el origen de las ideas</li>
+                    </ol>
+                </div>
+                
+                <div class="quote">
+                    "Es una opinión establecida entre algunos hombres, que hay en el entendimiento ciertos principios innatos, ciertas nociones primarias, caracteres, como si dijéramos, estampados en la mente del hombre, que el alma recibe en su primer ser, y trae consigo al mundo"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Teoría de las Ideas</h3>
+                <p>Locke propone que todas nuestras ideas provienen de dos fuentes fundamentales: la sensación y la reflexión.</p>
+                
+                <h4>Origen de las Ideas</h4>
+                
+                <div class="concept-box">
+                    <h4>Fuentes del Conocimiento:</h4>
+                    <ol>
+                        <li><strong>Sensación (Sensation):</strong> Experiencia externa a través de los sentidos</li>
+                        <li><strong>Reflexión (Reflection):</strong> Experiencia interna de las operaciones de nuestra mente</li>
+                    </ol>
+                </div>
+                
+                <h4>Clasificación de las Ideas</h4>
+                <p>Locke distingue entre ideas simples y complejas, estableciendo cómo se forman y relacionan.</p>
+                
+                <div class="concept-box">
+                    <h4>Tipos de Ideas:</h4>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Ideas Simples</th>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Ideas Complejas</th>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Recibidas pasivamente por la mente</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Construidas activamente por la mente</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">No pueden ser analizadas o divididas</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Pueden ser analizadas en ideas simples</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Ejemplo: color, sabor, dolor</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Ejemplo: belleza, justicia, gobierno</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="quote">
+                    "Supongamos que la mente es, como decimos, un papel en blanco, limpio de toda inscripción, sin ninguna idea; ¿cómo se surte? ¿De dónde adquiere ese vasto almacén, que la activa e ilimitada fantasía del hombre ha pintado en ella con casi infinita variedad?"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Cualidades Primarias y Secundarias</h3>
+                <p>Una de las contribuciones más importantes de Locke es la distinción entre cualidades primarias y secundarias de los objetos.</p>
+                
+                <h4>Dos Tipos de Cualidades</h4>
+                
+                <div class="concept-box">
+                    <h4>Características de las Cualidades:</h4>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Cualidades Primarias</th>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Cualidades Secundarias</th>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Objetivas e independientes del observador</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Subjetivas y dependientes del observador</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Pertenecen realmente a los objetos</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Son poderes para producir sensaciones</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Ejemplos: forma, tamaño, movimiento</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Ejemplos: color, sabor, olor, sonido</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Conocimiento más seguro</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Conocimiento menos seguro</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h4>Implicaciones Epistemológicas</h4>
+                <p>Esta distinción tiene profundas implicaciones para la teoría del conocimiento y la filosofía de la ciencia.</p>
+                
+                <div class="quote">
+                    "Las cualidades primarias de los cuerpos son completamente inseparables de ellos, y tales que en todas las alteraciones y cambios que sufre un cuerpo, las conserva constantemente"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Límites del Conocimiento Humano</h3>
+                <p>Locke establece límites precisos a lo que podemos conocer con certeza, adoptando una postura moderadamente escéptica.</p>
+                
+                <h4>Grados de Conocimiento</h4>
+                
+                <div class="concept-box">
+                    <h4>Tipos de Conocimiento:</h4>
+                    <ol>
+                        <li><strong>Conocimiento Intuitivo:</strong> Conocimiento inmediato y más cierto</li>
+                        <li><strong>Conocimiento Demostrativo:</strong> Conocimiento mediato por razonamiento</li>
+                        <li><strong>Conocimiento Sensible:</strong> Conocimiento de la existencia de objetos externos</li>
+                    </ol>
+                </div>
+                
+                <h4>Ámbitos del Conocimiento</h4>
+                <p>Locke identifica tres ámbitos principales donde puede aplicarse nuestro conocimiento.</p>
+                
+                <div class="concept-box">
+                    <h4>Esferas del Conocimiento:</h4>
+                    <ul>
+                        <li><strong>Identidad y Diversidad:</strong> Relaciones entre ideas</li>
+                        <li><strong>Coexistencia:</strong> Propiedades que coexisten en las sustancias</li>
+                        <li><strong>Relaciones Reales:</strong> Conexiones causales entre cosas</li>
+                        <li><strong>Existencia Real:</strong> Conocimiento de que algo existe</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Legado e Influencia</h3>
+                <p>El "Ensayo sobre el Entendimiento Humano" sentó las bases del empirismo británico y tuvo una influencia profunda en la filosofía moderna.</p>
+                
+                <h4>Contribuciones Fundamentales</h4>
+                
+                <div class="concept-box">
+                    <h4>Aportes de Locke a la Filosofía:</h4>
+                    <ul>
+                        <li><strong>Fundamentación del empirismo:</strong> La experiencia como única fuente de conocimiento</li>
+                        <li><strong>Crítica al racionalismo:</strong> Rechazo sistemático de las ideas innatas</li>
+                        <li><strong>Teoría representacional:</strong> Las ideas como representaciones de la realidad</li>
+                        <li><strong>Liberalismo epistemológico:</strong> Tolerancia y modestia en las pretensiones de conocimiento</li>
+                    </ul>
+                </div>
+                
+                <h4>Desarrollo Posterior</h4>
+                <p>El pensamiento de Locke fue desarrollado y criticado por posteriores filósofos empiristas:</p>
+                
+                <div class="concept-box">
+                    <h4>Evolución del Empirismo:</h4>
+                    <ul>
+                        <li><strong>Berkeley:</strong> Idealismo y crítica a la distinción cualidades primarias/secundarias</li>
+                        <li><strong>Hume:</strong> Escepticismo radical y análisis de la causalidad</li>
+                        <li><strong>Kant:</strong> Síntesis entre empirismo y racionalismo</li>
+                        <li><strong>Mill y el empirismo contemporáneo:</strong> Desarrollo del asociacionismo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee el análisis del Ensayo sobre el Entendimiento Humano</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Has leído el análisis de la obra fundamental de Locke. Ahora reflexiona sobre los conceptos principales:</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos clave para recordar:</h4>
+                            <ul>
+                                <li>La crítica a las ideas innatas</li>
+                                <li>La teoría de la tabula rasa</li>
+                                <li>La distinción entre ideas simples y complejas</li>
+                                <li>Las cualidades primarias y secundarias</li>
+                                <li>Los límites del conocimiento humano</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu síntesis:</h4>
+                    <p>Escribe un breve resumen con tus propias palabras de los conceptos centrales del empirismo lockeano.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu síntesis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza la crítica al innatismo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La crítica a las ideas innatas es el punto de partida del sistema lockeano. Comprender sus argumentos es fundamental para entender el empirismo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Argumentos Principales contra el Innatismo:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Argumento</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Descripción</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Implicación</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Falta de universalidad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">No existen principios universalmente aceptados</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Si fueran innatos, todos los tendrían</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Ausencia en niños</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Los niños no muestran conocimiento innato</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El conocimiento se desarrolla con la experiencia</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Explicación alternativa</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">La experiencia explica el origen de las ideas</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">No se necesita postular ideas innatas</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras convincente la crítica de Locke al innatismo? ¿Qué fortalezas y debilidades identificas en sus argumentos?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Evalúa la distinción cualidades primarias/secundarias</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La distinción entre cualidades primarias y secundarias es una de las contribuciones más importantes de Locke a la filosofía moderna.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Problemas de la Distinción:</h4>
+                            <ol>
+                                <li><strong>Problema de la objetividad:</strong> ¿Son realmente objetivas las cualidades primarias?</li>
+                                <li><strong>Problema de la percepción:</strong> ¿Cómo conocemos las cualidades primarias sin los sentidos?</li>
+                                <li><strong>Problema de la relación:</strong> ¿Cómo se relacionan cualidades primarias y secundarias?</li>
+                                <li><strong>Problema del realismo:</strong> ¿Qué acceso tenemos realmente a la realidad externa?</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Las cualidades primarias de los cuerpos son completamente inseparables de ellos, cualesquiera que sean los cambios de estado que sufran, y el cuerpo las conserva constantemente"
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Qué ventajas y desventajas identificas en la distinción lockeana entre cualidades primarias y secundarias? ¿Sigue siendo relevante esta distinción en la filosofía contemporánea?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la vigencia del empirismo lockeano</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>A pesar de haber sido escrito en el siglo XVII, el pensamiento de Locke sigue siendo relevante para comprender problemas epistemológicos contemporáneos.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Aspectos de Vigencia Actual:</h4>
+                            <ul>
+                                <li><strong>Psicología del desarrollo:</strong> Estudios sobre el aprendizaje infantil</li>
+                                <li><strong>Filosofía de la mente:</strong> Debate naturaleza/crianza</li>
+                                <li><strong>Epistemología naturalizada:</strong> Estudio científico del conocimiento</li>
+                                <li><strong>Ciencias cognitivas:</strong> Investigación sobre procesos mentales</li>
+                            </ul>
+                        </div>
+                        
+                        <p>El empirismo lockeano ha influido en el desarrollo de la psicología, las ciencias cognitivas y continúa informando debates sobre los límites del conocimiento humano.</p>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿En qué aspectos del pensamiento contemporáneo identificas la influencia de Locke? ¿Qué lecciones podemos extraer de su empirismo para los desafíos epistemológicos actuales?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el análisis</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el análisis del "Ensayo sobre el Entendimiento Humano"</h3>
+            <p>Has explorado los conceptos centrales de una de las obras fundacionales del empirismo moderno. Reflexiona sobre estas ideas y cómo se relacionan con tu comprensión del conocimiento, la experiencia y los límites de la razón humana.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('summary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('lockeEssayProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lockeEssayProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'calendario10.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

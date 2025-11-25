@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Interactivo: ¿Es necesario un poder absoluto?</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --leviathan: #c0392b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--leviathan);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .activity-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--leviathan), #a93226);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(192, 57, 43, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theory-exposition {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--leviathan);
+            backdrop-filter: blur(5px);
+        }
+        
+        .exposition-title {
+            color: var(--leviathan);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .theory-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .theory-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--leviathan);
+        }
+        
+        .theory-card h3 {
+            color: var(--leviathan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--leviathan);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .debate-guide {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .arguments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .argument-card {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .argument-title {
+            font-weight: bold;
+            color: var(--leviathan);
+            margin-bottom: 0.8rem;
+        }
+        
+        .ai-chat-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--leviathan);
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .ai-message {
+            background: #f5f5f5;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--leviathan);
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--leviathan), #a93226);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--leviathan);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--leviathan), #a93226);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .theory-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .arguments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚔️ Debate Interactivo: ¿Es necesario un poder absoluto?</h1>
+        <p>Basado en la teoría política de Thomas Hobbes en "El Leviatán"</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="activity-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">TH</div>
+                <div class="philosopher-details">
+                    <h2>Thomas Hobbes</h2>
+                    <p>Filósofo inglés y teórico del Estado absoluto y el contrato social</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Exposición sobre la Teoría del Poder Absoluto -->
+        <section class="theory-exposition">
+            <h2 class="exposition-title">La Teoría del Poder Absoluto en Hobbes</h2>
+            
+            <div class="theory-content">
+                <div class="theory-card">
+                    <h3>⚔️ Estado de Naturaleza</h3>
+                    <p>Para Hobbes, el estado de naturaleza es una condición de "guerra de todos contra todos" (bellum omnium contra omnes), donde la vida es "solitaria, pobre, desagradable, brutal y corta".</p>
+                    <p>En este estado, no hay industria, agricultura, navegación, conocimiento, artes, letras ni sociedad.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>📜 Contrato Social</h3>
+                    <p>La única salida del estado de naturaleza es el contrato social, donde los individuos renuncian a sus derechos naturales y los transfieren a un soberano.</p>
+                    <p>Este contrato crea el "Gran Leviatán" o "Dios mortal" que garantiza la paz y seguridad.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>👑 Soberanía Absoluta</h3>
+                    <p>El soberano (monarca o asamblea) tiene poder absoluto e indivisible. No está sujeto a las leyes civiles y su poder no puede ser dividido.</p>
+                    <p>La obligación de obediencia dura mientras el soberano pueda proteger a los súbditos.</p>
+                </div>
+            </div>
+            
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h3 style="color: var(--leviathan); margin-bottom: 1rem;">La Necesidad del Poder Absoluto</h3>
+                <p>Hobbes argumenta que sin un poder absoluto que imponga el cumplimiento de los pactos, estos serían "meras palabras, sin fuerza para proteger a un hombre en absoluto". Solo un soberano con poder ilimitado puede garantizar la seguridad y evitar el regreso al estado de naturaleza.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">1. Prepara argumentos a favor y en contra del poder absoluto</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla argumentos sólidos tanto a favor como en contra de la teoría hobbesiana del poder absoluto, considerando diferentes perspectivas filosóficas y políticas.</p>
+                        
+                        <div class="debate-guide">
+                            <h4>Preguntas para guiar tu reflexión:</h4>
+                            <ul>
+                                <li>¿Es realmente necesaria una autoridad absoluta para garantizar la seguridad?</li>
+                                <li>¿Qué alternativas existen al modelo hobbesiano?</li>
+                                <li>¿Cómo equilibrar seguridad y libertad individual?</li>
+                                <li>¿Qué ejemplos históricos apoyan o refutan la teoría de Hobbes?</li>
+                                <li>¿Es aplicable el modelo hobbesiano a las sociedades contemporáneas?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Argumentos a favor del poder absoluto:</h4>
+                    <p>Desarrolla al menos 3 argumentos sólidos que apoyen la posición de Hobbes sobre la necesidad de un poder soberano absoluto.</p>
+                    
+                    <textarea class="activity-response" id="arguments-pro" placeholder="1. [Tu primer argumento a favor]&#10;2. [Tu segundo argumento a favor]&#10;3. [Tu tercer argumento a favor]"></textarea>
+                    
+                    <h4>Argumentos en contra del poder absoluto:</h4>
+                    <p>Desarrolla al menos 3 argumentos sólidos que cuestionen la posición de Hobbes.</p>
+                    
+                    <textarea class="activity-response" id="arguments-against" placeholder="1. [Tu primer argumento en contra]&#10;2. [Tu segundo argumento en contra]&#10;3. [Tu tercer argumento en contra]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">2. Debate con el Agente IA de Thomas Hobbes</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Debate directamente con una inteligencia artificial que simula ser Thomas Hobbes. Presenta tus argumentos y objeciones, y recibe respuestas basadas en el pensamiento original del filósofo.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Temas sugeridos para el debate:</div>
+                                <p>• La necesidad del poder absoluto vs. derechos individuales</p>
+                                <p>• Alternativas al modelo hobbesiano</p>
+                                <p>• Límites del poder soberano</p>
+                                <p>• Aplicabilidad en sociedades modernas</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Consejos para el debate:</div>
+                                <p>• Formula preguntas específicas</p>
+                                <p>• Presenta contraejemplos históricos</p>
+                                <p>• Cuestiona las premisas fundamentales</p>
+                                <p>• Propone alternativas viables</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-container">
+                        <h4>Chat con Thomas Hobbes (IA)</h4>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <div class="message-sender">Thomas Hobbes:</div>
+                                <div>Saludos, soy Thomas Hobbes. He sido convocado para debatir contigo sobre la necesidad del poder absoluto. Como argumenté en mi obra "Leviatán", sin un soberano con poder absoluto, la humanidad regresaría al estado de naturaleza, donde la vida es "solitaria, pobre, desagradable, brutal y corta". ¿Qué objeciones tienes a mi teoría?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Escribe tu mensaje para Thomas Hobbes...">
+                            <button class="send-btn" onclick="sendMessage()">Enviar</button>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">3. Analiza casos históricos de poder absoluto</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Examina casos históricos de regímenes con poder absoluto y evalúa si confirman o refutan la teoría de Hobbes.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Monarquías Absolutas</div>
+                                <p><strong>Ejemplo:</strong> Luis XIV de Francia ("El Estado soy yo")</p>
+                                <p><strong>Evaluación:</strong> ¿Garantizó estabilidad a costa de libertades?</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Dictaduras Modernas</div>
+                                <p><strong>Ejemplo:</strong> Regímenes totalitarios del siglo XX</p>
+                                <p><strong>Evaluación:</strong> ¿Confirmaron los riesgos del poder ilimitado?</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Estados Fallidos</div>
+                                <p><strong>Ejemplo:</strong> Países sin autoridad efectiva</p>
+                                <p><strong>Evaluación:</strong> ¿Demuestran la necesidad de un Estado fuerte?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis de casos históricos:</h4>
+                    <p>Selecciona dos casos históricos y analiza cómo se relacionan con la teoría de Hobbes sobre el poder absoluto.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Caso 1: [Tu análisis]&#10;&#10;Caso 2: [Tu análisis]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">4. Desarrolla tu posición final sobre el poder absoluto</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de analizar los argumentos, debatir con Hobbes y examinar casos históricos, desarrolla tu posición personal sobre la necesidad del poder absoluto.</p>
+                        
+                        <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar en tu posición final:</h4>
+                            <ul>
+                                <li>¿En qué medida tiene razón Hobbes sobre la naturaleza humana?</li>
+                                <li>¿Es posible un equilibrio entre autoridad y libertad?</li>
+                                <li>¿Qué elementos de la teoría hobbesiana son aplicables hoy?</li>
+                                <li>¿Qué límites debería tener el poder del Estado?</li>
+                                <li>¿Cómo garantizar seguridad sin sacrificar libertades fundamentales?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu posición final:</h4>
+                    <p>Desarrolla una reflexión final que sintetice tu posición sobre la necesidad del poder absoluto, considerando los argumentos a favor y en contra, el debate con Hobbes y los casos históricos analizados.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu posición final sobre el poder absoluto..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el debate interactivo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="debate-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el debate sobre el poder absoluto</h3>
+            <p>Has analizado profundamente la teoría política de Hobbes, desarrollado argumentos sólidos a favor y en contra, debatido con una simulación del propio filósofo, examinado casos históricos y formulado tu posición personal sobre uno de los temas más fundamentales de la filosofía política.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de conocimiento del Leviatán de Hobbes
+        const hobbesKnowledge = [
+            "El estado de naturaleza es una condición de guerra de todos contra todos, donde la vida es solitaria, pobre, desagradable, brutal y corta.",
+            "En el estado de naturaleza, cada hombre tiene derecho a todas las cosas, incluso al cuerpo de los demás.",
+            "La primera ley fundamental de la naturaleza es buscar la paz y seguirla.",
+            "La segunda ley de la naturaleza es que un hombre esté dispuesto a renunciar a su derecho a todas las cosas cuando otros también lo estén.",
+            "El mutuo traspaso de derecho es lo que los hombres llaman contrato.",
+            "Los pactos sin la espada no son más que palabras, sin fuerza para proteger a un hombre en absoluto.",
+            "El Estado o Commonwealth es una persona artificial, cuyo trabajo y oficio depende de los soberanos, que tienen el uso de todo el poder y la fuerza de la comunidad.",
+            "La única manera de erigir un poder común es conferir todo el poder y la fuerza a un hombre, o a una asamblea de hombres.",
+            "El soberano, sea un monarca o una asamblea, no está sujeto a las leyes civiles.",
+            "La obligación de los súbditos hacia el soberano dura solo mientras dure el poder para protegerlos.",
+            "En el estado de naturaleza, no hay propiedad, ni dominio, ni distinción entre mío y tuyo.",
+            "El derecho de naturaleza es la libertad que cada hombre tiene de usar su propio poder para la preservación de su propia naturaleza.",
+            "Una ley de naturaleza es un precepto o regla general, establecido por la razón, por el cual se prohíbe a un hombre hacer lo que puede destruir su vida.",
+            "El poder soberano, sea el que fuere, no resulta tan ofensivo para la mayoría de la gente como la falta de él.",
+            "La seguridad del pueblo es el supremo mandato.",
+            "No existe en la tierra un fin último ni bien supremo de los que se ha hablado en los libros de los antiguos filósofos morales.",
+            "La autoridad, no la verdad, hace la ley.",
+            "El miedo y yo nacimos gemelos.",
+            "La ciencia es el conocimiento de las consecuencias, y la dependencia de un hecho respecto a otro.",
+            "La curiosidad es la lujuria de la mente."
+        ];
+
+        // Respuestas predefinidas del Agente IA de Hobbes
+        const hobbesResponses = [
+            "Sin un poder común que los atemorice a todos, los hombres volverían al estado de naturaleza, donde reina la guerra de todos contra todos. ¿Prefieres esa condición brutal?",
+            "Los pactos sin la espada son meras palabras. Solo un soberano con poder absoluto puede garantizar el cumplimiento de los contratos y la seguridad de todos.",
+            "¿Acaso no ves que en el estado de naturaleza no hay industria, ni agricultura, ni artes, ni letras, ni sociedad? La vida sería solitaria, pobre, desagradable, brutal y corta.",
+            "La libertad sin seguridad es una ilusión peligrosa. Prefiero la protección de un Leviatán a la anarquía del estado de naturaleza.",
+            "El soberano no está sujeto a las leyes civiles porque tiene el poder de hacerlas y derogarlas. ¿Cómo podría estar limitado por lo que él mismo crea?",
+            "La obligación de obedecer al soberano dura solo mientras este pueda protegerte. Si no puede garantizar tu seguridad, pierde su legitimidad.",
+            "¿Crees que los derechos individuales pueden existir sin un poder que los proteja? En el estado de naturaleza, no hay derechos, solo la ley del más fuerte.",
+            "La historia muestra que las sociedades sin autoridad fuerte caen en la guerra civil y el caos. Mi teoría evita ese destino.",
+            "No propongo la tiranía por placer, sino por necesidad. El poder absoluto es el mal menor frente a la anarquía.",
+            "¿Has considerado que la división de poderes debilita al Estado y lo hace vulnerable a las facciones y la guerra civil?",
+            "La seguridad es el fundamento de todos los demás bienes. Sin ella, no puede haber libertad, propiedad ni progreso.",
+            "Mi pesimismo sobre la naturaleza humana está respaldado por la experiencia. Observa cómo los hombres se comportan cuando no hay leyes que los contengan.",
+            "El contrato social no es una opción, es una necesidad. Los hombres racionales entenderán que es mejor renunciar a algunos derechos a cambio de seguridad.",
+            "¿Qué valor tienen tus libertades si no puedes disfrutarlas por miedo constante a la violencia?",
+            "El Leviatán no es un monstruo, sino la garantía de la paz. Es el dios mortal que nos protege del caos."
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+        let chatHistory = [];
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+            // Agregar mensaje inicial de Hobbes
+            addMessage("Thomas Hobbes", hobbesResponses[0], "ai");
+        }
+
+        // Agregar mensaje al chat
+        function addMessage(sender, text, type) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.textContent = sender + ':';
+            
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Guardar en historial
+            chatHistory.push({sender, text, type});
+        }
+
+        // Enviar mensaje al chat
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage("Tú", message, "user");
+            
+            // Limpiar input
+            chatInput.value = '';
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                // Generar respuesta de Hobbes
+                const randomIndex = Math.floor(Math.random() * hobbesResponses.length);
+                const response = hobbesResponses[randomIndex];
+                
+                // Agregar respuesta de Hobbes
+                addMessage("Thomas Hobbes", response, "ai");
+            }, 1000);
+        }
+
+        // Permitir enviar mensaje con Enter
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 1) {
+                const argumentsPro = document.getElementById('arguments-pro').value.trim();
+                const argumentsAgainst = document.getElementById('arguments-against').value.trim();
+                
+                if (!argumentsPro || !argumentsAgainst) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa ambos campos de argumentos.';
+                }
+            } else if (activityNumber === 2) {
+                // Para la actividad 2, verificamos que haya habido interacción en el chat
+                if (chatHistory.length <= 1) { // Solo el mensaje inicial
+                    isValid = false;
+                    feedback.textContent = 'Por favor, interactúa con el Agente IA antes de enviar esta actividad.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('debate-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

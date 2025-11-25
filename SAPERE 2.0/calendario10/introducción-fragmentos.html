@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Comentado: Los Fragmentos más Sorprendentes de la Filosofía</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #9b59b6;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --aphorisms: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .aphorisms-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--aphorisms), #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .aphorisms-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--aphorisms);
+            backdrop-filter: blur(5px);
+        }
+        
+        .aphorisms-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .aphorisms-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .aphorism-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--aphorisms);
+            transition: all 0.3s ease;
+        }
+        
+        .aphorism-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .aphorism-number {
+            font-weight: bold;
+            color: var(--aphorisms);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .aphorism-text {
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .philosopher-name {
+            font-weight: bold;
+            color: var(--dark);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .analysis-guide {
+            background: #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .practical-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 3px solid var(--aphorisms);
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--aphorisms);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--aphorisms);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .own-aphorism-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .own-aphorism-input:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--aphorisms), #8e44ad);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .practical-tips {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📖 Texto Comentado: Los Fragmentos más Sorprendentes de la Filosofía</h1>
+        <p>Una introducción al pensamiento filosófico a través de sus citas más impactantes</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="aphorisms-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Grandes Filósofos de la Historia</h2>
+                    <p>Desde la Antigua Grecia hasta la filosofía contemporánea</p>
+                    <div class="duration">Duración estimada: 90 minutos</div>
+                </div>
+            </div>
+            
+            <div class="aphorisms-description">
+                <p>Explora los fragmentos más sorprendentes e impactantes de la historia de la filosofía. Esta selección abarca desde los presocráticos hasta pensadores contemporáneos, ofreciendo una visión panorámica de las ideas que han moldeado nuestro pensamiento y nuestra forma de entender el mundo.</p>
+            </div>
+        </section>
+        
+        <!-- Fragmentos filosóficos -->
+        <section class="aphorisms-container">
+            <h2 style="margin-bottom: 2rem; color: var(--aphorisms); text-align: center;">30 Fragmentos Sorprendentes de la Filosofía</h2>
+            
+            <div class="aphorisms-grid" id="aphorisms-grid">
+                <!-- Los fragmentos se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee los fragmentos filosóficos seleccionados</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Lee atentamente los 30 fragmentos filosóficos y selecciona los 5 que más te hayan impactado o resonado contigo.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Guía de lectura:</h4>
+                            <ul>
+                                <li>Identifica las diferentes corrientes filosóficas representadas</li>
+                                <li>Reflexiona sobre la aplicación práctica de cada pensamiento</li>
+                                <li>Relaciona los fragmentos con tu experiencia personal</li>
+                                <li>Considera el contexto histórico de cada afirmación</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus fragmentos seleccionados:</h4>
+                    <p>Escribe los números de los 5 fragmentos que más te hayan impactado y explica brevemente por qué cada uno te resulta significativo.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Ejemplo: Fragmento 3: Me impactó porque...&#10;Fragmento 15: Me resonó porque..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Haz comentarios y análisis filosófico de los fragmentos</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Selecciona 3 fragmentos y desarrolla un análisis filosófico detallado de cada uno, relacionándolos con las corrientes filosóficas que representan.</p>
+                        
+                        <div class="analysis-guide">
+                            <h4>Guía para el análisis filosófico:</h4>
+                            <ul>
+                                <li><strong>Contexto filosófico:</strong> ¿A qué corriente o escuela pertenece este pensamiento?</li>
+                                <li><strong>Originalidad:</strong> ¿Qué tiene de novedoso o disruptivo este pensamiento?</li>
+                                <li><strong>Aplicación práctica:</strong> ¿Cómo puede aplicarse este pensamiento en la vida contemporánea?</li>
+                                <li><strong>Crítica:</strong> ¿Qué limitaciones o problemas identificas en esta perspectiva?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis filosófico:</h4>
+                    <p>Desarrolla un comentario filosófico detallado para 3 fragmentos de tu elección.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Fragmento X: [Tu análisis filosófico detallado]&#10;&#10;Fragmento Y: [Tu análisis filosófico detallado]&#10;&#10;Fragmento Z: [Tu análisis filosófico detallado]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Identifica corrientes filosóficas y sus características</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Identifica y organiza las diferentes corrientes filosóficas representadas en los fragmentos, destacando sus características principales.</p>
+                        
+                        <div class="practical-tips">
+                            <div class="tip-card">
+                                <div class="tip-icon">🏛️</div>
+                                <h4>Filosofía Antigua</h4>
+                                <p>Presocráticos, Platón, Aristóteles y escuelas helenísticas</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">⛪</div>
+                                <h4>Filosofía Medieval</h4>
+                                <p>Patrística, Escolástica y filosofía islámica</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🔬</div>
+                                <h4>Filosofía Moderna</h4>
+                                <p>Racionalismo, Empirismo e Ilustración</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🌍</div>
+                                <h4>Filosofía Contemporánea</h4>
+                                <p>Existencialismo, Fenomenología, Filosofía Analítica</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Identificación de corrientes:</h4>
+                    <p>Selecciona al menos 5 fragmentos, identifica a qué corriente filosófica pertenecen y explica las características principales de esa corriente.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="1. [Fragmento X]: Pertenece a [corriente filosófica] porque...&#10;2. [Fragmento Y]: Pertenece a [corriente filosófica] porque...&#10;3. [Fragmento Z]: Pertenece a [corriente filosófica] porque..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Escribe tu propio comentario y reflexiones filosóficas</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Inspirado en los fragmentos filosóficos, escribe tu propio comentario filosófico y crea al menos 3 reflexiones originales.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos a considerar en tus reflexiones:</h4>
+                            <ul>
+                                <li>Profundidad filosófica y vital</li>
+                                <li>Originalidad en la perspectiva</li>
+                                <li>Coherencia con tu experiencia vital</li>
+                                <li>Claridad en la expresión</li>
+                                <li>Capacidad para provocar pensamiento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comentario filosófico:</h4>
+                    <p>Desarrolla un comentario personal sobre la filosofía que has descubierto a través de estos fragmentos.</p>
+                    
+                    <textarea class="activity-response" id="response-4a" placeholder="Escribe tu comentario filosófico personal aquí..."></textarea>
+                    
+                    <h4 style="margin-top: 1.5rem;">Tus reflexiones originales:</h4>
+                    <p>Crea al menos 3 reflexiones originales inspiradas en tu lectura filosófica.</p>
+                    
+                    <input type="text" class="own-aphorism-input" id="aphorism-1" placeholder="Tu primera reflexión...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-2" placeholder="Tu segunda reflexión...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-3" placeholder="Tu tercera reflexión...">
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el texto comentado</h3>
+            <div class="progress-bar">
+                <div class="progress" id="aphorisms-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la introducción a los fragmentos filosóficos</h3>
+            <p>Has explorado diversas corrientes filosóficas, analizado fragmentos impactantes, identificado características de diferentes escuelas y creado tus propias reflexiones. Continúa explorando el fascinante mundo de la filosofía para desarrollar tu pensamiento crítico.</p>
+        </div>
+    </div>
+
+    <script>
+        // 30 Fragmentos filosóficos sorprendentes
+        const philosophicalFragments = [
+            {text: "Solo sé que no sé nada.", philosopher: "Sócrates"},
+            {text: "La vida sin examen no merece ser vivida.", philosopher: "Sócrates"},
+            {text: "El hombre es la medida de todas las cosas.", philosopher: "Protágoras"},
+            {text: "Todo fluye, nada permanece.", philosopher: "Heráclito"},
+            {text: "Pienso, luego existo.", philosopher: "René Descartes"},
+            {text: "No hay nada en el intelecto que no haya estado antes en los sentidos.", philosopher: "Aristóteles"},
+            {text: "El hombre está condenado a ser libre.", philosopher: "Jean-Paul Sartre"},
+            {text: "La existencia precede a la esencia.", philosopher: "Jean-Paul Sartre"},
+            {text: "Dios ha muerto.", philosopher: "Friedrich Nietzsche"},
+            {text: "La religión es el opio del pueblo.", philosopher: "Karl Marx"},
+            {text: "La filosofía es una lucha contra el embrujamiento de nuestra inteligencia por medio del lenguaje.", philosopher: "Ludwig Wittgenstein"},
+            {text: "El ser se dice de muchas maneras.", philosopher: "Aristóteles"},
+            {text: "No se puede bañarse dos veces en el mismo río.", philosopher: "Heráclito"},
+            {text: "La virtud es conocimiento.", philosopher: "Sócrates"},
+            {text: "El hombre es un animal político.", philosopher: "Aristóteles"},
+            {text: "El estado soy yo.", philosopher: "Luis XIV (atribuido)"},
+            {text: "El fin justifica los medios.", philosopher: "Nicolás Maquiavelo"},
+            {text: "La propiedad es un robo.", philosopher: "Pierre-Joseph Proudhon"},
+            {text: "La guerra es la continuación de la política por otros medios.", philosopher: "Carl von Clausewitz"},
+            {text: "El conocimiento es poder.", philosopher: "Francis Bacon"},
+            {text: "La belleza está en el ojo del espectador.", philosopher: "David Hume"},
+            {text: "El universo no es solo más extraño de lo que suponemos, es más extraño de lo que podemos suponer.", philosopher: "J.B.S. Haldane"},
+            {text: "La felicidad es el significado y propósito de la vida.", philosopher: "Aristóteles"},
+            {text: "La función propia del hombre es vivir, no existir.", philosopher: "Jack London"},
+            {text: "La imaginación es más importante que el conocimiento.", philosopher: "Albert Einstein"},
+            {text: "La injusticia en cualquier parte es una amenaza a la justicia en todas partes.", philosopher: "Martin Luther King Jr."},
+            {text: "La vida debe ser comprendida hacia atrás, pero vivida hacia adelante.", philosopher: "Søren Kierkegaard"},
+            {text: "La verdadera sabiduría está en reconocer la propia ignorancia.", philosopher: "Sócrates"},
+            {text: "No hagas a los demás lo que no quieras que te hagan a ti.", philosopher: "Confucio"},
+            {text: "El supremo arte de la guerra es someter al enemigo sin luchar.", philosopher: "Sun Tzu"}
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            loadFragments();
+            updateProgress();
+        }
+
+        // Cargar fragmentos en la página
+        function loadFragments() {
+            const aphorismsGrid = document.getElementById('aphorisms-grid');
+            
+            philosophicalFragments.forEach((fragment, index) => {
+                const aphorismCard = document.createElement('div');
+                aphorismCard.className = 'aphorism-card';
+                aphorismCard.innerHTML = `
+                    <div class="aphorism-number">Fragmento ${index + 1}</div>
+                    <div class="aphorism-text">"${fragment.text}"</div>
+                    <div class="philosopher-name">— ${fragment.philosopher}</div>
+                `;
+                aphorismsGrid.appendChild(aphorismCard);
+            });
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 4) {
+                const aphorism1 = document.getElementById('aphorism-1').value.trim();
+                const aphorism2 = document.getElementById('aphorism-2').value.trim();
+                const aphorism3 = document.getElementById('aphorism-3').value.trim();
+                const response4a = document.getElementById('response-4a').value.trim();
+                
+                if (!aphorism1 || !aphorism2 || !aphorism3 || !response4a) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa todos los campos de la actividad 4.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('aphorisms-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

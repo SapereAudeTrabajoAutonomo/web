@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documental: El Aire de Anaxímenes - Filosofía Presocrática</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+            --anaximenes: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--anaximenes), #138d75);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .documentary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--anaximenes), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .video-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .video-option {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .video-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(135deg, #cc0000, #aa0000);
+        }
+        
+        .video-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .documentary-description {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--anaximenes);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--anaximenes);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--anaximenes);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--anaximenes);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .watched-indicator {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .video-series {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .video-card {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .video-card:hover {
+            border-color: var(--anaximenes);
+            transform: translateY(-3px);
+        }
+        
+        .video-card.watched {
+            background: #e8f5e9;
+            border-color: var(--success);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+            
+            .video-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-series {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documental: El Aire de Anaxímenes</h1>
+        <p>Explorando la teoría del aire como principio fundamental en la filosofía presocrática</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="documentary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">A</div>
+                <div class="philosopher-details">
+                    <h2>Anaxímenes de Mileto</h2>
+                    <p>Filósofo presocrático de la escuela de Mileto, discípulo de Anaximandro</p>
+                    <div class="duration">Duración estimada: 70 minutos</div>
+                </div>
+            </div>
+            
+            <div class="documentary-description">
+                <p>Este documental explora la vida y pensamiento de Anaxímenes, el tercer filósofo de la escuela de Mileto, quien propuso el aire como principio (arjé) fundamental de todas las cosas. Analiza su teoría de la condensación y rarefacción, su cosmología y su influencia en el desarrollo del pensamiento científico occidental.</p>
+            </div>
+        </section>
+        
+        <section class="video-container">
+            <h3>Serie Documental Completa en YouTube</h3>
+            
+            <div class="video-series">
+                <div class="video-card" id="video-card-1">
+                    <h4>Parte I: El Aire como Principio</h4>
+                    <p>Fundamentos de la teoría de Anaxímenes</p>
+                    <a href="https://www.youtube.com/watch?v=Ef0HHqmWP70" 
+                       target="_blank" 
+                       class="video-option"
+                       onclick="markVideoAsWatched(1)">
+                        <span>▶</span>
+                        Ver Parte I
+                    </a>
+                    <p><strong>Duración:</strong> 35 minutos</p>
+                </div>
+                
+                <div class="video-card" id="video-card-2">
+                    <h4>Parte II: Cosmología y Legado</h4>
+                    <p>Teoría cósmica e influencia posterior</p>
+                    <a href="https://www.youtube.com/watch?v=lDtaf4AvuW4" 
+                       target="_blank" 
+                       class="video-option"
+                       onclick="markVideoAsWatched(2)">
+                        <span>▶</span>
+                        Ver Parte II
+                    </a>
+                    <p><strong>Duración:</strong> 35 minutos</p>
+                </div>
+            </div>
+            
+            <div class="video-info">
+                <p><strong>Instrucciones:</strong> Recomendamos ver ambas partes en orden. Haz clic en los botones rojos para abrir los documentales en nuevas pestañas. Cuando termines cada parte, regresa a esta página para completar las actividades.</p>
+            </div>
+            
+            <div class="watched-indicator" id="watched-indicator">
+                ✅ Serie documental completada
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Análisis del documental: El aire como arjé</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de ver la primera parte del documental sobre Anaxímenes, reflexiona sobre los fundamentos de su teoría del aire como principio fundamental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Conceptos clave de la teoría de Anaxímenes:</h4>
+                            <ul>
+                                <li><strong>Aire como arjé:</strong> Sustancia primordial de la que todo procede</li>
+                                <li><strong>Condensación y rarefacción:</strong> Mecanismos de transformación del aire</li>
+                                <li><strong>Proceso cuantitativo:</strong> Cambios cualitativos explicados por variaciones cuantitativas</li>
+                                <li><strong>Observación empírica:</strong> Base experimental de sus argumentos</li>
+                                <li><strong>Continuidad material:</strong> Todos los elementos derivan del mismo principio</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Así como nuestra alma, que es aire, nos mantiene unidos, así también el aliento y el aire circundan todo el cosmos." - Anaxímenes
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Por qué Anaxímenes eligió el aire como principio fundamental en lugar del agua (Tales) o el apeiron (Anaximandro)? Explica las ventajas que presentaba el aire según lo presentado en el documental.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La teoría de condensación y rarefacción</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental explica el mecanismo de condensación y rarefacción como principio explicativo de la diversidad del mundo. Analiza esta contribución fundamental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Procesos de transformación del aire:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Proceso</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Resultado</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Ejemplo</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Rarefacción</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Aire → Fuego</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Aliento caliente con boca abierta</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Condensación leve</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Aire → Viento</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Movimiento del aire</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Condensación media</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Aire → Nube/Agua</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Formación de nubes</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Condensación fuerte</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Aire → Tierra/Piedra</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Solidificación</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿En qué sentido la teoría de condensación y rarefacción de Anaxímenes representa un avance científico respecto a las teorías de sus predecesores? Identifica al menos dos aspectos innovadores.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Cosmología de Anaxímenes</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La segunda parte del documental explora la cosmología de Anaxímenes y su explicación del universo basada en el aire como principio.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Elementos de la cosmología de Anaxímenes:</h4>
+                            <ul>
+                                <li><strong>Tierra plana:</strong> Disco sostenido por el aire</li>
+                                <li><strong>Cuerpos celestes:</strong> Fuego celestial que gira alrededor de la Tierra</li>
+                                <li><strong>Estrellas fijas:</strong> Clavadas en una bóveda cristalina</li>
+                                <li><strong>Planetas:</strong> Cuerpos que se mueven independientemente</li>
+                                <li><strong>Explicación de fenómenos:</strong> Meteoros, terremotos, relámpagos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La Tierra es plana y cabalga sobre el aire; lo mismo el sol, la luna y los demás astros, que todos son de fuego, cabalgan sobre el aire a causa de sus órbitas planas."
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Compara la cosmología de Anaxímenes con las teorías cosmológicas modernas. ¿Qué elementos de su pensamiento, aunque incorrectos, muestran un intento genuino de explicación racional del cosmos?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Legado e influencia de Anaxímenes</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental analiza la influencia de Anaxímenes en el desarrollo posterior de la filosofía y la ciencia. Evalúa su legado histórico.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Influencia y legado de Anaxímenes:</h4>
+                            <ul>
+                                <li><strong>Escuela de Mileto:</strong> Último representante importante</li>
+                                <li><strong>Pitagóricos:</strong> Influencia en su concepción del aire como principio</li>
+                                <li><strong>Heráclito:</strong> Desarrollo de la idea de transformación constante</li>
+                                <li><strong>Filosofía posterior:</strong> Influencia en teorías sobre los elementos</li>
+                                <li><strong>Ciencia moderna:</strong> Anticipación de conceptos como los estados de la materia</li>
+                            </ul>
+                        </div>
+                        
+                        <p>Anaxímenes representa la culminación de la escuela de Mileto, combinando la búsqueda del principio único con mecanismos explicativos más sofisticados que sus predecesores.</p>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Por qué consideras que Anaxímenes es menos conocido que Tales o Anaximandro, a pesar de que su teoría presentaba ventajas explicativas significativas? Propón al menos dos razones basadas en el documental.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el documental</h3>
+            <div class="progress-bar">
+                <div class="progress" id="documentary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la serie documental sobre Anaxímenes</h3>
+            <p>Has explorado la teoría del aire como principio fundamental, analizado los mecanismos de condensación y rarefacción, comprendido la cosmología de Anaxímenes y evaluado su legado en la historia del pensamiento. La contribución de Anaxímenes representa un hito importante en el desarrollo del pensamiento científico occidental, mostrando cómo la filosofía presocrática sentó las bases del método científico.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        let videosWatched = [false, false];
+        
+        // Función para marcar video como visto
+        function markVideoAsWatched(videoNumber) {
+            setTimeout(() => {
+                videosWatched[videoNumber - 1] = true;
+                document.getElementById(`video-card-${videoNumber}`).classList.add('watched');
+                
+                // Verificar si todos los videos fueron vistos
+                if (videosWatched.every(watched => watched)) {
+                    document.getElementById('watched-indicator').style.display = 'inline-block';
+                }
+                
+                // Guardar en localStorage
+                localStorage.setItem('anaximenesVideosWatched', JSON.stringify(videosWatched));
+            }, 1000);
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('documentary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('anaximenesDocumentaryProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            // Cargar progreso de actividades
+            const savedProgress = localStorage.getItem('anaximenesDocumentaryProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+            
+            // Cargar estado de videos vistos
+            const savedVideos = localStorage.getItem('anaximenesVideosWatched');
+            if (savedVideos) {
+                videosWatched = JSON.parse(savedVideos);
+                
+                // Actualizar UI de videos
+                videosWatched.forEach((watched, index) => {
+                    if (watched) {
+                        document.getElementById(`video-card-${index + 1}`).classList.add('watched');
+                    }
+                });
+                
+                // Mostrar indicador si todos los videos fueron vistos
+                if (videosWatched.every(watched => watched)) {
+                    document.getElementById('watched-indicator').style.display = 'inline-block';
+                }
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

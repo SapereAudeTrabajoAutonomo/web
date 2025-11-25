@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: Hobbes vs Rousseau - La Naturaleza Humana y el Contrato Social</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2c3e50;
+            --essay: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosophers-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 2rem;
+        }
+        
+        .philosopher-card {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-left: 5px solid var(--essay);
+        }
+        
+        .philosopher-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-right: 1.5rem;
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: var(--essay);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #21618c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosophers-info {
+                flex-direction: column;
+            }
+            
+            .philosopher-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: Hobbes vs Rousseau</h1>
+        <p>El Gran Debate sobre la Naturaleza Humana y el Contrato Social</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosophers-info">
+                <div class="philosopher-card">
+                    <div class="philosopher-image">TH</div>
+                    <div class="philosopher-details">
+                        <h2>Thomas Hobbes</h2>
+                        <p>Filósofo inglés del contrato social y el Leviatán</p>
+                    </div>
+                </div>
+                
+                <div class="philosopher-card">
+                    <div class="philosopher-image">JR</div>
+                    <div class="philosopher-details">
+                        <h2>Jean-Jacques Rousseau</h2>
+                        <p>Filósofo suizo del buen salvaje y la voluntad general</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="duration">Duración estimada: 75 minutos</div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora el debate fundamental entre Thomas Hobbes y Jean-Jacques Rousseau sobre la naturaleza humana y el contrato social. Analiza sus visiones opuestas del estado de naturaleza, la creación del Estado y los fundamentos de la sociedad política, examinando cómo estas teorías continúan influyendo en el pensamiento político contemporáneo.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: Dos Visiones de la Condición Humana</h2>
+                    <div class="essay-text">
+                        <p>El debate entre Thomas Hobbes y Jean-Jacques Rousseau representa uno de los enfrentamientos más significativos en la historia del pensamiento político occidental. Separados por poco más de un siglo, estos dos filósofos desarrollaron visiones radicalmente opuestas sobre la naturaleza humana, el origen de la sociedad y los fundamentos del poder político. Mientras Hobbes pintaba un cuadro sombrío de la condición humana que justificaba un poder soberano absoluto, Rousseau idealizaba la bondad natural del hombre y denunciaba la corrupción de la civilización.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Este ensayo examina las teorías del contrato social de ambos pensadores, analizando sus concepciones del estado de naturaleza, su diagnóstico de los problemas que llevan a la formación de la sociedad civil, y sus propuestas para la organización política. A través de este análisis comparativo, podemos comprender mejor las tensiones fundamentales que continúan definiendo el debate político moderno entre autoridad y libertad, seguridad y autonomía.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. El Estado de Naturaleza: Guerra vs Armonía</h2>
+                    <div class="essay-text">
+                        <p>La divergencia fundamental entre Hobbes y Rousseau comienza con sus concepciones diametralmente opuestas del estado de naturaleza. Para Hobbes, el estado natural es un estado de guerra perpetua donde "el hombre es un lobo para el hombre". En este escenario, los seres humanos son esencialmente iguales en sus capacidades físicas y mentales, pero esta igualdad genera competencia, desconfianza y conflicto constante por recursos escasos.</p>
+                    </div>
+                    <div class="quote">
+                        "Durante el tiempo en que los hombres viven sin un poder común que los atemorice a todos, se hallan en esa condición que se llama guerra; una guerra que es de todos contra todos."
+                    </div>
+                    <div class="essay-text">
+                        <p>En contraste radical, Rousseau concibe el estado de naturaleza como una condición de paz, bondad y armonía. El "buen salvaje" de Rousseau es un ser solitario, autosuficiente y guiado por el amor propio natural (amour de soi), que le permite satisfacer sus necesidades sin conflicto con otros. La compasión natural, un "principio innato de justicia y virtud", impide la violencia gratuita y mantiene la armonía entre los individuos.</p>
+                    </div>
+                    <div class="quote">
+                        "El hombre ha nacido libre, y sin embargo, por todas partes se encuentra encadenado."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Hobbes</th>
+                                <th>Rousseau</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Condición humana</strong></td>
+                                <td>Guerra de todos contra todos</td>
+                                <td>Paz y armonía natural</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Naturaleza humana</strong></td>
+                                <td>Egoísta y competitiva</td>
+                                <td>Bondadosa y compasiva</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Igualdad natural</strong></td>
+                                <td>Igual capacidad para dañar</td>
+                                <td>Igualdad en libertad y derechos</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vida en estado natural</strong></td>
+                                <td>"Solitaria, pobre, desagradable, brutal y corta"</td>
+                                <td>Simple, autosuficiente y feliz</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. El Origen de la Sociedad Civil: Miedo vs Propiedad</h2>
+                    <div class="essay-text">
+                        <p>Las diferentes concepciones del estado de naturaleza llevan a Hobbes y Rousseau a explicaciones radicalmente distintas sobre el origen de la sociedad civil. Para Hobbes, la transición del estado natural al estado civil es necesaria para escapar del miedo constante a la muerte violenta. Los individuos, guiados por la razón y el deseo de autoconservación, deciden voluntariamente renunciar a sus derechos naturales y transferirlos a un soberano absoluto.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Rousseau, por el contrario, ve el origen de la sociedad civil no como una solución a problemas naturales, sino como el comienzo de la corrupción humana. La aparición de la propiedad privada marca el punto de inflexión: "El primero que, tras haber cercado un terreno, se le ocurrió decir 'esto es mío' y encontró personas lo bastante simples para creerle, fue el verdadero fundador de la sociedad civil". La desigualdad económica genera dependencia, envidia y conflicto, forzando a los ricos a inventar instituciones políticas para proteger sus privilegios.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Hobbes</th>
+                                <th>Rousseau</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Motivación del contrato</strong></td>
+                                <td>Miedo a la muerte violenta</td>
+                                <td>Protección de la propiedad</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Naturaleza del contrato</strong></td>
+                                <td>Individuo-soberano</td>
+                                <td>Individuo-comunidad</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resultado del contrato</strong></td>
+                                <td>Creación del Leviatán</td>
+                                <td>Formación del pueblo soberano</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Evaluación moral</strong></td>
+                                <td>Progreso necesario</td>
+                                <td>Corrupción y pérdida</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. El Contrato Social: Soberanía Absoluta vs Voluntad General</h2>
+                    <div class="essay-text">
+                        <p>Las teorías del contrato social de Hobbes y Rousseau difieren fundamentalmente en su estructura y propósito. El contrato hobbesiano es un acuerdo entre individuos para transferir todos sus derechos (excepto el derecho a la vida) a un soberano absoluto. Este soberano no es parte del contrato y, por tanto, no está sujeto a sus términos, poseyendo un poder indivisible e irrevocable.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Rousseau, en cambio, propone un contrato en el que cada individuo se enajena completamente a la comunidad, creando así un cuerpo político colectivo. La soberanía reside en el pueblo como expresión de la "voluntad general", que no es la suma de voluntades particulares, sino la expresión de lo que es mejor para la comunidad en su conjunto.</p>
+                    </div>
+                    <div class="quote">
+                        "Cada uno de nosotros pone en común su persona y todo su poder bajo la suprema dirección de la voluntad general; y recibimos a cada miembro como parte indivisible del todo."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Hobbes</th>
+                                <th>Rousseau</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Titular de soberanía</strong></td>
+                                <td>Monarca o asamblea</td>
+                                <td>El pueblo como cuerpo colectivo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Naturaleza del poder</strong></td>
+                                <td>Absoluto e indivisible</td>
+                                <td>Popular y general</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Derechos individuales</strong></td>
+                                <td>Cedidos al soberano</td>
+                                <td>Transformados en derechos civiles</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Religión y Estado</strong></td>
+                                <td>Controlada por el soberano</td>
+                                <td>Religión civil</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. Legado e Influencia Contemporánea</h2>
+                    <div class="essay-text">
+                        <p>El debate entre Hobbes y Rousseau continúa resonando en la filosofía política contemporánea. La visión hobbesiana ha influenciado teorías del realismo político, justificaciones del poder estatal fuerte y análisis de la seguridad nacional. Su pesimismo antropológico encuentra ecos en teorías económicas que asumen el interés propio como motor fundamental del comportamiento humano.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Rousseau, por su parte, ha inspirado movimientos democráticos, teorías de la participación ciudadana y críticas a la desigualdad social. Su concepto de voluntad general ha influenciado tanto teorías de democracia deliberativa como justificaciones de regímenes autoritarios que afirman representar la "verdadera" voluntad del pueblo.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La tensión entre estas dos visiones -entre la necesidad de orden y seguridad, por un lado, y el anhelo de libertad y autenticidad, por otro- continúa definiendo los dilemas fundamentales de la política moderna. En un mundo que enfrenta crisis de legitimidad democrática, desigualdad creciente y amenazas a la seguridad, las preguntas planteadas por Hobbes y Rousseau siguen siendo tan relevantes como en el siglo XVIII.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. Conclusión: El Dilema Perenne de la Política</h2>
+                    <div class="essay-text">
+                        <p>El debate entre Hobbes y Rousseau representa no solo una divergencia histórica en el pensamiento político, sino un dilema perenne que continúa desafiando nuestras concepciones de la sociedad ideal. Hobbes nos recuerda los peligros de la anarquía y la necesidad del orden, mientras Rousseau nos alerta sobre los riesgos de la opresión y la pérdida de la autenticidad humana.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La grandeza de ambos pensadores reside en haber identificado tensiones fundamentales que ninguna sociedad ha resuelto completamente: ¿cómo equilibrar seguridad y libertad? ¿Cómo conciliar el interés individual con el bien común? ¿Cómo construir instituciones que protejan sin oprimir, que unan sin homogenizar?</p>
+                    </div>
+                    <div class="quote">
+                        "Forzar a un hombre a ser libre" - esta aparente paradoja de Rousseau encapsula el desafío fundamental de la política democrática.
+                    </div>
+                    <div class="essay-text">
+                        <p>Al final, el valor del debate Hobbes-Rousseau no reside en la victoria de una perspectiva sobre la otra, sino en la riqueza del diálogo mismo. Nos obliga a confrontar las complejidades de la condición humana y los desafíos permanentes de la vida en común, recordándonos que la búsqueda de una sociedad justa y libre requiere tanto realismo sobre nuestras limitaciones como esperanza en nuestras posibilidades.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Compara las visiones del estado de naturaleza</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza y compara las visiones del estado de naturaleza en Hobbes y Rousseau, identificando sus diferencias fundamentales.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a comparar:</h4>
+                            <ul>
+                                <li>Concepción de la naturaleza humana</li>
+                                <li>Relaciones interpersonales en estado natural</li>
+                                <li>Papel de la igualdad natural</li>
+                                <li>Presencia o ausencia de moralidad natural</li>
+                                <li>Condiciones de vida en estado natural</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comparación:</h4>
+                    <p>Desarrolla una comparación detallada de las visiones del estado de naturaleza en Hobbes y Rousseau, explicando cómo estas concepciones influyen en sus teorías políticas.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu comparación del estado de naturaleza aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Desarrolla un esquema para tu ensayo comparativo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla un esquema detallado para un ensayo sobre "Hobbes vs Rousseau: Dos Visiones del Contrato Social".</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">I. Introducción: El gran debate de la filosofía política</div>
+                                <div class="outline-content">
+                                    - Contexto histórico de Hobbes y Rousseau<br>
+                                    - Relevancia del debate para la teoría política contemporánea<br>
+                                    - Tesis central sobre la naturaleza del conflicto
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">II. El estado de naturaleza: guerra vs armonía</div>
+                                <div class="outline-content">
+                                    - La visión hobbesiana: homo homini lupus<br>
+                                    - La visión rousseauniana: el buen salvaje<br>
+                                    - Comparación de concepciones antropológicas
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">III. El origen de la sociedad civil</div>
+                                <div class="outline-content">
+                                    - Hobbes: el miedo como motor del contrato<br>
+                                    - Rousseau: la propiedad como fuente de corrupción<br>
+                                    - Evaluación de las transiciones al estado civil
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu esquema:</h4>
+                    <p>Desarrolla tu propio esquema para el ensayo comparativo, incluyendo al menos 5 secciones principales con sus respectivos subtemas.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu esquema para el ensayo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Analiza críticamente ambas teorías del contrato social</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla un análisis crítico de las teorías del contrato social de Hobbes y Rousseau, identificando fortalezas y debilidades de cada una.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a analizar críticamente:</h4>
+                            <ul>
+                                <li>Supuestos antropológicos de cada teoría</li>
+                                <li>Coherencia interna de los argumentos</li>
+                                <li>Implicaciones para la libertad individual</li>
+                                <li>Viabilidad de las propuestas institucionales</li>
+                                <li>Relevancia para problemas políticos contemporáneos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis crítico:</h4>
+                    <p>Desarrolla un análisis crítico detallado de las teorías del contrato social de Hobbes y Rousseau, evaluando sus méritos y limitaciones desde una perspectiva contemporánea.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu análisis crítico aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Revisa y mejora tu ensayo comparativo</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa y mejora el texto que has desarrollado en las actividades anteriores, fortaleciendo tu argumentación y claridad conceptual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a mejorar en tu escrito:</h4>
+                            <ul>
+                                <li>Claridad en la comparación de conceptos</li>
+                                <li>Profundidad del análisis crítico</li>
+                                <li>Coherencia argumentativa</li>
+                                <li>Precisión en el uso de términos filosóficos</li>
+                                <li>Corrección gramatical y ortográfica</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu proceso de revisión:</h4>
+                    <p>Describe las principales mejoras que has realizado a tu ensayo y explica cómo estas mejoras fortalecen tu análisis comparativo de Hobbes y Rousseau.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Describe tu proceso de revisión y corrección aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "Hobbes vs Rousseau"</h3>
+            <p>Has comparado las visiones del estado de naturaleza, desarrollado un esquema para tu ensayo, analizado críticamente ambas teorías del contrato social y revisado tu escrito. Continúa explorando este debate fundamental para profundizar en tu comprensión de la filosofía política.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

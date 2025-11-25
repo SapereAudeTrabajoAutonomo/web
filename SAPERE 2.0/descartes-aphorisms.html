@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Comentado: Fragmentos de las Meditaciones Metafísicas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --descartes: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--descartes);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .descartes-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--descartes), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .descartes-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--descartes);
+            backdrop-filter: blur(5px);
+        }
+        
+        .descartes-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .fragments-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .fragment-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--descartes);
+            transition: all 0.3s ease;
+        }
+        
+        .fragment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .fragment-number {
+            font-weight: bold;
+            color: var(--descartes);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .fragment-text {
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .analysis-guide {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success);
+        }
+        
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 3px solid var(--descartes);
+        }
+        
+        .concept-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--descartes);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--descartes);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--descartes);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .own-reflection-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .own-reflection-input:focus {
+            outline: none;
+            border-color: var(--descartes);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--descartes), #1a5276);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📖 Texto Comentado: Fragmentos de las Meditaciones Metafísicas</h1>
+        <p>El racionalismo cartesiano y la búsqueda de la certeza</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="descartes-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">RD</div>
+                <div class="philosopher-details">
+                    <h2>René Descartes</h2>
+                    <p>Filósofo francés, padre del racionalismo y la filosofía moderna</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="descartes-description">
+                <p>Explora los fragmentos fundamentales de las Meditaciones Metafísicas de Descartes, obra cumbre que establece las bases del racionalismo, la duda metódica y el "Cogito ergo sum" como fundamento del conocimiento cierto.</p>
+            </div>
+        </section>
+        
+        <!-- Fragmentos de las Meditaciones Metafísicas -->
+        <section class="descartes-container">
+            <h2 style="margin-bottom: 2rem; color: var(--descartes); text-align: center;">30 Fragmentos Fundamentales de las Meditaciones Metafísicas</h2>
+            
+            <div class="fragments-grid" id="fragments-grid">
+                <!-- Los fragmentos se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee los fragmentos seleccionados de las Meditaciones</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Lee atentamente los 30 fragmentos de las Meditaciones Metafísicas y selecciona los 5 que consideres más importantes para comprender el pensamiento cartesiano.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Guía de lectura:</h4>
+                            <ul>
+                                <li>Identifica los momentos clave del método de la duda</li>
+                                <li>Reflexiona sobre el proceso de descubrimiento del "Cogito"</li>
+                                <li>Analiza los argumentos para demostrar la existencia de Dios</li>
+                                <li>Considera la distinción entre mente y cuerpo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus fragmentos seleccionados:</h4>
+                    <p>Escribe los números de los 5 fragmentos que consideras más importantes y explica por qué cada uno es fundamental para la filosofía cartesiana.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Ejemplo: Fragmento 3: Es importante porque...&#10;Fragmento 15: Es fundamental porque..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza los conceptos fundamentales de Descartes</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Selecciona 3 fragmentos y desarrolla un análisis detallado de cada uno, relacionándolos con los conceptos fundamentales de la filosofía cartesiana.</p>
+                        
+                        <div class="analysis-guide">
+                            <h4>Conceptos clave para el análisis:</h4>
+                            <ul>
+                                <li><strong>Duda metódica:</strong> Procedimiento para alcanzar la certeza</li>
+                                <li><strong>Cogito ergo sum:</strong> Primera verdad indudable</li>
+                                <li><strong>Dios como garante:</strong> Fundamento de la verdad</li>
+                                <li><strong>Dualismo mente-cuerpo:</strong> Distinción entre res cogitans y res extensa</li>
+                                <li><strong>Ideas innatas:</strong> Conocimientos presentes en la mente desde el nacimiento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis conceptual:</h4>
+                    <p>Desarrolla un análisis conceptual detallado para 3 fragmentos de tu elección.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Fragmento X: [Tu análisis conceptual detallado]&#10;&#10;Fragmento Y: [Tu análisis conceptual detallado]&#10;&#10;Fragmento Z: [Tu análisis conceptual detallado]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Compara el pensamiento de Descartes con otros racionalistas</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Identifica y analiza las diferencias entre la filosofía cartesiana y las de otros pensadores racionalistas como Spinoza y Leibniz.</p>
+                        
+                        <div class="concepts-grid">
+                            <div class="concept-card">
+                                <div class="concept-icon">🤔</div>
+                                <h4>Descartes</h4>
+                                <p>Dualismo, duda metódica, cogito, ideas innatas</p>
+                            </div>
+                            <div class="concept-card">
+                                <div class="concept-icon">🌌</div>
+                                <h4>Spinoza</h4>
+                                <p>Monismo, Deus sive Natura, determinismo, panteísmo</p>
+                            </div>
+                            <div class="concept-card">
+                                <div class="concept-icon">🔢</div>
+                                <h4>Leibniz</h4>
+                                <p>Mónadas, armonía preestablecida, optimismo, principio de razón suficiente</p>
+                            </div>
+                            <div class="concept-card">
+                                <div class="concept-icon">🔄</div>
+                                <h4>Comparación</h4>
+                                <p>Diferentes visiones sobre la sustancia y el conocimiento</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis comparativo:</h4>
+                    <p>Selecciona al menos 3 fragmentos de Descartes y compáralos con las ideas de Spinoza o Leibniz, destacando similitudes y diferencias.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="1. [Fragmento X de Descartes]: Comparación con Spinoza/Leibniz...&#10;2. [Fragmento Y de Descartes]: Comparación con Spinoza/Leibniz...&#10;3. [Fragmento Z de Descartes]: Comparación con Spinoza/Leibniz..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la actualidad del pensamiento de Descartes</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Inspirado en los fragmentos de las Meditaciones Metafísicas, reflexiona sobre la relevancia actual del pensamiento de Descartes y desarrolla tu propia posición sobre el conocimiento y la certeza.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar en tu reflexión:</h4>
+                            <ul>
+                                <li>¿Sigue siendo válido el método de la duda como punto de partida?</li>
+                                <li>¿Es el "Cogito" realmente la primera verdad indudable?</li>
+                                <li>¿Cómo se relaciona el dualismo cartesiano con la neurociencia actual?</li>
+                                <li>¿Qué papel juega la razón en la era de la inteligencia artificial?</li>
+                                <li>¿Es posible alcanzar la certeza absoluta en el conocimiento?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión filosófica:</h4>
+                    <p>Desarrolla una reflexión personal sobre la relevancia actual del pensamiento de Descartes.</p>
+                    
+                    <textarea class="activity-response" id="response-4a" placeholder="Escribe tu reflexión filosófica personal aquí..."></textarea>
+                    
+                    <h4 style="margin-top: 1.5rem;">Tu posición sobre el conocimiento:</h4>
+                    <p>Formula al menos 3 principios que consideres fundamentales para el conocimiento contemporáneo.</p>
+                    
+                    <input type="text" class="own-reflection-input" id="principle-1" placeholder="Tu primer principio...">
+                    <input type="text" class="own-reflection-input" id="principle-2" placeholder="Tu segundo principio...">
+                    <input type="text" class="own-reflection-input" id="principle-3" placeholder="Tu tercer principio...">
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el texto comentado</h3>
+            <div class="progress-bar">
+                <div class="progress" id="fragments-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el texto comentado sobre los fragmentos de las Meditaciones Metafísicas</h3>
+            <p>Has explorado profundamente la filosofía de Descartes, analizado sus conceptos fundamentales, comparado su pensamiento con otros racionalistas y reflexionado sobre la relevancia actual de su obra. Continúa desarrollando tu pensamiento filosófico crítico.</p>
+        </div>
+    </div>
+
+    <script>
+        // 30 Fragmentos fundamentales de las Meditaciones Metafísicas de Descartes
+        const descartesFragments = [
+            "Hace ya algún tiempo que me he dado cuenta de que, desde mis primeros años, había admitido como verdaderas una porción de opiniones falsas.",
+            "Me he persuadido de que debo, una vez en la vida, demoler por completo todas las opiniones que había admitido hasta entonces.",
+            "No es bastante tener un buen ingenio; lo principal es aplicarlo bien.",
+            "Todo lo que he admitido hasta el presente como más seguro y verdadero, lo he aprendido de los sentidos o por los sentidos.",
+            "Ahora bien, he experimentado que los sentidos me engañan algunas veces, y es prudente no fiarse nunca por completo de quienes nos han engañado una vez.",
+            "¿Y cómo negar que estas manos y este cuerpo son míos?",
+            "Supondré, pues, que hay, no un Dios verdadero, que es la soberana fuente de verdad, sino cierto genio maligno, no menos astuto y engañador que poderoso, que ha empleado toda su industria en engañarme.",
+            "Pensaré que el cielo, el aire, la tierra, los colores, las figuras, los sonidos y todas las cosas exteriores no son más que ilusiones y sueños.",
+            "Pero inmediatamente después advierto que, aun queriendo pensar así que todo es falso, es necesario que yo, que lo pienso, sea algo.",
+            "Y observando que esta verdad: pienso, luego existo, era tan firme y segura que todas las más extravagantes suposiciones de los escépticos no eran capaces de conmoverla, juzgué que podía admitirla sin escrúpulo como el primer principio de la filosofía que buscaba.",
+            "De modo que este conocimiento, pienso, luego existo, es el primero y más cierto que se presenta a quien filosofa con orden.",
+            "Soy una cosa que piensa, es decir, un espíritu, un entendimiento o una razón.",
+            "Pero ¿qué soy, pues? Una cosa que piensa. ¿Qué es una cosa que piensa? Es una cosa que duda, que concibe, que afirma, que niega, que quiere, que no quiere, que imagina también y que siente.",
+            "Ahora examinaré atentamente si acaso hay en mí otras cosas de las que aún no he tomado nota.",
+            "Y en primer término, me represento que tengo un rostro, unas manos, unos brazos y toda esta máquina de miembros.",
+            "Pero ¿qué es, pues, lo que soy? Una cosa que piensa.",
+            "Ahora bien, ¿de dónde procede el conocimiento de mi existencia? Sin duda, del pensamiento.",
+            "Pero hay una cierta diferencia entre el espíritu y el cuerpo.",
+            "Pues, en efecto, aunque todo lo que siento en el cuerpo no sea quizá más que un sueño, sin embargo, es muy cierto que parece que veo la luz, que oigo el ruido y que siento el calor.",
+            "Y no puede ser que, cuando veo, o pienso que veo, no sea yo el que vea.",
+            "Pero, ¿qué es lo que veo sino el sombrero y la capa que pueden cubrir un fantasma o un hombre artificial?",
+            "Pero cuando considero el espíritu, es decir, a mí mismo en cuanto que soy sólo una cosa que piensa, no puedo distinguir en mí ninguna parte, sino que me concibo como una cosa sola y entera.",
+            "Y aunque todo el cuerpo estuviese privado de él, no podría dejar de ser todo lo que soy.",
+            "De donde conozco que nada de lo que puedo comprender por medio de la imaginación pertenece a este conocimiento que tengo de mí mismo.",
+            "De manera que este 'yo', es decir, el alma por la cual soy lo que soy, es enteramente distinta del cuerpo.",
+            "Es, pues, cierto que yo soy, que existo.",
+            "Pero no soy todavía bastante para aprender de la naturaleza si hay otras cosas fuera de mí.",
+            "Y no hay duda de que todas las ideas que están en nosotros son, en cuanto a lo que tienen de realidad objetiva, producidas por algo.",
+            "Y es manifiesto por luz natural que debe haber por lo menos tanta realidad en la causa eficiente y total como en su efecto.",
+            "Por lo tanto, es necesario concluir que la sola existencia de mi pensamiento me prueba y me hace conocer evidentemente que hay un Dios."
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            loadFragments();
+            updateProgress();
+        }
+
+        // Cargar fragmentos en la página
+        function loadFragments() {
+            const fragmentsGrid = document.getElementById('fragments-grid');
+            
+            descartesFragments.forEach((fragment, index) => {
+                const fragmentCard = document.createElement('div');
+                fragmentCard.className = 'fragment-card';
+                fragmentCard.innerHTML = `
+                    <div class="fragment-number">Fragmento ${index + 1}</div>
+                    <div class="fragment-text">"${fragment}"</div>
+                `;
+                fragmentsGrid.appendChild(fragmentCard);
+            });
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 4) {
+                const principle1 = document.getElementById('principle-1').value.trim();
+                const principle2 = document.getElementById('principle-2').value.trim();
+                const principle3 = document.getElementById('principle-3').value.trim();
+                const response4a = document.getElementById('response-4a').value.trim();
+                
+                if (!principle1 || !principle2 || !principle3 || !response4a) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa todos los campos de la actividad 4.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('fragments-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas: Presocráticos Monistas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flashcards-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcards-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mode-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: var(--flashcards);
+        }
+        
+        .mode-card.active {
+            border-color: var(--flashcards);
+            background: rgba(41, 128, 185, 0.05);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .flashcards-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 500px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            border: 2px solid var(--flashcards);
+        }
+        
+        .flashcard.flipped {
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            color: white;
+        }
+        
+        .flashcard-question, .flashcard-answer {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flashcard-answer {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-question {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-answer {
+            display: block;
+        }
+        
+        .flashcard-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--flashcards);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .self-evaluation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .eval-question {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .eval-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .eval-option {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .eval-option:hover {
+            background: #d5dbdb;
+        }
+        
+        .eval-option.selected {
+            background: var(--flashcards);
+            color: white;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .study-modes {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+            }
+            
+            .eval-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Tarjetas: Presocráticos Monistas</h1>
+        <p>Domina los conceptos clave de los primeros filósofos de la naturaleza</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="flashcards-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Filósofos Presocráticos Monistas</h2>
+                    <p>Los primeros pensadores que buscaron el principio único (arjé) de todas las cosas</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="flashcards-description">
+                <p>Este sistema de tarjetas interactivas te permitirá dominar los conceptos fundamentales de los filósofos presocráticos monistas. Estudia, practica y evalúa tu comprensión de la búsqueda del principio originario (arjé), el paso del mito al logos y las primeras explicaciones racionales del universo.</p>
+            </div>
+            
+            <div class="study-modes">
+                <div class="mode-card active" onclick="setMode('study')">
+                    <div class="mode-icon">📖</div>
+                    <h3>Modo Estudio</h3>
+                    <p>Estudia las tarjetas a tu propio ritmo</p>
+                </div>
+                <div class="mode-card" onclick="setMode('practice')">
+                    <div class="mode-icon">🔄</div>
+                    <h3>Modo Práctica</h3>
+                    <p>Practica con autoevaluación interactiva</p>
+                </div>
+                <div class="mode-card" onclick="setMode('create')">
+                    <div class="mode-icon">✏️</div>
+                    <h3>Crear Tarjetas</h3>
+                    <p>Crea tus propias tarjetas personalizadas</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modo Estudio y Práctica -->
+        <section class="flashcards-container" id="study-practice-container">
+            <div class="flashcard" id="current-flashcard" onclick="flipCard()">
+                <div class="flashcard-counter" id="card-counter">1/25</div>
+                <div class="flashcard-question" id="flashcard-question">
+                    ¿Cuál es el concepto fundamental que buscaban los filósofos presocráticos monistas y qué significa?
+                </div>
+                <div class="flashcard-answer" id="flashcard-answer">
+                    Buscaban el "arjé" (principio originario), que es la sustancia fundamental de la que proceden todas las cosas y a la que todas regresan. Representa el paso del pensamiento mítico al racional.
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousCard()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextCard()">Siguiente →</button>
+            </div>
+            
+            <div class="self-evaluation" id="self-evaluation">
+                <h3>Autoevaluación</h3>
+                <div class="eval-question" id="eval-question">
+                    ¿Qué representa el concepto de "arjé" en la filosofía presocrática?
+                </div>
+                <div class="eval-options" id="eval-options">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+                <button class="submit-btn" onclick="checkAnswer()">Verificar Respuesta</button>
+                <div class="submission-feedback" id="eval-feedback"></div>
+            </div>
+        </section>
+        
+        <!-- Modo Crear Tarjetas -->
+        <section class="flashcards-container" id="create-container" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--flashcards);">Crear Tus Propias Tarjetas</h3>
+            
+            <div class="activity-content">
+                <div class="activity-text">
+                    <p>Crea tarjetas personalizadas sobre los filósofos presocráticos monistas y sus teorías sobre el principio originario del universo. Incluye conceptos como el arjé, el paso del mito al logos, y las diferentes propuestas sobre la sustancia fundamental.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <h4>Ejemplos de conceptos para incluir:</h4>
+                        <ul>
+                            <li>El arjé como principio originario</li>
+                            <li>Tales y el agua como sustancia fundamental</li>
+                            <li>Anaximandro y el ápeiron (lo indeterminado)</li>
+                            <li>Anaxímenes y el aire como principio</li>
+                            <li>El paso del mito al logos</li>
+                            <li>La racionalidad presocrática</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4>Nueva Tarjeta:</h4>
+                    <input type="text" id="new-question" placeholder="Pregunta o concepto..." style="width: 100%; padding: 1rem; margin-bottom: 1rem; border: 2px solid #e9ecef; border-radius: 8px;">
+                    <textarea id="new-answer" placeholder="Respuesta o explicación..." style="width: 100%; height: 120px; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="submit-btn" style="margin-top: 1rem;" onclick="addNewCard()">Agregar Tarjeta</button>
+                </div>
+                
+                <div id="custom-cards-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Las tarjetas personalizadas se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudio de tarjetas: El concepto de Arjé</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo estudio para revisar las tarjetas sobre el concepto fundamental de "arjé" en los filósofos presocráticos monistas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a dominar:</h4>
+                            <ul>
+                                <li>Definición de arjé como principio originario</li>
+                                <li>Tales de Mileto y el agua como arjé</li>
+                                <li>Anaximandro y el ápeiron (lo indeterminado)</li>
+                                <li>Anaxímenes y el aire como sustancia fundamental</li>
+                                <li>El paso del pensamiento mítico al racional</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Después de estudiar las tarjetas, explica con tus propias palabras por qué el concepto de "arjé" representa un cambio fundamental en la forma de entender el mundo, y cómo difiere de las explicaciones mitológicas anteriores.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Crear tarjetas: Comparación de teorías monistas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo creación para desarrollar tus propias tarjetas comparando las diferentes teorías monistas de los presocráticos.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Temas sugeridos para tus tarjetas:</h4>
+                            <ul>
+                                <li>Comparación entre el agua de Tales y el aire de Anaxímenes</li>
+                                <li>La crítica de Anaximandro al arjé de Tales</li>
+                                <li>Ventajas y limitaciones de cada teoría monista</li>
+                                <li>El contexto histórico de la escuela de Mileto</li>
+                                <li>La evolución del concepto de arjé</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu creación:</h4>
+                    <p>Describe al menos 3 tarjetas que hayas creado y explica por qué seleccionaste esos conceptos específicos sobre las teorías monistas de los presocráticos.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tus tarjetas creadas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Práctica con autoevaluación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo práctica para evaluar tu comprensión de los conceptos presocráticos mediante preguntas de opción múltiple.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Áreas de evaluación:</h4>
+                            <ul>
+                                <li>Teorías de los filósofos de Mileto</li>
+                                <li>Concepto de arjé y su evolución</li>
+                                <li>Contexto histórico del pensamiento presocrático</li>
+                                <li>Críticas entre las diferentes teorías</li>
+                                <li>Legado del pensamiento monista</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>¿Qué conceptos encontraste más desafiantes durante la autoevaluación? ¿Cómo piensas reforzar tu comprensión de estos temas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Describe tu experiencia de autoevaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexión: Legado del pensamiento monista</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la relevancia e influencia del pensamiento monista presocrático en la filosofía y ciencia posteriores.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>Influencia en Platón y Aristóteles</li>
+                                <li>Relación con el desarrollo del método científico</li>
+                                <li>Vigencia de la búsqueda de principios fundamentales</li>
+                                <li>Comparación con la física moderna</li>
+                                <li>El valor del pensamiento especulativo racional</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que la búsqueda del arjé por parte de los presocráticos monistas tiene paralelos en la ciencia contemporánea? ¿Qué enseñanzas podemos extraer de su enfoque para el pensamiento actual?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en las tarjetas</h3>
+            <div class="progress-bar">
+                <div class="progress" id="flashcards-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el sistema de tarjetas sobre los Presocráticos Monistas</h3>
+            <p>Has dominado los conceptos fundamentales de los primeros filósofos de la naturaleza, creado tus propias tarjetas, practicado con autoevaluación y reflexionado sobre el legado de su pensamiento. Los presocráticos monistas sentaron las bases de la filosofía occidental al buscar principios racionales para explicar el universo, marcando el trascendental paso del mito al logos.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de tarjetas sobre Presocráticos Monistas (25+ conceptos)
+        const presocraticFlashcards = [
+            {
+                question: "¿Cuál es el concepto fundamental que buscaban los filósofos presocráticos monistas y qué significa?",
+                answer: "Buscaban el 'arjé' (principio originario), que es la sustancia fundamental de la que proceden todas las cosas y a la que todas regresan. Representa el paso del pensamiento mítico al racional."
+            },
+            {
+                question: "¿Qué propuso Tales de Mileto como arjé y por qué?",
+                answer: "Tales propuso el agua como arjé. Observó que la humedad es esencial para la vida, que el agua cambia de estado (sólido, líquido, gaseoso) y que en culturas como la egipcia el Nilo era fuente de vida y fertilidad."
+            },
+            {
+                question: "¿Qué crítica hizo Anaximandro a la teoría de Tales y qué propuso en su lugar?",
+                answer: "Anaximandro criticó que un elemento específico como el agua no podía explicar la diversidad del mundo, especialmente elementos opuestos como el fuego. Propuso el 'ápeiron' (lo indeterminado e ilimitado) como arjé."
+            },
+            {
+                question: "¿Qué significa 'ápeiron' en la filosofía de Anaximandro?",
+                answer: "El ápeiron es una sustancia abstracta, infinita e indeterminada que trasciende los elementos opuestos de la naturaleza. Es el principio del que surgen y al que regresan todos los mundos en ciclos eternos."
+            },
+            {
+                question: "¿Qué teoría desarrolló Anaxímenes sobre el arjé y cómo la fundamentó?",
+                answer: "Anaxímenes propuso el aire como arjé. Observó que el aire, al condensarse y rarefaccionarse, podía transformarse en todos los demás elementos: condensado se vuelve agua y tierra, rarefaccionado se convierte en fuego."
+            },
+            {
+                question: "¿Qué representa el 'paso del mito al logos' en la filosofía presocrática?",
+                answer: "Representa la transición de explicaciones basadas en mitos y dioses a explicaciones racionales basadas en la observación y la búsqueda de principios naturales. Es el nacimiento del pensamiento científico."
+            },
+            {
+                question: "¿Cuáles son las características principales de la racionalidad presocrática?",
+                answer: "1. Curiosidad y libertad intelectual, 2. Crítica y escepticismo, 3. Respeto por los hechos observables, 4. Búsqueda de causas naturales, 5. Generalización y abstracción."
+            },
+            {
+                question: "¿Qué contexto histórico favoreció el surgimiento de la filosofía presocrática?",
+                answer: "Las ciudades griegas como Mileto eran centros comerciales y culturales donde convergían ideas de diferentes regiones. El intercambio cultural y las necesidades prácticas (navegación, agricultura) fomentaron el pensamiento racional."
+            },
+            {
+                question: "¿Cómo explicaba Anaxímenes los cambios cualitativos en la naturaleza?",
+                answer: "Los explicaba mediante procesos cuantitativos de condensación y rarefacción del aire. Esta idea anticipa el principio científico de que la calidad puede reducirse a cantidad."
+            },
+            {
+                question: "¿Qué importancia tuvo la escuela de Mileto en el desarrollo del pensamiento occidental?",
+                answer: "Fue la primera escuela filosófica que abordó la naturaleza de manera sistemática y racional, sentando las bases tanto de la filosofía como de la ciencia occidentales."
+            },
+            {
+                question: "¿Cómo concebía Anaximandro el origen de los mundos?",
+                answer: "Propuso que los mundos surgen por separación de opuestos desde el ápeiron y perecen siendo reabsorbidos por él, en un ciclo eterno de generación y destrucción."
+            },
+            {
+                question: "¿Qué observación empírica utilizó Tales para sustentar su teoría del agua como arjé?",
+                answer: "Observó que el agua es omnipresente en la naturaleza, esencial para la vida y capaz de adoptar múltiples formas (sólida, líquida, gaseosa), lo que la convertía en un principio coherente para explicar la diversidad."
+            },
+            {
+                question: "¿Qué diferencia fundamental existe entre el ápeiron de Anaximandro y el agua de Tales?",
+                answer: "El agua de Tales es un elemento observable y determinado, mientras que el ápeiron de Anaximandro es abstracto, indeterminado e infinito, lo que le permite trascender las contradicciones entre elementos opuestos."
+            },
+            {
+                question: "¿Cómo explicaba Anaxímenes el fenómeno de la respiración en relación con su teoría?",
+                answer: "Observó que al soplar con la boca cerrada (condensación) el aire es frío, y con la boca abierta (rarefacción) es caliente, generalizando este principio para explicar todos los cambios en la naturaleza."
+            },
+            {
+                question: "¿Qué legado metodológico dejaron los presocráticos monistas?",
+                answer: "Establecieron un método que combinaba observación empírica con deducción lógica, sentando las bases del método científico. Insistieron en buscar la verdad en los hechos y someter las ideas al escrutinio crítico."
+            },
+            {
+                question: "¿Por qué se considera a los presocráticos como los primeros científicos?",
+                answer: "Porque fueron los primeros en buscar explicaciones naturales para los fenómenos, basándose en la observación y la razón en lugar de en mitos, estableciendo las bases del pensamiento científico."
+            },
+            {
+                question: "¿Qué relación hay entre las teorías presocráticas y las ciencias naturales modernas?",
+                answer: "Ambas buscan principios fundamentales que expliquen la diversidad del mundo. Los presocráticos anticiparon conceptos como la conservación de la materia y la reducción de cualidades a cantidades."
+            },
+            {
+                question: "¿Cómo influyó el contexto cultural de Mileto en el pensamiento de Tales?",
+                answer: "Mileto era un centro comercial que mantenía contacto con Egipto y Babilonia. Tales probablemente conoció allí conocimientos matemáticos y astronómicos que influyeron en su enfoque racional de la naturaleza."
+            },
+            {
+                question: "¿Qué limitaciones tenían las teorías monistas de los presocráticos?",
+                answer: "Carecían de instrumentos de observación avanzados, combinaban especulación racional con elementos fantásticos, y sus teorías eran vagas y carentes de precisión experimental."
+            },
+            {
+                question: "¿Cómo concebía Tales la forma de la Tierra?",
+                answer: "Propuso que la Tierra flotaba sobre el agua como un disco plano, coherente con su teoría del agua como principio fundamental de todas las cosas."
+            },
+            {
+                question: "¿Qué aportación metodológica hizo Anaxímenes al pensamiento científico?",
+                answer: "Introdujo el primer enfoque cuantitativo de la materia, explicando los cambios cualitativos mediante variaciones en la densidad, anticipando principios fundamentales de la física moderna."
+            },
+            {
+                question: "¿Por qué es significativa la crítica de Anaximandro a Tales?",
+                answer: "Representa el primer caso documentado de crítica filosófica constructiva, mostrando cómo el pensamiento evoluciona mediante la refutación y superación de teorías anteriores."
+            },
+            {
+                question: "¿Qué concepto de eternidad desarrollaron los presocráticos?",
+                answer: "Postularon la eternidad del universo argumentando que si algo existe, debía haber existido siempre, pues de lo contrario, ¿qué lo habría impulsado a surgir en un momento determinado?"
+            },
+            {
+                question: "¿Cómo explicaban los presocráticos la relación entre unidad y multiplicidad?",
+                answer: "Propusieron que la multiplicidad de fenómenos podía reducirse a un principio único (arjé) que sufría transformaciones, estableciendo así una relación fundamental entre lo uno y lo múltiple."
+            },
+            {
+                question: "¿Qué valor tiene el pensamiento presocrático para la filosofía contemporánea?",
+                answer: "Su valor radica en que fueron las primeras tentativas científicas para comprender el universo, estableciendo preguntas fundamentales que siguen vigentes y mostrando que el conocimiento es un proceso acumulativo."
+            }
+        ];
+
+        // Variables globales
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let customCards = [];
+        let completedActivities = [];
+        let evaluationQuestions = [
+            {
+                question: "¿Qué representa el concepto de 'arjé' en la filosofía presocrática?",
+                options: [
+                    "Un dios creador del universo",
+                    "El principio originario y sustancia fundamental de todas las cosas",
+                    "Una teoría matemática sobre los números",
+                    "Un método de observación científica"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Qué filósofo propuso el 'ápeiron' como principio originario?",
+                options: [
+                    "Tales de Mileto",
+                    "Anaximandro de Mileto",
+                    "Anaxímenes de Mileto",
+                    "Pitágoras de Samos"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Qué observación utilizó Anaxímenes para fundamentar su teoría del aire como arjé?",
+                options: [
+                    "La evaporación del agua en el mar",
+                    "Los cambios en la respiración al soplar con la boca abierta o cerrada",
+                    "El movimiento de los astros en el cielo",
+                    "El crecimiento de las plantas"
+                ],
+                correctIndex: 1
+            }
+        ];
+        let currentEvalIndex = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlashcard();
+            updateProgress();
+            loadCustomCards();
+        });
+
+        // Funciones de navegación de tarjetas
+        function updateFlashcard() {
+            const card = presocraticFlashcards[currentCardIndex];
+            document.getElementById('flashcard-question').textContent = card.question;
+            document.getElementById('flashcard-answer').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${presocraticFlashcards.length}`;
+            
+            // Actualizar estado de botones de navegación
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === presocraticFlashcards.length - 1;
+            
+            // Resetear tarjeta a estado no volteado
+            document.getElementById('current-flashcard').classList.remove('flipped');
+            
+            // Si estamos en modo práctica, mostrar evaluación
+            if (currentMode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            } else {
+                hideEvaluation();
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('current-flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < presocraticFlashcards.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        // Funciones de modo de estudio
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Mostrar/ocultar contenedores según el modo
+            if (mode === 'create') {
+                document.getElementById('study-practice-container').style.display = 'none';
+                document.getElementById('create-container').style.display = 'block';
+            } else {
+                document.getElementById('study-practice-container').style.display = 'block';
+                document.getElementById('create-container').style.display = 'none';
+                hideEvaluation();
+            }
+            
+            // Si es modo práctica, mostrar evaluación para la tarjeta actual
+            if (mode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            }
+        }
+
+        // Funciones de autoevaluación
+        function showEvaluation() {
+            if (currentEvalIndex >= evaluationQuestions.length) {
+                currentEvalIndex = 0; // Reiniciar si llegamos al final
+            }
+            
+            const evalQuestion = evaluationQuestions[currentEvalIndex];
+            document.getElementById('eval-question').textContent = evalQuestion.question;
+            
+            const optionsContainer = document.getElementById('eval-options');
+            optionsContainer.innerHTML = '';
+            
+            evalQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'eval-option';
+                optionElement.textContent = option;
+                optionElement.onclick = function() {
+                    // Remover selección previa
+                    document.querySelectorAll('.eval-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                };
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('self-evaluation').style.display = 'block';
+            document.getElementById('eval-feedback').style.display = 'none';
+        }
+
+        function hideEvaluation() {
+            document.getElementById('self-evaluation').style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.eval-option.selected');
+            if (!selectedOption) {
+                alert('Por favor selecciona una opción antes de verificar.');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.eval-option');
+            const selectedIndex = Array.from(options).indexOf(selectedOption);
+            const isCorrect = selectedIndex === evaluationQuestions[currentEvalIndex].correctIndex;
+            
+            const feedback = document.getElementById('eval-feedback');
+            if (isCorrect) {
+                feedback.className = 'submission-feedback submission-success';
+                feedback.innerHTML = '<strong>¡Correcto!</strong> Has comprendido bien este concepto presocrático.';
+            } else {
+                feedback.className = 'submission-feedback';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+                feedback.style.border = '1px solid #f5c6cb';
+                feedback.innerHTML = '<strong>Incorrecto.</strong> Revisa este concepto en las tarjetas de estudio.';
+            }
+            
+            feedback.style.display = 'block';
+            currentEvalIndex++;
+        }
+
+        // Funciones para crear tarjetas personalizadas
+        function addNewCard() {
+            const question = document.getElementById('new-question').value.trim();
+            const answer = document.getElementById('new-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Por favor completa tanto la pregunta como la respuesta.');
+                return;
+            }
+            
+            customCards.push({ question, answer });
+            saveCustomCards();
+            updateCustomCardsList();
+            
+            // Limpiar campos
+            document.getElementById('new-question').value = '';
+            document.getElementById('new-answer').value = '';
+            
+            alert('¡Tarjeta personalizada agregada con éxito!');
+        }
+
+        function updateCustomCardsList() {
+            const container = document.getElementById('custom-cards-list');
+            container.innerHTML = '';
+            
+            if (customCards.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Aún no has creado tarjetas personalizadas.</p>';
+                return;
+            }
+            
+            customCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'flashcard';
+                cardElement.style.marginBottom = '1rem';
+                cardElement.style.padding = '1.5rem';
+                cardElement.style.cursor = 'pointer';
+                cardElement.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+                
+                cardElement.innerHTML = `
+                    <div class="flashcard-question">${card.question}</div>
+                    <div class="flashcard-answer">${card.answer}</div>
+                    <button onclick="deleteCustomCard(${index})" style="position: absolute; bottom: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        function deleteCustomCard(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                customCards.splice(index, 1);
+                saveCustomCards();
+                updateCustomCardsList();
+            }
+        }
+
+        function saveCustomCards() {
+            localStorage.setItem('presocraticCustomCards', JSON.stringify(customCards));
+        }
+
+        function loadCustomCards() {
+            const savedCards = localStorage.getItem('presocraticCustomCards');
+            if (savedCards) {
+                customCards = JSON.parse(savedCards);
+                updateCustomCardsList();
+            }
+        }
+
+        // Funciones de actividades
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            
+            if (!response) {
+                alert('Por favor escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            feedback.className = 'submission-feedback submission-success';
+            feedback.innerHTML = '<strong>¡Actividad enviada con éxito!</strong> Tu reflexión ha sido guardada.';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            if (!completedActivities.includes(activityNumber)) {
+                completedActivities.push(activityNumber);
+            }
+            
+            // Verificar si todas las actividades están completadas
+            checkAllActivitiesCompleted();
+        }
+
+        function checkAllActivitiesCompleted() {
+            if (completedActivities.length >= 4) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función de progreso
+        function updateProgress() {
+            const progress = Math.round((currentCardIndex / (presocraticFlashcards.length - 1)) * 100);
+            document.getElementById('flashcards-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress}% completado`;
+        }
+
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('Volviendo al calendario de filósofos...');
+            // En una implementación real, esto redirigiría al calendario
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis: El Leviatán - Thomas Hobbes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --hobbes: #c0392b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--hobbes), #a93226);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .summary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--hobbes), #a93226);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-content {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section {
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section h3 {
+            color: var(--hobbes);
+            border-bottom: 2px solid var(--hobbes);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--hobbes);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--hobbes);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--hobbes);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Análisis: El Leviatán</h1>
+        <p>Explorando la obra fundamental de Thomas Hobbes sobre el Estado y la sociedad</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="summary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">TH</div>
+                <div class="philosopher-details">
+                    <h2>Thomas Hobbes</h2>
+                    <p>Filósofo inglés del siglo XVII, fundador de la filosofía política moderna y autor de "Leviatán"</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="summary-description">
+                <p>Este análisis te introducirá a los conceptos centrales de la obra maestra de Hobbes. Explorarás el estado de naturaleza, el contrato social, la soberanía absoluta y los fundamentos del poder político en la modernidad.</p>
+            </div>
+        </section>
+        
+        <section class="summary-content">
+            <div class="summary-section">
+                <h3>Resumen Ejecutivo</h3>
+                <p>La obra "Leviatán" (1651) de Thomas Hobbes representa un punto de inflexión en la filosofía política al fundamentar el poder del Estado en un contrato racional entre individuos, rompiendo con las justificaciones teológicas tradicionales del poder.</p>
+                
+                <div class="concept-box">
+                    <h4>Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>Estado de Naturaleza:</strong> Situación pre-política de "guerra de todos contra todos"</li>
+                        <li><strong>Contrato Social:</strong> Acuerdo racional para crear un poder soberano</li>
+                        <li><strong>Leviatán:</strong> El Estado como "dios mortal" que garantiza la seguridad</li>
+                        <li><strong>Soberanía Absoluta:</strong> Poder indivisible e irrevocable del soberano</li>
+                        <li><strong>Derecho Natural:</strong> Libertad de cada hombre para preservar su vida</li>
+                    </ul>
+                </div>
+                
+                <p>Hobbes desarrolla una teoría materialista y mecanicista del ser humano, donde las pasiones y el cálculo racional conducen necesariamente a la creación del Estado como solución al problema de la convivencia.</p>
+                
+                <div class="quote">
+                    "El hombre es un lobo para el hombre" - Hobbes
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Antropología Hobbesiana: El Hombre en Estado de Naturaleza</h3>
+                
+                <h4>Naturaleza Humana</h4>
+                <p>Hobbes concibe al ser humano desde una perspectiva materialista y mecanicista. Los hombres son movidos por dos tipos de pasiones fundamentales:</p>
+                
+                <div class="concept-box">
+                    <h4>Pasiones Fundamentales:</h4>
+                    <ul>
+                        <li><strong>Deseo (Appetite):</strong> Impulso hacia lo que causa placer</li>
+                        <li><strong>Aversión (Aversion):</strong> Rechazo de lo que causa dolor</li>
+                    </ul>
+                </div>
+                
+                <h4>El Estado de Naturaleza</h4>
+                <p>Antes de la constitución de la sociedad civil, los humanos viven en un "estado de naturaleza" caracterizado por tres causas principales de conflicto:</p>
+                
+                <div class="concept-box">
+                    <h4>Causas de Conflicto en el Estado de Naturaleza:</h4>
+                    <ol>
+                        <li><strong>Competencia:</strong> Por obtener beneficios</li>
+                        <li><strong>Desconfianza:</strong> Por seguridad</li>
+                        <li><strong>Gloria:</strong> Por reputación</li>
+                    </ol>
+                </div>
+                
+                <div class="quote">
+                    "En tal condición no hay lugar para la industria, porque su fruto es incierto; y por consiguiente no hay cultivo de la tierra, ni navegación, ni uso de los artículos que pueden ser importados por mar, ni construcciones cómodas..."
+                </div>
+                
+                <p>La vida en el estado de naturaleza es "solitaria, pobre, tosca, embrutecida y breve".</p>
+            </div>
+            
+            <div class="summary-section">
+                <h3>El Contrato Social y el Leviatán</h3>
+                <p>Frente a la insoportable condición del estado de naturaleza, la razón descubre las "leyes de naturaleza" que permiten la paz.</p>
+                
+                <h4>Leyes de Naturaleza</h4>
+                <p>Hobbes identifica 19 leyes de naturaleza, siendo las tres primeras fundamentales:</p>
+                
+                <div class="concept-box">
+                    <h4>Leyes Fundamentales de Naturaleza:</h4>
+                    <ol>
+                        <li><strong>Buscar la paz:</strong> Mientras haya esperanza de obtenerla</li>
+                        <li><strong>Renunciar a derechos:</strong> Renunciar al derecho sobre todas las cosas</li>
+                        <li><strong>Cumplir los pactos:</strong> Los hombres deben cumplir los convenios que han celebrado</li>
+                    </ol>
+                </div>
+                
+                <h4>El Pacto de Unión</h4>
+                <p>Los individuos acuerdan transferir todos sus derechos naturales (excepto el derecho a la vida) a un soberano que los represente a todos.</p>
+                
+                <div class="concept-box">
+                    <h4>Características del Contrato Hobbesiano:</h4>
+                    <ul>
+                        <li><strong>Unilateral:</strong> Solo los súbditos se obligan, no el soberano</li>
+                        <li><strong>Irrevocable:</strong> No se puede disolver el pacto</li>
+                        <li><strong>Absoluto:</strong> El soberano tiene todos los poderes</li>
+                        <li><strong>Artificial:</strong> Creado por convención humana</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "Este es el origen de ese gran Leviatán, o más bien (hablando con más reverencia) de ese dios mortal, al cual debemos, bajo el Dios inmortal, nuestra paz y defensa"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>La Teoría de la Soberanía</h3>
+                <p>El soberano (individual o colectivo) concentra todos los poderes del Estado. Hobbes defiende una concepción absolutista del poder político.</p>
+                
+                <h4>Atributos del Soberano</h4>
+                
+                <div class="concept-box">
+                    <h4>Poderes del Soberano según Hobbes:</h4>
+                    <ul>
+                        <li><strong>Legislativo:</strong> Establecer leyes civiles</li>
+                        <li><strong>Judicial:</strong> Administrar justicia</li>
+                        <li><strong>Ejecutivo:</strong> Hacer cumplir las leyes</li>
+                        <li><strong>Beligerante:</strong> Declarar guerra y hacer la paz</li>
+                        <li><strong>Nominativo:</strong> Designar funcionarios</li>
+                        <li><strong>Censorial:</strong> Controlar doctrinas y opiniones</li>
+                    </ul>
+                </div>
+                
+                <h4>Formas de Gobierno</h4>
+                <p>Hobbes identifica tres formas de gobierno según quién ejerza la soberanía:</p>
+                
+                <div class="concept-box">
+                    <h4>Tipos de Gobierno:</h4>
+                    <ul>
+                        <li><strong>Monarquía:</strong> Soberanía en una persona (la forma preferida por Hobbes)</li>
+                        <li><strong>Aristocracia:</strong> Soberanía en una asamblea de pocos</li>
+                        <li><strong>Democracia:</strong> Soberanía en una asamblea de todos</li>
+                    </ul>
+                </div>
+                
+                <p>Para Hobbes, lo importante no es la forma de gobierno sino la concentración del poder. Cualquier división del poder conduce a la guerra civil.</p>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Derechos y Obligaciones de los Súbditos</h3>
+                <p>La relación entre soberano y súbditos está regulada por derechos inalienables y obligaciones recíprocas.</p>
+                
+                <h4>Derechos Inalienables</h4>
+                <p>Aunque el poder del soberano es absoluto, los individuos conservan algunos derechos fundamentales:</p>
+                
+                <div class="concept-box">
+                    <h4>Límites al Poder Soberano:</h4>
+                    <ul>
+                        <li><strong>Derecho a la vida:</strong> No hay obligación de suicidarse o dejarse matar</li>
+                        <li><strong>Resistencia a la opresión:</strong> Cuando el soberano no puede proteger</li>
+                        <li><strong>Derecho a no autoincriminarse:</strong> En procesos judiciales</li>
+                    </ul>
+                </div>
+                
+                <h4>Obligaciones del Soberano</h4>
+                <p>El soberano tiene el deber fundamental de garantizar la seguridad y el bienestar de los súbditos.</p>
+                
+                <div class="concept-box">
+                    <h4>Deberes del Soberano:</h4>
+                    <ul>
+                        <li><strong>Protección y seguridad:</strong> Razón de ser del Estado</li>
+                        <li><strong>Bienestar del pueblo:</strong> Prosperidad económica</li>
+                        <li><strong>Educación:</strong> Instruir en la doctrina política</li>
+                        <li><strong>Leyes justas:</strong> Aplicar igualitariamente las leyes</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "La obligación de los súbditos hacia el soberano dura tanto como el poder por el cual es capaz de protegerlos"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Legado e Influencia</h3>
+                <p>"El Leviatán" sentó las bases del pensamiento político moderno y generó importantes debates que continúan hasta hoy.</p>
+                
+                <h4>Contribuciones Fundamentales</h4>
+                
+                <div class="concept-box">
+                    <h4>Aportes de Hobbes a la Filosofía Política:</h4>
+                    <ul>
+                        <li><strong>Secularización del poder:</strong> Fundamentación racional vs. divina</li>
+                        <li><strong>Teoría contractualista:</strong> El Estado como producto de un acuerdo</li>
+                        <li><strong>Individualismo metodológico:</strong> La sociedad explicada desde el individuo</li>
+                        <li><strong>Concepto moderno de soberanía:</strong> Poder supremo e indivisible</li>
+                    </ul>
+                </div>
+                
+                <h4>Críticas y Desarrollo Posterior</h4>
+                <p>El pensamiento de Hobbes fue criticado y desarrollado por posteriores filósofos:</p>
+                
+                <div class="concept-box">
+                    <h4>Reacciones al Hobbesianismo:</h4>
+                    <ul>
+                        <li><strong>Locke:</strong> Contrato social con soberanía limitada y derechos naturales</li>
+                        <li><strong>Rousseau:</strong> Soberanía popular y voluntad general</li>
+                        <li><strong>Montesquieu:</strong> División de poderes vs. absolutismo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee el análisis de El Leviatán</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Has leído el análisis de la obra fundamental de Hobbes. Ahora reflexiona sobre los conceptos principales:</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos clave para recordar:</h4>
+                            <ul>
+                                <li>Estado de naturaleza como "guerra de todos contra todos"</li>
+                                <li>El contrato social como solución racional al conflicto</li>
+                                <li>El Leviatán como "dios mortal" que garantiza la seguridad</li>
+                                <li>La soberanía absoluta e indivisible</li>
+                                <li>Derechos inalienables de los súbditos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu síntesis:</h4>
+                    <p>Escribe un breve resumen con tus propias palabras de los conceptos centrales de "El Leviatán".</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu síntesis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza el estado de naturaleza hobbesiano</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El estado de naturaleza es el punto de partida de la teoría política de Hobbes. Comprender sus características es fundamental para entender por qué es necesaria la sociedad civil.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Estado de Naturaleza:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Aspecto</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Descripción Hobbesiana</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Igualdad Natural</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Los hombres son iguales en facultades físicas y mentales</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Liberdad Natural</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Derecho a todo lo necesario para la autoconservación</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Competencia</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Lucha por recursos escasos</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Desconfianza</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Temor mutuo por la seguridad</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Gloria</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Búsqueda de reputación y honor</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que la descripción hobbesiana del estado de naturaleza es realista? ¿Qué aspectos te parecen acertados y cuáles cuestionables?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Evalúa la teoría del contrato social</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El contrato social hobbesiano es radicalmente diferente a las versiones de Locke o Rousseau. Su carácter absoluto e irrevocable ha generado importantes debates.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Contrato Hobbesiano:</h4>
+                            <ol>
+                                <li><strong>Unilateral:</strong> Solo obliga a los súbditos, no al soberano</li>
+                                <li><strong>Irrevocable:</strong> No se puede disolver una vez establecido</li>
+                                <li><strong>Absoluto:</strong> Transferencia total de derechos (excepto derecho a la vida)</li>
+                                <li><strong>Artificial:</strong> Producto de la razón y el cálculo, no natural</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "El pacto no es con el soberano, sino de cada hombre con cada hombre, de dar su derecho a un hombre o asamblea de hombres"
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Qué ventajas y desventajas identificas en el modelo de contrato social propuesto por Hobbes? ¿Crees que es un modelo viable para las sociedades contemporáneas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la vigencia del pensamiento hobbesiano</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>A pesar de haber sido escrito en el siglo XVII, el pensamiento de Hobbes sigue siendo relevante para comprender problemas políticos contemporáneos.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Aspectos de Vigencia Actual:</h4>
+                            <ul>
+                                <li><strong>Seguridad vs. Libertad:</strong> El dilema central de los estados modernos</li>
+                                <li><strong>Fundamentación del Estado:</strong> Problema de la legitimidad del poder</li>
+                                <li><strong>Relación individuo-Estado:</strong> Límites del poder estatal</li>
+                                <li><strong>Teorías del contrato:</strong> Influencia en constituciones modernas</li>
+                            </ul>
+                        </div>
+                        
+                        <p>El modelo hobbesiano ha influido en el desarrollo del estado moderno y en debates sobre seguridad nacional, derechos individuales y los límites del poder político.</p>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿En qué aspectos del mundo contemporáneo identificas la influencia del pensamiento de Hobbes? ¿Qué lecciones podemos extraer de su obra para los desafíos políticos actuales?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el análisis</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el análisis de "El Leviatán"</h3>
+            <p>Has explorado los conceptos centrales de una de las obras fundacionales de la filosofía política moderna. Reflexiona sobre estas ideas y cómo se relacionan con tu comprensión del poder, el Estado y la sociedad contemporánea.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('summary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('hobbesLeviathanProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('hobbesLeviathanProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'calendario10.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Los Dos Fundamentos de la Moral - Schopenhauer</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .quiz-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(22, 160, 133, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .question-container {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin-bottom: 1rem;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--flashcards);
+            background: rgba(22, 160, 133, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--accent);
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 160, 133, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-quiz-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+            display: block;
+            margin: 2rem auto;
+        }
+        
+        .submit-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .quiz-results {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin: 1rem 0;
+        }
+        
+        .incorrect-questions {
+            margin-top: 2rem;
+        }
+        
+        .incorrect-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--flashcards), #138d75);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Cuestionario: Los Dos Fundamentos de la Moral</h1>
+        <p>Explora la ética de Schopenhauer y su crítica a Kant</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="quiz-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">AS</div>
+                <div class="philosopher-details">
+                    <h2>Arthur Schopenhauer</h2>
+                    <p>Filósofo alemán del pesimismo metafísico y la voluntad ciega</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="quiz-description">
+                <p>Este cuestionario te permitirá evaluar tu comprensión de la obra "Los dos fundamentos de la moral" de Schopenhauer, donde critica la ética kantiana y propone la compasión como fundamento moral. Responde las preguntas, revisa tus errores y reflexiona sobre los conceptos clave.</p>
+            </div>
+        </section>
+        
+        <!-- Cuestionario -->
+        <section class="quiz-container" id="quiz-container">
+            <div id="question-container">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousQuestion()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Siguiente →</button>
+            </div>
+            
+            <button class="submit-quiz-btn" id="submit-quiz-btn" onclick="submitQuiz()">Enviar Cuestionario</button>
+        </section>
+        
+        <!-- Resultados del cuestionario -->
+        <section class="quiz-results" id="quiz-results">
+            <div class="result-header">
+                <h2>Resultados del Cuestionario</h2>
+                <div class="score-display" id="score-display">0/30</div>
+                <p id="result-message">Basado en tus respuestas</p>
+            </div>
+            
+            <div class="incorrect-questions" id="incorrect-questions">
+                <!-- Las preguntas incorrectas se mostrarán aquí -->
+            </div>
+            
+            <button class="submit-btn" onclick="closeResults()">Continuar con las actividades</button>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Responde el cuestionario sobre Schopenhauer</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Completa el cuestionario de 30 preguntas sobre "Los dos fundamentos de la moral" de Schopenhauer. Selecciona la respuesta correcta para cada pregunta y envía el cuestionario cuando hayas terminado.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a evaluar:</h4>
+                            <ul>
+                                <li>Crítica a la ética kantiana</li>
+                                <li>La compasión como fundamento moral</li>
+                                <li>Los tres motivos fundamentales de la acción humana</li>
+                                <li>La relación entre metafísica y ética</li>
+                                <li>La negación de la voluntad de vivir</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>Después de completar el cuestionario, describe qué aspectos de la ética de Schopenhauer te resultaron más interesantes o desafiantes.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Describe tu experiencia con el cuestionario aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Revisa tus respuestas incorrectas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa las preguntas que respondiste incorrectamente en el cuestionario. Estudia los conceptos relacionados y asegúrate de comprender por qué tus respuestas fueron incorrectas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Estrategias para revisar:</h4>
+                            <ul>
+                                <li>Identifica patrones en tus errores</li>
+                                <li>Relee las secciones relevantes de la obra</li>
+                                <li>Busca explicaciones alternativas de los conceptos</li>
+                                <li>Relaciona los conceptos con ejemplos concretos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Describe qué conceptos te resultaron más difíciles de comprender y qué estrategias utilizaste para mejorar tu comprensión.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tu proceso de revisión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica la compasión como fundamento moral</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica con tus propias palabras cómo Schopenhauer fundamenta la moral en la compasión y por qué rechaza otros fundamentos como el imperativo categórico kantiano.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La compasión como reconocimiento del sufrimiento ajeno</li>
+                                <li>La identificación metafísica con los demás seres</li>
+                                <li>Crítica al formalismo ético de Kant</li>
+                                <li>Los grados de compasión y sus manifestaciones</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada de la compasión como fundamento moral en la filosofía de Schopenhauer.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Analiza la crítica a Kant</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza las principales críticas que Schopenhauer dirige a la ética kantiana en "Los dos fundamentos de la moral".</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Puntos de crítica principales:</h4>
+                            <ul>
+                                <li>El formalismo vacío del imperativo categórico</li>
+                                <li>La falta de fundamento empírico</li>
+                                <li>La confusión entre motivación y obligación</li>
+                                <li>La incapacidad para explicar acciones moralmente valiosas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis crítico de las objeciones de Schopenhauer a la ética kantiana y evalúa su validez.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el cuestionario</h3>
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el cuestionario sobre "Los Dos Fundamentos de la Moral"</h3>
+            <p>Has evaluado tu comprensión de la ética schopenhaueriana, revisado tus respuestas incorrectas, explicado el papel de la compasión como fundamento moral y analizado la crítica a Kant. Continúa explorando estos conceptos para profundizar en tu comprensión de esta obra fundamental.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas sobre "Los Dos Fundamentos de la Moral" (30 preguntas)
+        const moralQuizQuestions = [
+            {
+                question: "¿Cuál es la tesis fundamental que Schopenhauer presenta en 'Los dos fundamentos de la moral'?",
+                options: [
+                    "La moral se fundamenta únicamente en la compasión.",
+                    "La ética kantiana es la única filosofía moral válida.",
+                    "La moral surge del contrato social.",
+                    "La virtud es su propia recompensa."
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué obra de Kant critica específicamente Schopenhauer en 'Los dos fundamentos de la moral'?",
+                options: [
+                    "Crítica de la razón pura",
+                    "Fundamentación de la metafísica de las costumbres",
+                    "Crítica del juicio",
+                    "La paz perpetua"
+                ],
+                correct: 1
+            },
+            {
+                question: "Según Schopenhauer, ¿cuáles son los tres motivos fundamentales de la acción humana?",
+                options: [
+                    "Egoísmo, maldad y compasión",
+                    "Placer, dolor y aburrimiento",
+                    "Razón, emoción e instinto",
+                    "Deseo, aversión e indiferencia"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué concepto sánscrito utiliza Schopenhauer para explicar el fundamento metafísico de la compasión?",
+                options: [
+                    "Tat tvam asi (Esto eres tú)",
+                    "Nirvana (Extinción)",
+                    "Karma (Acción)",
+                    "Dharma (Ley cósmica)"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Por qué Schopenhauer rechaza el imperativo categórico kantiano?",
+                options: [
+                    "Por su formalismo vacío y falta de contenido",
+                    "Por ser demasiado complicado de aplicar",
+                    "Por basarse en premisas religiosas",
+                    "Por ser incompatible con el libre albedrío"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué permite la compasión?",
+                options: [
+                    "Trascender la individualidad y reconocer la unidad esencial",
+                    "Alcanzar la felicidad personal",
+                    "Cumplir con los deberes sociales",
+                    "Desarrollar la inteligencia emocional"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica dirige Schopenhauer al concepto kantiano de 'deber'?",
+                options: [
+                    "Es una noción vacía sin motivación real",
+                    "Es demasiado permisivo",
+                    "No considera las consecuencias",
+                    "Es incompatible con la democracia"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Schopenhauer la relación entre metafísica y ética?",
+                options: [
+                    "La ética debe fundamentarse en una metafísica correcta",
+                    "La ética es independiente de cualquier metafísica",
+                    "La metafísica es una consecuencia de la ética",
+                    "Ambas disciplinas no tienen relación alguna"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juega el egoísmo en la filosofía moral de Schopenhauer?",
+                options: [
+                    "Es el motivo más común pero moralmente neutro",
+                    "Es la base de toda moralidad",
+                    "Debe ser completamente eliminado",
+                    "Es un invento de la sociedad burguesa"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué distingue a la acción moralmente buena?",
+                options: [
+                    "Está motivada por la compasión",
+                    "Cumple con el deber",
+                    "Maximiza la utilidad",
+                    "Sigue la ley natural"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué objeta Schopenhauer a la fórmula kantiana de tratar a la humanidad siempre como fin y nunca como medio?",
+                options: [
+                    "Presupone lo que debería demostrar",
+                    "Es demasiado abstracta para aplicar",
+                    "Contradice la economía de mercado",
+                    "No considera a los animales"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo define Schopenhauer la compasión (Mitleid)?",
+                options: [
+                    "Participación inmediata en el sufrimiento ajeno",
+                    "Sentimiento de lástima por los menos afortunados",
+                    "Obligación de ayudar a los necesitados",
+                    "Virtud cristiana de caridad"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué relación establece Schopenhauer entre compasión y justicia?",
+                options: [
+                    "La justicia es el grado mínimo de compasión",
+                    "Son conceptos completamente separados",
+                    "La compasión corrompe la justicia",
+                    "La justicia es superior a la compasión"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Por qué Schopenhauer considera insuficiente la 'simpatía' como fundamento moral?",
+                options: [
+                    "La simpatía es superficial mientras la compasión es profunda",
+                    "La simpatía solo se dirige a personas cercanas",
+                    "La simpatía es un sentimiento egoísta",
+                    "La simpatía no existe realmente"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juega el conocimiento en la ética de Schopenhauer?",
+                options: [
+                    "Permite reconocer la identidad esencial con los demás",
+                    "Es irrelevante para la moral",
+                    "Solo sirve para calcular consecuencias",
+                    "Puede obstaculizar la acción moral"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué permite la superación del egoísmo?",
+                options: [
+                    "El reconocimiento de la unidad metafísica del ser",
+                    "La educación moral sistemática",
+                    "La imposición de leyes estrictas",
+                    "La búsqueda del interés propio ilustrado"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Schopenhauer la 'maldad'?",
+                options: [
+                    "Afirmación de la propia voluntad con negación de la ajena",
+                    "Falta de educación y refinamiento",
+                    "Rebelión contra la autoridad establecida",
+                    "Influencia de fuerzas demoníacas"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué objeta Schopenhauer al concepto kantiano de 'buena voluntad'?",
+                options: [
+                    "Es una abstracción vacía sin contenido concreto",
+                    "No considera las intenciones reales",
+                    "Es demasiado indulgente con el error",
+                    "Contradice la psicología humana"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué relación hay entre compasión y negación de la voluntad?",
+                options: [
+                    "La compasión es el primer paso hacia la negación",
+                    "Son conceptos contradictorios",
+                    "La compasión refuerza la voluntad de vivir",
+                    "No hay relación entre ellos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica dirige Schopenhauer a la ética del sentimiento?",
+                options: [
+                    "Carece de fundamento metafísico",
+                    "Es demasiado racionalista",
+                    "No considera las emociones",
+                    "Es incompatible con la ciencia"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿por qué la compasión es más fundamental que la justicia?",
+                options: [
+                    "Porque la compasión es anterior conceptualmente",
+                    "Porque la justicia es un invento humano",
+                    "Porque la compasión es más fácil de practicar",
+                    "Porque la justicia requiere compasión"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juegan los 'caracteres inteligibles' en la ética de Schopenhauer?",
+                options: [
+                    "Explican las diferencias en la capacidad moral",
+                    "Son irrelevantes para la moral",
+                    "Demuestran la igualdad esencial de todos",
+                    "Son un concepto tomado de Kant sin modificaciones"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo responde Schopenhauer a la objeción de que la compasión es un sentimiento y no un principio racional?",
+                options: [
+                    "La moral debe basarse en la naturaleza humana real",
+                    "Rechaza que la compasión sea un sentimiento",
+                    "Acepta la objeción pero la considera irrelevante",
+                    "Propone racionalizar la compasión"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué permite distinguir la compasión auténtica de la simpatía superficial?",
+                options: [
+                    "La compasión conduce a la acción desinteresada",
+                    "La compasión es más intensa emocionalmente",
+                    "La compasión se dirige solo a seres humanos",
+                    "La compasión implica comprensión intelectual"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué relación establece Schopenhauer entre ética y estética?",
+                options: [
+                    "Ambas permiten superar la individualidad",
+                    "No hay relación entre ellas",
+                    "La ética es superior a la estética",
+                    "La estética corrompe la moral"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Por qué Schopenhauer considera insuficiente la 'regla de oro' como principio moral?",
+                options: [
+                    "Se basa en el intercambio egoísta",
+                    "Es demasiado abstracta",
+                    "No considera las diferencias culturales",
+                    "Contradice el imperativo categórico"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿qué permite la acción compasiva?",
+                options: [
+                    "Aliviar momentáneamente el sufrimiento inherente a la existencia",
+                    "Alcanzar la salvación eterna",
+                    "Cumplir con las expectativas sociales",
+                    "Desarrollar el carácter virtuoso"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica dirige Schopenhauer al concepto de 'libertad' en la ética kantiana?",
+                options: [
+                    "Kant confunde la libertad con la autonomía racional",
+                    "Kant niega la libertad demasiado radicalmente",
+                    "Kant no define adecuadamente la libertad",
+                    "Kant sobrevalora la libertad individual"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Schopenhauer, ¿por qué la compasión es más importante que la piedad?",
+                options: [
+                    "La compasión implica identificación, la piedad superioridad",
+                    "La piedad es un sentimiento cristiano decadente",
+                    "La compasión es más racional que la piedad",
+                    "No hay diferencia significativa entre ellas"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo fundamenta Schopenhauer la obligación moral?",
+                options: [
+                    "En el reconocimiento de la unidad esencial con los demás",
+                    "En mandatos divinos revelados",
+                    "En el contrato social tácito",
+                    "En la razón práctica pura"
+                ],
+                correct: 0
+            }
+        ];
+
+        // Variables globales
+        let currentQuestion = 0;
+        let userAnswers = new Array(moralQuizQuestions.length).fill(null);
+        let quizSubmitted = false;
+        let activitiesCompleted = 0;
+
+        // Inicializar el cuestionario
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        // Mostrar la pregunta actual
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = moralQuizQuestions[currentQuestion];
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const optionClass = isSelected ? 'option selected' : 'option';
+                optionsHTML += `
+                    <div class="${optionClass}" onclick="selectOption(${index})">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pregunta ${currentQuestion + 1} de ${moralQuizQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar botones de navegación
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === moralQuizQuestions.length - 1;
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            displayQuestion();
+        }
+
+        // Navegar a la pregunta anterior
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        // Navegar a la siguiente pregunta
+        function nextQuestion() {
+            if (currentQuestion < moralQuizQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        // Enviar el cuestionario
+        function submitQuiz() {
+            quizSubmitted = true;
+            calculateScore();
+            showResults();
+        }
+
+        // Calcular la puntuación
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < moralQuizQuestions.length; i++) {
+                if (userAnswers[i] === moralQuizQuestions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            const score = calculateScore();
+            const percentage = Math.round((score / moralQuizQuestions.length) * 100);
+            
+            document.getElementById('score-display').textContent = `${score}/${moralQuizQuestions.length}`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '¡Excelente! Dominas los conceptos fundamentales de la ética schopenhaueriana.';
+            } else if (percentage >= 70) {
+                message = '¡Buen trabajo! Tienes un buen entendimiento de la filosofía moral de Schopenhauer.';
+            } else if (percentage >= 50) {
+                message = 'Aprobado. Tienes conocimientos básicos pero necesitas profundizar más.';
+            } else {
+                message = 'Necesitas estudiar más los conceptos fundamentales de esta obra.';
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Mostrar preguntas incorrectas
+            let incorrectHTML = '<h3>Preguntas incorrectas:</h3>';
+            let hasIncorrect = false;
+            
+            for (let i = 0; i < moralQuizQuestions.length; i++) {
+                if (userAnswers[i] !== moralQuizQuestions[i].correct) {
+                    hasIncorrect = true;
+                    const question = moralQuizQuestions[i];
+                    const userAnswer = userAnswers[i] !== null ? question.options[userAnswers[i]] : 'Sin respuesta';
+                    const correctAnswer = question.options[question.correct];
+                    
+                    incorrectHTML += `
+                        <div class="incorrect-question">
+                            <p><strong>Pregunta ${i + 1}:</strong> ${question.question}</p>
+                            <p><strong>Tu respuesta:</strong> ${userAnswer}</p>
+                            <p><strong>Respuesta correcta:</strong> ${correctAnswer}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (!hasIncorrect) {
+                incorrectHTML = '<p>¡Felicidades! No tienes preguntas incorrectas.</p>';
+            }
+            
+            document.getElementById('incorrect-questions').innerHTML = incorrectHTML;
+            
+            // Mostrar resultados y ocultar cuestionario
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Cerrar resultados
+        function closeResults() {
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('activity-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const answeredQuestions = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = Math.round((answeredQuestions / moralQuizQuestions.length) * 100);
+            
+            document.getElementById('quiz-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completó todo
+            if (activitiesCompleted >= 4 && answeredQuestions === moralQuizQuestions.length) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, escribe tu respuesta antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < 4) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar el cuestionario cuando se carga la página
+        window.onload = initializeQuiz;
+    </script>
+</body>
+</html>

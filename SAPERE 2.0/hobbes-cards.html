@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas: Conceptos Clave de Hobbes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #2980b9;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flashcards-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcards-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mode-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: var(--flashcards);
+        }
+        
+        .mode-card.active {
+            border-color: var(--flashcards);
+            background: rgba(41, 128, 185, 0.05);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .flashcards-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 500px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            border: 2px solid var(--flashcards);
+        }
+        
+        .flashcard.flipped {
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            color: white;
+        }
+        
+        .flashcard-question, .flashcard-answer {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flashcard-answer {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-question {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-answer {
+            display: block;
+        }
+        
+        .flashcard-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--flashcards);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .self-evaluation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .eval-question {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .eval-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .eval-option {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .eval-option:hover {
+            background: #d5dbdb;
+        }
+        
+        .eval-option.selected {
+            background: var(--flashcards);
+            color: white;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .study-modes {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+            }
+            
+            .eval-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Tarjetas: Conceptos Clave de Hobbes</h1>
+        <p>Domina los conceptos fundamentales de la filosofía política de Thomas Hobbes</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="flashcards-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">TH</div>
+                <div class="philosopher-details">
+                    <h2>Thomas Hobbes</h2>
+                    <p>Filósofo inglés del contrato social, el estado de naturaleza y el Leviatán</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="flashcards-description">
+                <p>Este sistema de tarjetas interactivas te permitirá dominar los conceptos fundamentales de la filosofía política de Hobbes. Estudia, practica y evalúa tu comprensión de su teoría del estado de naturaleza, el contrato social y el poder soberano.</p>
+            </div>
+            
+            <div class="study-modes">
+                <div class="mode-card active" onclick="setMode('study')">
+                    <div class="mode-icon">📖</div>
+                    <h3>Modo Estudio</h3>
+                    <p>Estudia las tarjetas a tu propio ritmo</p>
+                </div>
+                <div class="mode-card" onclick="setMode('practice')">
+                    <div class="mode-icon">🔄</div>
+                    <h3>Modo Práctica</h3>
+                    <p>Practica con autoevaluación interactiva</p>
+                </div>
+                <div class="mode-card" onclick="setMode('create')">
+                    <div class="mode-icon">✏️</div>
+                    <h3>Crear Tarjetas</h3>
+                    <p>Crea tus propias tarjetas personalizadas</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modo Estudio y Práctica -->
+        <section class="flashcards-container" id="study-practice-container">
+            <div class="flashcard" id="current-flashcard" onclick="flipCard()">
+                <div class="flashcard-counter" id="card-counter">1/30</div>
+                <div class="flashcard-question" id="flashcard-question">
+                    ¿Cómo describe Hobbes el "estado de naturaleza" en su filosofía política?
+                </div>
+                <div class="flashcard-answer" id="flashcard-answer">
+                    Como una condición de guerra de todos contra todos, donde la vida es "solitaria, pobre, tosca, embrutecida y breve".
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousCard()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextCard()">Siguiente →</button>
+            </div>
+            
+            <div class="self-evaluation" id="self-evaluation">
+                <h3>Autoevaluación</h3>
+                <div class="eval-question" id="eval-question">
+                    ¿Qué representa el "Leviatán" en la filosofía de Hobbes?
+                </div>
+                <div class="eval-options" id="eval-options">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+                <button class="submit-btn" onclick="checkAnswer()">Verificar Respuesta</button>
+                <div class="submission-feedback" id="eval-feedback"></div>
+            </div>
+        </section>
+        
+        <!-- Modo Crear Tarjetas -->
+        <section class="flashcards-container" id="create-container" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--flashcards);">Crear Tus Propias Tarjetas</h3>
+            
+            <div class="activity-content">
+                <div class="activity-text">
+                    <p>Crea tarjetas personalizadas sobre la teoría política hobbesiana. Incluye conceptos como el estado de naturaleza, el contrato social, el poder soberano y la relación entre libertad y seguridad.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <h4>Ejemplos de conceptos para incluir:</h4>
+                        <ul>
+                            <li>Estado de naturaleza y guerra de todos contra todos</li>
+                            <li>Contrato social y transferencia de derechos</li>
+                            <li>El Leviatán como poder soberano absoluto</li>
+                            <li>Leyes de naturaleza hobbesianas</li>
+                            <li>Relación entre libertad y seguridad</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4>Nueva Tarjeta:</h4>
+                    <input type="text" id="new-question" placeholder="Pregunta o concepto..." style="width: 100%; padding: 1rem; margin-bottom: 1rem; border: 2px solid #e9ecef; border-radius: 8px;">
+                    <textarea id="new-answer" placeholder="Respuesta o explicación..." style="width: 100%; height: 120px; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="submit-btn" style="margin-top: 1rem;" onclick="addNewCard()">Agregar Tarjeta</button>
+                </div>
+                
+                <div id="custom-cards-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Las tarjetas personalizadas se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudio de tarjetas: Estado de Naturaleza y Contrato Social</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo estudio para revisar las tarjetas sobre los conceptos fundamentales del estado de naturaleza y el contrato social en Hobbes.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a dominar:</h4>
+                            <ul>
+                                <li>Estado de naturaleza como guerra de todos contra todos</li>
+                                <li>Igualdad natural y derecho de naturaleza</li>
+                                <li>Las leyes de naturaleza hobbesianas</li>
+                                <li>El contrato social como solución al estado de naturaleza</li>
+                                <li>Transferencia de derechos al soberano</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Después de estudiar las tarjetas, explica con tus propias palabras por qué Hobbes considera necesario el contrato social y qué problemas resuelve según su teoría.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Crear tarjetas: El Leviatán y el Poder Soberano</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo creación para desarrollar tus propias tarjetas sobre el concepto de Leviatán y el poder soberano en Hobbes.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Temas sugeridos para tus tarjetas:</h4>
+                            <ul>
+                                <li>El Leviatán como poder soberano absoluto</li>
+                                <li>Características del poder soberano hobbesiano</li>
+                                <li>Razones para la indivisibilidad del poder soberano</li>
+                                <li>Derechos y deberes del soberano</li>
+                                <li>Límites del poder soberano según Hobbes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu creación:</h4>
+                    <p>Describe al menos 3 tarjetas que hayas creado y explica por qué seleccionaste esos conceptos específicos sobre el Leviatán y el poder soberano en Hobbes.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tus tarjetas creadas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Práctica con autoevaluación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo práctica para evaluar tu comprensión de los conceptos hobbesianos mediante preguntas de opción múltiple.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Áreas de evaluación:</h4>
+                            <ul>
+                                <li>Estado de naturaleza y guerra</li>
+                                <li>Contrato social y transferencia de derechos</li>
+                                <li>El Leviatán y el poder soberano</li>
+                                <li>Leyes de naturaleza</li>
+                                <li>Libertad y seguridad en Hobbes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>¿Qué conceptos encontraste más desafiantes durante la autoevaluación? ¿Cómo piensas reforzar tu comprensión de estos temas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Describe tu experiencia de autoevaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexión: Actualidad del pensamiento hobbesiano</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la relevancia contemporánea del pensamiento de Hobbes en el mundo actual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La relación entre seguridad y libertad en las sociedades modernas</li>
+                                <li>El papel del Estado en la protección de los ciudadanos</li>
+                                <li>La justificación del poder político en contextos de crisis</li>
+                                <li>La tensión entre derechos individuales y autoridad estatal</li>
+                                <li>La vigencia del concepto de contrato social</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que el pensamiento de Hobbes ofrece herramientas válidas para entender los desafíos políticos del siglo XXI? ¿Por qué sí o por qué no?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en las tarjetas</h3>
+            <div class="progress-bar">
+                <div class="progress" id="flashcards-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el sistema de tarjetas sobre Hobbes</h3>
+            <p>Has dominado los conceptos fundamentales de la filosofía política hobbesiana, creado tus propias tarjetas, practicado con autoevaluación y reflexionado sobre la actualidad de su pensamiento. Continúa revisando las tarjetas para consolidar tu comprensión de esta influyente teoría política.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de tarjetas sobre Hobbes (30+ conceptos)
+        const hobbesFlashcards = [
+            {
+                question: "¿Cómo describe Hobbes el 'estado de naturaleza' en su filosofía política?",
+                answer: "Como una condición de guerra de todos contra todos, donde la vida es 'solitaria, pobre, tosca, embrutecida y breve'."
+            },
+            {
+                question: "¿Qué representa el 'Leviatán' en la filosofía de Hobbes?",
+                answer: "El poder soberano absoluto creado mediante el contrato social para garantizar la seguridad y evitar la guerra de todos contra todos."
+            },
+            {
+                question: "Según Hobbes, ¿cuál es la causa fundamental del conflicto en el estado de naturaleza?",
+                answer: "La igualdad natural de los seres humanos en capacidades físicas y mentales, que genera competencia, desconfianza y gloria."
+            },
+            {
+                question: "¿Qué son las 'leyes de naturaleza' según Hobbes?",
+                answer: "Preceptos de la razón que buscan la autopreservación y la paz, como fundamento para salir del estado de naturaleza."
+            },
+            {
+                question: "¿Qué es el 'contrato social' en la teoría hobbesiana?",
+                answer: "El acuerdo mediante el cual los individuos transfieren sus derechos naturales a un soberano para garantizar la seguridad y la paz."
+            },
+            {
+                question: "¿Cómo define Hobbes la 'libertad' en el contexto político?",
+                answer: "Como la ausencia de impedimentos externos para realizar una acción, pero siempre dentro de los límites establecidos por el soberano."
+            },
+            {
+                question: "¿Por qué considera Hobbes que el poder soberano debe ser absoluto e indivisible?",
+                answer: "Porque cualquier división del poder llevaría a conflictos internos que debilitarían al Estado y lo llevarían de vuelta al estado de naturaleza."
+            },
+            {
+                question: "¿Cuál es el 'derecho de naturaleza' según Hobbes?",
+                answer: "La libertad que cada hombre tiene de usar su propio poder para la preservación de su propia naturaleza, es decir, de su propia vida."
+            },
+            {
+                question: "¿Qué significa para Hobbes la frase 'homo homini lupus' (el hombre es un lobo para el hombre)?",
+                answer: "Que en el estado de naturaleza, sin un poder común que los ate, los seres humanos se comportan de manera depredadora unos con otros."
+            },
+            {
+                question: "¿Cómo justifica Hobbes la obediencia al soberano?",
+                answer: "Como necesaria para evitar el regreso al estado de naturaleza, ya que el soberano representa la única garantía de seguridad y paz."
+            },
+            {
+                question: "¿Qué papel juega el miedo en la filosofía política de Hobbes?",
+                answer: "El miedo a la muerte violenta es el principal motivo que lleva a los hombres a buscar la paz y establecer el contrato social."
+            },
+            {
+                question: "¿Cómo concibe Hobbes la relación entre religión y política?",
+                answer: "La religión debe estar subordinada al poder político, ya que las disputas religiosas pueden generar conflictos que debiliten al Estado."
+            },
+            {
+                question: "¿Qué diferencia a Hobbes de otros teóricos del contrato social como Locke o Rousseau?",
+                answer: "Hobbes defiende un poder soberano absoluto e irrevocable, mientras que Locke y Rousseau proponen límites al poder y derecho a la rebelión."
+            },
+            {
+                question: "¿Cuál es la primera ley de naturaleza según Hobbes?",
+                answer: "Buscar la paz y seguirla, mientras exista esperanza de obtenerla; y cuando no se pueda obtener, buscar y usar todas las ayudas y ventajas de la guerra."
+            },
+            {
+                question: "¿Qué significa para Hobbes la 'autorización' del soberano?",
+                answer: "Que los súbditos son autores de todas las acciones del soberano, ya que han transferido sus derechos a través del contrato social."
+            },
+            {
+                question: "¿Cómo concibe Hobbes la propiedad privada?",
+                answer: "Como una institución que solo existe bajo un poder soberano, ya que en el estado de naturaleza no hay propiedad segura."
+            },
+            {
+                question: "¿Qué papel juega la razón en la filosofía de Hobbes?",
+                answer: "La razón permite descubrir las leyes de naturaleza que conducen a la paz y al establecimiento del Estado civil."
+            },
+            {
+                question: "¿Cómo define Hobbes la justicia?",
+                answer: "Como el cumplimiento de los pactos, lo cual solo es posible cuando existe un poder coercitivo que obligue a cumplirlos."
+            },
+            {
+                question: "¿Qué crítica hace Hobbes a la democracia?",
+                answer: "Considera que las asambleas populares son inestables y propensas a la demagogia, prefiriendo la monarquía como forma de gobierno."
+            },
+            {
+                question: "¿Cuál es la relación entre poder y obligación en el pensamiento de Hobbes?",
+                answer: "La obligación política surge del poder del soberano para hacer cumplir las leyes, sin el cual los pactos serían palabras vacías."
+            },
+            {
+                question: "¿Qué entiende Hobbes por 'poder común'?",
+                answer: "El poder soberano instituido mediante el contrato social, que tiene el monopolio de la fuerza para garantizar la seguridad de todos."
+            },
+            {
+                question: "¿Cómo justifica Hobbes la obediencia incluso a un soberano tiránico?",
+                answer: "Argumenta que cualquier gobierno, por malo que sea, es preferible al estado de naturaleza y la guerra de todos contra todos."
+            },
+            {
+                question: "¿Qué papel juegan las pasiones en la filosofía política de Hobbes?",
+                answer: "Las pasiones, especialmente el miedo y el deseo de autopreservación, son el motor que lleva a los hombres a establecer el Estado."
+            },
+            {
+                question: "¿Cómo concibe Hobbes la igualdad natural entre los seres humanos?",
+                answer: "Como una igualdad de capacidades físicas y mentales que permite a cualquiera matar a cualquier otro, generando desconfianza universal."
+            },
+            {
+                question: "¿Qué significa para Hobbes que el soberano está por encima de la ley?",
+                answer: "Que el soberano no está sujeto a las leyes civiles que él mismo promulga, ya que es la fuente de toda ley positiva."
+            },
+            {
+                question: "¿Cómo explica Hobbes la formación de sociedades políticas?",
+                answer: "Como resultado de un cálculo racional donde los individuos prefieren la seguridad bajo un soberano a la libertad peligrosa del estado de naturaleza."
+            },
+            {
+                question: "¿Qué papel juega el lenguaje en la filosofía de Hobbes?",
+                answer: "El lenguaje permite los pactos y el razonamiento que hacen posible el contrato social y el establecimiento del Estado."
+            },
+            {
+                question: "¿Cómo define Hobbes la 'ley civil'?",
+                answer: "Como aquellas reglas que el Estado manda observar a sus súbditos, siendo el soberano la única fuente de legislación."
+            },
+            {
+                question: "¿Qué entiende Hobbes por 'poder absoluto'?",
+                answer: "Un poder soberano que no está sujeto a leyes positivas, no puede ser dividido y no responde ante los súbditos por sus acciones."
+            },
+            {
+                question: "¿Cuál es la principal función del Estado según Hobbes?",
+                answer: "Garantizar la seguridad de los súbditos, protegiéndolos de la violencia interna y externa, lo que justifica su poder absoluto."
+            }
+        ];
+
+        // Variables globales
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let customCards = [];
+        let completedActivities = [];
+        let evaluationQuestions = [
+            {
+                question: "¿Qué representa el 'Leviatán' en la filosofía de Hobbes?",
+                options: [
+                    "Un monstruo mitológico que amenaza a la humanidad",
+                    "El poder soberano absoluto creado mediante el contrato social",
+                    "Una forma de gobierno democrático",
+                    "El estado de naturaleza en su forma más pura"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Cómo describe Hobbes el 'estado de naturaleza'?",
+                options: [
+                    "Como una condición de paz y armonía natural",
+                    "Como una guerra de todos contra todos donde la vida es breve y brutal",
+                    "Como un estado de perfecta libertad e igualdad",
+                    "Como una sociedad organizada bajo leyes naturales"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Cuál es la principal función del Estado según Hobbes?",
+                options: [
+                    "Promover la igualdad económica entre los ciudadanos",
+                    "Garantizar la seguridad y proteger a los súbditos de la violencia",
+                    "Maximizar la libertad individual sin restricciones",
+                    "Implementar la voluntad divina en la tierra"
+                ],
+                correctIndex: 1
+            }
+        ];
+        let currentEvalIndex = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlashcard();
+            updateProgress();
+            loadCustomCards();
+        });
+
+        // Funciones de navegación de tarjetas
+        function updateFlashcard() {
+            const card = hobbesFlashcards[currentCardIndex];
+            document.getElementById('flashcard-question').textContent = card.question;
+            document.getElementById('flashcard-answer').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${hobbesFlashcards.length}`;
+            
+            // Actualizar estado de botones de navegación
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === hobbesFlashcards.length - 1;
+            
+            // Resetear tarjeta a estado no volteado
+            document.getElementById('current-flashcard').classList.remove('flipped');
+            
+            // Si estamos en modo práctica, mostrar evaluación
+            if (currentMode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            } else {
+                hideEvaluation();
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('current-flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < hobbesFlashcards.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        // Funciones de modo de estudio
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Mostrar/ocultar contenedores según el modo
+            if (mode === 'create') {
+                document.getElementById('study-practice-container').style.display = 'none';
+                document.getElementById('create-container').style.display = 'block';
+            } else {
+                document.getElementById('study-practice-container').style.display = 'block';
+                document.getElementById('create-container').style.display = 'none';
+                hideEvaluation();
+            }
+            
+            // Si es modo práctica, mostrar evaluación para la tarjeta actual
+            if (mode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            }
+        }
+
+        // Funciones de autoevaluación
+        function showEvaluation() {
+            if (currentEvalIndex >= evaluationQuestions.length) {
+                currentEvalIndex = 0; // Reiniciar si llegamos al final
+            }
+            
+            const evalQuestion = evaluationQuestions[currentEvalIndex];
+            document.getElementById('eval-question').textContent = evalQuestion.question;
+            
+            const optionsContainer = document.getElementById('eval-options');
+            optionsContainer.innerHTML = '';
+            
+            evalQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'eval-option';
+                optionElement.textContent = option;
+                optionElement.onclick = function() {
+                    // Remover selección previa
+                    document.querySelectorAll('.eval-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                };
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('self-evaluation').style.display = 'block';
+            document.getElementById('eval-feedback').style.display = 'none';
+        }
+
+        function hideEvaluation() {
+            document.getElementById('self-evaluation').style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.eval-option.selected');
+            if (!selectedOption) {
+                alert('Por favor selecciona una opción antes de verificar.');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.eval-option');
+            const selectedIndex = Array.from(options).indexOf(selectedOption);
+            const isCorrect = selectedIndex === evaluationQuestions[currentEvalIndex].correctIndex;
+            
+            const feedback = document.getElementById('eval-feedback');
+            if (isCorrect) {
+                feedback.className = 'submission-feedback submission-success';
+                feedback.innerHTML = '<strong>¡Correcto!</strong> Has comprendido bien este concepto hobbesiano.';
+            } else {
+                feedback.className = 'submission-feedback';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+                feedback.style.border = '1px solid #f5c6cb';
+                feedback.innerHTML = '<strong>Incorrecto.</strong> Revisa este concepto en las tarjetas de estudio.';
+            }
+            
+            feedback.style.display = 'block';
+            currentEvalIndex++;
+        }
+
+        // Funciones para crear tarjetas personalizadas
+        function addNewCard() {
+            const question = document.getElementById('new-question').value.trim();
+            const answer = document.getElementById('new-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Por favor completa tanto la pregunta como la respuesta.');
+                return;
+            }
+            
+            customCards.push({ question, answer });
+            saveCustomCards();
+            updateCustomCardsList();
+            
+            // Limpiar campos
+            document.getElementById('new-question').value = '';
+            document.getElementById('new-answer').value = '';
+            
+            alert('¡Tarjeta personalizada agregada con éxito!');
+        }
+
+        function updateCustomCardsList() {
+            const container = document.getElementById('custom-cards-list');
+            container.innerHTML = '';
+            
+            if (customCards.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Aún no has creado tarjetas personalizadas.</p>';
+                return;
+            }
+            
+            customCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'flashcard';
+                cardElement.style.marginBottom = '1rem';
+                cardElement.style.padding = '1.5rem';
+                cardElement.style.cursor = 'pointer';
+                cardElement.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+                
+                cardElement.innerHTML = `
+                    <div class="flashcard-question">${card.question}</div>
+                    <div class="flashcard-answer">${card.answer}</div>
+                    <button onclick="deleteCustomCard(${index})" style="position: absolute; bottom: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        function deleteCustomCard(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                customCards.splice(index, 1);
+                saveCustomCards();
+                updateCustomCardsList();
+            }
+        }
+
+        function saveCustomCards() {
+            localStorage.setItem('hobbesCustomCards', JSON.stringify(customCards));
+        }
+
+        function loadCustomCards() {
+            const savedCards = localStorage.getItem('hobbesCustomCards');
+            if (savedCards) {
+                customCards = JSON.parse(savedCards);
+                updateCustomCardsList();
+            }
+        }
+
+        // Funciones de actividades
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            
+            if (!response) {
+                alert('Por favor escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            feedback.className = 'submission-feedback submission-success';
+            feedback.innerHTML = '<strong>¡Actividad enviada con éxito!</strong> Tu reflexión ha sido guardada.';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            if (!completedActivities.includes(activityNumber)) {
+                completedActivities.push(activityNumber);
+            }
+            
+            // Verificar si todas las actividades están completadas
+            checkAllActivitiesCompleted();
+        }
+
+        function checkAllActivitiesCompleted() {
+            if (completedActivities.length >= 4) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función de progreso
+        function updateProgress() {
+            const progress = Math.round((currentCardIndex / (hobbesFlashcards.length - 1)) * 100);
+            document.getElementById('flashcards-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress}% completado`;
+        }
+
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('Volviendo al calendario de filósofos...');
+            // En una implementación real, esto redirigiría al calendario
+        }
+    </script>
+</body>
+</html>

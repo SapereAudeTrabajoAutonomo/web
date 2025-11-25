@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Interactiva: Diseña tu Teoría Pluralista</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --pluralist: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .activity-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosophers-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-card {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--pluralist);
+        }
+        
+        .philosopher-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pluralist), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 6px 20px rgba(22, 160, 133, 0.3);
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pluralism-exposition {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--pluralist);
+            backdrop-filter: blur(5px);
+        }
+        
+        .exposition-title {
+            color: var(--pluralist);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .pluralism-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .pluralism-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--pluralist);
+        }
+        
+        .pluralism-card h3 {
+            color: var(--pluralist);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--pluralist);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .reflection-guide {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .theories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .theory-card {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .theory-title {
+            font-weight: bold;
+            color: var(--pluralist);
+            margin-bottom: 0.8rem;
+        }
+        
+        .cases-container {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .case-card {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #1565c0;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--pluralist);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+        }
+        
+        .principle-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .principle-input:focus {
+            outline: none;
+            border-color: var(--pluralist);
+            box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--pluralist), #138d75);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosophers-info {
+                flex-direction: column;
+            }
+            
+            .philosopher-card {
+                min-width: 100%;
+            }
+            
+            .activity-header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .pluralism-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .theories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚛️ Actividad Interactiva: Diseña tu Teoría Pluralista</h1>
+        <p>Basado en las cosmovisiones de Empédocles, Anaxágoras y Demócrito</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="activity-header">
+            <div class="philosophers-info">
+                <div class="philosopher-card">
+                    <div class="philosopher-image">E</div>
+                    <h3>Empédocles</h3>
+                    <p>Filósofo de Agrigento</p>
+                    <p>Teoría de los cuatro elementos</p>
+                </div>
+                <div class="philosopher-card">
+                    <div class="philosopher-image">A</div>
+                    <h3>Anaxágoras</h3>
+                    <p>Filósofo de Clazómenas</p>
+                    <p>Teoría de las homeomerías</p>
+                </div>
+                <div class="philosopher-card">
+                    <div class="philosopher-image">D</div>
+                    <h3>Demócrito</h3>
+                    <p>Filósofo de Abdera</p>
+                    <p>Teoría atomista</p>
+                </div>
+            </div>
+            <div class="duration">Duración estimada: 80 minutos</div>
+        </section>
+        
+        <!-- Exposición sobre el Pluralismo Presocrático -->
+        <section class="pluralism-exposition">
+            <h2 class="exposition-title">El Pluralismo en la Filosofía Presocrática</h2>
+            
+            <div class="pluralism-content">
+                <div class="pluralism-card">
+                    <h3>🌍 Empédocles: Los Cuatro Elementos</h3>
+                    <p>Para Empédocles, la realidad está compuesta por cuatro elementos fundamentales (raíces): tierra, agua, aire y fuego. Estos elementos se combinan y separan mediante dos fuerzas cósmicas: el Amor (atracción) y el Odio (repulsión).</p>
+                    <p>Su famosa frase: "Cuatro son las raíces de todas las cosas" establece el principio de múltiples elementos constitutivos en lugar de un único principio monista.</p>
+                </div>
+                
+                <div class="pluralism-card">
+                    <h3>🧠 Anaxágoras: Las Homeomerías</h3>
+                    <p>Anaxágoras propone que todo está en todo: cada sustancia contiene partes de todas las demás. Las homeomerías son las partículas cualitativamente idénticas que componen la realidad.</p>
+                    <p>Introduce el Nous (Intelecto) como principio ordenador que da forma al caos inicial: "El Intelecto es infinito, autónomo y no está mezclado con cosa alguna".</p>
+                </div>
+                
+                <div class="pluralism-card">
+                    <h3>⚛️ Demócrito: El Atomismo</h3>
+                    <p>Demócrito y Leucipo desarrollan la teoría atomista: la realidad está compuesta de átomos (indivisibles) que se mueven en el vacío. Los átomos difieren en forma, tamaño y posición.</p>
+                    <p>Su principio fundamental: "Sólo hay átomos y vacío; todo lo demás son opiniones" establece una ontología materialista y pluralista radical.</p>
+                </div>
+            </div>
+            
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h3 style="color: var(--pluralist); margin-bottom: 1rem;">La Revolución Pluralista</h3>
+                <p>Los pluralistas presocráticos representan un avance crucial en el pensamiento filosófico: superan el monismo de los primeros filósofos jonios al proponer explicaciones complejas de la realidad basadas en múltiples principios. Esta aproximación sentó las bases para el desarrollo posterior de la ciencia y la filosofía natural.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">1. Reflexiona sobre el pluralismo en la ciencia actual</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre cómo las ideas pluralistas de los presocráticos encuentran eco en las teorías científicas contemporáneas.</p>
+                        
+                        <div class="reflection-guide">
+                            <h4>Preguntas para guiar tu reflexión:</h4>
+                            <ul>
+                                <li>¿Cómo se relaciona el atomismo de Demócrito con la física cuántica actual?</li>
+                                <li>¿Qué paralelismos encuentras entre los cuatro elementos y la tabla periódica?</li>
+                                <li>¿Cómo influye el concepto de "todo está en todo" en la ecología moderna?</li>
+                                <li>¿Qué papel juega el pluralismo explicativo en la ciencia contemporánea?</li>
+                                <li>¿Qué limitaciones tienen las explicaciones pluralistas frente a las unificadoras?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Desarrolla una reflexión crítica sobre la vigencia del pluralismo presocrático en el pensamiento científico actual y las implicaciones filosóficas que se derivan de esta perspectiva.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión sobre el pluralismo en la ciencia actual aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">2. Diseña tu teoría pluralista del universo</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Crea tu propia teoría cosmológica pluralista, inspirándote en los filósofos presocráticos pero incorporando conocimientos modernos.</p>
+                        
+                        <div class="theories-grid">
+                            <div class="theory-card">
+                                <div class="theory-title">Modelo de Empédocles</div>
+                                <p><strong>Elementos:</strong> Tierra, Agua, Aire, Fuego</p>
+                                <p><strong>Fuerzas:</strong> Amor (atracción), Odio (repulsión)</p>
+                                <p><strong>Principio:</strong> Combinación y separación</p>
+                            </div>
+                            
+                            <div class="theory-card">
+                                <div class="theory-title">Modelo de Anaxágoras</div>
+                                <p><strong>Elementos:</strong> Homeomerías infinitas</p>
+                                <p><strong>Fuerzas:</strong> Nous (Intelecto ordenador)</p>
+                                <p><strong>Principio:</strong> "Todo está en todo"</p>
+                            </div>
+                            
+                            <div class="theory-card">
+                                <div class="theory-title">Modelo de Demócrito</div>
+                                <p><strong>Elementos:</strong> Átomos y vacío</p>
+                                <p><strong>Fuerzas:</strong> Movimiento mecánico</p>
+                                <p><strong>Principio:</strong> Necesidad natural</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu teoría pluralista:</h4>
+                    <p>Diseña los componentes fundamentales de tu teoría cosmológica. Define al menos 4 elementos básicos y las fuerzas que gobiernan sus interacciones.</p>
+                    
+                    <input type="text" class="principle-input" id="element-1" placeholder="Primer elemento fundamental...">
+                    <input type="text" class="principle-input" id="element-2" placeholder="Segundo elemento fundamental...">
+                    <input type="text" class="principle-input" id="element-3" placeholder="Tercer elemento fundamental...">
+                    <input type="text" class="principle-input" id="element-4" placeholder="Cuarto elemento fundamental...">
+                    <input type="text" class="principle-input" id="force-1" placeholder="Fuerza principal de interacción...">
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">3. Aplica tu teoría a fenómenos naturales</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza cómo se aplicarían los principios de tu teoría pluralista para explicar diversos fenómenos naturales.</p>
+                        
+                        <div class="cases-container">
+                            <div class="case-card">
+                                <div class="case-title">Fenómeno 1: El Cambio Climático</div>
+                                <p>¿Cómo explicarías el calentamiento global y sus efectos usando los elementos y fuerzas de tu teoría pluralista?</p>
+                            </div>
+                            
+                            <div class="case-card">
+                                <div class="case-title">Fenómeno 2: La Evolución Biológica</div>
+                                <p>¿Cómo se relaciona tu teoría con el proceso de evolución de las especies y la biodiversidad?</p>
+                            </div>
+                            
+                            <div class="case-card">
+                                <div class="case-title">Fenómeno 3: La Conciencia Humana</div>
+                                <p>¿Puede tu teoría explicar la emergencia de la conciencia a partir de elementos materiales?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis de fenómenos:</h4>
+                    <p>Selecciona dos de los fenómenos anteriores y explica cómo los interpretarías desde los principios de tu teoría pluralista.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Fenómeno X: [Tu explicación pluralista]&#10;&#10;Fenómeno Y: [Tu explicación pluralista]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">4. Debate tu teoría con otros</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Comparte tu teoría pluralista con al menos dos personas y reflexiona sobre sus comentarios y objeciones.</p>
+                        
+                        <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Guía para el debate:</h4>
+                            <ul>
+                                <li>Explica claramente los elementos y fuerzas de tu teoría</li>
+                                <li>Presenta ejemplos concretos de su aplicación</li>
+                                <li>Escucha objeciones y preguntas críticas</li>
+                                <li>Compara tu teoría con las de los presocráticos</li>
+                                <li>Identifica fortalezas y debilidades de tu propuesta</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión final:</h4>
+                    <p>Después de debatir tu teoría con otras personas, describe cómo esta experiencia ha enriquecido o modificado tu comprensión del pluralismo filosófico.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Describe tu experiencia de debate y las reflexiones que surgieron..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la actividad interactiva</h3>
+            <div class="progress-bar">
+                <div class="progress" id="pluralism-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el diseño de tu Teoría Pluralista</h3>
+            <p>Has reflexionado profundamente sobre el pluralismo presocrático, diseñado tu propia teoría cosmológica, aplicado sus principios a fenómenos naturales y enriquecido tu perspectiva a través del debate. Continúa explorando estas fascinantes cosmovisiones que sentaron las bases del pensamiento científico.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 2) {
+                const element1 = document.getElementById('element-1').value.trim();
+                const element2 = document.getElementById('element-2').value.trim();
+                const element3 = document.getElementById('element-3').value.trim();
+                const element4 = document.getElementById('element-4').value.trim();
+                const force1 = document.getElementById('force-1').value.trim();
+                
+                if (!element1 || !element2 || !element3 || !element4 || !force1) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa todos los elementos y la fuerza de interacción.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('pluralism-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

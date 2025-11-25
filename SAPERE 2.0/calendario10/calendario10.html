@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario 10 - Filosofía Antigua y Medieval</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para el calendario 10 */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #34495e;
+            --dark: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --glass-bg: rgba(44, 62, 80, 0.25);
+            --glass-border: rgba(44, 62, 80, 0.18);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-primary: #ecf0f1;
+            --text-secondary: #bdc3c7;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 1.5rem;
+            height: calc(100vh - 40px);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        /* Panel de recursos */
+        .resources-panel {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .resource-item {
+            background: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: grab;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .resource-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .resource-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .resource-type {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-summary { background: #e1f5fe; color: #01579b; }
+        .type-guide { background: #e8f5e9; color: #1b5e20; }
+        .type-documentary { background: #f3e5f5; color: #4a148c; }
+        .type-podcast { background: #fff3e0; color: #e65100; }
+        .type-flashcards { background: #e0f2f1; color: #004d40; }
+        .type-quiz { background: #fce4ec; color: #880e4f; }
+        .type-essay { background: #fff8e1; color: #ff6f00; }
+        .type-video { background: #ffebee; color: #c62828; }
+        .type-text { background: #f3e5f5; color: #7b1fa2; }
+        .type-interactive { background: #e0f7fa; color: #006064; }
+        .type-debate { background: #e8eaf6; color: #303f9f; }
+
+        .philosopher-of-month {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Panel del calendario */
+        .calendar-panel {
+            flex: 2;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+
+        .month-nav {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .month-nav:hover {
+            background: var(--primary);
+        }
+
+        .current-month {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: 5px;
+        }
+
+        .day {
+            min-height: 100px;
+            border: 1px solid var(--light);
+            border-radius: 5px;
+            padding: 0.5rem;
+            position: relative;
+            transition: all 0.3s;
+            background-color: var(--bg-secondary);
+        }
+
+        .day:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-content {
+            font-size: 0.8rem;
+        }
+
+        .day.has-resource {
+            background-color: #e8f5e9;
+            border-color: var(--success);
+        }
+
+        .remove-resource {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .day.has-resource:hover .remove-resource {
+            opacity: 1;
+        }
+
+        .scheduled-resource {
+            position: relative;
+            padding-right: 10px;
+        }
+
+        .resource-counter {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: var(--light);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .instructions {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .instructions h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .instructions p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                flex-direction: column;
+            }
+
+            .calendar {
+                grid-template-columns: repeat(7, 1fr);
+                font-size: 0.8rem;
+            }
+
+            .day {
+                min-height: 70px;
+            }
+
+            .remove-resource {
+                opacity: 1;
+            }
+        }
+
+        /* Header para el calendario 10 */
+        .calendar10-header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 300px;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="calendar10-header">
+        <h1>🔄 Calendario 10 - Filosofía Antigua y Medieval</h1>
+        <p>Planifica tu estudio de los filósofos más importantes de la antigüedad y edad media</p>
+        <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <section class="resources-panel">
+            <h2>Recursos Educativos</h2>
+            <div class="philosopher-of-month">
+                <h3>Filósofo del Mes: <span id="current-philosopher">Presocráticos Monistas</span></h3>
+                <div class="progress-bar">
+                    <div class="progress" id="month-progress"></div>
+                </div>
+            </div>
+            
+            <div class="resource-list" id="resource-list">
+                <!-- Los recursos se cargarán dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="resource-counter">
+                <p>Selecciona entre 4 y 5 recursos para estudiar este mes</p>
+                <p id="selected-count">Recursos seleccionados: 0/5</p>
+            </div>
+        </section>
+        
+        <section class="calendar-panel">
+            <div class="month-selector">
+                <button class="month-nav" id="prev-month">← Mes Anterior</button>
+                <h2 class="current-month" id="current-month">Enero 2023</h2>
+                <button class="month-nav" id="next-month">Mes Siguiente →</button>
+            </div>
+            
+            <div class="calendar" id="calendar-grid">
+                <!-- El calendario se generará dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="instructions">
+                <h3>Instrucciones:</h3>
+                <p>1. Arrastra los recursos educativos a los días del calendario para programar tu estudio.</p>
+                <p>2. Cada día solo puede contener un recurso.</p>
+                <p>3. Haz clic en un recurso programado para ver las actividades asociadas.</p>
+                <p>4. Selecciona entre 4 y 5 recursos por mes para crear tu plan de estudio personalizado.</p>
+                <p>5. Pasa el cursor sobre un día con recurso y haz clic en la X para eliminarlo.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ========== ESTADO DEL CALENDARIO 10 ==========
+        const calendario10State = {
+            currentMonth: 0, // Enero (0-indexed)
+            currentYear: 2023,
+            scheduledResources: JSON.parse(localStorage.getItem('scheduledResources10')) || {},
+            theme: localStorage.getItem('calendario10-theme') || 'light'
+        };
+
+        // ========== FILÓSOFOS Y MESES ==========
+      const philosophersByMonth = [
+    { name: "Introducción a la Filosofía", month: 0 },
+    { name: "Presocráticos Monistas", month: 1 },
+    { name: "Presocráticos Pluralistas", month: 2 },
+    { name: "Sócrates", month: 3 },
+    { name: "Platón", month: 4 },
+    { name: "Aristóteles", month: 5 },
+    { name: "Cinicos", month: 6 },
+    { name: "Estoicos", month: 7 },
+    { name: "Introducción a la Filosofía Medieval", month: 8 },
+    { name: "San Agustín", month: 9 },
+    { name: "Santo Tomás", month: 10 },
+    { name: "Papá Noel", month: 11 }
+];
+
+       // ========== RECURSOS EDUCATIVOS POR FILÓSOFO ==========
+const philosopherResources = {
+    "Introducción a la Filosofía": [
+        {
+    id: "intro-1",
+    title: "Resumen: ¿Qué es la Filosofía?",
+    type: "summary",
+    description: "Resumen completo sobre el origen y naturaleza de la filosofía.",
+    duration: "60 min",
+    activities: [
+        "Lee el resumen sobre qué es la filosofía (15 min)",
+        "Explica las ramas de la filosofía (15 min)",
+        "Reflexiona sobre el origen de la filosofía (15 min)",
+        "Analiza la relevancia actual de la filosofía (15 min)"
+    ],
+    externalFile: "introducción-resumen.html"
+},
+        // En la sección de recursos de "Introducción a la Filosofía", modifica el recurso de ensayo:
+// En la sección de recursos de "Introducción a la Filosofía", modifica el recurso de ensayo:
+{
+    id: "intro-2",
+    title: "Guía: Introducción a la Filosofía",
+    type: "guide",
+    description: "Guía interactiva de introducción a la filosofía",
+    duration: "80 min",
+    activities: [
+        "Actividad 1: ¿Qué es la filosofía? (20 min)",
+        "Actividad 2: Ramas principales (25 min)", 
+        "Actividad 3: Origen en Grecia (20 min)",
+        "Actividad 4: Valor contemporáneo (15 min)"
+    ],
+    externalFile: "introducción-guía.html" // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-3",
+    title: "Documental: El Nacimiento de la Filosofía", 
+    type: "documentary",
+    description: "Documental sobre los orígenes de la filosofía en la Grecia antigua.",
+    duration: "80 min", 
+    activities: [
+        "Análisis del documental: Contexto histórico (40 min)",
+        "Las condiciones sociales en Grecia (15 min)",
+        "El papel de la polis (15 min)", 
+        "Reflexión sobre el legado (10 min)"
+    ],
+    externalFile: "introducción-documental.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-4",
+    title: "Podcast: De Pitágoras a Kant",
+    type: "podcast",
+    description: "Un viaje por la historia de la filosofía occidental",
+    duration: "90 min",
+    activities: [
+        "El Paso del Mito al Logos (25 min)",
+        "El Legado de Platón y Aristóteles (20 min)", 
+        "Racionalismo vs. Empirismo (20 min)",
+        "La Revolución Copernicana de Kant (15 min)"
+    ],
+    externalFile: "introducción-podcast.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-5",
+    title: "Tarjetas: Conceptos Filosóficos Básicos", 
+    type: "flashcards",
+    description: "Tarjetas interactivas con los conceptos fundamentales de la filosofía.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre metafísica (25 min)",
+        "Crea tarjetas sobre ética (25 min)", 
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre la aplicación (15 min)"
+    ],
+    externalFile: "introducción-cards.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-6",
+    title: "Cuestionario: Fundamentos Filosóficos",
+    type: "quiz",
+    description: "Cuestionario sobre conceptos básicos de filosofía.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario inicial (25 min)",
+        "Revisa tus respuestas incorrectas (25 min)",
+        "Explica los conceptos difíciles (15 min)",
+        "Analiza tu aprendizaje (15 min)"
+    ],
+    externalFile: "introducción-questions.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-7",
+    title: "Ensayo: Introducción a la Filosofía",
+    type: "essay",
+    description: "Guía para redactar tu primer ensayo filosófico.",
+    duration: "80 min",
+    activities: [
+        "Selecciona un tema filosófico (25 min)",
+        "Desarrolla un esquema argumentativo (20 min)",
+        "Escribe tu ensayo (20 min)",
+        "Revisa y corrige tu escrito (15 min)"
+    ],
+    externalFile: "introducción-essay.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-8",
+    title: "Video-conferencia: El Asombro Filosófico",
+    type: "video",
+    description: "Lección en video sobre el asombro como origen del filosofar.",
+    duration: "80 min",
+    activities: [
+        "Mira la video-lección completa (35 min)",
+        "Toma notas sobre la actitud filosófica (15 min)",
+        "Analiza ejemplos históricos (15 min)",
+        "Reflexiona sobre tu experiencia (15 min)"
+    ],
+    externalFile: "introdución-videoconference.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "intro-fragmentos",
+    title: "Texto Comentado: Fragmentos Filosóficos",
+    type: "text",
+    description: "30 fragmentos sorprendentes de la filosofía con análisis y actividades.",
+    duration: "90 min",
+    activities: [
+        "Lee los 30 fragmentos filosóficos (25 min)",
+        "Analiza 3 fragmentos en profundidad (25 min)", 
+        "Identifica corrientes filosóficas (20 min)",
+        "Crea tus propias reflexiones (20 min)"
+    ],
+    externalFile: "introducción-fragmentos.html"
+},
+        {
+    id: "intro-actividad-interactiva",
+    title: "Actividad Interactiva: Introducción a la Filosofía",
+    type: "interactive",
+    description: "Actividad interactiva para explorar las grandes preguntas filosóficas.",
+    duration: "75 min",
+    activities: [
+        "Reflexiona sobre preguntas filosóficas fundamentales (20 min)",
+        "Explora diferentes corrientes filosóficas (25 min)",
+        "Aplica el pensamiento filosófico a situaciones cotidianas (15 min)",
+        "Desarrolla tu propia postura filosófica (15 min)"
+    ],
+    externalFile: "introducción-activity.html"
+}
+    ],
+    "Presocráticos Monistas": [
+    {
+        id: "presocraticos-resumen-racionalidad",
+        title: "Resumen: La Racionalidad Presocrática",
+        type: "summary",
+        description: "Resumen completo sobre los filósofos presocráticos y sus contribuciones al pensamiento científico.",
+        duration: "80 min",
+        activities: [
+            "Lee el resumen sobre racionalidad presocrática (20 min)",
+            "Compara teorías de los filósofos de Mileto (25 min)",
+            "Analiza la importancia del atomismo (20 min)",
+            "Reflexiona sobre la racionalidad presocrática (15 min)"
+        ],
+        externalFile: "presocráticos-resumen.html"
+    },
+    {
+        id: "presocraticos-guide-tales",
+        title: "Guía: El Agua como Principio",
+        type: "guide",
+        description: "Guía interactiva sobre la teoría de Tales de Mileto del agua como principio fundamental.",
+        duration: "70 min",
+        activities: [
+            "Estudia el contexto histórico de Tales (20 min)",
+            "Analiza los argumentos sobre el agua como arjé (25 min)",
+            "Examina críticas y evolución de la teoría (15 min)",
+            "Reflexiona sobre el legado de Tales (20 min)"
+        ],
+        externalFile: "presocráticos-guide.html"
+    },
+    {
+        id: "presocraticos-documental-anaximenes",
+        title: "Documental: El Aire de Anaxímenes", 
+        type: "documentary",
+        description: "Documental sobre Anaxímenes y su teoría del aire como sustancia primordial.",
+        duration: "80 min", 
+        activities: [
+            "Análisis del documental: El aire como principio (40 min)",
+            "La teoría de la condensación y rarefacción (15 min)",
+            "Comparación con otros monistas (15 min)", 
+            "Reflexión sobre su influencia (10 min)"
+        ],
+        externalFile: "presocráticos-documentary.html"
+    },
+    {
+        id: "presocraticos-podcast-mito-logos",
+        title: "Podcast: Del Mito al Logos - Los Presocráticos",
+        type: "podcast",
+        description: "El nacimiento de la racionalidad occidental y la filosofía",
+        duration: "75 min",
+        activities: [
+            "El paso del mito al logos (25 min)",
+            "La búsqueda del principio originario (15 min)",
+            "Heráclito vs. Parménides (20 min)",
+            "Legado e influencia (15 min)"
+        ],
+        externalFile: "presocráticos-podcast.html"
+    },
+    {
+        id: "presocraticos-cards-monistas",
+        title: "Tarjetas: Presocráticos Monistas", 
+        type: "flashcards",
+        description: "Tarjetas interactivas sobre los filósofos monistas presocráticos.",
+        duration: "80 min",
+        activities: [
+            "Estudia las tarjetas sobre Tales (25 min)",
+            "Crea tarjetas sobre Anaximandro (25 min)", 
+            "Practica con el modo autoevaluación (15 min)",
+            "Reflexiona sobre su legado (15 min)"
+        ],
+        externalFile: "presocráticos-cards.html"
+    },
+    {
+        id: "presocraticos-quiz-monistas",
+        title: "Cuestionario: Monistas Presocráticos",
+        type: "quiz",
+        description: "Cuestionario sobre los filósofos monistas presocráticos.",
+        duration: "80 min",
+        activities: [
+            "Responde el cuestionario sobre monistas (25 min)",
+            "Revisa tus respuestas incorrectas (25 min)",
+            "Explica el concepto de arché (15 min)",
+            "Analiza la importancia histórica (15 min)"
+        ],
+        externalFile: "presocráticos-questions.html"
+    },
+    {
+        id: "presocraticos-essay-mito-logos",
+        title: "Ensayo: El Paso del Mito al Logos",
+        type: "essay",
+        description: "Ensayo sobre la transición del pensamiento mítico al racional en la Antigua Grecia.",
+        duration: "80 min",
+        activities: [
+            "Lee el ensayo sobre el paso del mito al logos (20 min)",
+            "Compara teorías de los filósofos de Mileto (25 min)",
+            "Analiza la importancia del pensamiento racional (20 min)",
+            "Reflexiona sobre la racionalidad presocrática (15 min)"
+        ],
+        externalFile: "presocráticos-essay.html"
+    },
+        {
+            id: "monistas-8",
+            title: "Video-conferencia: Los Primeros Filósofos",
+            type: "video",
+            description: "Lección en video sobre los primeros filósofos y su búsqueda del principio de todas las cosas.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre los conceptos clave (15 min)",
+                "Analiza el contexto histórico (15 min)",
+                "Reflexiona sobre su legado (15 min)"
+            ]
+        },
+        {
+    id: "presocraticos-fragmentos",
+    title: "Texto Comentado: Fragmentos Presocráticos",
+    type: "text",
+    description: "30 fragmentos de los filósofos presocráticos con análisis y actividades.",
+    duration: "75 min",
+    activities: [
+        "Lee los 30 fragmentos seleccionados (20 min)",
+        "Analiza 3 fragmentos en profundidad (20 min)",
+        "Identifica principios cosmológicos (15 min)",
+        "Crea tus propios aforismos (20 min)"
+    ],
+    externalFile: "presocráticos-fragmentos.html"  // ← ESTA LÍNEA ES CLAVE
+},
+        {
+    id: "presocraticos-actividad-interactiva",
+    title: "Actividad Interactiva: El Principio Único de los Monistas Presocráticos",
+    type: "interactive",
+    description: "Actividad para recrear un debate entre filósofos monistas.",
+    duration: "80 min", 
+    activities: [
+        "Prepara argumentos para cada filósofo (25 min)",
+        "Simula un debate entre Tales y Anaximandro (25 min)",
+        "Analiza las diferencias entre sus posturas (15 min)",
+        "Reflexiona sobre la importancia del debate (15 min)"
+    ],
+    externalFile: "presocráticos-activity.html"  // ← ESTA LÍNEA ES CLAVE
+}
+    ],
+    "Presocráticos Pluralistas": [
+        {
+        id: "pluralistas-1",
+        title: "Resumen: Empédocles y Anaxágoras",
+        type: "summary",
+        description: "Resumen completo de los filósofos pluralistas presocráticos.",
+        duration: "80 min",
+        activities: [
+            "Lee el resumen ejecutivo (25 min)",
+            "Analiza la teoría de los cuatro elementos (20 min)",
+            "Explica el Nous de Anaxágoras (15 min)",
+            "Reflexiona sobre el pluralismo filosófico (20 min)"
+        ],
+        externalFile: "presocráticospluralistas-resumen.html"  // ← ESTA LÍNEA ES CLAVE
+    },
+        {
+    id: "pluralistas-2",
+    title: "Guía: Los Cuatro Elementos de Empédocles",
+    type: "guide", 
+    description: "Guía sobre Empédocles y su teoría de los cuatro elementos.",
+    duration: "80 min",
+    activities: [
+        "Estudia los argumentos de Empédocles (25 min)",
+        "Analiza el amor y el odio como fuerzas (20 min)",
+        "Explica la importancia de los cuatro elementos (15 min)",
+        "Reflexiona sobre su influencia (20 min)"
+    ],
+    externalFile: "presocráticospluralistas-guide.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "pluralistas-3",
+    title: "Documental: El Atomismo de Demócrito", 
+    type: "documentary",
+    description: "Documental sobre Demócrito y la teoría atomista.",
+    duration: "80 min", 
+    activities: [
+        "Análisis del documental: Los átomos (40 min)",
+        "El concepto de vacío (15 min)",
+        "Comparación con teorías modernas (15 min)", 
+        "Reflexión sobre su legado (10 min)"
+    ],
+    externalFile: "presocráticospluralistas-documentary.html"
+},
+        {
+    id: "pluralistas-4",
+    title: "Podcast: El Nous de Anaxágoras",
+    type: "podcast",
+    description: "Explorando el concepto de Nous en la filosofía de Anaxágoras", 
+    duration: "80 min",
+    activities: [
+        "La naturaleza del Nous (27 min)",
+        "El papel ordenador (15 min)",
+        "Diferencias con otros principios (15 min)", 
+        "Influencia posterior (10 min)"
+    ],
+    externalFile: "presocráticospluralistas-podcast.html"
+},
+        {
+    id: "pluralistas-5",
+    title: "Tarjetas: Pluralistas Presocráticos", 
+    type: "flashcards",
+    description: "Tarjetas interactivas sobre los filósofos pluralistas.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre Empédocles (25 min)",
+        "Crea tarjetas sobre Anaxágoras (25 min)", 
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre sus contribuciones (15 min)"
+    ],
+    externalFile: "presocráticospluralistas-cards.html"  // ← AÑADE ESTA LÍNEA
+},
+       {
+    id: "pluralistas-6",
+    title: "Cuestionario: Pluralistas Presocráticos",
+    type: "quiz",
+    description: "Cuestionario sobre los filósofos pluralistas presocráticos.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario sobre pluralistas (25 min)",
+        "Revisa tus respuestas incorrectas (25 min)",
+        "Explica la teoría atomista (15 min)",
+        "Analiza la importancia del pluralismo (15 min)"
+    ],
+    externalFile: "presocráticospluralistas-questions.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "pluralistas-7",
+    title: "Ensayo: La Solución al Problema del Cambio",
+    type: "essay",
+    description: "Guía para redactar un ensayo sobre las soluciones pluralistas al problema del cambio.",
+    duration: "80 min",
+    activities: [
+        "Investiga las diferentes soluciones (25 min)",
+        "Desarrolla un esquema comparativo (20 min)",
+        "Explica las ventajas del pluralismo (20 min)",
+        "Revisa y corrige tu escrito (15 min)"
+    ],
+    externalFile: "presocráticospluralistas-essay.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "pluralistas-8",
+    title: "Video-conferencia: La Forma de los Átomos de Demócrito",
+    type: "video", 
+    description: "Lección en video sobre la teoría atómica de Demócrito y las formas de los átomos.",
+    duration: "09 min",
+    activities: [
+        "Mira la video-lección completa (35 min)",
+        "Analiza las formas atómicas (15 min)", 
+        "Contextualiza históricamente (15 min)",
+        "Reflexiona sobre el legado (15 min)"
+    ],
+    externalFile: "presocráticospluralistas-videoconference.html"
+},
+        {
+    id: "pluralistas-9",
+    title: "Texto Comentado: Fragmentos Pluralistas",
+    type: "text",
+    description: "Selección de fragmentos de los filósofos pluralistas.",
+    duration: "80 min",
+    activities: [
+        "Lee los fragmentos seleccionados (25 min)",
+        "Analiza las teorías cosmológicas (20 min)",
+        "Identifica los principios explicativos (15 min)",
+        "Escribe tu propio comentario (20 min)"
+    ],
+    externalFile: "presocráticospluralistas-fragmentos.html"  // ← AÑADE ESTA LÍNEA
+},
+        {
+    id: "pluralistas-10",
+    title: "Actividad Interactiva: Diseña tu Teoría Pluralista",
+    type: "interactive",
+    description: "Actividad para crear una teoría pluralista personal.",
+    duration: "80 min", 
+    activities: [
+        "Diseña tu teoría cosmológica (25 min)",
+        "Explica los elementos y sus interacciones (25 min)",
+        "Compara con teorías históricas (15 min)",
+        "Presenta y defiende tu teoría (15 min)"
+    ],
+    externalFile: "presocráticospluralistas-activity.html"  // ← ESTA LÍNEA ES CLAVE
+}
+    ],
+    "Sócrates": [
+        {
+            id: "socrates-1",
+            title: "Resumen: El Método Socrático",
+            type: "summary",
+            description: "Resumen completo del método socrático y su importancia.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza la mayéutica (20 min)",
+                "Explica la ironía socrática (15 min)",
+                "Reflexiona sobre su legado (20 min)"
+            ]
+        },
+        {
+            id: "socrates-2",
+            title: "Guía: Conócete a Ti Mismo",
+            type: "guide", 
+            description: "Guía sobre el autoconocimiento en la filosofía socrática.",
+            duration: "80 min",
+            activities: [
+                "Estudia el concepto de autoconocimiento (25 min)",
+                "Analiza la importancia ética (20 min)",
+                "Explica la relación conocimiento-virtud (15 min)",
+                "Reflexiona sobre la aplicación práctica (20 min)"
+            ]
+        },
+        {
+            id: "socrates-3",
+            title: "Documental: El Juicio de Sócrates", 
+            type: "documentary",
+            description: "Documental sobre el proceso judicial y muerte de Sócrates.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Los cargos (40 min)",
+                "La defensa socrática (15 min)",
+                "El contexto político (15 min)", 
+                "Reflexión sobre su legado ético (10 min)"
+            ]
+        },
+        {
+            id: "socrates-4",
+            title: "Podcast: La Mayéutica en Acción",
+            type: "podcast",
+            description: "Explorando el método mayéutico a través de diálogos", 
+            duration: "80 min",
+            activities: [
+                "El arte de preguntar (27 min)",
+                "Ejemplos de diálogos socráticos (15 min)",
+                "La importancia del diálogo (15 min)", 
+                "Aplicación educativa (10 min)"
+            ]
+        },
+        {
+            id: "socrates-5",
+            title: "Tarjetas: Conceptos Socráticos", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre la filosofía socrática.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre mayéutica (25 min)",
+                "Crea tarjetas sobre ironía socrática (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la actualidad (15 min)"
+            ]
+        },
+        {
+            id: "socrates-6",
+            title: "Cuestionario: Filosofía Socrática",
+            type: "quiz",
+            description: "Cuestionario sobre Sócrates y su método.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre Sócrates (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la intelectualidad moral (15 min)",
+                "Analiza su influencia en Platón (15 min)"
+            ]
+        },
+        {
+            id: "socrates-7",
+            title: "Ensayo: Sólo Sé que Nada Sé",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la sabiduría socrática.",
+            duration: "80 min",
+            activities: [
+                "Investiga el significado de la frase (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la humildad intelectual (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "socrates-8",
+            title: "Video-conferencia: Ética Socrática",
+            type: "video",
+            description: "Lección en video sobre la ética y virtud en Sócrates.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre virtud y conocimiento (15 min)",
+                "Analiza ejemplos de diálogos (15 min)",
+                "Reflexiona sobre la ética contemporánea (15 min)"
+            ]
+        },
+        {
+            id: "socrates-9",
+            title: "Texto Comentado: Diálogos Socráticos",
+            type: "text",
+            description: "Selección de diálogos platónicos sobre Sócrates.",
+            duration: "80 min",
+            activities: [
+                "Lee los fragmentos seleccionados (25 min)",
+                "Analiza el personaje de Sócrates (20 min)",
+                "Identifica el método dialéctico (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "socrates-10",
+            title: "Actividad Interactiva: Diálogo Socrático",
+            type: "interactive",
+            description: "Actividad para practicar el método socrático.",
+            duration: "80 min", 
+            activities: [
+                "Prepara preguntas mayéuticas (25 min)",
+                "Practica el diálogo con compañeros (25 min)",
+                "Analiza el proceso de descubrimiento (15 min)",
+                "Reflexiona sobre lo aprendido (15 min)"
+            ]
+        }
+    ],
+    "Platón": [
+        {
+            id: "platon-1",
+            title: "Resumen: La Teoría de las Ideas",
+            type: "summary",
+            description: "Resumen completo de la teoría de las ideas de Platón.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza el mundo sensible vs inteligible (20 min)",
+                "Explica la alegoría de la caverna (15 min)",
+                "Reflexiona sobre su influencia (20 min)"
+            ]
+        },
+        {
+            id: "platon-2",
+            title: "Guía: La República Ideal",
+            type: "guide", 
+            description: "Guía sobre la teoría política de Platón en La República.",
+            duration: "80 min",
+            activities: [
+                "Estudia la estructura del estado ideal (25 min)",
+                "Analiza el mito de la caverna (20 min)",
+                "Explica el gobierno de los filósofos (15 min)",
+                "Reflexiona sobre su actualidad (20 min)"
+            ]
+        },
+        {
+            id: "platon-3",
+            title: "Documental: La Academia de Platón", 
+            type: "documentary",
+            description: "Documental sobre la primera institución de educación superior.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Contexto histórico (40 min)",
+                "El método de enseñanza (15 min)",
+                "El curriculum académico (15 min)", 
+                "Reflexión sobre el legado (10 min)"
+            ]
+        },
+        {
+            id: "platon-4",
+            title: "Podcast: El Mito de la Caverna",
+            type: "podcast",
+            description: "Análisis profundo de la alegoría de la caverna", 
+            duration: "80 min",
+            activities: [
+                "Los símbolos de la caverna (27 min)",
+                "El proceso de liberación (15 min)",
+                "Interpretaciones contemporáneas (15 min)", 
+                "Aplicación educativa (10 min)"
+            ]
+        },
+        {
+            id: "platon-5",
+            title: "Tarjetas: Sistema Platónico", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre la filosofía platónica.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre teoría de ideas (25 min)",
+                "Crea tarjetas sobre mitos platónicos (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la influencia (15 min)"
+            ]
+        },
+        {
+            id: "platon-6",
+            title: "Cuestionario: Filosofía Platónica",
+            type: "quiz",
+            description: "Cuestionario sobre Platón y su pensamiento.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre Platón (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la dialéctica platónica (15 min)",
+                "Analiza la teoría del amor (15 min)"
+            ]
+        },
+        {
+            id: "platon-7",
+            title: "Ensayo: La Educación como Liberación",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre el mito de la caverna.",
+            duration: "80 min",
+            activities: [
+                "Investiga interpretaciones del mito (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la educación como proceso (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "platon-8",
+            title: "Video-conferencia: El Amor Platónico",
+            type: "video",
+            description: "Lección en video sobre la teoría del amor en Platón.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre la escalera del amor (15 min)",
+                "Analiza El Banquete (15 min)",
+                "Reflexiona sobre el concepto actual (15 min)"
+            ]
+        },
+        {
+            id: "platon-9",
+            title: "Texto Comentado: Fragmentos de La República",
+            type: "text",
+            description: "Selección de fragmentos de La República con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los fragmentos seleccionados (25 min)",
+                "Analiza la teoría política (20 min)",
+                "Identifica los tipos de gobierno (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "platon-10",
+            title: "Actividad Interactiva: Diseña tu República",
+            type: "interactive",
+            description: "Actividad para crear un estado ideal personal.",
+            duration: "80 min", 
+            activities: [
+                "Diseña los principios de tu república (25 min)",
+                "Explica la estructura de gobierno (25 min)",
+                "Compara con la propuesta platónica (15 min)",
+                "Presenta y defiende tu modelo (15 min)"
+            ]
+        }
+    ],
+    "Aristóteles": [
+        {
+            id: "aristoteles-1",
+            title: "Resumen: La Metafísica Aristotélica",
+            type: "summary",
+            description: "Resumen completo de la metafísica de Aristóteles.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza la teoría de las cuatro causas (20 min)",
+                "Explica el concepto de sustancia (15 min)",
+                "Reflexiona sobre su influencia (20 min)"
+            ]
+        },
+        {
+            id: "aristoteles-2",
+            title: "Guía: Ética a Nicómaco",
+            type: "guide", 
+            description: "Guía sobre la ética aristotélica y la eudaimonia.",
+            duration: "80 min",
+            activities: [
+                "Estudia el concepto de eudaimonia (25 min)",
+                "Analiza la virtud como término medio (20 min)",
+                "Explica las virtudes intelectuales (15 min)",
+                "Reflexiona sobre la felicidad (20 min)"
+            ]
+        },
+        {
+            id: "aristoteles-3",
+            title: "Documental: El Liceo de Aristóteles", 
+            type: "documentary",
+            description: "Documental sobre la escuela peripatética y su método.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Contexto histórico (40 min)",
+                "El método empírico (15 min)",
+                "Las investigaciones naturales (15 min)", 
+                "Reflexión sobre el legado (10 min)"
+            ]
+        },
+        {
+            id: "aristoteles-4",
+            title: "Podcast: Las Categorías del Ser",
+            type: "podcast",
+            description: "Explorando el sistema categorial aristotélico", 
+            duration: "80 min",
+            activities: [
+                "Sustancia y accidentes (27 min)",
+                "El hilemorfismo (15 min)",
+                "Potencia y acto (15 min)", 
+                "Influencia en la lógica (10 min)"
+            ]
+        },
+        {
+            id: "aristoteles-5",
+            title: "Tarjetas: Sistema Aristotélico", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre la filosofía aristotélica.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre las cuatro causas (25 min)",
+                "Crea tarjetas sobre lógica (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la influencia (15 min)"
+            ]
+        },
+        {
+            id: "aristoteles-6",
+            title: "Cuestionario: Filosofía Aristotélica",
+            type: "quiz",
+            description: "Cuestionario sobre Aristóteles y su pensamiento.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre Aristóteles (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica el justo medio (15 min)",
+                "Analiza la crítica a Platón (15 min)"
+            ]
+        },
+        {
+            id: "aristoteles-7",
+            title: "Ensayo: La Felicidad como Fin",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la eudaimonia.",
+            duration: "80 min",
+            activities: [
+                "Investiga el concepto de felicidad (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la vida contemplativa (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "aristoteles-8",
+            title: "Video-conferencia: Poética y Retórica",
+            type: "video",
+            description: "Lección en video sobre las obras literarias de Aristóteles.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre la catarsis (15 min)",
+                "Analiza los elementos de la tragedia (15 min)",
+                "Reflexiona sobre la persuasión (15 min)"
+            ]
+        },
+        {
+            id: "aristoteles-9",
+            title: "Texto Comentado: Fragmentos de Metafísica",
+            type: "text",
+            description: "Selección de fragmentos de la Metafísica con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los fragmentos seleccionados (25 min)",
+                "Analiza el concepto de ser (20 min)",
+                "Identifica la teología (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "aristoteles-10",
+            title: "Actividad Interactiva: Aplica el Término Medio",
+            type: "interactive",
+            description: "Actividad para aplicar la ética aristotélica.",
+            duration: "80 min", 
+            activities: [
+                "Analiza situaciones éticas (25 min)",
+                "Identifica extremos y término medio (25 min)",
+                "Discute casos con compañeros (15 min)",
+                "Reflexiona sobre la práctica virtuosa (15 min)"
+            ]
+        }
+    ],
+    "Cinicos": [
+        {
+            id: "cinicos-1",
+            title: "Resumen: La Filosofía Cínica",
+            type: "summary",
+            description: "Resumen completo de la filosofía cínica y sus representantes.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza el concepto de autarquía (20 min)",
+                "Explica la figura de Diógenes (15 min)",
+                "Reflexiona sobre su actualidad (20 min)"
+            ]
+        },
+        {
+            id: "cinicos-2",
+            title: "Guía: La Autosuficiencia Radical",
+            type: "guide", 
+            description: "Guía sobre el ideal de autosuficiencia en los cínicos.",
+            duration: "80 min",
+            activities: [
+                "Estudia el concepto de autarquía (25 min)",
+                "Analiza el desprecio de convenciones (20 min)",
+                "Explica el cosmopolitismo (15 min)",
+                "Reflexiona sobre la libertad interior (20 min)"
+            ]
+        },
+        {
+            id: "cinicos-3",
+            title: "Documental: Diógenes en su Tinaja", 
+            type: "documentary",
+            description: "Documental sobre la vida y enseñanzas de Diógenes.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Anécdotas (40 min)",
+                "Los actos de provocación (15 min)",
+                "El encuentro con Alejandro (15 min)", 
+                "Reflexión sobre la coherencia (10 min)"
+            ]
+        },
+        {
+            id: "cinicos-4",
+            title: "Podcast: El Cosmopolitismo Cínico",
+            type: "podcast",
+            description: "Explorando el ideal de ciudadano del mundo", 
+            duration: "80 min",
+            activities: [
+                "La crítica a la polis (27 min)",
+                "El concepto de cosmopolita (15 min)",
+                "La libertad como desapego (15 min)", 
+                "Influencia en el estoicismo (10 min)"
+            ]
+        },
+        {
+            id: "cinicos-5",
+            title: "Tarjetas: Filosofía Cínica", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre los cínicos.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre autosuficiencia (25 min)",
+                "Crea tarjetas sobre anécdotas (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la actualidad (15 min)"
+            ]
+        },
+        {
+            id: "cinicos-6",
+            title: "Cuestionario: Escuela Cínica",
+            type: "quiz",
+            description: "Cuestionario sobre los filósofos cínicos.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre cínicos (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la parresía (15 min)",
+                "Analiza la influencia (15 min)"
+            ]
+        },
+        {
+            id: "cinicos-7",
+            title: "Ensayo: La Libertad como Desapego",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la libertad cínica.",
+            duration: "80 min",
+            activities: [
+                "Investiga el concepto de libertad (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica el desprecio de lo material (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "cinicos-8",
+            title: "Video-conferencia: La Provocación como Método",
+            type: "video",
+            description: "Lección en video sobre el método pedagógico cínico.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre actos simbólicos (15 min)",
+                "Analiza la función del escándalo (15 min)",
+                "Reflexiona sobre la educación disruptiva (15 min)"
+            ]
+        },
+        {
+            id: "cinicos-9",
+            title: "Texto Comentado: Dichos de Diógenes",
+            type: "text",
+            description: "Selección de dichos y anécdotas cínico con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los dichos seleccionados (25 min)",
+                "Analiza el estilo paradójico (20 min)",
+                "Identifica las críticas sociales (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "cinicos-10",
+            title: "Actividad Interactiva: Vive como Cínico",
+            type: "interactive",
+            description: "Actividad de experimentación práctica.",
+            duration: "80 min", 
+            activities: [
+                "Diseña un día cínico (25 min)",
+                "Reflexiona sobre las dificultades (25 min)",
+                "Analiza lo aprendido (15 min)",
+                "Comparte la experiencia (15 min)"
+            ]
+        }
+    ],
+    "Estoicos": [
+        {
+            id: "estoicos-1",
+            title: "Resumen: El Estoicismo",
+            type: "summary",
+            description: "Resumen completo de la filosofía estoica.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza el concepto de ataraxia (20 min)",
+                "Explica la figura de Séneca (15 min)",
+                "Reflexiona sobre su actualidad (20 min)"
+            ]
+        },
+        {
+            id: "estoicos-2",
+            title: "Guía: El Control de las Pasiones",
+            type: "guide", 
+            description: "Guía sobre la gestión emocional en el estoicismo.",
+            duration: "80 min",
+            activities: [
+                "Estudia la teoría de las pasiones (25 min)",
+                "Analiza las técnicas de autocontrol (20 min)",
+                "Explica la dicotomía de control (15 min)",
+                "Reflexiona sobre aplicaciones prácticas (20 min)"
+            ]
+        },
+        {
+            id: "estoicos-3",
+            title: "Documental: Estoicismo en la Vida Romana", 
+            type: "documentary",
+            description: "Documental sobre la influencia del estoicismo en Roma.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Contexto histórico (40 min)",
+                "Ejemplos de práctica estoica (15 min)",
+                "La relación poder-filosofía (15 min)", 
+                "Reflexión sobre el legado (10 min)"
+            ]
+        },
+        {
+            id: "estoicos-4",
+            title: "Podcast: Meditaciones de Marco Aurelio",
+            type: "podcast",
+            description: "Explorando las reflexiones del emperador filósofo", 
+            duration: "80 min",
+            activities: [
+                "La reflexión personal (27 min)",
+                "La visión del cosmos (15 min)",
+                "La ética del deber (15 min)", 
+                "Aplicación contemporánea (10 min)"
+            ]
+        },
+        {
+            id: "estoicos-5",
+            title: "Tarjetas: Prácticas Estoicas", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre el estoicismo.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre dicotomía de control (25 min)",
+                "Crea tarjetas sobre ejercicios espirituales (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la resiliencia (15 min)"
+            ]
+        },
+        {
+            id: "estoicos-6",
+            title: "Cuestionario: Filosofía Estoica",
+            type: "quiz",
+            description: "Cuestionario sobre el estoicismo y sus representantes.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre estoicos (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la providencia (15 min)",
+                "Analiza la libertad interior (15 min)"
+            ]
+        },
+        {
+            id: "estoicos-7",
+            title: "Ensayo: La Virtud como Único Bien",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la ética estoica.",
+            duration: "80 min",
+            activities: [
+                "Investiga el concepto de virtud (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la indiferencia (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "estoicos-8",
+            title: "Video-conferencia: Ejercicios Espirituales",
+            type: "video",
+            description: "Lección en video sobre las prácticas estoicas.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre premeditatio malorum (15 min)",
+                "Analiza la visualización negativa (15 min)",
+                "Reflexiona sobre aplicaciones modernas (15 min)"
+            ]
+        },
+        {
+            id: "estoicos-9",
+            title: "Texto Comentado: Cartas a Lucilio",
+            type: "text",
+            description: "Selección de cartas de Séneca con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee las cartas seleccionadas (25 min)",
+                "Analiza los consejos prácticos (20 min)",
+                "Identifica las metáforas (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "estoicos-10",
+            title: "Actividad Interactiva: Diario Estoico",
+            type: "interactive",
+            description: "Actividad para llevar un diario filosófico.",
+            duration: "80 min", 
+            activities: [
+                "Aprende la estructura del diario (25 min)",
+                "Escribe tu primera entrada (25 min)",
+                "Analiza tus respuestas emocionales (15 min)",
+                "Reflexiona sobre el proceso (15 min)"
+            ]
+        }
+    ],
+    "Introducción a la Filosofía Medieval": [
+        {
+            id: "medieval-1",
+            title: "Resumen: Filosofía Medieval",
+            type: "summary",
+            description: "Resumen completo de la filosofía medieval y sus características.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza la relación fe-razón (20 min)",
+                "Explica la escolástica (15 min)",
+                "Reflexiona sobre su legado (20 min)"
+            ]
+        },
+        {
+            id: "medieval-2",
+            title: "Guía: La Síntesis Fe-Razón",
+            type: "guide", 
+            description: "Guía sobre la relación entre filosofía y teología en la Edad Media.",
+            duration: "80 min",
+            activities: [
+                "Estudia el contexto histórico (25 min)",
+                "Analiza el problema de los universales (20 min)",
+                "Explica el método escolástico (15 min)",
+                "Reflexiona sobre la actualidad (20 min)"
+            ]
+        },
+        {
+            id: "medieval-3",
+            title: "Documental: Los Monasterios como Centros de Saber", 
+            type: "documentary",
+            description: "Documental sobre la preservación del conocimiento en monasterios.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Los scriptoria (40 min)",
+                "El trabajo de copistas (15 min)",
+                "Las escuelas monásticas (15 min)", 
+                "Reflexión sobre la labor cultural (10 min)"
+            ]
+        },
+        {
+            id: "medieval-4",
+            title: "Podcast: La Escolástica",
+            type: "podcast",
+            description: "Explorando el método escolástico y sus características", 
+            duration: "80 min",
+            activities: [
+                "Las quaestiones (27 min)",
+                "La disputatio (15 min)",
+                "El papel de las autoridades (15 min)", 
+                "Influencia en las universidades (10 min)"
+            ]
+        },
+        {
+            id: "medieval-5",
+            title: "Tarjetas: Conceptos Medievales", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre filosofía medieval.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre fe y razón (25 min)",
+                "Crea tarjetas sobre problemas filosóficos (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la actualidad (15 min)"
+            ]
+        },
+        {
+            id: "medieval-6",
+            title: "Cuestionario: Filosofía Medieval",
+            type: "quiz",
+            description: "Cuestionario sobre el periodo medieval.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre medieval (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la relación filosofía-teología (15 min)",
+                "Analiza las escuelas principales (15 min)"
+            ]
+        },
+        {
+            id: "medieval-7",
+            title: "Ensayo: Razón y Fe en Diálogo",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la relación fe-razón.",
+            duration: "80 min",
+            activities: [
+                "Investiga las diferentes posturas (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la posibilidad de armonía (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "medieval-8",
+            title: "Video-conferencia: Las Universidades Medievales",
+            type: "video",
+            description: "Lección en video sobre el surgimiento de las universidades.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre el curriculum (15 min)",
+                "Analiza la organización académica (15 min)",
+                "Reflexiona sobre la educación superior (15 min)"
+            ]
+        },
+        {
+            id: "medieval-9",
+            title: "Texto Comentado: Fragmentos Medievales",
+            type: "text",
+            description: "Selección de textos medievales con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los fragmentos seleccionados (25 min)",
+                "Analiza el estilo argumentativo (20 min)",
+                "Identifica las autoridades citadas (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "medieval-10",
+            title: "Actividad Interactiva: Debate Escolástico",
+            type: "interactive",
+            description: "Actividad para practicar el debate medieval.",
+            duration: "80 min", 
+            activities: [
+                "Prepara argumentos pro y contra (25 min)",
+                "Participa en debate estructurado (25 min)",
+                "Analiza la metodología (15 min)",
+                "Reflexiona sobre la dialéctica (15 min)"
+            ]
+        }
+    ],
+    "San Agustín": [
+        {
+            id: "agustin-1",
+            title: "Resumen: La Filosofía de San Agustín",
+            type: "summary",
+            description: "Resumen completo de la filosofía de San Agustín.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza la teoría de la iluminación (20 min)",
+                "Explica el concepto de Ciudad de Dios (15 min)",
+                "Reflexiona sobre su influencia (20 min)"
+            ]
+        },
+        {
+            id: "agustin-2",
+            title: "Guía: Las Confesiones",
+            type: "guide", 
+            description: "Guía sobre la autobiografía espiritual de San Agustín.",
+            duration: "80 min",
+            activities: [
+                "Estudia la estructura de la obra (25 min)",
+                "Analiza el proceso de conversión (20 min)",
+                "Explica el tiempo interior (15 min)",
+                "Reflexiona sobre la introspección (20 min)"
+            ]
+        },
+        {
+            id: "agustin-3",
+            title: "Documental: La Vida de Agustín", 
+            type: "documentary",
+            description: "Documental biográfico sobre San Agustín.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Contexto histórico (40 min)",
+                "La evolución intelectual (15 min)",
+                "El Imperio Romano tardío (15 min)", 
+                "Reflexión sobre el legado (10 min)"
+            ]
+        },
+        {
+            id: "agustin-4",
+            title: "Podcast: El Problema del Mal",
+            type: "podcast",
+            description: "Explorando la solución agustiniana al problema del mal", 
+            duration: "80 min",
+            activities: [
+                "La privatio boni (27 min)",
+                "El libre albedrío (15 min)",
+                "Las críticas a la solución (15 min)", 
+                "Actualidad del problema (10 min)"
+            ]
+        },
+        {
+            id: "agustin-5",
+            title: "Tarjetas: Pensamiento Agustiniano", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre San Agustín.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre gracia (25 min)",
+                "Crea tarjetas sobre el tiempo (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la influencia (15 min)"
+            ]
+        },
+        {
+            id: "agustin-6",
+            title: "Cuestionario: Filosofía Agustiniana",
+            type: "quiz",
+            description: "Cuestionario sobre San Agustín y su pensamiento.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre Agustín (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la iluminación (15 min)",
+                "Analiza la memoria (15 min)"
+            ]
+        },
+        {
+            id: "agustin-7",
+            title: "Ensayo: El Tiempo como Distensión",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la teoría del tiempo.",
+            duration: "80 min",
+            activities: [
+                "Investiga la teoría del tiempo (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica la experiencia temporal (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "agustin-8",
+            title: "Video-conferencia: Gracia y Libertad",
+            type: "video",
+            description: "Lección en video sobre la controversia pelagiana.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre la predestinación (15 min)",
+                "Analiza la controversia (15 min)",
+                "Reflexiona sobre las implicaciones (15 min)"
+            ]
+        },
+        {
+            id: "agustin-9",
+            title: "Texto Comentado: Fragmentos de Las Confesiones",
+            type: "text",
+            description: "Selección de fragmentos autobiográficos con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los fragmentos seleccionados (25 min)",
+                "Analiza la introspección (20 min)",
+                "Identifica momentos clave (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "agustin-10",
+            title: "Actividad Interactiva: Ejercicio de Introspección",
+            type: "interactive",
+            description: "Actividad de reflexión personal agustiniana.",
+            duration: "80 min", 
+            activities: [
+                "Realiza ejercicio de memoria espiritual (25 min)",
+                "Escribe tus confesiones (25 min)",
+                "Analiza patrones de vida (15 min)",
+                "Reflexiona sobre autoconocimiento (15 min)"
+            ]
+        }
+    ],
+    "Santo Tomás": [
+        {
+            id: "tomas-1",
+            title: "Resumen: La Filosofía de Santo Tomás",
+            type: "summary",
+            description: "Resumen completo de la filosofía de Santo Tomás de Aquino.",
+            duration: "80 min",
+            activities: [
+                "Lee el resumen ejecutivo (25 min)",
+                "Analiza las cinco vías (20 min)",
+                "Explica la relación fe-razón (15 min)",
+                "Reflexiona sobre su influencia (20 min)"
+            ]
+        },
+        {
+            id: "tomas-2",
+            title: "Guía: Las Cinco Vías",
+            type: "guide", 
+            description: "Guía sobre las pruebas tomistas de la existencia de Dios.",
+            duration: "80 min",
+            activities: [
+                "Estudia cada una de las vías (25 min)",
+                "Analiza la estructura argumentativa (20 min)",
+                "Explica la cuarta vía (15 min)",
+                "Reflexiona sobre las críticas (20 min)"
+            ]
+        },
+        {
+            id: "tomas-3",
+            title: "Documental: Tomás y las Universidades", 
+            type: "documentary",
+            description: "Documental sobre Santo Tomás en el contexto universitario.",
+            duration: "80 min", 
+            activities: [
+                "Análisis del documental: Contexto académico (40 min)",
+                "El método de enseñanza (15 min)",
+                "Las controversias (15 min)", 
+                "Reflexión sobre el legado (10 min)"
+            ]
+        },
+        {
+            id: "tomas-4",
+            title: "Podcast: La Ley Natural",
+            type: "podcast",
+            description: "Explorando la teoría de la ley natural en Santo Tomás", 
+            duration: "80 min",
+            activities: [
+                "Los tipos de ley (27 min)",
+                "La synderesis (15 min)",
+                "La relación con derechos humanos (15 min)", 
+                "Actualidad de la teoría (10 min)"
+            ]
+        },
+        {
+            id: "tomas-5",
+            title: "Tarjetas: Sistema Tomista", 
+            type: "flashcards",
+            description: "Tarjetas interactivas sobre Santo Tomás.",
+            duration: "80 min",
+            activities: [
+                "Estudia las tarjetas sobre las cinco vías (25 min)",
+                "Crea tarjetas sobre ley natural (25 min)", 
+                "Practica con el modo autoevaluación (15 min)",
+                "Reflexiona sobre la influencia (15 min)"
+            ]
+        },
+        {
+            id: "tomas-6",
+            title: "Cuestionario: Filosofía Tomista",
+            type: "quiz",
+            description: "Cuestionario sobre Santo Tomás y su pensamiento.",
+            duration: "80 min",
+            activities: [
+                "Responde el cuestionario sobre Tomás (25 min)",
+                "Revisa tus respuestas incorrectas (25 min)",
+                "Explica la ley natural (15 min)",
+                "Analiza esencia y existencia (15 min)"
+            ]
+        },
+        {
+            id: "tomas-7",
+            title: "Ensayo: Fe y Razón en Tomás",
+            type: "essay",
+            description: "Guía para redactar un ensayo sobre la relación fe-razón.",
+            duration: "80 min",
+            activities: [
+                "Investiga la armonía fe-razón (25 min)",
+                "Desarrolla un esquema argumentativo (20 min)",
+                "Explica los preámbulos de la fe (20 min)",
+                "Revisa y corrige tu escrito (15 min)"
+            ]
+        },
+        {
+            id: "tomas-8",
+            title: "Video-conferencia: Teoría de la Ley",
+            type: "video",
+            description: "Lección en video sobre la teoría jurídica tomista.",
+            duration: "80 min",
+            activities: [
+                "Mira la video-lección completa (35 min)",
+                "Toma notas sobre los tipos de ley (15 min)",
+                "Analiza la synderesis (15 min)",
+                "Reflexiona sobre derechos humanos (15 min)"
+            ]
+        },
+        {
+            id: "tomas-9",
+            title: "Texto Comentado: Cuestiones Disputadas",
+            type: "text",
+            description: "Selección de textos tomistas con análisis.",
+            duration: "80 min",
+            activities: [
+                "Lee los textos seleccionados (25 min)",
+                "Analiza el método disputativo (20 min)",
+                "Identifica objeciones y respuestas (15 min)",
+                "Escribe tu propio comentario (20 min)"
+            ]
+        },
+        {
+            id: "tomas-10",
+            title: "Actividad Interactiva: Reconstruye una Prueba",
+            type: "interactive",
+            description: "Actividad para reconstruir una vía tomista.",
+            duration: "80 min", 
+            activities: [
+                "Selecciona una de las cinco vías (25 min)",
+                "Reconstruye el argumento paso a paso (25 min)",
+                "Analiza la solidez lógica (15 min)",
+                "Presenta tu reconstrucción (15 min)"
+            ]
+        }
+    ]
+};
+
+        // ========== INICIALIZACIÓN ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCalendario10();
+            setupEventListeners10();
+            renderCalendar10();
+            renderResources10();
+            updateProgress10();
+            updateSelectedCount10();
+        });
+
+        function initializeCalendario10() {
+            // Aplicar tema guardado
+            document.body.setAttribute('data-theme', calendario10State.theme);
+            updateThemeToggleIcon10();
+        }
+
+        function setupEventListeners10() {
+            // Navegación de meses
+            document.getElementById('prev-month').addEventListener('click', previousMonth10);
+            document.getElementById('next-month').addEventListener('click', nextMonth10);
+            
+            // Cambio de tema
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme10);
+        }
+
+        // ========== RENDERIZADO DEL CALENDARIO ==========
+        function renderCalendar10() {
+            const calendar = document.getElementById('calendar-grid');
+            if (!calendar) return;
+            
+            calendar.innerHTML = '';
+            
+            // Encabezados de días
+            const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            daysOfWeek.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = day;
+                calendar.appendChild(dayHeader);
+            });
+            
+            const year = calendario10State.currentYear;
+            const month = calendario10State.currentMonth;
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // Días vacíos al inicio
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day empty';
+                calendar.appendChild(emptyDay);
+            }
+            
+            // Días del mes
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = createDayElement10(year, month, day);
+                calendar.appendChild(dayElement);
+            }
+            
+            // Actualizar mes actual en la UI
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById('current-month').textContent = 
+                `${monthNames[month]} ${year}`;
+            
+            // Actualizar filósofo del mes
+            const currentPhilosopher = getPhilosopherForMonth10(month);
+            document.getElementById('current-philosopher').textContent = currentPhilosopher;
+        }
+
+        function renderResources10() {
+            const resourceList = document.getElementById('resource-list');
+            if (!resourceList) return;
+            
+            resourceList.innerHTML = '';
+            
+            const currentPhilosopher = getPhilosopherForMonth10(calendario10State.currentMonth);
+            const resources = philosopherResources[currentPhilosopher];
+            
+            if (resources) {
+                resources.forEach(resource => {
+                    const resourceElement = createResourceElement10(resource);
+                    resourceList.appendChild(resourceElement);
+                });
+            }
+        }
+
+        // ========== FUNCIONES DE ELEMENTOS ==========
+        function createDayElement10(year, month, day) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'day';
+            const dateKey = `${year}-${month + 1}-${day}`;
+            dayElement.dataset.date = dateKey;
+            
+            const scheduledResourceId = calendario10State.scheduledResources[dateKey];
+            let scheduledResource = null;
+            
+            // Buscar el recurso programado
+            if (scheduledResourceId) {
+                const currentPhilosopher = getPhilosopherForMonth10(month);
+                const resources = philosopherResources[currentPhilosopher];
+                if (resources) {
+                    scheduledResource = resources.find(r => r.id === scheduledResourceId);
+                }
+            }
+            
+            dayElement.innerHTML = `
+                <div class="day-number">${day}</div>
+                <div class="day-content">
+                    ${scheduledResource ? `
+                        <div class="scheduled-resource" data-resource-id="${scheduledResource.id}">
+                            <strong>${scheduledResource.title}</strong>
+                            <button class="remove-resource" title="Eliminar recurso">×</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            if (scheduledResource) {
+                dayElement.classList.add('has-resource');
+            }
+            
+            // Event listeners
+            dayElement.addEventListener('dragover', handleDragOver10);
+            dayElement.addEventListener('drop', handleDrop10);
+            dayElement.addEventListener('click', handleDayClick10);
+            
+            // Agregar evento para eliminar recurso
+            const removeBtn = dayElement.querySelector('.remove-resource');
+            if (removeBtn) {
+                removeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    removeResourceFromDay10(dateKey);
+                });
+            }
+            
+            return dayElement;
+        }
+
+        function createResourceElement10(resource) {
+            const resourceElement = document.createElement('div');
+            resourceElement.className = 'resource-item';
+            resourceElement.draggable = true;
+            resourceElement.dataset.id = resource.id;
+            
+            const typeClass = `type-${resource.type}`;
+            
+            resourceElement.innerHTML = `
+                <div class="resource-type ${typeClass}">${getTypeLabel10(resource.type)}</div>
+                <h3>${resource.title}</h3>
+                <p>${resource.description}</p>
+                <div class="resource-meta">
+                    <span><strong>Duración:</strong> ${resource.duration}</span>
+                </div>
+            `;
+            
+            resourceElement.addEventListener('dragstart', handleDragStart10);
+            return resourceElement;
+        }
+
+        // ========== DRAG AND DROP ==========
+        function handleDragStart10(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragOver10(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDrop10(e) {
+            e.preventDefault();
+            
+            const resourceId = e.dataTransfer.getData('text/plain');
+            const date = e.currentTarget.dataset.date;
+            
+            // Verificar si ya hay un recurso programado para este día
+            if (calendario10State.scheduledResources[date]) {
+                if (!confirm('Este día ya tiene un recurso programado. ¿Deseas reemplazarlo?')) {
+                    return;
+                }
+            }
+            
+            // Obtener el recurso
+            const currentPhilosopher = getPhilosopherForMonth10(calendario10State.currentMonth);
+            const resources = philosopherResources[currentPhilosopher];
+            const resource = resources.find(r => r.id === resourceId);
+            
+            if (resource) {
+                // Programar el recurso
+                calendario10State.scheduledResources[date] = resourceId;
+                localStorage.setItem('scheduledResources10', JSON.stringify(calendario10State.scheduledResources));
+                
+                // Actualizar UI
+                renderCalendar10();
+                updateProgress10();
+                updateSelectedCount10();
+                
+                // Mostrar confirmación
+                showNotification10(`¡Perfecto! Has programado "${resource.title}" para el ${formatDate10(date)}`, 'success');
+            }
+            
+            // Remover clase dragging
+            document.querySelectorAll('.resource-item.dragging').forEach(el => {
+                el.classList.remove('dragging');
+            });
+        }
+
+       function handleDayClick10(e) {
+    const date = e.currentTarget.dataset.date;
+    const resourceId = calendario10State.scheduledResources[date];
+    
+    if (resourceId) {
+        const currentPhilosopher = getPhilosopherForMonth10(calendario10State.currentMonth);
+        const resources = philosopherResources[currentPhilosopher];
+        const resource = resources.find(r => r.id === resourceId);
+        
+        if (resource) {
+            // Si tiene archivo externo definido, abrirlo en nueva pestaña
+            if (resource.externalFile) {
+                // Verificar si el archivo existe antes de abrirlo
+                const link = document.createElement('a');
+                link.href = resource.externalFile;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                
+                // Intentar abrir el archivo
+                link.click();
+                
+                // Opcional: mostrar mensaje si hay error (esto es básico)
+                setTimeout(() => {
+                    // Esta es una verificación básica, en producción necesitarías algo más robusto
+                    console.log(`Intentando abrir: ${resource.externalFile}`);
+                }, 100);
+                
+            } else {
+                // Mostrar actividades en un alert para otros recursos
+                const activitiesText = resource.activities.join('\n• ');
+                alert(`Actividades para: ${resource.title}\n\n• ${activitiesText}`);
+            }
+        }
+    }
+}
+        function removeResourceFromDay10(dateKey) {
+            if (calendario10State.scheduledResources[dateKey]) {
+                if (confirm('¿Estás seguro de que quieres eliminar este recurso del día seleccionado?')) {
+                    delete calendario10State.scheduledResources[dateKey];
+                    localStorage.setItem('scheduledResources10', JSON.stringify(calendario10State.scheduledResources));
+                    
+                    renderCalendar10();
+                    updateProgress10();
+                    updateSelectedCount10();
+                    
+                    showNotification10('Recurso eliminado correctamente', 'info');
+                }
+            }
+        }
+
+        // ========== NAVEGACIÓN DE MESES ==========
+        function previousMonth10() {
+            calendario10State.currentMonth--;
+            if (calendario10State.currentMonth < 0) {
+                calendario10State.currentMonth = 11;
+                calendario10State.currentYear--;
+            }
+            renderCalendar10();
+            renderResources10();
+            updateProgress10();
+            updateSelectedCount10();
+        }
+
+        function nextMonth10() {
+            calendario10State.currentMonth++;
+            if (calendario10State.currentMonth > 11) {
+                calendario10State.currentMonth = 0;
+                calendario10State.currentYear++;
+            }
+            renderCalendar10();
+            renderResources10();
+            updateProgress10();
+            updateSelectedCount10();
+        }
+
+        // ========== FUNCIONES DE UTILIDAD ==========
+        function getPhilosopherForMonth10(month) {
+            const philosopher = philosophersByMonth.find(p => p.month === month);
+            return philosopher ? philosopher.name : "Presocráticos Monistas";
+        }
+
+        function getTypeLabel10(type) {
+            const typeLabels = {
+                'summary': 'Resumen',
+                'guide': 'Guía',
+                'documentary': 'Documental',
+                'podcast': 'Podcast',
+                'flashcards': 'Tarjetas',
+                'quiz': 'Cuestionario',
+                'essay': 'Ensayo',
+                'video': 'Video',
+                'text': 'Texto',
+                'interactive': 'Interactivo',
+                'debate': 'Debate'
+            };
+            return typeLabels[type] || type;
+        }
+
+        function formatDate10(dateString) {
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        function updateProgress10() {
+            const currentMonth = calendario10State.currentMonth;
+            const currentYear = calendario10State.currentYear;
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            let scheduledDays = 0;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+                if (calendario10State.scheduledResources[dateKey]) {
+                    scheduledDays++;
+                }
+            }
+            
+            const progressPercentage = (scheduledDays / daysInMonth) * 100;
+            const progressBar = document.getElementById('month-progress');
+            if (progressBar) {
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+        }
+
+        function updateSelectedCount10() {
+            const currentMonth = calendario10State.currentMonth;
+            const currentYear = calendario10State.currentYear;
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            let scheduledDays = 0;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
+                if (calendario10State.scheduledResources[dateKey]) {
+                    scheduledDays++;
+                }
+            }
+            
+            const countElement = document.getElementById('selected-count');
+            if (countElement) {
+                countElement.textContent = `Recursos seleccionados: ${scheduledDays}/5`;
+                
+                if (scheduledDays < 4) {
+                    countElement.style.color = 'var(--accent)';
+                } else if (scheduledDays <= 5) {
+                    countElement.style.color = 'var(--success)';
+                } else {
+                    countElement.style.color = 'var(--warning)';
+                }
+            }
+        }
+
+        function toggleTheme10() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            calendario10State.theme = newTheme;
+            localStorage.setItem('calendario10-theme', newTheme);
+            
+            updateThemeToggleIcon10();
+        }
+
+        function updateThemeToggleIcon10() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                if (calendario10State.theme === 'light') {
+                    icon.className = 'fas fa-moon';
+                } else {
+                    icon.className = 'fas fa-sun';
+                }
+            }
+        }
+
+        function showNotification10(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.5s ease-out forwards';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

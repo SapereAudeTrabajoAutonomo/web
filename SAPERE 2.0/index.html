@@ -1,0 +1,4569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapere Aude — Plataforma Educativa Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #34495e;
+            --dark: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --glass-bg: rgba(44, 62, 80, 0.25);
+            --glass-border: rgba(44, 62, 80, 0.18);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --text-primary: #ecf0f1;
+            --text-secondary: #bdc3c7;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header personalizado */
+        .header-personalized {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .user-details h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-details p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+       /* Mejoras para el botón de tema */
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Animación suave para el cambio de tema */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos específicos para el tema oscuro */
+[data-theme="dark"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+        /* Navegación principal */
+        .main-nav {
+            display: flex;
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            white-space: nowrap;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: var(--light);
+        }
+
+        .nav-item.active {
+            border-bottom-color: var(--secondary);
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* Secciones */
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active-section {
+            display: block;
+        }
+
+        /* Dashboard principal */
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tarjetas de glassmorphism */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Widget de progreso semanal */
+        .progress-chart {
+            margin-top: 1rem;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            height: 120px;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--secondary), var(--primary));
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            min-height: 10px;
+            transition: height 0.5s ease;
+        }
+
+        .chart-label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Sistema de gamificación */
+        .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .achievement {
+            flex: 1;
+            min-width: 120px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .achievement:hover {
+            transform: scale(1.05);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .achievement.locked {
+            opacity: 0.5;
+        }
+
+        .achievement.locked .achievement-icon {
+            color: var(--text-secondary);
+        }
+
+        /* Motor de recomendaciones */
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .recommendation-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-match {
+            background: var(--success);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+        }
+
+        /* Herramientas colaborativas */
+        .collaborative-tools {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .debate-room {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .debate-room:hover {
+            transform: translateY(-3px);
+        }
+
+        .debate-participants {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .participant {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .join-debate {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .join-debate:hover {
+            background: var(--primary);
+        }
+
+        /* Contenedor principal para el calendario */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        /* Panel de recursos */
+        .resources-panel {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .resource-item {
+            background: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: grab;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .resource-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .resource-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .resource-type {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-summary { background: #e1f5fe; color: #01579b; }
+        .type-guide { background: #e8f5e9; color: #1b5e20; }
+        .type-documentary { background: #f3e5f5; color: #4a148c; }
+        .type-podcast { background: #fff3e0; color: #e65100; }
+        .type-flashcards { background: #e0f2f1; color: #004d40; }
+        .type-quiz { background: #fce4ec; color: #880e4f; }
+        .type-essay { background: #fff8e1; color: #ff6f00; }
+        .type-video { background: #ffebee; color: #c62828; }
+        .type-text { background: #f3e5f5; color: #7b1fa2; }
+        .type-interactive { background: #e0f7fa; color: #006064; }
+        .type-debate { background: #e8eaf6; color: #303f9f; }
+
+        .philosopher-of-month {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Panel del calendario */
+        .calendar-panel {
+            flex: 2;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+
+        .month-nav {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .month-nav:hover {
+            background: var(--primary);
+        }
+
+        .current-month {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: 5px;
+        }
+
+        .day {
+            min-height: 100px;
+            border: 1px solid var(--light);
+            border-radius: 5px;
+            padding: 0.5rem;
+            position: relative;
+            transition: all 0.3s;
+            background-color: var(--bg-secondary);
+        }
+
+        .day:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-content {
+            font-size: 0.8rem;
+        }
+
+        .day.has-resource {
+            background-color: #e8f5e9;
+            border-color: var(--success);
+        }
+
+        .remove-resource {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .day.has-resource:hover .remove-resource {
+            opacity: 1;
+        }
+
+        .scheduled-resource {
+            position: relative;
+            padding-right: 10px;
+        }
+
+        .resource-counter {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: var(--light);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* Gráfico de dominio filosófico */
+        .philosophy-mastery-chart {
+            margin-top: 1rem;
+            position: relative;
+            height: 300px;
+        }
+
+        /* Modales y formularios */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        .activity-form textarea {
+            width: 100%;
+            height: 150px;
+            padding: 0.5rem;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .submit-activity {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .submit-activity:hover {
+            background: #27ae60;
+        }
+
+        /* Test inicial */
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .test-question {
+            margin-bottom: 2rem;
+        }
+
+        .test-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .test-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .test-option {
+            padding: 1rem;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-option:hover {
+            border-color: var(--secondary);
+        }
+
+        .test-option.selected {
+            border-color: var(--secondary);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .test-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .test-navigation button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .test-navigation button:hover:not(:disabled) {
+            background: var(--primary);
+        }
+
+        .test-navigation button:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 300px;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Nuevos componentes */
+        
+        /* Login/Register */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-container {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .auth-tab.active {
+            border-bottom-color: var(--secondary);
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light);
+            border-radius: 5px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .auth-btn:hover {
+            background: var(--primary);
+        }
+        
+        /* Evaluaciones */
+        .evaluation-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .evaluation-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--secondary) 0% 75%, var(--light) 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+        }
+        
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Comunidad mejorada */
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .community-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .community-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .community-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .community-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        /* Biblioteca de recursos */
+        .resource-library {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .library-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .library-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .library-thumbnail {
+            height: 150px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+        
+        .library-content {
+            padding: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .user-info {
+                flex-direction: column;
+            }
+
+            .dashboard {
+                padding: 1rem;
+            }
+
+            .glass-card {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+                flex-direction: column;
+            }
+
+            .calendar {
+                grid-template-columns: repeat(7, 1fr);
+                font-size: 0.8rem;
+            }
+
+            .day {
+                min-height: 70px;
+            }
+
+            .remove-resource {
+                opacity: 1; /* Siempre visible en móvil */
+            }
+
+            .collaborative-tools {
+                grid-template-columns: 1fr;
+            }
+            
+            .community-grid, .resource-library {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Añadir estos estilos en la sección CSS existente */
+
+/* Contenedor principal para el calendario */
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+/* Panel de recursos */
+.resources-panel {
+    flex: 1;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.resource-item {
+    background: var(--light);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: grab;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.resource-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.resource-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.resource-type {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.type-summary { background: #e1f5fe; color: #01579b; }
+.type-guide { background: #e8f5e9; color: #1b5e20; }
+.type-documentary { background: #f3e5f5; color: #4a148c; }
+.type-podcast { background: #fff3e0; color: #e65100; }
+.type-flashcards { background: #e0f2f1; color: #004d40; }
+.type-quiz { background: #fce4ec; color: #880e4f; }
+.type-essay { background: #fff8e1; color: #ff6f00; }
+.type-video { background: #ffebee; color: #c62828; }
+.type-text { background: #f3e5f5; color: #7b1fa2; }
+.type-interactive { background: #e0f7fa; color: #006064; }
+.type-debate { background: #e8eaf6; color: #303f9f; }
+
+.philosopher-of-month {
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Panel del calendario */
+.calendar-panel {
+    flex: 2;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: var(--light);
+    border-radius: 8px;
+}
+
+.month-nav {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.month-nav:hover {
+    background: var(--primary);
+}
+
+.current-month {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.day-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    background-color: var(--light);
+    border-radius: 5px;
+}
+
+.day {
+    min-height: 100px;
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    padding: 0.5rem;
+    position: relative;
+    transition: all 0.3s;
+    background-color: var(--bg-secondary);
+}
+
+.day:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.day-number {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.day-content {
+    font-size: 0.8rem;
+}
+
+.day.has-resource {
+    background-color: #e8f5e9;
+    border-color: var(--success);
+}
+
+.remove-resource {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.day.has-resource:hover .remove-resource {
+    opacity: 1;
+}
+
+.scheduled-resource {
+    position: relative;
+    padding-right: 10px;
+}
+
+.resource-counter {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: var(--light);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--success);
+    width: 0%;
+    transition: width 0.5s;
+}
+
+.instructions {
+    background: var(--light);
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.instructions h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.instructions p {
+    margin-bottom: 0.5rem;
+}
+/* Estilos específicos para la sección de debates */
+#debates .container {
+    height: 100%;
+}
+
+#debates .glass-card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Asegurar que el iframe/object ocupe todo el espacio disponible */
+#debates iframe,
+#debates object {
+    flex: 1;
+    min-height: 500px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Modal de autenticación -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Iniciar Sesión</div>
+                <div class="auth-tab" data-tab="register">Registrarse</div>
+            </div>
+            
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Iniciar Sesión</button>
+            </form>
+            
+            <form class="auth-form" id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Nombre completo</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Contraseña</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirmar contraseña</label>
+                    <input type="password" id="register-confirm" required>
+                </div>
+                <button type="submit" class="auth-btn">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header personalizado -->
+    <header class="header-personalized">
+        <div class="header-content">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h1 id="user-greeting">¡Bienvenido, Estudiante!</h1>
+                    <p id="user-motivation">Continúa tu camino hacia el conocimiento</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">
+    <i class="fas fa-moon"></i>
+</button>
+                <button class="notification-btn" id="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
+                </button>
+                <button class="auth-btn" id="logout-btn" style="display: none;">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+  <!-- Navegación principal -->
+<nav class="main-nav">
+    <div class="nav-item active" data-tab="dashboard">Dashboard</div>
+    <div class="nav-item" data-tab="calendar10">Calendario 10</div>
+    <div class="nav-item" data-tab="calendar">Calendario 11</div>
+    <div class="nav-item" data-tab="debates">Debates</div>
+    <div class="nav-item" data-tab="community">Comunidad</div>
+    <div class="nav-item" data-tab="library">Biblioteca</div>
+    <div class="nav-item" data-tab="evaluations">Evaluaciones</div>
+    <div class="nav-item" data-tab="prueba-icfes">Prueba ICFES</div>
+    <div class="nav-item" data-tab="investigador-junior">Investigador Junior</div>
+    <div class="nav-item" data-tab="analytics">Analíticas</div>
+    <div class="nav-item" data-tab="profile">Perfil</div>
+</nav>
+
+
+    <!-- Dashboard principal -->
+    <section id="dashboard" class="dashboard-section active-section">
+        <div class="dashboard">
+            <!-- Widget de progreso semanal -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Tu Progreso Semanal</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="progress-chart">
+                    <div class="chart-bars" id="weekly-progress-bars">
+                        <!-- Las barras se generarán dinámicamente -->
+                    </div>
+                    <div class="chart-labels" id="weekly-progress-labels">
+                        <!-- Las etiquetas se generarán dinámicamente -->
+                    </div>
+                </div>
+                <p id="weekly-summary">Has completado 3 de 5 recursos esta semana. ¡Sigue así!</p>
+            </div>
+            
+
+
+            <!-- Recomendaciones IA -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Recomendaciones para ti</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                </div>
+                <div class="recommendations" id="ai-recommendations">
+                    <!-- Las recomendaciones se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Sistema de gamificación -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Tus Logros</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                </div>
+                <div class="achievements" id="user-achievements">
+                    <!-- Los logros se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Recordatorios contextuales -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Próximos en tu plan</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div id="contextual-reminders">
+                    <!-- Los recordatorios se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Herramientas colaborativas -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Debates Activos</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="collaborative-tools">
+                    <div class="debate-room">
+                        <h3>¿Existe la verdad absoluta?</h3>
+                        <p>Discusión sobre epistemología y teoría del conocimiento</p>
+                        <div class="debate-participants">
+                            <div class="participant">A</div>
+                            <div class="participant">B</div>
+                            <div class="participant">C</div>
+                            <div class="participant">+5</div>
+                        </div>
+                        <button class="join-debate">Unirse</button>
+                    </div>
+                    <div class="debate-room">
+                        <h3>Ética en la inteligencia artificial</h3>
+                        <p>Debate contemporáneo sobre tecnología y moral</p>
+                        <div class="debate-participants">
+                            <div class="participant">D</div>
+                            <div class="participant">E</div>
+                            <div class="participant">F</div>
+                            <div class="participant">+3</div>
+                        </div>
+                        <button class="join-debate">Unirse</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de dominio filosófico -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Tu Dominio Filosófico</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <div class="philosophy-mastery-chart">
+                    <canvas id="philosophyMasteryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Calendario (completamente integrada) -->
+<section id="calendar" class="dashboard-section">
+    <div class="container">
+        <section class="resources-panel">
+            <h2>Recursos Educativos</h2>
+            <div class="philosopher-of-month">
+                <h3>Filósofo del Mes: <span id="current-philosopher">Descartes</span></h3>
+                <div class="progress-bar">
+                    <div class="progress" id="month-progress"></div>
+                </div>
+            </div>
+            
+            <div class="resource-list" id="resource-list">
+                <!-- Los recursos se cargarán dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="resource-counter">
+                <p>Selecciona entre 4 y 5 recursos para estudiar este mes</p>
+                <p id="selected-count">Recursos seleccionados: 0/5</p>
+            </div>
+        </section>
+        
+        <section class="calendar-panel">
+            <div class="month-selector">
+                <button class="month-nav" id="prev-month">← Mes Anterior</button>
+                <h2 class="current-month" id="current-month">Enero 2023</h2>
+                <button class="month-nav" id="next-month">Mes Siguiente →</button>
+            </div>
+            
+            <div class="calendar" id="calendar-grid">
+                <!-- El calendario se generará dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="instructions">
+                <h3>Instrucciones:</h3>
+                <p>1. Arrastra los recursos educativos a los días del calendario para programar tu estudio.</p>
+                <p>2. Cada día solo puede contener un recurso.</p>
+                <p>3. Haz clic en un recurso programado para ver las actividades asociadas.</p>
+                <p>4. Selecciona entre 4 y 5 recursos por mes para crear tu plan de estudio personalizado.</p>
+                <p>5. Pasa el cursor sobre un día con recurso y haz clic en la X para eliminarlo.</p>
+            </div>
+        </section>
+    </div>
+</section>
+<!-- Sección de Calendario 10 -->
+<section id="calendar10" class="dashboard-section">
+    <div style="width: 100%; height: 100vh;">
+        <iframe 
+            src="calendario10/calendario10.html" 
+            width="100%" 
+            height="100%" 
+            style="border: none;"
+            title="Calendario 10"
+        ></iframe>
+    </div>
+</section>
+
+ <!-- Sección de Debates -->
+<section id="debates" class="dashboard-section">
+    <div class="container">
+        <div class="glass-card" style="padding: 0; overflow: hidden; height: calc(100vh - 200px);">
+            
+            </div>
+            <!-- CONTENIDO EXTERNO MEJORADO -->
+            <iframe 
+                src="debates-filosoficos.html" 
+                width="100%" 
+                height="100%" 
+                style="border: none; display: block;"
+                id="debates-iframe"
+                title="Debates Filosóficos"
+            ></iframe>
+        </div>
+    </div>
+</section>
+    <!-- Sección de Comunidad (mejorada) -->
+    <section id="community" class="dashboard-section">
+        <div class="container">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Comunidad Sapere Aude</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="community-grid" id="community-grid">
+                    <!-- Los miembros de la comunidad se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Biblioteca -->
+    <section id="library" class="dashboard-section">
+        <div class="container">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Biblioteca de Recursos</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                </div>
+                <div class="resource-library" id="resource-library">
+                    <!-- Los recursos de la biblioteca se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Evaluaciones -->
+    <section id="evaluations" class="dashboard-section">
+        <div class="container">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Evaluaciones de Progreso</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                </div>
+                <div class="evaluations-container" id="evaluations-container">
+                    <!-- Las evaluaciones se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Sección de Prueba ICFES -->
+<section id="prueba-icfes" class="dashboard-section">
+    <div style="width: 100%; height: 100vh;">
+        <iframe 
+            src="icfes-prueba.html" 
+            width="100%" 
+            height="100%" 
+            style="border: none;"
+            title="Prueba ICFES - Lectura Crítica y Filosofía"
+        ></iframe>
+    </div>
+</section>
+<!-- Sección de Investigador Junior -->
+<section id="investigador-junior" class="dashboard-section">
+    <div style="width: 100%; height: 100vh;">
+        <iframe 
+            src="investigador-junior.html" 
+            width="100%" 
+            height="100%" 
+            style="border: none;"
+            title="Bitácora de Investigación Filosófica con IA"
+        ></iframe>
+    </div>
+</section>
+
+    <!-- Sección de Analíticas -->
+    <section id="analytics" class="dashboard-section">
+        <div class="container">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Tus Estadísticas de Aprendizaje</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+                <div class="analytics-container" id="analytics-container">
+                    <!-- Las analíticas se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Perfil -->
+    <section id="profile" class="dashboard-section">
+        <div class="container">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2 class="card-title">Tu Perfil de Aprendizaje</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                </div>
+                <div class="profile-container" id="profile-container">
+                    <!-- El perfil se generará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para actividad completada -->
+    <div class="modal" id="activity-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-activity-modal">&times;</span>
+            <h2>Completar Actividad</h2>
+            <div class="activity-form">
+                <p id="activity-description">Has completado: <span id="activity-title"></span></p>
+                <label for="activity-reflections">Reflexiones sobre lo aprendido:</label>
+                <textarea id="activity-reflections" placeholder="Escribe tus reflexiones, ideas clave, preguntas pendientes..."></textarea>
+                <label for="activity-rating">Califica esta actividad:</label>
+                <select id="activity-rating">
+                    <option value="1">1 - Muy difícil / Poco útil</option>
+                    <option value="2">2 - Difícil / Algo útil</option>
+                    <option value="3" selected>3 - Regular</option>
+                    <option value="4">4 - Fácil / Útil</option>
+                    <option value="5">5 - Muy fácil / Muy útil</option>
+                </select>
+                <button class="submit-activity" id="submit-activity">Marcar como Completado</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test inicial de nivel -->
+    <div class="modal" id="initial-test-modal">
+        <div class="modal-content">
+            <h2>Test Inicial de Nivel</h2>
+            <p>Completa este breve test para personalizar tu experiencia de aprendizaje</p>
+            <div class="test-container" id="test-container">
+                <!-- Las preguntas del test se generarán dinámicamente -->
+            </div>
+            <div class="test-navigation">
+                <button id="prev-question" disabled>Anterior</button>
+                <button id="next-question">Siguiente</button>
+                <button id="submit-test" style="display: none;">Finalizar Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para la plataforma
+        const sampleData = {
+            user: {
+                name: "Estudiante Filosófico",
+                level: "Intermedio",
+                points: 1250,
+                streak: 7,
+                joinDate: "2023-01-15"
+            },
+            weeklyProgress: [
+                { day: "Lun", value: 80 },
+                { day: "Mar", value: 60 },
+                { day: "Mié", value: 90 },
+                { day: "Jue", value: 40 },
+                { day: "Vie", value: 70 },
+                { day: "Sáb", value: 30 },
+                { day: "Dom", value: 50 }
+            ],
+            recommendations: [
+                { title: "Introducción al Existencialismo", match: 95, type: "curso", duration: "2h" },
+                { title: "Debate: Libre Albedrío vs Determinismo", match: 88, type: "debate", duration: "1h" },
+                { title: "Guía de Nietzsche: Más allá del Bien y del Mal", match: 82, type: "guía", duration: "45m" }
+            ],
+            achievements: [
+                { id: 1, name: "Primeros Pasos", description: "Completa tu primera actividad", icon: "fas fa-seedling", unlocked: true },
+                { id: 2, name: "Curioso Incansable", description: "Completa 10 recursos diferentes", icon: "fas fa-book-open", unlocked: true },
+                { id: 3, name: "Debatiente Ávido", description: "Participa en 5 debates", icon: "fas fa-comments", unlocked: false },
+                { id: 4, name: "Filósofo Consagrado", description: "Alcanza el nivel Avanzado", icon: "fas fa-graduation-cap", unlocked: false }
+            ],
+            reminders: [
+                { text: "Tienes un debate programado sobre ética a las 18:00", time: "hoy" },
+                { text: "Tu ensayo sobre Kant vence en 3 días", time: "próximamente" }
+            ],
+            philosophyMastery: {
+                labels: ["Ética", "Epistemología", "Metafísica", "Lógica", "Filosofía Política"],
+                data: [75, 60, 45, 80, 55]
+            }
+        };
+
+       // Estado de la aplicación
+let appState = {
+    currentUser: null,
+    currentSection: 'dashboard',
+    currentMonth: new Date().getMonth(),
+    currentYear: new Date().getFullYear(),
+    scheduledResources: JSON.parse(localStorage.getItem('scheduledResources')) || {},
+    completedActivities: JSON.parse(localStorage.getItem('completedActivities')) || [],
+    testAnswers: [],
+    currentQuestion: 0,
+    theme: localStorage.getItem('theme') || 'light',
+    // Variables específicas del calendario
+    currentDate: new Date(),
+    selectedResourcesCount: 0
+};
+        // Datos de filósofos por mes (sin diciembre)
+       const philosophers = [
+    "Hobbes", "Descartes", "Locke", "Hume", "Spinoza", "Rousseau", "Kant", "Hegel",
+    "Marx", "Nietzsche", "Schopenhauer", "Papá Nóel"
+];
+       
+
+/// Mapeo de recursos que deben abrirse en páginas externas
+const externalResources = {
+    "schopenhauer-1": "schopenhauer-summary.html",
+    "schopenhauer-2": "schopenhauer-guide.html", 
+    "schopenhauer-3": "schopenhauer-documentary.html",
+    "schopenhauer-4": "schopenhauer-podcast.html",
+    "schopenhauer-5": "schopenhauer-cards.html",
+    "schopenhauer-6": "schopenhauer-questions.html",
+    "schopenhauer-7": "schopenhauer-essay.html",
+    "schopenhauer-8": "schopenhauer-videoconference.html",
+    "schopenhauer-9": "schopenhauer-aphorisms.html",
+    "schopenhauer-10": "schopenhauer-activity.html",
+    
+    // RECURSOS EXTERNOS PARA NIETZSCHE
+    "nietzsche-1": "nietzsche-summary.html",
+    "nietzsche-2": "nietzsche-guide.html",
+    "nietzsche-3": "nietzsche-documentary.html",
+    "nietzsche-4": "nietzsche-podcast.html",
+    "nietzsche-5": "nietzsche-cards.html",
+    "nietzsche-6": "nietzsche-questions.html",
+    "nietzsche-7": "nietzsche-essay.html",
+    "nietzsche-8": "nietzsche-videoconference.html",
+    "nietzsche-9": "nietzsche-aphorisms.html",
+    "nietzsche-10": "nietzsche-activity.html",
+
+    // RECURSOS EXTERNOS PARA HOBBES
+    "hobbes-summary": "hobbes-summary.html",
+    "hobbes-guide": "hobbes-guide.html",
+    "hobbes-documentary": "hobbes-documentary.html",
+    "hobbes-podcast": "hobbes-podcast.html",
+    "hobbes-cards": "hobbes-cards.html",
+    "hobbes-questions": "hobbes-questions.html",
+    "hobbes-essay": "hobbes-essay.html",
+    "hobbes-videoconference": "hobbes-videoconference.html",
+    "hobbes-aphorisms": "hobbes-aphorisms.html",
+    "hobbes-activity": "hobbes-activity.html",
+
+    // RECURSOS EXTERNOS PARA DESCARTES
+    "descartes-summary": "descartes-summary.html",
+    "descartes-guide": "descartes-guide.html",
+    "descartes-documentary": "descartes-documentary.html",
+    "descartes-podcast": "descartes-podcast.html",
+    "descartes-cards": "descartes-cards.html",
+    "descartes-questions": "descartes-questions.html",
+    "descartes-essay": "descartes-essay.html",
+    "descartes-videoconference": "descartes-videoconference.html",
+    "descartes-aphorisms": "descartes-aphorisms.html",
+    "descartes-activity": "descartes-activity.html",
+
+    // RECURSOS EXTERNOS PARA LOCKE
+"locke-summary": "locke-summary.html",
+"locke-guide": "locke-guide.html",
+"locke-documentary": "locke-documentary.html",
+"locke-podcast": "locke-podcast.html",
+"locke-cards": "locke-cards.html",
+"locke-questions": "locke-questions.html",
+"locke-essay": "locke-essay.html",
+"locke-videoconference": "locke-videoconference.html",
+"locke-aphorisms": "locke-aphorisms.html",
+"locke-activity": "locke-activity.html"
+};
+
+// ========== MANEJO DE CLICS EN EL CALENDARIO ==========
+
+function handleDayClick(e) {
+    const date = e.currentTarget.dataset.date;
+    const resourceId = appState.scheduledResources[date];
+    
+    if (resourceId) {
+        const currentPhilosopher = philosophers[appState.currentMonth];
+        const resources = resourcesByPhilosopher[currentPhilosopher] || [];
+        const resource = resources.find(r => r.id === resourceId);
+        
+        if (resource) {
+            // Verificar si es un recurso externo
+            if (externalResources[resourceId]) {
+                openExternalResource(resourceId, resource.title);
+            } else {
+                // Usar modal interno para otros recursos
+                showActivityModal(resource, date);
+            }
+        }
+    }
+}
+
+// Función auxiliar para abrir recursos externos
+function openExternalResource(resourceId, resourceTitle) {
+    const externalFile = externalResources[resourceId];
+    
+    if (externalFile) {
+        try {
+            const newWindow = window.open(externalFile, '_blank');
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                // El navegador bloqueó la ventana emergente
+                showNotification(
+                    `Para abrir "${resourceTitle}", permite ventanas emergentes en tu navegador`, 
+                    'warning'
+                );
+            }
+        } catch (error) {
+            console.error(`Error al abrir ${externalFile}:`, error);
+            showNotification(
+                `Error al cargar "${resourceTitle}". Inténtalo de nuevo.`, 
+                'error'
+            );
+        }
+    }
+}
+
+ // Recursos educativos completos para todos los filósofos (10 recursos por filósofo)
+        const resourcesByPhilosopher = {
+            "Hobbes": [
+                 {
+        id: "hobbes-summary",  // ← ESTE ES EL ID
+        title: "Resumen: El Leviatán",
+        type: "summary",
+        description: "Análisis de la obra fundamental de Thomas Hobbes sobre el contrato social.",
+        duration: "80 min",
+        activities: [
+            "Lee el resumen del Leviatán (20 min)",
+            "Identifica los 3 conceptos principales de Hobbes (20 min)",
+            "Escribe un párrafo explicando la importancia del contrato social (20 min)",
+            "Reflexiona sobre cómo aplicaría Hobbes su teoría al mundo actual (20 min)"
+        ]
+    },
+                {
+        id: "hobbes-guide",  // ← Este ID debe coincidir con el mapeo
+        title: "Guía: Estado de Naturaleza vs Estado Civil",
+        type: "guide",
+        description: "Guía comparativa entre el estado natural y el estado civil en Hobbes.",
+        duration: "80 min",
+        activities: [
+            "Estudia las características del estado de naturaleza (25 min)",
+            "Compara con las características del estado civil (25 min)",
+            "Analiza por qué Hobbes considera necesario el Leviatán (15 min)",
+            "Reflexiona sobre la visión pesimista de la naturaleza humana (15 min)"
+        ]
+    },
+                {
+    id: "hobbes-documentary",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Documental: Leviatán de Hobbes - Origen del Contrato Social",
+    type: "documentary",
+    description: "Explorando la teoría política del estado de naturaleza y el contrato social.",
+    duration: "80 min",
+    activities: [
+        "Mira el documental completo (45 min)",
+        "Identifica cómo los eventos históricos influyeron en su pensamiento (15 min)",
+        "Analiza la relación entre miedo y poder en Hobbes (10 min)",
+        "Reflexiona sobre la relevancia actual de sus ideas (10 min)"
+    ]
+},
+                {
+    id: "hobbes-podcast",
+    title: "Podcast: El Leviatán y el Estado de Naturaleza",
+    type: "podcast",
+    description: "Análisis en audio del materialismo mecanicista en la filosofía de Hobbes.",
+    duration: "80 min",
+    activities: [
+        "Escucha el podcast completo (40 min)",
+        "Toma notas sobre el concepto de 'cuerpo en movimiento' (15 min)",
+        "Explica cómo aplica Hobbes el materialismo a la política (15 min)",
+        "Compara con otras visiones materialistas (10 min)"
+    ]
+},
+                {
+    id: "hobbes-cards",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Tarjetas: Conceptos Clave de Hobbes",
+    type: "flashcards",
+    description: "Tarjetas interactivas con los conceptos fundamentales del pensamiento hobbesiano.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre contrato social y soberanía (25 min)",
+        "Crea 5 tarjetas propias sobre conceptos hobbesianos (25 min)",
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre la aplicabilidad de estos conceptos hoy (15 min)"
+    ]
+},
+                {
+    id: "hobbes-questions",
+    title: "Cuestionario: Teoría Política de Hobbes", 
+    type: "quiz",
+    description: "Cuestionario interactivo para evaluar la comprensión de la teoría política hobbesiana.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario sobre el Leviatán (25 min)",
+        "Revisa tus respuestas incorrectas y estudia esos conceptos (25 min)",
+        "Explica la diferencia entre poder absoluto y tiránico (15 min)",
+        "Analiza críticas a la teoría hobbesiana (15 min)"
+    ]
+},
+                {
+    id: "hobbes-essay",
+    title: "Ensayo: Hobbes vs Rousseau - Naturaleza Humana y Contrato Social",
+    type: "essay",
+    description: "Análisis comparativo del debate entre Hobbes y Rousseau sobre el estado de naturaleza y el contrato social.",
+    duration: "75 min",
+    activities: [
+        "Compara las visiones del estado de naturaleza (20 min)",
+        "Desarrolla un esquema para tu ensayo comparativo (20 min)",
+        "Analiza críticamente ambas teorías del contrato social (20 min)",
+        "Revisa y mejora tu ensayo comparativo (15 min)"
+    ]
+},
+                {
+    id: "hobbes-videoconference",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Video-Conferencia: Hobbes - El Filósofo del Contrato Social",
+    type: "video",
+    description: "Video-conferencia completa sobre la vida y pensamiento de Thomas Hobbes.",
+    duration: "60 minutos",
+    activities: [
+        "Mira la video-conferencia completa (35 min)",
+        "Toma notas sobre los conceptos fundamentales (15 min)", 
+        "Analiza la teoría del contrato social (15 min)",
+        "Reflexiona sobre la relevancia actual de Hobbes (15 min)"
+    ]
+},
+                {
+    id: "hobbes-aphorisms",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Texto Comentado: Fragmentos del Leviatán",
+    type: "text",
+    description: "Selección de fragmentos clave del Leviatán con comentarios y análisis.",
+    duration: "80 min",
+    activities: [
+        "Lee los fragmentos seleccionados (25 min)",
+        "Analiza los comentarios y explicaciones (20 min)",
+        "Identifica las metáforas utilizadas por Hobbes (15 min)",
+        "Escribe tu propio comentario a un fragmento (20 min)"
+    ]
+},
+                {
+    id: "hobbes-activity",
+    title: "Debate: ¿Es necesario un poder absoluto?",
+    type: "debate", 
+    description: "Actividad de debate sobre la necesidad del poder absoluto en la teoría hobbesiana.",
+    duration: "80 min",
+    activities: [
+        "Prepara argumentos a favor y en contra del poder absoluto (25 min)",
+        "Debate con un compañero o graba tu postura (25 min)", 
+        "Analiza los puntos fuertes y débiles de cada posición (15 min)",
+        "Escribe una conclusión personal sobre el debate (15 min)"
+    ]
+}
+            ],
+            "Descartes": [
+                {
+    id: "descartes-guide",
+    title: "Guía: El Método Cartesiano",
+    type: "guide",
+    description: "Guía completa sobre el método racionalista de Descartes con actividades interactivas.",
+    duration: "80 min",
+    activities: [
+        "Analiza las cuatro reglas del método (25 min)",
+        "Examina la duda metódica (20 min)",
+        "Estudia el cogito cartesiano (15 min)",
+        "Aplica el método a casos concretos (20 min)"
+    ]
+},
+                {
+        id: "descartes-summary",
+        title: "Análisis: Discurso del Método",
+        type: "summary", 
+        description: "Análisis completo del Discurso del Método de Descartes con actividades interactivas.",
+        duration: "75 min",
+        activities: [
+            "Lee el análisis completo (20 min)",
+            "Completa las actividades de reflexión (35 min)", 
+            "Analiza los conceptos clave (20 min)"
+        ]
+    },
+                {
+        id: "descartes-documentary",  // ← ESTE ID DEBE COINCIDIR
+        title: "Documental: La Filosofía de Descartes - El Racionalismo y el Método",
+        type: "documentary",
+        description: "Explorando el pensamiento del padre de la filosofía moderna y el racionalismo.",
+        duration: "45 minutos",
+        activities: [
+            "Mira el documental completo (45 min)",
+            "Analiza los conceptos clave presentados",
+            "Reflexiona sobre la relevancia del racionalismo cartesiano"
+        ]
+    },
+               {
+        id: "descartes-podcast",  // ← ESTE DEBE COINCIDIR
+        title: "Podcast: De la duda radical al cogito ergo sum",
+        type: "podcast",
+        description: "Análisis en audio del método cartesiano y la duda metódica.",
+        duration: "75 min",
+        activities: [
+            "Escucha el podcast completo (40 min)",
+            "Toma notas sobre la duda metódica (15 min)",
+            "Explica el cogito ergo sum (15 min)",
+            "Analiza críticas al racionalismo (10 min)"
+        ]
+    },
+                {
+    id: "descartes-cards",  // ← ESTE DEBE COINCIDIR
+    title: "Tarjetas: Dualismo Cartesiano",
+    type: "flashcards",
+    description: "Tarjetas interactivas sobre la distinción mente-cuerpo en Descartes.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre res cogitans y res extensa (25 min)",
+        "Crea tarjetas sobre el problema mente-cuerpo (25 min)",
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre la vigencia del dualismo (15 min)"
+    ]
+},
+                {
+    id: "descartes-questions",  // ← ID ACTUALIZADO
+    title: "Cuestionario: Racionalismo Cartesiano",
+    type: "quiz",
+    description: "Cuestionario interactivo sobre el racionalismo y método cartesiano.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario sobre Descartes (25 min)",
+        "Revisa tus respuestas incorrectas (25 min)",
+        "Explica la diferencia entre ideas adventicias, facticias e innatas (15 min)",
+        "Analiza la crítica empirista al innatismo (15 min)"
+    ]
+},
+                {
+    id: "descartes-essay",
+    title: "Ensayo: La Duda Metódica",
+    type: "essay",
+    description: "Análisis del método de la duda cartesiano como fundamento del conocimiento cierto.",
+    duration: "80 min",
+    activities: [
+        "Analiza los niveles de la duda metódica (20 min)",
+        "Examina el cogito como primera verdad (20 min)",
+        "Evalúa críticamente la duda metódica (20 min)",
+        "Aplica la duda a problemas contemporáneos (20 min)"
+    ]
+},
+                // En resourcesByPhilosopher.Descartes, asegúrate de tener:
+{
+    id: "descartes-videoconference",  // ← DEBE COINCIDIR EXACTAMENTE
+    title: "Video-Conferencia: Descartes - Las Meditaciones Metafísicas", 
+    type: "video",
+    description: "Video-conferencia completa sobre la vida y pensamiento de René Descartes.",
+    duration: "60 minutos",
+    activities: [
+        "Mira la video-conferencia completa (35 min)",
+        "Toma notas sobre los conceptos fundamentales (15 min)", 
+        "Analiza la teoría del contrato social (15 min)",
+        "Reflexiona sobre la relevancia actual de Descartes (15 min)"
+    ]
+},
+                {
+    id: "descartes-aphorisms",  // ← ESTE DEBE COINCIDIR
+    title: "Texto Comentado: Fragmentos de las Meditaciones Metafísicas",
+    type: "text",
+    description: "Selección de fragmentos de las Meditaciones Metafísicas con análisis.",
+    duration: "80 min",
+    activities: [
+        "Lee los fragmentos seleccionados (25 min)",
+        "Analiza los comentarios y explicaciones (20 min)",
+        "Identifica la estructura argumentativa (15 min)",
+        "Escribe tu propio comentario a un fragmento (20 min)"
+    ]
+},
+                {
+        id: "descartes-activity",  // ← ESTE DEBE COINCIDIR EXACTAMENTE
+        title: "Actividad Interactiva: Descartes y la Modernidad",
+        type: "interactive",
+        description: "Actividad interactiva completa sobre el legado de Descartes en la filosofía moderna.",
+        duration: "80 min",
+        activities: [
+            "Analiza el impacto del 'Cogito' en la modernidad (25 min)",
+            "Debate con el Agente IA de Descartes (25 min)", 
+            "Compara a Descartes con otros modernos (15 min)",
+            "Evalúa el legado cartesiano en el pensamiento actual (15 min)"
+        ]
+    }
+            ],
+            "Hume": [
+                {
+                    id: "hume-1",
+                    title: "Resumen: Tratado de la Naturaleza Humana",
+                    type: "summary",
+                    description: "Resumen analítico de la obra fundamental de David Hume.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen del Tratado (25 min)",
+                        "Identifica la crítica de Hume a la causalidad (20 min)",
+                        "Explica la diferencia entre impresiones e ideas (15 min)",
+                        "Reflexiona sobre el escepticismo humeano (20 min)"
+                    ]
+                },
+                {
+                    id: "hume-2",
+                    title: "Guía: Empirismo y Escepticismo",
+                    type: "guide",
+                    description: "Guía sobre el empirismo radical y el escepticismo moderado de Hume.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia los principios del empirismo humeano (25 min)",
+                        "Analiza la crítica a la metafísica tradicional (20 min)",
+                        "Explica la 'navaja de Hume' (15 min)",
+                        "Reflexiona sobre los límites del conocimiento (20 min)"
+                    ]
+                },
+                {
+                    id: "hume-3",
+                    title: "Documental: Hume y la Ilustración Escocesa",
+                    type: "documentary",
+                    description: "Documental sobre Hume en el contexto de la Ilustración Escocesa.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica la relación con otros ilustrados escoceses (15 min)",
+                        "Analiza la recepción de sus obras (10 min)",
+                        "Reflexiona sobre su influencia en la filosofía posterior (10 min)"
+                    ]
+                },
+                {
+                    id: "hume-4",
+                    title: "Podcast: El Problema de la Inducción",
+                    type: "podcast",
+                    description: "Análisis en audio del problema de la inducción en Hume.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre la crítica a la causalidad (15 min)",
+                        "Explica por qué la inducción no puede justificarse racionalmente (15 min)",
+                        "Analiza intentos de solución al problema (10 min)"
+                    ]
+                },
+                {
+                    id: "hume-5",
+                    title: "Tarjetas: Conceptos del Empirismo",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre los conceptos clave del empirismo humeano.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre impresiones, ideas y hábito (25 min)",
+                        "Crea tarjetas sobre la crítica a la sustancia (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre la vigencia del empirismo (15 min)"
+                    ]
+                },
+                {
+                    id: "hume-6",
+                    title: "Cuestionario: Investigación sobre el Entendimiento Humano",
+                    type: "quiz",
+                    description: "Cuestionario sobre la Investigación sobre el Entendimiento Humano.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Hume (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica la distinción hecho-valor (15 min)",
+                        "Analiza la crítica a los milagros (15 min)"
+                    ]
+                },
+                {
+                    id: "hume-7",
+                    title: "Ensayo: La Crítica a la Causalidad",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre la crítica humeana a la causalidad.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga el concepto de causalidad antes de Hume (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica la crítica humeana y sus implicaciones (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "hume-8",
+                    title: "Video-lección: La Teoría de las Pasiones",
+                    type: "video",
+                    description: "Lección en video sobre la teoría de las pasiones en Hume.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre la relación razón-pasión (15 min)",
+                        "Analiza el papel de la simpatía (15 min)",
+                        "Reflexiona sobre la ética sentimentalista (15 min)"
+                    ]
+                },
+                {
+                    id: "hume-9",
+                    title: "Texto Comentado: Diálogos sobre la Religión Natural",
+                    type: "text",
+                    description: "Selección de fragmentos de los Diálogos con análisis.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee los fragmentos seleccionados (25 min)",
+                        "Analiza los argumentos sobre el diseño (20 min)",
+                        "Identifica la postura de Hume sobre la religión (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "hume-10",
+                    title: "Debate: ¿Es la razón esclava de las pasiones?",
+                    type: "debate",
+                    description: "Debate sobre la famosa tesis humeana acerca de la razón y las pasiones.",
+                    duration: "80 min",
+                    activities: [
+                        "Prepara argumentos a favor y en contra de la tesis (25 min)",
+                        "Debate con un compañero o graba tu postura (25 min)",
+                        "Analiza ejemplos concretos de la vida cotidiana (15 min)",
+                        "Escribe una conclusión personal (15 min)"
+                    ]
+                }
+            ],
+            "Spinoza": [
+                {
+                    id: "spinoza-1",
+                    title: "Resumen: Ética Demostrada según el Orden Geométrico",
+                    type: "summary",
+                    description: "Resumen de la obra principal de Spinoza estructurada como un sistema geométrico.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de la Ética (25 min)",
+                        "Identifica la estructura axiomática de la obra (20 min)",
+                        "Explica el concepto 'Deus sive Natura' (15 min)",
+                        "Reflexiona sobre el determinismo spinozista (20 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-2",
+                    title: "Guía: Panteísmo y Monismo",
+                    type: "guide",
+                    description: "Guía sobre el panteísmo y monismo de sustancia en Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia el concepto de sustancia única (25 min)",
+                        "Analiza los atributos y modos (20 min)",
+                        "Explica la diferencia con el dualismo cartesiano (15 min)",
+                        "Reflexiona sobre las implicaciones religiosas (20 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-3",
+                    title: "Documental: Spinoza y la Comunidad Judía de Ámsterdam",
+                    type: "documentary",
+                    description: "Documental sobre la vida de Spinoza y su excomunión.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica cómo su contexto influyó en su pensamiento (15 min)",
+                        "Analiza el herem (excomunión) que sufrió (10 min)",
+                        "Reflexiona sobre la libertad de pensamiento (10 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-4",
+                    title: "Podcast: La Libertad en Spinoza",
+                    type: "podcast",
+                    description: "Análisis en audio del concepto de libertad en la filosofía de Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre la distinción libertad/libertinaje (15 min)",
+                        "Explica la libertad como conciencia de la necesidad (15 min)",
+                        "Analiza críticas a su concepto de libertad (10 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-5",
+                    title: "Tarjetas: Sistema Filosófico de Spinoza",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre el sistema filosófico de Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre sustancia, atributos y modos (25 min)",
+                        "Crea tarjetas sobre los géneros de conocimiento (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre la coherencia del sistema (15 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-6",
+                    title: "Cuestionario: Tratado Teológico-Político",
+                    type: "quiz",
+                    description: "Cuestionario sobre el Tratado Teológico-Político de Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Spinoza (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica su crítica a la interpretación literal de la Biblia (15 min)",
+                        "Analiza su defensa de la libertad de pensamiento (15 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-7",
+                    title: "Ensayo: El Amor Intellectualis Dei",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre el amor intelectual a Dios.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga el concepto de amor intelectual (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica su relación con la beatitud (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-8",
+                    title: "Video-lección: Los Afectos en Spinoza",
+                    type: "video",
+                    description: "Lección en video sobre la teoría de los afectos en Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre los afectos activos y pasivos (15 min)",
+                        "Analiza la relación afectos-conocimiento (15 min)",
+                        "Reflexiona sobre la terapia filosófica spinozista (15 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-9",
+                    title: "Texto Comentado: Fragmentos de la Ética",
+                    type: "text",
+                    description: "Selección de fragmentos de la Ética con análisis detallado.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee los fragmentos seleccionados (25 min)",
+                        "Analiza las demostraciones geométricas (20 min)",
+                        "Identifica definiciones y axiomas fundamentales (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "spinoza-10",
+                    title: "Actividad Interactiva: Reconstruye una Demostración",
+                    type: "interactive",
+                    description: "Actividad para reconstruir una demostración al estilo geométrico de Spinoza.",
+                    duration: "80 min",
+                    activities: [
+                        "Selecciona una proposición de la Ética (25 min)",
+                        "Reconstruye sus definiciones, axiomas y demostración (25 min)",
+                        "Analiza la validez del argumento (15 min)",
+                        "Presenta tu reconstrucción (15 min)"
+                    ]
+                }
+            ],
+            "Rousseau": [
+                {
+                    id: "rousseau-1",
+                    title: "Resumen: El Contrato Social",
+                    type: "summary",
+                    description: "Resumen de la obra fundamental de Rousseau sobre teoría política.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de El Contrato Social (25 min)",
+                        "Identifica el concepto de voluntad general (20 min)",
+                        "Explica la diferencia con Hobbes y Locke (15 min)",
+                        "Reflexiona sobre la soberanía popular (20 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-2",
+                    title: "Guía: El Buen Salvaje y la Corrupción Social",
+                    type: "guide",
+                    description: "Guía sobre la concepción rousseauniana de la naturaleza humana.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia el concepto de 'buen salvaje' (25 min)",
+                        "Analiza la crítica a la civilización (20 min)",
+                        "Explica el papel de la propiedad privada (15 min)",
+                        "Reflexiona sobre la educación natural (20 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-3",
+                    title: "Documental: Rousseau y la Ilustración",
+                    type: "documentary",
+                    description: "Documental sobre la relación ambivalente de Rousseau con la Ilustración.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica sus puntos de desacuerdo con otros ilustrados (15 min)",
+                        "Analiza su concepto de progreso (10 min)",
+                        "Reflexiona sobre su influencia en el Romanticismo (10 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-4",
+                    title: "Podcast: Emilio o De la Educación",
+                    type: "podcast",
+                    description: "Análisis en audio de la obra educativa fundamental de Rousseau.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre las etapas educativas (15 min)",
+                        "Explica la educación negativa (15 min)",
+                        "Analiza críticas feministas a su teoría educativa (10 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-5",
+                    title: "Tarjetas: Conceptos Políticos de Rousseau",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre los conceptos políticos de Rousseau.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre voluntad general y soberanía (25 min)",
+                        "Crea tarjetas sobre el contrato social (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre democracia directa vs representativa (15 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-6",
+                    title: "Cuestionario: Discurso sobre la Desigualdad",
+                    type: "quiz",
+                    description: "Cuestionario sobre el Discurso sobre el Origen de la Desigualdad.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Rousseau (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica los dos tipos de desigualdad (15 min)",
+                        "Analiza el origen de la desigualdad según Rousseau (15 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-7",
+                    title: "Ensayo: La Voluntad General",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre el concepto de voluntad general.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga el concepto de voluntad general (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica cómo se forma y manifiesta (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-8",
+                    title: "Video-lección: Rousseau y la Revolución Francesa",
+                    type: "video",
+                    description: "Lección en video sobre la influencia de Rousseau en la Revolución Francesa.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre su influencia en Robespierre (15 min)",
+                        "Analiza el concepto de 'religión civil' (15 min)",
+                        "Reflexiona sobre totalitarismo y democracia (15 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-9",
+                    title: "Texto Comentado: Las Confesiones",
+                    type: "text",
+                    description: "Selección de fragmentos de Las Confesiones con análisis.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee los fragmentos seleccionados (25 min)",
+                        "Analiza la introspección psicológica (20 min)",
+                        "Identifica la relación vida-pensamiento (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "rousseau-10",
+                    title: "Debate: ¿Es la propiedad privada el origen de la desigualdad?",
+                    type: "debate",
+                    description: "Debate sobre la tesis rousseauniana acerca de la propiedad privada.",
+                    duration: "80 min",
+                    activities: [
+                        "Prepara argumentos a favor y en contra (25 min)",
+                        "Debate con un compañero o graba tu postura (25 min)",
+                        "Analiza alternativas históricas a la propiedad privada (15 min)",
+                        "Escribe una conclusión personal (15 min)"
+                    ]
+                }
+            ],
+            "Nietzsche": [
+                {
+                    id: "nietzsche-1",
+                    title: "Resumen: Así Habló Zaratustra",
+                    type: "summary",
+                    description: "Resumen de la obra más conocida de Friedrich Nietzsche.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de Zaratustra (25 min)",
+                        "Identifica los conceptos de superhombre y eterno retorno (20 min)",
+                        "Explica la muerte de Dios (15 min)",
+                        "Reflexiona sobre el perspectivismo nietzscheano (20 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-2",
+                    title: "Guía: Genealogía de la Moral",
+                    type: "guide",
+                    description: "Guía sobre la genealogía como método y la crítica a la moral cristiana.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia la distinción moral de señores/moral de esclavos (25 min)",
+                        "Analiza el concepto de resentimiento (20 min)",
+                        "Explica la transvaloración de todos los valores (15 min)",
+                        "Reflexiona sobre la voluntad de poder (20 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-3",
+                    title: "Documental: Nietzsche y la Crisis de la Modernidad",
+                    type: "documentary",
+                    description: "Documental sobre Nietzsche como crítico radical de la modernidad.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica su crítica a la cultura occidental (15 min)",
+                        "Analiza su relación con Wagner (10 min)",
+                        "Reflexiona sobre su influencia en el siglo XX (10 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-4",
+                    title: "Podcast: El Nihilismo y sus Formas",
+                    type: "podcast",
+                    description: "Análisis en audio del nihilismo en la filosofía de Nietzsche.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre el nihilismo pasivo y activo (15 min)",
+                        "Explica cómo superar el nihilismo (15 min)",
+                        "Analiza la relación con la muerte de Dios (10 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-5",
+                    title: "Tarjetas: Conceptos Nietzscheanos",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre los conceptos clave de Nietzsche.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre voluntad de poder y eterno retorno (25 min)",
+                        "Crea tarjetas sobre el superhombre (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre la recepción de Nietzsche (15 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-6",
+                    title: "Cuestionario: Más Allá del Bien y del Mal",
+                    type: "quiz",
+                    description: "Cuestionario sobre Más Allá del Bien y del Mal.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Nietzsche (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica la crítica a la metafísica (15 min)",
+                        "Analiza el concepto de 'espíritu libre' (15 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-7",
+                    title: "Ensayo: La Muerte de Dios",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre la muerte de Dios.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga el contexto del aforismo sobre la muerte de Dios (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica sus implicaciones éticas y metafísicas (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-8",
+                    title: "Video-lección: El Superhombre",
+                    type: "video",
+                    description: "Lección en video sobre el concepto de superhombre.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre las tres transformaciones (15 min)",
+                        "Analiza malinterpretaciones del concepto (15 min)",
+                        "Reflexiona sobre su relevancia contemporánea (15 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-9",
+                    title: "Texto Comentado: El Crepúsculo de los Ídolos",
+                    type: "text",
+                    description: "Selección de fragmentos de El Crepúsculo de los Ídolos.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee los fragmentos seleccionados (25 min)",
+                        "Analiza la crítica a Sócrates y Platón (20 min)",
+                        "Identifica el estilo aforístico (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "nietzsche-10",
+                    title: "Actividad Interactiva: Crea tus Propios Aforismos",
+                    type: "interactive",
+                    description: "Actividad creativa para escribir aforismos al estilo de Nietzsche.",
+                    duration: "80 min",
+                    activities: [
+                        "Analiza ejemplos de aforismos nietzscheanos (25 min)",
+                        "Escribe 3-5 aforismos originales (25 min)",
+                        "Comparte y discute tus creaciones (15 min)",
+                        "Reflexiona sobre el poder del lenguaje fragmentario (15 min)"
+                    ]
+                }
+            ],
+            "Marx": [
+                {
+                    id: "marx-1",
+                    title: "Resumen: El Capital",
+                    type: "summary",
+                    description: "Resumen de la obra magna de Karl Marx sobre economía política.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de El Capital (25 min)",
+                        "Identifica los conceptos de plusvalía y alienación (20 min)",
+                        "Explica la teoría del valor-trabajo (15 min)",
+                        "Reflexiona sobre la crítica al capitalismo (20 min)"
+                    ]
+                },
+                {
+                    id: "marx-2",
+                    title: "Guía: Materialismo Histórico",
+                    type: "guide",
+                    description: "Guía sobre el materialismo histórico como método de análisis.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia la distinción base-superestructura (25 min)",
+                        "Analiza el concepto de lucha de clases (20 min)",
+                        "Explica el materialismo dialéctico (15 min)",
+                        "Reflexiona sobre la sucesión de modos de producción (20 min)"
+                    ]
+                },
+                {
+                    id: "marx-3",
+                    title: "Documental: Marx y el Movimiento Obrero",
+                    type: "documentary",
+                    description: "Documental sobre Marx y su participación en el movimiento obrero.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica el contexto de la Revolución Industrial (15 min)",
+                        "Analiza la Liga de los Comunistas (10 min)",
+                        "Reflexiona sobre la Primera Internacional (10 min)"
+                    ]
+                },
+                {
+                    id: "marx-4",
+                    title: "Podcast: El Manifiesto Comunista",
+                    type: "podcast",
+                    description: "Análisis en audio del Manifiesto del Partido Comunista.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre la historia como lucha de clases (15 min)",
+                        "Explica los 10 puntos del programa comunista (15 min)",
+                        "Analiza la actualidad del Manifiesto (10 min)"
+                    ]
+                },
+                {
+                    id: "marx-5",
+                    title: "Tarjetas: Conceptos del Marxismo",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre los conceptos fundamentales del marxismo.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre alienación y plusvalía (25 min)",
+                        "Crea tarjetas sobre modos de producción (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre variantes del marxismo (15 min)"
+                    ]
+                },
+                {
+                    id: "marx-6",
+                    title: "Cuestionario: Crítica de la Economía Política",
+                    type: "quiz",
+                    description: "Cuestionario sobre la crítica marxista a la economía política.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Marx (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica el fetichismo de la mercancía (15 min)",
+                        "Analiza la ley tendencial de la tasa de ganancia (15 min)"
+                    ]
+                },
+                {
+                    id: "marx-7",
+                    title: "Ensayo: La Alienación en el Capitalismo",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre los tipos de alienación.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga los 4 tipos de alienación (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica ejemplos contemporáneos de alienación (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "marx-8",
+                    title: "Video-lección: Marx y Engels",
+                    type: "video",
+                    description: "Lección en video sobre la colaboración entre Marx y Engels.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre sus obras conjuntas (15 min)",
+                        "Analiza la división del trabajo intelectual (15 min)",
+                        "Reflexiona sobre la importancia de su amistad (15 min)"
+                    ]
+                },
+                {
+                    id: "marx-9",
+                    title: "Texto Comentado: Tesis sobre Feuerbach",
+                    type: "text",
+                    description: "Selección de las Tesis sobre Feuerbach con análisis.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee las Tesis sobre Feuerbach (25 min)",
+                        "Analiza la undécima tesis (20 min)",
+                        "Identifica la crítica al materialismo anterior (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "marx-10",
+                    title: "Debate: ¿Sigue vigente la crítica marxista?",
+                    type: "debate",
+                    description: "Debate sobre la vigencia actual de la crítica marxista al capitalismo.",
+                    duration: "80 min",
+                    activities: [
+                        "Prepara argumentos sobre actualidad/anacronismo (25 min)",
+                        "Debate con un compañero o graba tu postura (25 min)",
+                        "Analiza el capitalismo contemporáneo (15 min)",
+                        "Escribe una conclusión personal (15 min)"
+                    ]
+                }
+            ],
+            "Hegel": [
+                {
+                    id: "hegel-1",
+                    title: "Resumen: Fenomenología del Espíritu",
+                    type: "summary",
+                    description: "Resumen de la obra fundamental de Georg Wilhelm Friedrich Hegel.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de la Fenomenología (25 min)",
+                        "Identifica el concepto de dialéctica (20 min)",
+                        "Explica la conciencia y autoconciencia (15 min)",
+                        "Reflexiona sobre el saber absoluto (20 min)"
+                    ]
+                },
+                {
+                    id: "hegel-2",
+                    title: "Guía: La Dialéctica",
+                    type: "guide",
+                    description: "Guía sobre el método dialéctico: tesis, antítesis y síntesis.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia el movimiento dialéctico (25 min)",
+                        "Analiza ejemplos concretos de dialéctica (20 min)",
+                        "Explica la superación (Aufhebung) (15 min)",
+                        "Reflexiona sobre la totalidad concreta (20 min)"
+                    ]
+                },
+                {
+                    id: "hegel-3",
+                    title: "Documental: Hegel y el Idealismo Alemán",
+                    type: "documentary",
+                    description: "Documental sobre Hegel en el contexto del Idealismo Alemán.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica su relación con Kant, Fichte y Schelling (15 min)",
+                        "Analiza la recepción de su filosofía (10 min)",
+                        "Reflexiona sobre hegelianos de izquierda y derecha (10 min)"
+                    ]
+                },
+                {
+                    id: "hegel-4",
+                    title: "Podcast: La Filosofía de la Historia",
+                    type: "podcast",
+                    description: "Análisis en audio de la filosofía hegeliana de la historia.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre la astucia de la razón (15 min)",
+                        "Explica el desarrollo de la libertad en la historia (15 min)",
+                        "Analiza el Estado como realidad de la idea ética (10 min)"
+                    ]
+                },
+                {
+                    id: "hegel-5",
+                    title: "Tarjetas: Sistema Hegeliano",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre el sistema filosófico de Hegel.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre lógica, naturaleza y espíritu (25 min)",
+                        "Crea tarjetas sobre conceptos dialécticos (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre la sistematicidad (15 min)"
+                    ]
+                },
+                {
+                    id: "hegel-6",
+                    title: "Cuestionario: Fundamentos de la Filosofía del Derecho",
+                    type: "quiz",
+                    description: "Cuestionario sobre los Fundamentos de la Filosofía del Derecho.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Hegel (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica la eticidad (15 min)",
+                        "Analiza la relación individuo-Estado (15 min)"
+                    ]
+                },
+                {
+                    id: "hegel-7",
+                    title: "Ensayo: El Amo y el Esclavo",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre la dialéctica del amo y el esclavo.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga la dialéctica del reconocimiento (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica el papel del trabajo en la autoconciencia (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "hegel-8",
+                    title: "Video-lección: Lo Racional es Real y lo Real es Racional",
+                    type: "video",
+                    description: "Lección en video sobre la famosa frase hegeliana.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre la interpretación de la frase (15 min)",
+                        "Analiza críticas a esta posición (15 min)",
+                        "Reflexiona sobre conservadurismo vs radicalismo (15 min)"
+                    ]
+                },
+                {
+                    id: "hegel-9",
+                    title: "Texto Comentado: Prólogo a la Fenomenología",
+                    type: "text",
+                    description: "Selección del Prólogo a la Fenomenología del Espíritu.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee los fragmentos seleccionados (25 min)",
+                        "Analiza el concepto de 'lo absoluto' (20 min)",
+                        "Identifica el método fenomenológico (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "hegel-10",
+                    title: "Actividad Interactiva: Aplica la Dialéctica",
+                    type: "interactive",
+                    description: "Actividad para aplicar el método dialéctico a un problema actual.",
+                    duration: "80 min",
+                    activities: [
+                        "Selecciona un problema social contemporáneo (25 min)",
+                        "Analízalo mediante el método dialéctico (25 min)",
+                        "Presenta tu análisis (15 min)",
+                        "Reflexiona sobre las limitaciones del método (15 min)"
+                    ]
+                }
+            ],
+            "Kant": [
+                {
+                    id: "kant-1",
+                    title: "Resumen: Crítica de la Razón Pura",
+                    type: "summary",
+                    description: "Resumen de la obra fundamental de Immanuel Kant.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el resumen de la Crítica de la Razón Pura (25 min)",
+                        "Identifica la revolución copernicana (20 min)",
+                        "Explica la distinción fenómeno/noúmeno (15 min)",
+                        "Reflexiona sobre los límites del conocimiento (20 min)"
+                    ]
+                },
+                {
+                    id: "kant-2",
+                    title: "Guía: El Imperativo Categórico",
+                    type: "guide",
+                    description: "Guía sobre la ética kantiana y el imperativo categórico.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las formulaciones del imperativo categórico (25 min)",
+                        "Analiza ejemplos de aplicación (20 min)",
+                        "Explica la autonomía de la voluntad (15 min)",
+                        "Reflexiona sobre el reino de los fines (20 min)"
+                    ]
+                },
+                {
+                    id: "kant-3",
+                    title: "Documental: Kant y la Ilustración",
+                    type: "documentary",
+                    description: "Documental sobre Kant como figura central de la Ilustración.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira el documental completo (45 min)",
+                        "Identifica su concepto de Ilustración (15 min)",
+                        "Analiza su vida en Königsberg (10 min)",
+                        "Reflexiona sobre 'Sapere aude' (10 min)"
+                    ]
+                },
+                {
+                    id: "kant-4",
+                    title: "Podcast: Crítica de la Razón Práctica",
+                    type: "podcast",
+                    description: "Análisis en audio de la Crítica de la Razón Práctica.",
+                    duration: "80 min",
+                    activities: [
+                        "Escucha el podcast completo (40 min)",
+                        "Toma notas sobre el factum de la razón (15 min)",
+                        "Explica los postulados de la razón práctica (15 min)",
+                        "Analiza la primacía de la razón práctica (10 min)"
+                    ]
+                },
+                {
+                    id: "kant-5",
+                    title: "Tarjetas: Conceptos Kantianos",
+                    type: "flashcards",
+                    description: "Tarjetas interactivas sobre los conceptos clave de Kant.",
+                    duration: "80 min",
+                    activities: [
+                        "Estudia las tarjetas sobre a priori/a posteriori (25 min)",
+                        "Crea tarjetas sobre los juicios (25 min)",
+                        "Practica con el modo autoevaluación (15 min)",
+                        "Reflexiona sobre la influencia de Kant (15 min)"
+                    ]
+                },
+                {
+                    id: "kant-6",
+                    title: "Cuestionario: Fundamentación de la Metafísica de las Costumbres",
+                    type: "quiz",
+                    description: "Cuestionario sobre la Fundamentación de la Metafísica de las Costumbres.",
+                    duration: "80 min",
+                    activities: [
+                        "Responde el cuestionario sobre Kant (25 min)",
+                        "Revisa tus respuestas incorrectas (25 min)",
+                        "Explica la buena voluntad (15 min)",
+                        "Analiza el deber por el deber (15 min)"
+                    ]
+                },
+                {
+                    id: "kant-7",
+                    title: "Ensayo: La Paz Perpetua",
+                    type: "essay",
+                    description: "Guía para redactar un ensayo sobre el proyecto de paz perpetua.",
+                    duration: "80 min",
+                    activities: [
+                        "Investiga los artículos definitivos para la paz (25 min)",
+                        "Desarrolla un esquema para tu ensayo (20 min)",
+                        "Explica la federación de estados libres (20 min)",
+                        "Revisa y corrige tu escrito (15 min)"
+                    ]
+                },
+                {
+                    id: "kant-8",
+                    title: "Video-lección: Lo Trascendental en Kant",
+                    type: "video",
+                    description: "Lección en video sobre el giro trascendental en Kant.",
+                    duration: "80 min",
+                    activities: [
+                        "Mira la video-lección completa (35 min)",
+                        "Toma notas sobre las condiciones de posibilidad (15 min)",
+                        "Analiza las categorías del entendimiento (15 min)",
+                        "Reflexiona sobre idealismo trascendental (15 min)"
+                    ]
+                },
+                {
+                    id: "kant-9",
+                    title: "Texto Comentado: ¿Qué es la Ilustración?",
+                    type: "text",
+                    description: "Selección del ensayo ¿Qué es la Ilustración? con análisis.",
+                    duration: "80 min",
+                    activities: [
+                        "Lee el ensayo completo (25 min)",
+                        "Analiza el concepto de minoría de edad (20 min)",
+                        "Identifica los obstáculos a la Ilustración (15 min)",
+                        "Escribe tu propio comentario (20 min)"
+                    ]
+                },
+                {
+                    id: "kant-10",
+                    title: "Debate: ¿Es universalizable la moral kantiana?",
+                    type: "debate",
+                    description: "Debate sobre la universalidad de la ética kantiana.",
+                    duration: "80 min",
+                    activities: [
+                        "Prepara argumentos sobre universalidad/relativismo (25 min)",
+                        "Debate con un compañero o graba tu postura (25 min)",
+                        "Analiza críticas culturales a Kant (15 min)",
+                        "Escribe una conclusión personal (15 min)"
+                    ]
+                }
+            ],
+            "Schopenhauer": [
+    {
+        id: "schopenhauer-1",
+        title: "Resumen: El Mundo como Voluntad y Representación",
+        type: "summary",
+        description: "Resumen completo de la obra fundamental de Schopenhauer con actividades interactivas.",
+        duration: "80 min",
+        activities: [
+            "Lee el resumen ejecutivo (25 min)",
+            "Analiza voluntad vs representación (20 min)",
+            "Explica el pesimismo filosófico (15 min)",
+            "Reflexiona sobre vías de liberación (20 min)"
+        ]
+    },
+    {
+        id: "schopenhauer-2",
+        title: "Guía: El Pesimismo Filosófico",
+        type: "guide", 
+        description: "Guía sobre el pesimismo como posición filosófica en Schopenhauer.",
+        duration: "80 min",
+        activities: [
+            "Estudia los argumentos del pesimismo (25 min)",
+            "Analiza el sufrimiento como esencia de la vida (20 min)",
+            "Explica la negación de la voluntad de vivir (15 min)",
+            "Reflexiona sobre la compasión como fundamento moral (20 min)"
+        ]
+    },
+    {
+        id: "schopenhauer-3",
+        title: "Documental: El Arte de Tener la Razón", 
+        type: "documentary",
+        description: "Documental sobre las estrategias dialécticas de Schopenhauer y su crítica a Hegel.",
+        duration: "80 min", 
+        activities: [
+            "Análisis del documental: Estrategias dialécticas (77 min)",
+            "La crítica schopenhaueriana a Hegel (15 min)",
+            "Schopenhauer y el Romanticismo alemán (10 min)", 
+            "La misantropía schopenhaueriana (10 min)"
+        ]
+    },
+    {
+        id: "schopenhauer-4",
+        title: "Podcast: La Voluntad Ciega y las Vías de Escape",
+        type: "podcast",
+        description: "Explorando el arte y la compasión en la filosofía de Schopenhauer", 
+        duration: "80 min",
+        activities: [
+            "La naturaleza de la Voluntad ciega (27 min)",
+            "El arte como contemplación liberadora (15 min)",
+            "La compasión como fundamento ético (15 min)", 
+            "Vías de escape y vida contemporánea (10 min)"
+        ]
+    },
+    // ... los otros recursos de Schopenhauer continúan aquí
+
+               // En resourcesByPhilosopher.Schopenhauer
+{
+    id: "schopenhauer-5",
+    title: "Tarjetas: Sistema Schopenhaueriano", 
+    type: "flashcards",
+    description: "Tarjetas interactivas sobre el sistema de Schopenhauer.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre voluntad y representación (25 min)",
+        "Crea tarjetas sobre el arte como vía de escape (25 min)", 
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre actualidad del pesimismo (15 min)"
+    ]
+},
+                {
+    id: "schopenhauer-6",
+    title: "Cuestionario: Los Dos Fundamentos de la Moral",
+    type: "quiz",
+    description: "Cuestionario sobre Los Dos Fundamentos de la Moral.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario sobre Schopenhauer (25 min)",
+        "Revisa tus respuestas incorrectas (25 min)",
+        "Explica la compasión como fundamento moral (15 min)",
+        "Analiza la crítica a Kant (15 min)"
+    ]
+},
+                {
+    id: "schopenhauer-7",
+    title: "Ensayo: El Arte como Liberación",
+    type: "essay",
+    description: "Guía para redactar un ensayo sobre la teoría del arte en Schopenhauer.",
+    duration: "80 min",
+    activities: [
+        "Investiga la concepción schopenhaueriana del arte (25 min)",
+        "Desarrolla un esquema para tu ensayo (20 min)",
+        "Explica la música como expresión directa de la voluntad (20 min)",
+        "Revisa y corrige tu escrito (15 min)"
+    ]
+},
+                {
+    id: "schopenhauer-8",
+    title: "Video-conferencia: Schopenhauer",
+    type: "video",
+    description: "Lección en video sobre la controvertida visión de Schopenhauer sobre las mujeres.",
+    duration: "80 min",
+    activities: [
+        "Mira la video-lección completa (35 min)",
+        "Toma notas sobre sus afirmaciones misóginas (15 min)",
+        "Analiza el contexto histórico (15 min)",
+        "Reflexiona sobre la separación obra-autor (15 min)"
+    ]
+},
+                {
+    id: "schopenhauer-9",  // ← ESTE ES EL ID
+    title: "Texto Comentado: Aforismos sobre la Sabiduría de la Vida",
+    type: "text",
+    description: "Selección de aforismos de Schopenhauer.",
+    duration: "80 min",
+    activities: [
+        "Lee los aforismos seleccionados (25 min)",
+        "Analiza su estilo literario (20 min)",
+        "Identifica consejos prácticos para la vida (15 min)",
+        "Escribe tu propio comentario (20 min)"
+    ]
+},
+                {
+    id: "schopenhauer-10",  // ← ESTE ES EL NUEVO ID
+    title: "Actividad Interactiva: Diseña tu Ética de la Compasión",
+    type: "interactive",
+    description: "Actividad para desarrollar una ética basada en la compasión.",
+    duration: "80 min", 
+    activities: [
+        "Reflexiona sobre el papel de la compasión (25 min)",
+        "Diseña principios éticos basados en la compasión (25 min)",
+        "Aplica estos principios a casos concretos (15 min)",
+        "Comparte y discute tu propuesta (15 min)"
+    ]
+}
+            ],
+            "Locke": [
+                {
+    id: "locke-summary",
+    title: "Resumen: Ensayo sobre el Entendimiento Humano",
+    type: "summary",
+    description: "Análisis completo de la obra fundamental de John Locke sobre el empirismo.",
+    duration: "80 min",
+    activities: [
+        "Lee el análisis del Ensayo (25 min)",
+        "Identifica la crítica al innatismo (20 min)",
+        "Explica la tabula rasa (15 min)",
+        "Reflexiona sobre el empirismo lockeano (20 min)"
+    ]
+},
+                {
+        id: "locke-guide",  // ← ESTE ES EL ID QUE DEBES USAR
+        title: "Guía: Dos Tratados sobre el Gobierno Civil",
+        type: "guide",
+        description: "Guía completa sobre la teoría política de John Locke.",
+        duration: "90 min",
+        activities: [
+            "Analiza el estado de naturaleza (25 min)",
+            "Examina los derechos naturales (20 min)", 
+            "Estudia el contrato social (20 min)",
+            "Analiza los límites del poder político (25 min)"
+        ]
+    },
+                {
+    id: "locke-documentary",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Documental: La Filosofía de John Locke - Empirismo y Derechos Naturales",
+    type: "documentary",
+    description: "Documental sobre Locke y su relación con la Revolución Gloriosa.",
+    duration: "80 min",
+    activities: [
+        "Mira el documental completo (45 min)",
+        "Identifica el contexto político de su obra (15 min)",
+        "Analiza su exilio en Holanda (10 min)",
+        "Reflexiona sobre su influencia en las revoluciones (10 min)"
+    ]
+},
+                // En resourcesByPhilosopher.Locke, cambia esto:
+{
+    id: "locke-podcast",  // ← ID ACTUALIZADO
+    title: "Podcast: Del Absolutiosmo a la Tabula Rasa", 
+    type: "podcast",
+    description: "Análisis en audio de la Carta sobre la Tolerancia.",
+    duration: "80 min",
+    activities: [
+        "Escucha el podcast completo (40 min)",
+        "Toma notas sobre los límites de la tolerancia (15 min)",
+        "Explica la separación Iglesia-Estado (15 min)",
+        "Analiza su actualidad (10 min)"
+    ]
+},
+                // En resourcesByPhilosopher.Locke, actualiza el recurso de tarjetas:
+{
+    id: "locke-cards",  // ← ID ACTUALIZADO
+    title: "Tarjetas: Conceptos Clave de Locke",
+    type: "flashcards",
+    description: "Tarjetas interactivas con los conceptos fundamentales del empirismo lockeano.",
+    duration: "80 min",
+    activities: [
+        "Estudia las tarjetas sobre contrato social y empirismo (25 min)",
+        "Crea 5 tarjetas propias sobre conceptos lockeanos (25 min)",
+        "Practica con el modo autoevaluación (15 min)",
+        "Reflexiona sobre la aplicabilidad de estos conceptos hoy (15 min)"
+    ]
+},
+               {
+    id: "locke-questions",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Cuestionario: Teoría Política de Locke",
+    type: "quiz",
+    description: "Cuestionario interactivo para evaluar la comprensión de la teoría política lockeana.",
+    duration: "80 min",
+    activities: [
+        "Responde el cuestionario sobre Locke (25 min)",
+        "Revisa tus respuestas incorrectas (25 min)",
+        "Explica el estado de naturaleza (15 min)",
+        "Analiza el contrato social (15 min)"
+    ]
+},
+                {
+    id: "locke-essay",
+    title: "Ensayo: La Propiedad en Locke",
+    type: "essay",
+    description: "Análisis de la teoría de la propiedad lockeana, el valor-trabajo y los fundamentos del liberalismo.",
+    duration: "75 min",
+    activities: [
+        "Analiza la teoría del valor-trabajo (20 min)",
+        "Examina las limitaciones a la propiedad (20 min)",
+        "Evalúa el papel del dinero (20 min)",
+        "Desarrolla una posición crítica (15 min)"
+    ]
+},
+                {
+    id: "locke-videoconference",  // ← DEBE COINCIDIR EXACTAMENTE
+    title: "Video-Conferencia: Locke - Contrato Social y Derecho de Resistencia",
+    type: "video",
+    description: "Video-conferencia completa sobre la vida y pensamiento de John Locke.",
+    duration: "60 minutos",
+    activities: [
+        "Mira la video-conferencia completa (35 min)",
+        "Toma notas sobre los conceptos fundamentales (15 min)", 
+        "Analiza la teoría del contrato social (15 min)",
+        "Reflexiona sobre la relevancia actual de Locke (15 min)"
+    ]
+},
+                {
+    id: "locke-aphorisms",  // ← ESTE ES EL ID QUE DEBES USAR
+    title: "Texto Comentado: Fragmentos del Ensayo sobre el entendimiento humano",
+    type: "text",
+    description: "Selección de fragmentos del Ensayo sobre el entendimiento humano con análisis.",
+    duration: "80 min",
+    activities: [
+        "Lee los fragmentos seleccionados (25 min)",
+        "Analiza los comentarios y explicaciones (20 min)",
+        "Identifica la estructura argumentativa (15 min)",
+        "Escribe tu propio comentario a un fragmento (20 min)"
+    ]
+},
+                {
+    id: "locke-activity",  // ← DEBE COINCIDIR EXACTAMENTE
+    title: "Actividad Interactiva: Locke y la Propiedad como Derecho Natural",
+    type: "interactive",
+    description: "Actividad interactiva completa sobre la teoría de la propiedad en Locke.",
+    duration: "80 min",
+    activities: [
+        "Analiza la teoría lockeana de la propiedad (25 min)",
+        "Debate con el Agente IA de Locke (25 min)", 
+        "Compara a Locke con otros teóricos (15 min)",
+        "Evalúa la vigencia de la teoría lockeana (15 min)"
+    ]
+}
+            ]
+        };
+
+
+        // Inicialización de la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            renderDashboard();
+            renderCalendar();
+            renderResources();
+            checkInitialTest();
+        });
+
+      function initializeApp() {
+    // Verificar y aplicar tema guardado, o usar 'light' por defecto
+    const savedTheme = localStorage.getItem('theme');
+    appState.theme = savedTheme || 'light';
+    
+    // Aplicar tema al body
+    document.body.setAttribute('data-theme', appState.theme);
+    
+    // Actualizar icono del botón
+    updateThemeToggleIcon();
+    
+    // Resto del código de inicialización...
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        appState.currentUser = JSON.parse(savedUser);
+        updateUserInterface();
+    } else {
+        document.getElementById('auth-modal').style.display = 'flex';
+    }
+    
+    // Inicializar calendario
+    updatePhilosopherOfMonth();
+    updateProgress();
+    updateSelectedCount();
+}
+        function setupEventListeners() {
+            // Navegación entre secciones
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    switchSection(tab);
+                });
+            });
+            
+            // Navegación de meses
+document.getElementById('prev-month').addEventListener('click', previousMonth);
+document.getElementById('next-month').addEventListener('click', nextMonth);
+
+// Modal de actividades
+document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('activity-modal').style.display = 'none';
+});
+
+document.getElementById('submit-activity').addEventListener('click', submitActivity);
+
+            // Cambio de tema
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+            // Autenticación
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchAuthTab(tabName);
+                });
+            });
+
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('register-form').addEventListener('submit', handleRegister);
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+
+            // Calendario
+            document.getElementById('prev-month').addEventListener('click', previousMonth);
+            document.getElementById('next-month').addEventListener('click', nextMonth);
+
+            // Drag and drop para recursos
+            setupDragAndDrop();
+
+            // Modal de actividad
+            document.getElementById('close-activity-modal').addEventListener('click', closeActivityModal);
+            document.getElementById('submit-activity').addEventListener('click', submitActivity);
+
+            // Test inicial
+            document.getElementById('prev-question').addEventListener('click', previousQuestion);
+            document.getElementById('next-question').addEventListener('click', nextQuestion);
+            document.getElementById('submit-test').addEventListener('click', submitTest);
+        }
+
+       function switchSection(sectionName) {
+    // Actualizar navegación
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector(`.nav-item[data-tab="${sectionName}"]`).classList.add('active');
+
+    // Mostrar sección correspondiente
+    document.querySelectorAll('.dashboard-section').forEach(section => {
+        section.classList.remove('active-section');
+    });
+    document.getElementById(sectionName).classList.add('active-section');
+
+    // Actualizar estado
+    appState.currentSection = sectionName;
+
+    // Renderizar contenido específico de la sección
+    if (sectionName === 'dashboard') {
+        renderDashboard();
+    } else if (sectionName === 'calendar') {
+        renderCalendar();
+        renderResources();
+        updatePhilosopherOfMonth();
+        updateProgress();
+        updateSelectedCount();
+    } else if (sectionName === 'debates') {
+        // No necesita renderizado adicional, se carga via iframe
+    } else if (sectionName === 'prueba-icfes') {
+        // No necesita renderizado adicional, se carga via iframe
+    } else if (sectionName === 'community') {
+        renderCommunity();
+    } else if (sectionName === 'library') {
+        renderLibrary();
+    } else if (sectionName === 'evaluations') {
+        renderEvaluations();
+    } else if (sectionName === 'analytics') {
+        renderAnalytics();
+    } else if (sectionName === 'profile') {
+        renderProfile();
+    }
+}
+// Renderizar contenido específico de la sección
+    if (sectionName === 'dashboard') {
+        renderDashboard();
+    } else if (sectionName === 'calendar') {
+        renderCalendar();
+        renderResources();
+        updatePhilosopherOfMonth();
+        updateProgress();
+        updateSelectedCount();
+    } else if (sectionName === 'debates') {
+        // No necesita renderizado adicional, se carga via object
+    } else if (sectionName === 'community') {
+        renderCommunity();
+    }
+    
+        function renderDashboard() {
+            // Progreso semanal
+            const progressBars = document.getElementById('weekly-progress-bars');
+            const progressLabels = document.getElementById('weekly-progress-labels');
+            
+            progressBars.innerHTML = '';
+            progressLabels.innerHTML = '';
+            
+            sampleData.weeklyProgress.forEach(day => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${day.value}%`;
+                progressBars.appendChild(bar);
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = day.day;
+                progressLabels.appendChild(label);
+            });
+            
+            // Recomendaciones
+            const recommendationsContainer = document.getElementById('ai-recommendations');
+            recommendationsContainer.innerHTML = '';
+            
+            sampleData.recommendations.forEach(rec => {
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+                card.innerHTML = `
+                    <div class="recommendation-header">
+                        <h3>${rec.title}</h3>
+                        <span class="recommendation-match">${rec.match}%</span>
+                    </div>
+                    <p>${rec.type} • ${rec.duration}</p>
+                `;
+                recommendationsContainer.appendChild(card);
+            });
+            
+            // Logros
+            const achievementsContainer = document.getElementById('user-achievements');
+            achievementsContainer.innerHTML = '';
+            
+            sampleData.achievements.forEach(ach => {
+                const achievement = document.createElement('div');
+                achievement.className = `achievement ${ach.unlocked ? '' : 'locked'}`;
+                achievement.innerHTML = `
+                    <div class="achievement-icon">
+                        <i class="${ach.icon}"></i>
+                    </div>
+                    <h4>${ach.name}</h4>
+                    <p>${ach.description}</p>
+                `;
+                achievementsContainer.appendChild(achievement);
+            });
+            
+            // Recordatorios
+            const remindersContainer = document.getElementById('contextual-reminders');
+            remindersContainer.innerHTML = '';
+            
+            sampleData.reminders.forEach(reminder => {
+                const reminderEl = document.createElement('div');
+                reminderEl.className = 'reminder';
+                reminderEl.innerHTML = `
+                    <p><strong>${reminder.time}:</strong> ${reminder.text}</p>
+                `;
+                remindersContainer.appendChild(reminderEl);
+            });
+            
+            // Gráfico de dominio filosófico
+            const ctx = document.getElementById('philosophyMasteryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: sampleData.philosophyMastery.labels,
+                    datasets: [{
+                        label: 'Tu dominio',
+                        data: sampleData.philosophyMastery.data,
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(52, 152, 219, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderCalendar() {
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            
+            document.getElementById('current-month').textContent = 
+                `${monthNames[appState.currentMonth]} ${appState.currentYear}`;
+            
+            const firstDay = new Date(appState.currentYear, appState.currentMonth, 1);
+            const lastDay = new Date(appState.currentYear, appState.currentMonth + 1, 0);
+            const startingDay = firstDay.getDay();
+            const daysInMonth = lastDay.getDate();
+            
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '';
+            
+            // Encabezados de días
+            const dayHeaders = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Días vacíos al inicio
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Días del mes
+            let scheduledCount = 0;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.setAttribute('data-date', `${appState.currentYear}-${appState.currentMonth + 1}-${day}`);
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+                
+                const dayContent = document.createElement('div');
+                dayContent.className = 'day-content';
+                
+                // Verificar si hay recursos programados para este día
+                const dateKey = `${appState.currentYear}-${appState.currentMonth + 1}-${day}`;
+                if (appState.scheduledResources[dateKey]) {
+                    dayElement.classList.add('has-resource');
+                    scheduledCount++;
+                    
+                    appState.scheduledResources[dateKey].forEach(resource => {
+                        const resourceEl = document.createElement('div');
+                        resourceEl.className = 'scheduled-resource';
+                        resourceEl.innerHTML = `
+                            <span class="resource-type type-${resource.type}">${resource.type}</span>
+                            <p>${resource.title}</p>
+                            <button class="remove-resource" data-resource-id="${resource.id}" data-date="${dateKey}">&times;</button>
+                        `;
+                        dayContent.appendChild(resourceEl);
+                    });
+                }
+                
+                dayElement.appendChild(dayContent);
+                calendarGrid.appendChild(dayElement);
+            }
+            
+            // Actualizar contador de recursos programados
+            document.getElementById('scheduled-count').textContent = scheduledCount;
+            document.getElementById('month-progress').style.width = `${(scheduledCount / 30) * 100}%`;
+            
+            // Añadir event listeners para eliminar recursos
+            document.querySelectorAll('.remove-resource').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resourceId = this.getAttribute('data-resource-id');
+                    const date = this.getAttribute('data-date');
+                    removeScheduledResource(date, resourceId);
+                });
+            });
+        }
+
+        function setupDragAndDrop() {
+            const resourceItems = document.querySelectorAll('.resource-item');
+            const calendarDays = document.getElementById('calendar-grid');
+            
+            resourceItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({
+                        id: this.getAttribute('data-id'),
+                        type: this.getAttribute('data-type'),
+                        title: this.querySelector('h3').textContent
+                    }));
+                    this.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            });
+            
+            calendarDays.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            calendarDays.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const resourceData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                const dayElement = e.target.closest('.day');
+                
+                if (dayElement && !dayElement.classList.contains('empty')) {
+                    const date = dayElement.getAttribute('data-date');
+                    scheduleResource(date, resourceData);
+                    renderCalendar();
+                    showNotification('Recurso programado correctamente', 'success');
+                }
+            });
+        }
+
+        function scheduleResource(date, resource) {
+            if (!appState.scheduledResources[date]) {
+                appState.scheduledResources[date] = [];
+            }
+            
+            // Verificar si el recurso ya está programado para esta fecha
+            const alreadyScheduled = appState.scheduledResources[date].some(r => r.id === resource.id);
+            if (!alreadyScheduled) {
+                appState.scheduledResources[date].push(resource);
+                localStorage.setItem('scheduledResources', JSON.stringify(appState.scheduledResources));
+            }
+        }
+
+        function removeScheduledResource(date, resourceId) {
+            if (appState.scheduledResources[date]) {
+                appState.scheduledResources[date] = appState.scheduledResources[date].filter(
+                    resource => resource.id !== resourceId
+                );
+                
+                // Eliminar la fecha si no quedan recursos
+                if (appState.scheduledResources[date].length === 0) {
+                    delete appState.scheduledResources[date];
+                }
+                
+                localStorage.setItem('scheduledResources', JSON.stringify(appState.scheduledResources));
+                renderCalendar();
+                showNotification('Recurso eliminado del calendario', 'info');
+            }
+        }
+
+        function previousMonth() {
+            appState.currentMonth--;
+            if (appState.currentMonth < 0) {
+                appState.currentMonth = 11;
+                appState.currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            appState.currentMonth++;
+            if (appState.currentMonth > 11) {
+                appState.currentMonth = 0;
+                appState.currentYear++;
+            }
+            renderCalendar();
+        }
+
+      function toggleTheme() {
+    if (appState.theme === 'light') {
+        appState.theme = 'dark';
+    } else {
+        appState.theme = 'light';
+    }
+    
+    // Aplicar el tema al body
+    document.body.setAttribute('data-theme', appState.theme);
+    
+    // Guardar en localStorage
+    localStorage.setItem('theme', appState.theme);
+    
+    // Actualizar el icono
+    updateThemeToggleIcon();
+    
+    // Mostrar notificación
+    const themeName = appState.theme === 'light' ? 'claro' : 'oscuro';
+    showNotification(`Tema ${themeName} activado`, 'success');
+}
+
+function updateThemeToggleIcon() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const icon = themeToggle.querySelector('i');
+    
+    if (appState.theme === 'light') {
+        icon.className = 'fas fa-moon';
+        themeToggle.setAttribute('title', 'Cambiar a tema oscuro');
+    } else {
+        icon.className = 'fas fa-sun';
+        themeToggle.setAttribute('title', 'Cambiar a tema claro');
+    }
+}
+
+        function switchAuthTab(tabName) {
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.auth-tab[data-tab="${tabName}"]`).classList.add('active');
+            
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-form`).classList.add('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Simulación de autenticación
+            if (email && password) {
+                appState.currentUser = {
+                    name: "Estudiante Filosófico",
+                    email: email,
+                    level: "Intermedio",
+                    points: 1250,
+                    streak: 7,
+                    joinDate: "2023-01-15"
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(appState.currentUser));
+                document.getElementById('auth-modal').style.display = 'none';
+                updateUserInterface();
+                showNotification('¡Bienvenido de nuevo!', 'success');
+            } else {
+                showNotification('Por favor, completa todos los campos', 'error');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+            
+            if (name && email && password && confirm) {
+                if (password !== confirm) {
+                    showNotification('Las contraseñas no coinciden', 'error');
+                    return;
+                }
+                
+                appState.currentUser = {
+                    name: name,
+                    email: email,
+                    level: "Principiante",
+                    points: 0,
+                    streak: 0,
+                    joinDate: new Date().toISOString().split('T')[0]
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(appState.currentUser));
+                document.getElementById('auth-modal').style.display = 'none';
+                updateUserInterface();
+                showNotification('¡Cuenta creada exitosamente!', 'success');
+                
+                // Mostrar test inicial para nuevos usuarios
+                setTimeout(() => {
+                    document.getElementById('initial-test-modal').style.display = 'flex';
+                }, 1000);
+            } else {
+                showNotification('Por favor, completa todos los campos', 'error');
+            }
+        }
+
+        function handleLogout() {
+            appState.currentUser = null;
+            localStorage.removeItem('currentUser');
+            document.getElementById('auth-modal').style.display = 'flex';
+            updateUserInterface();
+        }
+
+        function updateUserInterface() {
+            if (appState.currentUser) {
+                document.getElementById('user-greeting').textContent = `¡Bienvenido, ${appState.currentUser.name}!`;
+                document.getElementById('user-motivation').textContent = 
+                    `Nivel ${appState.currentUser.level} • ${appState.currentUser.points} puntos`;
+                document.getElementById('logout-btn').style.display = 'block';
+            } else {
+                document.getElementById('user-greeting').textContent = '¡Bienvenido, Estudiante!';
+                document.getElementById('user-motivation').textContent = 'Continúa tu camino hacia el conocimiento';
+                document.getElementById('logout-btn').style.display = 'none';
+            }
+        }
+
+        function checkInitialTest() {
+            const testCompleted = localStorage.getItem('initialTestCompleted');
+            if (!testCompleted && appState.currentUser) {
+                setTimeout(() => {
+                    document.getElementById('initial-test-modal').style.display = 'flex';
+                    renderTestQuestion();
+                }, 1000);
+            }
+        }
+
+        function renderTestQuestion() {
+            const questions = [
+                {
+                    question: "¿Cuál es tu principal interés en la filosofía?",
+                    options: [
+                        "Comprender el sentido de la vida y la existencia",
+                        "Analizar problemas éticos y morales",
+                        "Explorar la naturaleza del conocimiento y la verdad",
+                        "Estudiar sistemas políticos y sociales ideales"
+                    ]
+                },
+                {
+                    question: "¿Cómo prefieres abordar el estudio de la filosofía?",
+                    options: [
+                        "Leyendo textos originales de los filósofos",
+                        "Participando en debates y discusiones",
+                        "A través de videos y contenido multimedia",
+                        "Con guías estructuradas y resúmenes"
+                    ]
+                },
+                {
+                    question: "¿Qué área filosófica te resulta más interesante?",
+                    options: [
+                        "Ética (el estudio del bien y el mal)",
+                        "Epistemología (teoría del conocimiento)",
+                        "Metafísica (naturaleza de la realidad)",
+                        "Filosofía política (organización de la sociedad)"
+                    ]
+                }
+            ];
+            
+            const testContainer = document.getElementById('test-container');
+            const currentQuestion = questions[appState.currentQuestion];
+            
+            testContainer.innerHTML = `
+                <div class="test-question">
+                    <h3>${currentQuestion.question}</h3>
+                    <div class="test-options">
+                        ${currentQuestion.options.map((option, index) => `
+                            <div class="test-option" data-index="${index}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Añadir event listeners a las opciones
+            document.querySelectorAll('.test-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.test-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    appState.testAnswers[appState.currentQuestion] = parseInt(this.getAttribute('data-index'));
+                });
+            });
+            
+            // Actualizar navegación
+            document.getElementById('prev-question').disabled = appState.currentQuestion === 0;
+            document.getElementById('next-question').style.display = appState.currentQuestion < questions.length - 1 ? 'block' : 'none';
+            document.getElementById('submit-test').style.display = appState.currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function previousQuestion() {
+            if (appState.currentQuestion > 0) {
+                appState.currentQuestion--;
+                renderTestQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (appState.testAnswers[appState.currentQuestion] !== undefined) {
+                appState.currentQuestion++;
+                renderTestQuestion();
+            } else {
+                showNotification('Por favor, selecciona una respuesta', 'error');
+            }
+        }
+
+        function submitTest() {
+            if (appState.testAnswers[appState.currentQuestion] !== undefined) {
+                localStorage.setItem('initialTestCompleted', 'true');
+                document.getElementById('initial-test-modal').style.display = 'none';
+                showNotification('Test completado. Tu experiencia ha sido personalizada.', 'success');
+                
+                // Aquí podrías procesar las respuestas para personalizar la experiencia
+            } else {
+                showNotification('Por favor, selecciona una respuesta', 'error');
+            }
+        }
+
+        function openActivityModal(resource) {
+            document.getElementById('activity-title').textContent = resource.title;
+            document.getElementById('activity-modal').style.display = 'flex';
+        }
+
+        function closeActivityModal() {
+            document.getElementById('activity-modal').style.display = 'none';
+        }
+
+        function submitActivity() {
+            const reflections = document.getElementById('activity-reflections').value;
+            const rating = document.getElementById('activity-rating').value;
+            
+            if (reflections.trim() === '') {
+                showNotification('Por favor, escribe tus reflexiones', 'error');
+                return;
+            }
+            
+            // Aquí guardarías la actividad completada
+            const activity = {
+                title: document.getElementById('activity-title').textContent,
+                reflections: reflections,
+                rating: rating,
+                date: new Date().toISOString()
+            };
+            
+            appState.completedActivities.push(activity);
+            localStorage.setItem('completedActivities', JSON.stringify(appState.completedActivities));
+            
+            closeActivityModal();
+            showNotification('¡Actividad completada! Has ganado 50 puntos.', 'success');
+            
+            // Actualizar puntos del usuario
+            if (appState.currentUser) {
+                appState.currentUser.points += 50;
+                localStorage.setItem('currentUser', JSON.stringify(appState.currentUser));
+                updateUserInterface();
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <p>${message}</p>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.5s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+
+        // Funciones para renderizar las demás secciones (simplificadas)
+        function renderDebates() {
+            const debatesContainer = document.getElementById('debates-container');
+            debatesContainer.innerHTML = `
+                <div class="debate-room">
+                    <h3>¿Existe la verdad absoluta?</h3>
+                    <p>Discusión sobre epistemología y teoría del conocimiento</p>
+                    <div class="debate-participants">
+                        <div class="participant">A</div>
+                        <div class="participant">B</div>
+                        <div class="participant">C</div>
+                        <div class="participant">+5</div>
+                    </div>
+                    <button class="join-debate">Unirse</button>
+                </div>
+                <div class="debate-room">
+                    <h3>Ética en la inteligencia artificial</h3>
+                    <p>Debate contemporáneo sobre tecnología y moral</p>
+                    <div class="debate-participants">
+                        <div class="participant">D</div>
+                        <div class="participant">E</div>
+                        <div class="participant">F</div>
+                        <div class="participant">+3</div>
+                    </div>
+                    <button class="join-debate">Unirse</button>
+                </div>
+            `;
+        }
+
+        function renderCommunity() {
+            const communityGrid = document.getElementById('community-grid');
+            communityGrid.innerHTML = `
+                <div class="community-card">
+                    <div class="community-header">
+                        <div class="community-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>María González</h3>
+                            <p>Especialista en Ética</p>
+                        </div>
+                    </div>
+                    <p>Última actividad: Completó "Guía del Imperativo Categórico"</p>
+                </div>
+                <div class="community-card">
+                    <div class="community-header">
+                        <div class="community-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>Carlos Rodríguez</h3>
+                            <p>Interesado en Metafísica</p>
+                        </div>
+                    </div>
+                    <p>Última actividad: Publicó en el debate "Verdad Absoluta"</p>
+                </div>
+            `;
+        }
+
+        function renderLibrary() {
+    const resourceLibrary = document.getElementById('resource-library');
+    resourceLibrary.innerHTML = `
+        <!-- Tarjeta para Documentales Interactivos EXTERNA -->
+        <div class="library-card" onclick="window.open('grandes-pensadores.html', '_blank')" style="cursor: pointer;">
+            <div class="library-thumbnail" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="library-content">
+                <h3>Documentales y Enlaces Interactivos de Filosofía</h3>
+                <p>Explora la historia del pensamiento occidental con documentales interactivos y recursos externos</p>
+                <div class="resource-meta">
+                    <span><i class="far fa-clock"></i> + de 20 horas</span>
+                    <span><i class="fas fa-external-link-alt"></i> Recurso externo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta para Historia de la Filosofía EXTERNA -->
+        <div class="library-card" onclick="window.open('historia-filosofia.html', '_blank')" style="cursor: pointer;">
+            <div class="library-thumbnail" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="fas fa-history"></i>
+            </div>
+            <div class="library-content">
+                <h3>Historia de la Filosofía Interactiva</h3>
+                <p>Recorrido completo por 2,500 años de pensamiento filosófico occidental</p>
+                <div class="resource-meta">
+                    <span><i class="far fa-clock"></i> Recorrido interactivo</span>
+                    <span><i class="fas fa-external-link-alt"></i> Recurso externo</span>
+                </div>
+            </div>
+        </div>
+
+        
+    `;
+}
+
+        function renderEvaluations() {
+            const evaluationsContainer = document.getElementById('evaluations-container');
+            evaluationsContainer.innerHTML = `
+                <div class="evaluation-card">
+                    <h3>Evaluación de Conceptos Básicos</h3>
+                    <p>Pon a prueba tu comprensión de los fundamentos filosóficos</p>
+                    <div class="evaluation-progress">
+                        <div class="progress-circle">
+                            <span class="progress-text">75%</span>
+                        </div>
+                        <div>
+                            <p><strong>Tu puntuación:</strong> 15/20</p>
+                            <p><strong>Completado:</strong> 15 Sept 2023</p>
+                        </div>
+                    </div>
+                    <button class="join-debate">Reintentar</button>
+                </div>
+            `;
+        }
+
+        function renderAnalytics() {
+            const analyticsContainer = document.getElementById('analytics-container');
+            analyticsContainer.innerHTML = `
+                <div class="glass-card">
+                    <h3>Tiempo de Estudio</h3>
+                    <p>Has dedicado 12 horas este mes a estudiar filosofía</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3>Áreas de Mayor Interés</h3>
+                    <p>Ética: 40% | Epistemología: 30% | Metafísica: 20% | Otros: 10%</p>
+                </div>
+            `;
+        }
+
+        function renderProfile() {
+            const profileContainer = document.getElementById('profile-container');
+            if (appState.currentUser) {
+                profileContainer.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <h3>${appState.currentUser.name}</h3>
+                            <p>${appState.currentUser.email}</p>
+                            <p>Nivel: ${appState.currentUser.level}</p>
+                            <p>Puntos: ${appState.currentUser.points}</p>
+                            <p>Racha actual: ${appState.currentUser.streak} días</p>
+                            <p>Miembro desde: ${appState.currentUser.joinDate}</p>
+                        </div>
+                    </div>
+                    <div class="preferences">
+                        <h3>Preferencias de Aprendizaje</h3>
+                        <div class="form-group">
+                            <label for="learning-pace">Ritmo de aprendizaje:</label>
+                            <select id="learning-pace">
+                                <option value="slow">Lento y profundo</option>
+                                <option value="moderate" selected>Moderado</option>
+                                <option value="fast">Rápido y amplio</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="content-types">Tipos de contenido preferidos:</label>
+                            <select id="content-types" multiple>
+                                <option value="text" selected>Textos</option>
+                                <option value="video" selected>Videos</option>
+                                <option value="audio">Podcasts</option>
+                                <option value="interactive" selected>Interactivos</option>
+                                <option value="debate">Debates</option>
+                            </select>
+                        </div>
+                        <button class="auth-btn">Guardar Preferencias</button>
+                    </div>
+                `;
+            }
+        }
+        // ========== FUNCIONALIDADES DEL CALENDARIO ==========
+
+// Renderizar calendario
+function renderCalendar() {
+    const calendar = document.getElementById('calendar-grid');
+    if (!calendar) return;
+    
+    calendar.innerHTML = '';
+    
+    // Encabezados de días
+    const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    daysOfWeek.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'day-header';
+        dayHeader.textContent = day;
+        calendar.appendChild(dayHeader);
+    });
+    
+    // Obtener primer día del mes y último día del mes
+    const year = appState.currentYear;
+    const month = appState.currentMonth;
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    
+    // Días vacíos al inicio
+    for (let i = 0; i < firstDay.getDay(); i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'day empty';
+        calendar.appendChild(emptyDay);
+    }
+    
+    // Días del mes
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'day';
+        dayElement.dataset.date = `${year}-${month + 1}-${day}`;
+        
+        const dateKey = `${year}-${month + 1}-${day}`;
+        const scheduledResourceId = appState.scheduledResources[dateKey];
+        let scheduledResource = null;
+        
+        // Buscar el recurso programado
+        if (scheduledResourceId) {
+            const currentPhilosopher = philosophers[month];
+            const resources = resourcesByPhilosopher[currentPhilosopher] || [];
+            scheduledResource = resources.find(r => r.id === scheduledResourceId);
+        }
+        
+        dayElement.innerHTML = `
+            <div class="day-number">${day}</div>
+            <div class="day-content">
+                ${scheduledResource ? `
+                    <div class="scheduled-resource" data-resource-id="${scheduledResource.id}">
+                        <strong>${scheduledResource.title}</strong>
+                        <button class="remove-resource" title="Eliminar recurso">×</button>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        
+        if (scheduledResource) {
+            dayElement.classList.add('has-resource');
+        }
+        
+        dayElement.addEventListener('dragover', handleDragOver);
+        dayElement.addEventListener('drop', handleDrop);
+        dayElement.addEventListener('click', handleDayClick);
+        
+        // Agregar evento para eliminar recurso
+        const removeBtn = dayElement.querySelector('.remove-resource');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeResourceFromDay(dateKey);
+            });
+        }
+        
+        calendar.appendChild(dayElement);
+    }
+    
+    // Actualizar mes actual en la UI
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    document.getElementById('current-month').textContent = 
+        `${monthNames[month]} ${year}`;
+}
+
+// Renderizar lista de recursos
+function renderResources() {
+    const resourceList = document.getElementById('resource-list');
+    if (!resourceList) return;
+    
+    resourceList.innerHTML = '';
+    
+    const currentPhilosopher = philosophers[appState.currentMonth];
+    const resources = resourcesByPhilosopher[currentPhilosopher] || [];
+    
+    resources.forEach(resource => {
+        const resourceElement = document.createElement('div');
+        resourceElement.className = 'resource-item';
+        resourceElement.draggable = true;
+        resourceElement.dataset.id = resource.id;
+        
+        const typeClass = `type-${resource.type}`;
+        
+        resourceElement.innerHTML = `
+            <div class="resource-type ${typeClass}">${getTypeLabel(resource.type)}</div>
+            <h3>${resource.title}</h3>
+            <p>${resource.description}</p>
+            <div class="resource-meta">
+                <span><strong>Duración:</strong> ${resource.duration}</span>
+            </div>
+        `;
+        
+        resourceElement.addEventListener('dragstart', handleDragStart);
+        resourceList.appendChild(resourceElement);
+    });
+}
+
+// Configurar drag and drop
+function setupDragAndDrop() {
+    const resourceItems = document.querySelectorAll('.resource-item');
+    
+    resourceItems.forEach(item => {
+        item.addEventListener('dragstart', handleDragStart);
+    });
+}
+
+// Manejar inicio de arrastre
+function handleDragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.dataset.id);
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+// Permitir soltar
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+}
+
+// Manejar soltar recurso
+function handleDrop(e) {
+    e.preventDefault();
+    
+    const resourceId = e.dataTransfer.getData('text/plain');
+    const date = e.currentTarget.dataset.date;
+    
+    // Verificar si ya hay un recurso programado para este día
+    if (appState.scheduledResources[date]) {
+        if (!confirm('Este día ya tiene un recurso programado. ¿Deseas reemplazarlo?')) {
+            return;
+        }
+    }
+    
+    // Obtener el recurso
+    const currentPhilosopher = philosophers[appState.currentMonth];
+    const resources = resourcesByPhilosopher[currentPhilosopher] || [];
+    const resource = resources.find(r => r.id === resourceId);
+    
+    if (resource) {
+        // Programar el recurso
+        appState.scheduledResources[date] = resourceId;
+        localStorage.setItem('scheduledResources', JSON.stringify(appState.scheduledResources));
+        
+        // Actualizar UI
+        renderCalendar();
+        updateProgress();
+        updateSelectedCount();
+        
+        // Mostrar confirmación
+        showNotification(`¡Perfecto! Has programado "${resource.title}" para el ${formatDate(date)}`, 'success');
+    }
+    
+    // Remover clase dragging
+    document.querySelectorAll('.resource-item.dragging').forEach(el => {
+        el.classList.remove('dragging');
+    });
+}
+
+// Manejar clic en día del calendario
+function handleDayClick(e) {
+    const date = e.currentTarget.dataset.date;
+    const resourceId = appState.scheduledResources[date];
+    
+    if (resourceId) {
+        const currentPhilosopher = philosophers[appState.currentMonth];
+        const resources = resourcesByPhilosopher[currentPhilosopher] || [];
+        const resource = resources.find(r => r.id === resourceId);
+        
+        if (resource) {
+            // Verificar si es un recurso externo de Schopenhauer
+            if (externalResources[resourceId]) {
+                const externalFile = externalResources[resourceId];
+                
+                // Intentar abrir el archivo externo
+                try {
+                    window.open(externalFile, '_blank');
+                } catch (error) {
+                    console.error(`Error al abrir ${externalFile}:`, error);
+                    // Fallback: mostrar en modal con mensaje
+                    showActivityModal(resource, date);
+                    showNotification(`El recurso ${resource.title} no está disponible temporalmente`, 'warning');
+                }
+            } else {
+                // Usar modal interno para otros recursos
+                showActivityModal(resource, date);
+            }
+        }
+    }
+}
+
+// Función para eliminar un recurso de un día específico
+function removeResourceFromDay(dateKey) {
+    if (appState.scheduledResources[dateKey]) {
+        if (confirm('¿Estás seguro de que quieres eliminar este recurso del día seleccionado?')) {
+            // Eliminar el recurso programado
+            delete appState.scheduledResources[dateKey];
+            
+            // Eliminar también cualquier actividad completada asociada
+            const resourceId = appState.scheduledResources[dateKey];
+            const activityKey = `${dateKey}-${resourceId}`;
+            if (appState.completedActivities[activityKey]) {
+                delete appState.completedActivities[activityKey];
+                localStorage.setItem('completedActivities', JSON.stringify(appState.completedActivities));
+            }
+            
+            // Guardar cambios
+            localStorage.setItem('scheduledResources', JSON.stringify(appState.scheduledResources));
+            
+            // Actualizar la UI
+            renderCalendar();
+            updateProgress();
+            updateSelectedCount();
+            
+            showNotification('Recurso eliminado correctamente', 'info');
+        }
+    }
+}
+
+// Navegación de meses
+function previousMonth() {
+    appState.currentMonth--;
+    if (appState.currentMonth < 0) {
+        appState.currentMonth = 11;
+        appState.currentYear--;
+    }
+    renderCalendar();
+    updatePhilosopherOfMonth();
+    renderResources();
+    updateProgress();
+    updateSelectedCount();
+}
+
+function nextMonth() {
+    appState.currentMonth++;
+    if (appState.currentMonth > 11) {
+        appState.currentMonth = 0;
+        appState.currentYear++;
+    }
+    renderCalendar();
+    updatePhilosopherOfMonth();
+    renderResources();
+    updateProgress();
+    updateSelectedCount();
+}
+
+// ========== FUNCIONES AUXILIARES DEL CALENDARIO ==========
+
+// Obtener etiqueta para tipo de recurso
+function getTypeLabel(type) {
+    const typeLabels = {
+        'summary': 'Resumen',
+        'guide': 'Guía',
+        'documentary': 'Documental',
+        'podcast': 'Podcast',
+        'flashcards': 'Tarjetas',
+        'quiz': 'Cuestionario',
+        'essay': 'Ensayo',
+        'video': 'Video',
+        'text': 'Texto',
+        'interactive': 'Interactivo',
+        'debate': 'Debate'
+    };
+    
+    return typeLabels[type] || type;
+}
+
+// Actualizar filósofo del mes
+function updatePhilosopherOfMonth() {
+    const month = appState.currentMonth;
+    if (month < philosophers.length) {
+        document.getElementById('current-philosopher').textContent = philosophers[month];
+    }
+}
+
+// Actualizar barra de progreso
+function updateProgress() {
+    const month = appState.currentMonth;
+    const year = appState.currentYear;
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    
+    // Contar actividades completadas este mes
+    let completedThisMonth = 0;
+    let totalThisMonth = 0;
+    
+    for (let day = 1; day <= lastDay; day++) {
+        const dateKey = `${year}-${month + 1}-${day}`;
+        if (appState.scheduledResources[dateKey]) {
+            totalThisMonth++;
+            const activityKey = `${dateKey}-${appState.scheduledResources[dateKey]}`;
+            if (appState.completedActivities[activityKey]) {
+                completedThisMonth++;
+            }
+        }
+    }
+    
+    const progressPercentage = totalThisMonth > 0 ? 
+        (completedThisMonth / totalThisMonth) * 100 : 0;
+    
+    document.getElementById('month-progress').style.width = `${progressPercentage}%`;
+}
+
+// Actualizar contador de recursos seleccionados
+function updateSelectedCount() {
+    const month = appState.currentMonth;
+    const year = appState.currentYear;
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    
+    let count = 0;
+    for (let day = 1; day <= lastDay; day++) {
+        const dateKey = `${year}-${month + 1}-${day}`;
+        if (appState.scheduledResources[dateKey]) {
+            count++;
+        }
+    }
+    
+    appState.selectedResourcesCount = count;
+    document.getElementById('selected-count').textContent = `Recursos seleccionados: ${count}/5`;
+    
+    // Cambiar color si se excede el límite
+    const selectedCountElement = document.getElementById('selected-count');
+    if (count > 5) {
+        selectedCountElement.style.color = 'var(--accent)';
+    } else if (count >= 4) {
+        selectedCountElement.style.color = 'var(--success)';
+    } else {
+        selectedCountElement.style.color = 'var(--text-primary)';
+    }
+}
+
+// Formatear fecha
+function formatDate(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+}
+function debugTheme() {
+    console.log('Estado actual del tema:', appState.theme);
+    console.log('Tema en localStorage:', localStorage.getItem('theme'));
+    console.log('Atributo data-theme del body:', document.body.getAttribute('data-theme'));
+    
+    const computedStyle = window.getComputedStyle(document.body);
+    console.log('Color de fondo actual:', computedStyle.backgroundColor);
+    console.log('Color de texto actual:', computedStyle.color);
+}
+
+// Llamar para debug (opcional)
+// debugTheme();
+console.log('Tema actual:', appState.theme);
+console.log('Tema en localStorage:', localStorage.getItem('theme'));
+console.log('Atributo data-theme:', document.body.getAttribute('data-theme'));
+// Agrega esto temporalmente después de initializeApp() en DOMContentLoaded
+setTimeout(() => {
+    console.log('Estado inicial del tema:', appState.theme);
+    console.log('Botón de tema encontrado:', document.getElementById('theme-toggle'));
+}, 1000);
+    </script>
+</body>
+</html>

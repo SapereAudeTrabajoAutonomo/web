@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen: Así habló Zaratustra - Nietzsche</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #d35400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #a84300);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .summary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #a84300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-content {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section {
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section h3 {
+            color: var(--philosophy);
+            border-bottom: 2px solid var(--philosophy);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Resumen: Así habló Zaratustra</h1>
+        <p>Explorando la obra fundamental de Friedrich Nietzsche</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="summary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">FN</div>
+                <div class="philosopher-details">
+                    <h2>Friedrich Nietzsche</h2>
+                    <p>Filósofo alemán conocido por su crítica a la moral tradicional y conceptos como el Superhombre y la Voluntad de Poder</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="summary-description">
+                <p>Este resumen te introducirá a los conceptos centrales de la obra maestra de Nietzsche. Explorarás el Superhombre, la muerte de Dios, la Voluntad de Poder y el eterno retorno, presentados a través del profeta Zaratustra.</p>
+            </div>
+        </section>
+        
+        <section class="summary-content">
+            <div class="summary-section">
+                <h3>Resumen Ejecutivo</h3>
+                <p>"Así habló Zaratustra" es la obra más conocida de Friedrich Nietzsche, escrita entre 1883 y 1885. Utilizando la figura del profeta persa Zaratustra (Zoroastro), Nietzsche presenta sus ideas más importantes sobre la superación del hombre actual hacia el <strong>Superhombre (Übermensch)</strong>.</p>
+                
+                <div class="concept-box">
+                    <h4>Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>Superhombre (Übermensch):</strong> El hombre que ha superado los valores tradicionales y crea sus propios valores</li>
+                        <li><strong>Muerte de Dios:</strong> La pérdida de fe en los valores absolutos y trascendentales</li>
+                        <li><strong>Voluntad de Poder:</strong> El impulso fundamental de todo ser vivo hacia la expansión y superación</li>
+                        <li><strong>Eterno Retorno:</strong> La idea de que la vida se repite infinitamente</li>
+                        <li><strong>Transmutación de Valores:</strong> La creación de nuevos valores basados en la vida terrenal</li>
+                    </ul>
+                </div>
+                
+                <p>La obra está escrita en un estilo poético y alegórico, estructurada en cuatro partes que narran las enseñanzas de Zaratustra tras retirarse a las montañas y su regreso para compartir su sabiduría con la humanidad.</p>
+                
+                <div class="quote">
+                    "Yo os enseño el Superhombre. El hombre es algo que debe ser superado." - Nietzsche, Así habló Zaratustra
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>El Superhombre: Más allá del hombre actual</h3>
+                
+                <p>El concepto central de "Así habló Zaratustra" es el Superhombre (Übermensch), que representa la superación del hombre actual, atrapado en la moral de rebaño y los valores decadentes.</p>
+                
+                <div class="concept-box">
+                    <h4>Características del Superhombre:</h4>
+                    <ul>
+                        <li><strong>Creador de valores:</strong> No sigue valores impuestos, sino que crea los suyos propios</li>
+                        <li><strong>Afirmación de la vida:</strong> Ama la vida terrenal en su totalidad, incluyendo el sufrimiento</li>
+                        <li><strong>Voluntad de poder:</strong> Ejerce su poder creativo para transformarse y transformar el mundo</li>
+                        <li><strong>Autosuperación constante:</strong> Siempre busca ir más allá de lo que es</li>
+                        <li><strong>Amor fati:</strong> Ama su destino y acepta la vida tal como es</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "El Superhombre es el sentido de la tierra. Diga vuestra voluntad: ¡sea el Superhombre el sentido de la tierra!"
+                </div>
+                
+                <h4>Las tres transformaciones</h4>
+                <p>Nietzsche describe el camino hacia el Superhombre a través de tres transformaciones del espíritu:</p>
+                
+                <div class="concept-box">
+                    <h4>Las tres metamorfosis:</h4>
+                    <ol>
+                        <li><strong>El camello:</strong> El espíritu que carga con los valores tradicionales y las obligaciones</li>
+                        <li><strong>El león:</strong> El espíritu que se rebela y dice "no" a los valores impuestos</li>
+                        <li><strong>El niño:</strong> El espíritu que puede crear nuevos valores, decir "sí" a la vida y jugar creativamente</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>La muerte de Dios y la transmutación de valores</h3>
+                <p>Uno de los anuncios más célebres de Zaratustra es la "muerte de Dios", que simboliza el colapso de los fundamentos metafísicos y morales de la cultura occidental.</p>
+                
+                <div class="concept-box">
+                    <h4>Consecuencias de la muerte de Dios:</h4>
+                    <ul>
+                        <li><strong>Pérdida de fundamento absoluto:</strong> Desaparece la garantía trascendente de los valores</li>
+                        <li><strong>Nihilismo:</strong> La sensación de que "nada es verdad, todo está permitido"</li>
+                        <li><strong>Oportunidad creativa:</strong> Posibilidad de crear nuevos valores basados en la vida terrenal</li>
+                        <li><strong>Responsabilidad humana:</strong> El hombre debe asumir la responsabilidad de dar sentido al mundo</li>
+                    </ul>
+                </div>
+                
+                <p>Frente a este vacío, Nietzsche propone una "transmutación de todos los valores", sustituyendo la moral de esclavos (basada en la compasión, la humildad y la renuncia) por una moral de señores (basada en la fuerza, la creatividad y la afirmación de la vida).</p>
+                
+                <div class="quote">
+                    "¿No oísteis hablar de aquel loco que encendió un farol en pleno día y corrió al mercado gritando sin cesar: «¡Busco a Dios! ¡Busco a Dios!» [...] «¿Dónde ha ido Dios?», gritó. «Yo os lo voy a decir. ¡Nosotros lo hemos matado: vosotros y yo! Todos nosotros somos sus asesinos.»"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Voluntad de poder y eterno retorno</h3>
+                
+                <h4>La Voluntad de Poder</h4>
+                <p>La Voluntad de Poder es el concepto nietzscheano que describe el impulso fundamental de todo ser vivo. No se trata simplemente de deseo de dominación sobre otros, sino de la fuerza interna que impulsa a crecer, superarse y expandirse.</p>
+                
+                <div class="concept-box">
+                    <h4>Manifestaciones de la Voluntad de Poder:</h4>
+                    <ul>
+                        <li><strong>En el artista:</strong> Como impulso creativo</li>
+                        <li><strong>En el filósofo:</strong> Como voluntad de verdad</li>
+                        <li><strong>En el amante:</strong> Como deseo de posesión y entrega</li>
+                        <li><strong>En toda vida:</strong> Como impulso de crecimiento y autosuperación</li>
+                    </ul>
+                </div>
+                
+                <h4>El eterno retorno</h4>
+                <p>La doctrina del eterno retorno es la idea más abismal de Nietzsche: la proposición de que toda nuestra vida, con cada detalle de alegría y dolor, se repetirá infinitas veces exactamente igual.</p>
+                
+                <div class="concept-box">
+                    <h4>Significado del eterno retorno:</h4>
+                    <ul>
+                        <li><strong>Prueba máxima de afirmación vital:</strong> ¿Podrías amar tu vida lo suficiente para desear su repetición eterna?</li>
+                        <li><strong>Alternativa al tiempo lineal cristiano:</strong> No hay juicio final ni salvación, solo repetición</li>
+                        <li><strong>Criterio ético:</strong> Vive de tal manera que puedas desear la repetición eterna de tu vida</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "¿Quieres esto otra vez, e innumerables veces más? [...] ¡El gran mediodía! ¡Ese sería mi otro ocaso!"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Crítica a la moral tradicional y los últimos hombres</h3>
+                <p>Nietzsche realiza una crítica feroz a la moral tradicional, que considera una "moral de esclavos" creada por los débiles para dominar a los fuertes.</p>
+                
+                <div class="concept-box">
+                    <h4>Críticas a la moral tradicional:</h4>
+                    <ul>
+                        <li><strong>Moral cristiana:</strong> Niega la vida terrenal en favor de un mundo ultraterreno</li>
+                        <li><strong>Compasión:</strong> Debilita tanto al que la da como al que la recibe</li>
+                        <li><strong>Igualdad:</strong> Niega las diferencias naturales entre los hombres</li>
+                        <li><strong>Humildad:</strong> Impide la autoafirmación y el desarrollo del potencial humano</li>
+                    </ul>
+                </div>
+                
+                <p>Frente al Superhombre, Nietzsche presenta la figura del "último hombre", que representa la degradación final de la humanidad: un ser cómodo, mediocre, sin aspiraciones, que solo busca placeres pequeños y seguridad.</p>
+                
+                <div class="quote">
+                    "¡Ay! Llega el tiempo del hombre más despreciable, que no puede despreciarse a sí mismo. ¡Mirad! Yo os muestro al último hombre. «¿Qué es amar? ¿Qué es crear? ¿Qué es anhelar? ¿Qué es una estrella?» —así pregunta el último hombre, y parpadea.""
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee el resumen de Así habló Zaratustra</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Has leído el resumen de la obra fundamental de Nietzsche. Ahora reflexiona sobre los conceptos principales:</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos clave para recordar:</h4>
+                            <ul>
+                                <li>El Superhombre como superación del hombre actual</li>
+                                <li>La muerte de Dios y sus consecuencias</li>
+                                <li>La Voluntad de Poder como impulso fundamental</li>
+                                <li>El eterno retorno como prueba de afirmación vital</li>
+                                <li>Crítica a la moral tradicional y el "último hombre"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu síntesis:</h4>
+                    <p>Escribe un breve resumen con tus propias palabras de los conceptos centrales de "Así habló Zaratustra".</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu síntesis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Explica el concepto de Superhombre</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El Superhombre (Übermensch) es el concepto central de "Así habló Zaratustra". Representa la superación del hombre actual y la creación de nuevos valores.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Las tres transformaciones del espíritu:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Camello</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">León</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Niño</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Carga con valores tradicionales</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Se rebela y dice "no"</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Crea nuevos valores y dice "sí"</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Espíritu de obediencia</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Espíritu de libertad negativa</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Espíritu de creación</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">"Tú debes"</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">"Yo quiero"</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">"Yo soy"</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica con tus propias palabras qué es el Superhombre para Nietzsche y describe las tres transformaciones del espíritu necesarias para alcanzarlo.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Reflexiona sobre la "muerte de Dios"</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La "muerte de Dios" anunciada por Zaratustra es uno de los conceptos más influyentes de Nietzsche, que simboliza el colapso de los fundamentos metafísicos de la cultura occidental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Consecuencias de la muerte de Dios:</h4>
+                            <ol>
+                                <li><strong>Nihilismo:</strong> Pérdida de sentido y valores absolutos</li>
+                                <li><strong>Liberación:</strong> Fin de la moral de rebaño y los valores decadentes</li>
+                                <li><strong>Responsabilidad:</strong> El hombre debe crear sus propios valores</li>
+                                <li><strong>Oportunidad:</strong> Posibilidad del Superhombre y nuevos valores</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Dios ha muerto. Dios sigue muerto. Y nosotros lo hemos matado. ¿Cómo podremos consolarnos, los asesinos de todos los asesinos?"
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Qué significa realmente la "muerte de Dios" en el pensamiento de Nietzsche? ¿Qué implicaciones tiene para la moral y el sentido de la vida humana?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Analiza la Voluntad de Poder y el eterno retorno</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La Voluntad de Poder y el eterno retorno son dos conceptos fundamentales en "Así habló Zaratustra" que completan la visión nietzscheana de la existencia.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Voluntad de Poder vs Eterno Retorno:</h4>
+                            <ul>
+                                <li><strong>Voluntad de Poder:</strong> Impulso de crecimiento, expansión y autosuperación</li>
+                                <li><strong>Eterno Retorno:</strong> Prueba máxima de afirmación de la vida</li>
+                                <li><strong>Relación:</strong> Solo quien ejerce plenamente su Voluntad de Poder puede desear el eterno retorno</li>
+                            </ul>
+                        </div>
+                        
+                        <p>Estos conceptos representan la alternativa nietzscheana al pesimismo schopenhaueriano: en lugar de negar la voluntad, Nietzsche propone afirmarla plenamente.</p>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica la relación entre la Voluntad de Poder y el eterno retorno en el pensamiento de Nietzsche. ¿Por qué considera que el eterno retorno es la "prueba máxima" para el Superhombre?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el resumen</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el resumen de "Así habló Zaratustra"</h3>
+            <p>Has explorado los conceptos centrales de una de las obras filosóficas más influyentes y provocadoras. Reflexiona sobre estas ideas y cómo se relacionan con tu propia comprensión de la existencia humana y la creación de valores.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('summary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('nietzscheZarathustraProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('nietzscheZarathustraProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

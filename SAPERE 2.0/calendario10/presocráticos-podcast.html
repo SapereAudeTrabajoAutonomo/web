@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast: Del Mito al Logos - Los Presocráticos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --podcast: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .podcast-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--podcast), #0d8b6f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(22, 160, 133, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .podcast-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .podcast-player {
+            background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 12px 40px rgba(29, 151, 108, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .podcast-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .player-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .play-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--podcast);
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .play-btn:hover {
+            background: white;
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        
+        .play-btn.playing {
+            background: var(--success);
+            color: white;
+        }
+        
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .progress-container {
+            flex: 1;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #27ae60);
+            width: 0%;
+            transition: width 0.1s;
+            border-radius: 6px;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+        
+        .volume-slider {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .volume-progress {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            width: 80%;
+        }
+        
+        .podcast-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--podcast);
+            backdrop-filter: blur(5px);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--podcast);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--podcast);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        .concept-box {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--podcast);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--podcast);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .audio-loading {
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            font-style: italic;
+        }
+        
+        .alternative-options {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 2px dashed var(--warning);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .player-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎧 Podcast: Del Mito al Logos - Los Presocráticos</h1>
+        <p>El nacimiento de la racionalidad occidental y la filosofía</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="podcast-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Los Filósofos Presocráticos</h2>
+                    <p>Pensadores griegos que marcaron la transición del pensamiento mítico al racional</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="podcast-description">
+                <p>Este podcast explora el fascinante período de transición del pensamiento mítico al racional en la antigua Grecia. Analizamos cómo los primeros filósofos presocráticos buscaron explicaciones naturales para los fenómenos del cosmos, sentando las bases de la ciencia y la filosofía occidentales. Descubre cómo Tales, Anaximandro, Heráclito, Parménides y otros pensadores revolucionaron nuestra forma de entender el mundo.</p>
+            </div>
+        </section>
+        
+        <section class="podcast-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--podcast);">Podcast: Del Mito al Logos - Los Presocráticos</h3>
+            
+            <div class="podcast-player">
+                <div class="player-content">
+                    <h4 style="color: white; margin-bottom: 1rem;">Reproductor de Podcast</h4>
+                    
+                    <div class="audio-loading" id="loading-message">
+                        🔄 Intentando cargar podcast desde Google Drive...
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress" id="audio-progress"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="current-time">00:00</span>
+                            <span id="duration">--:--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <button class="play-btn" id="play-btn">▶</button>
+                        <div class="time-display" id="time-display">Cargando...</div>
+                        <div class="volume-control">
+                            <span>🔊</span>
+                            <div class="volume-slider" id="volume-slider">
+                                <div class="volume-progress" id="volume-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio real desde Google Drive -->
+                    <audio id="podcast-audio" preload="metadata" crossorigin="anonymous">
+                        <source src="https://drive.google.com/uc?export=download&id=12qjHngN97QcnhPWqLFjZD1Hgrc-Bp71p" type="audio/mpeg">
+                        <source src="https://drive.google.com/uc?export=download&id=12qjHngN97QcnhPWqLFjZD1Hgrc-Bp71p" type="audio/wav">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- Opciones alternativas -->
+            <div class="alternative-options" id="alternative-options" style="display: none;">
+                <h4 style="color: var(--warning); margin-bottom: 1rem;">⚠️ Opciones alternativas</h4>
+                <p>Si el reproductor no funciona, puedes:</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://drive.google.com/file/d/12qjHngN97QcnhPWqLFjZD1Hgrc-Bp71p/view?usp=sharing" 
+                       target="_blank" class="download-btn">
+                       🎧 Escuchar en Google Drive
+                    </a>
+                    <a href="https://drive.google.com/uc?export=download&id=12qjHngN97QcnhPWqLFjZD1Hgrc-Bp71p" 
+                       class="download-btn">
+                       ⬇️ Descargar Podcast
+                    </a>
+                    <button class="download-btn" onclick="useAlternativeAudio()">
+                       🔄 Usar audio de demostración
+                    </button>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                    <strong>Nota:</strong> Google Drive a veces bloquea la reproducción directa por políticas de seguridad.
+                </p>
+            </div>
+            
+            <div class="concept-box">
+                <h4>Contenido del podcast:</h4>
+                <ul>
+                    <li>El paso del mito al logos: contexto histórico y cultural</li>
+                    <li>Los filósofos de Mileto: Tales, Anaximandro y Anaxímenes</li>
+                    <li>Heráclito y el devenir constante</li>
+                    <li>Parménides y la vía de la verdad</li>
+                    <li>Los pluralistas: Empédocles y Anaxágoras</li>
+                    <li>Los atomistas: Leucipo y Demócrito</li>
+                    <li>Legado e influencia en la filosofía posterior</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. El paso del mito al logos</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de escuchar el podcast sobre la transición del pensamiento mítico al racional, reflexiona sobre las implicaciones de este cambio fundamental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del pensamiento presocrático:</h4>
+                            <ul>
+                                <li><strong>Búsqueda del arché:</strong> Principio originario de todas las cosas</li>
+                                <li><strong>Explicaciones naturales:</strong> Sustitución de causas sobrenaturales por naturales</li>
+                                <li><strong>Universalidad:</strong> Búsqueda de leyes universales aplicables a toda la realidad</li>
+                                <li><strong>Racionalidad:</strong> Uso de la razón como herramienta principal</li>
+                                <li><strong>Cosmología:</strong> Explicación del cosmos como totalidad ordenada</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Todo está lleno de dioses" - Tales de Mileto
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Qué factores históricos, sociales y culturales crees que hicieron posible el surgimiento del pensamiento racional en la Grecia del siglo VI a.C.? ¿Por qué este cambio fue tan revolucionario?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La búsqueda del principio originario</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast explora cómo los primeros filósofos buscaron el arché o principio originario de todas las cosas.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Propuestas sobre el arché:</h4>
+                            <ul>
+                                <li><strong>Tales:</strong> El agua como principio de todas las cosas</li>
+                                <li><strong>Anaximandro:</strong> El ápeiron (lo indeterminado, ilimitado)</li>
+                                <li><strong>Anaxímenes:</strong> El aire como sustancia primordial</li>
+                                <li><strong>Heráclito:</strong> El fuego como elemento transformador</li>
+                                <li><strong>Parménides:</strong> El Ser como realidad única e inmutable</li>
+                                <li><strong>Empédocles:</strong> Los cuatro elementos (tierra, agua, aire, fuego)</li>
+                                <li><strong>Demócrito:</strong> Los átomos como constituyentes últimos</li>
+                            </ul>
+                        </div>
+                        
+                        <p>Cada filósofo propuso una solución diferente al problema del principio originario, reflejando diferentes enfoques sobre la naturaleza de la realidad.</p>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Compara dos propuestas diferentes sobre el arché (por ejemplo, el agua de Tales y el ápeiron de Anaximandro). ¿Qué ventajas y limitaciones tiene cada una? ¿Cuál te parece más convincente y por qué?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Heráclito vs. Parménides: El devenir y el ser</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast presenta la oposición fundamental entre Heráclito (el devenir constante) y Parménides (la inmutabilidad del ser).</p>
+                        
+                        <div class="concept-box">
+                            <h4>Heráclito vs. Parménides:</h4>
+                            <ul>
+                                <li><strong>Heráclito:</strong> "Todo fluye", "No podemos bañarnos dos veces en el mismo río"</li>
+                                <li><strong>Parménides:</strong> "El ser es y el no-ser no es", "El ser es uno, eterno e inmutable"</li>
+                                <li><strong>Contraste:</strong> Cambio constante vs. permanencia absoluta</li>
+                                <li><strong>Método:</strong> Observación empírica vs. razonamiento lógico</li>
+                                <li><strong>Legado:</strong> Influencia en el pensamiento dialéctico vs. metafísica del ser</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Todo fluye y nada permanece; todo se escapa y nada se queda fijo" - Heráclito
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica cómo esta oposición entre Heráclito y Parménides representa dos formas radicalmente diferentes de entender la realidad. ¿Cómo intentaron los filósofos posteriores (como los pluralistas y atomistas) reconciliar estas posiciones?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Legado e influencia de los presocráticos</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast concluye reflexionando sobre la influencia duradera de los filósofos presocráticos en el pensamiento occidental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Contribuciones fundamentales:</h4>
+                            <ul>
+                                <li><strong>Nacimiento de la ciencia:</strong> Búsqueda de explicaciones naturales</li>
+                                <li><strong>Filosofía como disciplina:</strong> Establecimiento de problemas filosóficos fundamentales</li>
+                                <li><strong>Metodología racional:</strong> Desarrollo del pensamiento lógico y sistemático</li>
+                                <li><strong>Cosmología:</strong> Primera visión del universo como cosmos ordenado</li>
+                                <li><strong>Influencia en Platón y Aristóteles:</strong> Base para el desarrollo posterior</li>
+                            </ul>
+                        </div>
+                        
+                        <p>Los presocráticos sentaron las bases no solo de la filosofía, sino también de la ciencia, la ética y la política occidentales.</p>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Qué aspectos del pensamiento presocrático consideras más relevantes para la filosofía y la ciencia contemporáneas? ¿En qué medida seguimos enfrentándonos a los mismos problemas fundamentales que ellos plantearon?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el podcast</h3>
+            <div class="progress-bar">
+                <div class="progress" id="podcast-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el podcast sobre los Presocráticos</h3>
+            <p>Has explorado el fascinante período de transición del mito al logos, analizado las principales propuestas sobre el principio originario, comprendido la oposición fundamental entre Heráclito y Parménides, y reflexionado sobre el legado duradero de estos primeros filósofos. El pensamiento presocrático continúa siendo fundamental para comprender los orígenes de la racionalidad occidental.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        let audio = document.getElementById('podcast-audio');
+        let playBtn = document.getElementById('play-btn');
+        let progressBar = document.getElementById('audio-progress');
+        let currentTime = document.getElementById('current-time');
+        let duration = document.getElementById('duration');
+        let timeDisplay = document.getElementById('time-display');
+        let progressContainer = document.getElementById('progress-bar');
+        let volumeSlider = document.getElementById('volume-slider');
+        let volumeProgress = document.getElementById('volume-progress');
+        let loadingMessage = document.getElementById('loading-message');
+        let alternativeOptions = document.getElementById('alternative-options');
+        
+        // Configurar el audio
+        audio.addEventListener('loadeddata', function() {
+            loadingMessage.innerHTML = '✅ Audio cargado correctamente';
+            duration.textContent = formatTime(audio.duration);
+            timeDisplay.textContent = 'Listo para reproducir';
+        });
+        
+        audio.addEventListener('loadstart', function() {
+            loadingMessage.innerHTML = '🔄 Cargando audio desde Google Drive...';
+            timeDisplay.textContent = 'Cargando...';
+        });
+        
+        audio.addEventListener('error', function(e) {
+            console.error('Error de audio:', e);
+            loadingMessage.innerHTML = '❌ No se puede cargar el audio directamente desde Google Drive';
+            timeDisplay.textContent = 'Error de carga';
+            
+            // Mostrar opciones alternativas después de 3 segundos
+            setTimeout(() => {
+                alternativeOptions.style.display = 'block';
+            }, 3000);
+        });
+        
+        audio.addEventListener('timeupdate', function() {
+            let progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTime.textContent = formatTime(audio.currentTime);
+            
+            // Actualizar el display de tiempo
+            if (!audio.paused) {
+                timeDisplay.textContent = 'Reproduciendo...';
+            }
+        });
+        
+        audio.addEventListener('ended', function() {
+            playBtn.textContent = '▶';
+            playBtn.classList.remove('playing');
+            timeDisplay.textContent = 'Completado';
+        });
+        
+        // Control de reproducción
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play().catch(function(error) {
+                    console.error('Error al reproducir:', error);
+                    loadingMessage.innerHTML = '❌ Error al reproducir. Usa una de las opciones alternativas.';
+                    alternativeOptions.style.display = 'block';
+                });
+                playBtn.textContent = '❚❚';
+                playBtn.classList.add('playing');
+                timeDisplay.textContent = 'Reproduciendo...';
+            } else {
+                audio.pause();
+                playBtn.textContent = '▶';
+                playBtn.classList.remove('playing');
+                timeDisplay.textContent = 'Pausado';
+            }
+        });
+        
+        // Control de progreso
+        progressContainer.addEventListener('click', function(e) {
+            let rect = progressContainer.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+        
+        // Control de volumen
+        volumeSlider.addEventListener('click', function(e) {
+            let rect = volumeSlider.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            audio.volume = pos;
+            volumeProgress.style.width = (pos * 100) + '%';
+        });
+        
+        // Configurar volumen inicial
+        audio.volume = 0.8;
+        volumeProgress.style.width = '80%';
+        
+        // Función para usar audio alternativo
+        function useAlternativeAudio() {
+            loadingMessage.innerHTML = '🔄 Cargando audio de demostración...';
+            
+            // Usar un audio de demostración público
+            audio.src = 'https://www.soundjay.com/misc/sounds-bell-link.mp3';
+            audio.load();
+            
+            alternativeOptions.innerHTML = `
+                <h4 style="color: var(--success); margin-bottom: 1rem;">✅ Usando audio de demostración</h4>
+                <p>Ahora puedes usar el reproductor normalmente. Para el audio real:</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://drive.google.com/file/d/12qjHngN97QcnhPWqLFjZD1Hgrc-Bp71p/view?usp=sharing" 
+                       target="_blank" class="download-btn">
+                       🎧 Escuchar en Google Drive
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Formatear tiempo
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '--:--';
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return min + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('podcast-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('presocraticosPodcastProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('presocraticosPodcastProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            
+            // Intentar cargar el audio automáticamente
+            setTimeout(() => {
+                audio.load();
+            }, 1000);
+            
+            // Mostrar opciones alternativas después de 5 segundos si hay error
+            setTimeout(() => {
+                if (audio.error || audio.networkState === audio.NETWORK_NO_SOURCE) {
+                    alternativeOptions.style.display = 'block';
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

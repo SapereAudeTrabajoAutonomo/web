@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documental: El Arte de Tener la Razón - Schopenhauer</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .documentary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .video-option {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .video-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(135deg, #cc0000, #aa0000);
+        }
+        
+        .video-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .documentary-description {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .watched-indicator {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documental: El Arte de Tener la Razón</h1>
+        <p>Explorando las estrategias dialécticas de Arthur Schopenhauer</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="documentary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">AS</div>
+                <div class="philosopher-details">
+                    <h2>Arthur Schopenhauer</h2>
+                    <p>Filósofo alemán conocido por su pesimismo filosófico y su obra sobre dialéctica erística</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="documentary-description">
+                <p>Este documental explora "El Arte de Tener la Razón", la obra de Schopenhauer sobre dialéctica erística - el arte de disputar y ganar debates independientemente de la verdad. Descubre las 38 estrategias que propone para refutar al oponente y analiza su crítica a Hegel, su influencia en el romanticismo y su visión misantrópica.</p>
+            </div>
+        </section>
+        
+        <section class="video-container">
+            <h3>Ver Documental Completo en YouTube</h3>
+            
+            <!-- Botón de redirección a YouTube -->
+            <a href="https://www.youtube.com/watch?v=oNbC2QtvnJA" 
+               target="_blank" 
+               class="video-option"
+               onclick="markAsWatched()">
+                <span>▶</span>
+                Ver Documental en YouTube
+            </a>
+            
+            <div class="video-info">
+                <p><strong>Duración:</strong> 77 minutos</p>
+                <p><strong>Plataforma:</strong> YouTube</p>
+                <p><strong>Instrucciones:</strong> Haz clic en el botón rojo para abrir el documental en una nueva pestaña. Cuando termines, regresa a esta página para completar las actividades.</p>
+            </div>
+            
+            <div class="watched-indicator" id="watched-indicator">
+                ✅ Documental marcado como visto
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Análisis del documental: Estrategias dialécticas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de ver el documental completo sobre "El Arte de Tener la Razón", reflexiona sobre las estrategias dialécticas que Schopenhauer propone para ganar debates.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Estrategias clave mencionadas en el documental:</h4>
+                            <ul>
+                                <li><strong>Extensión:</strong> Llevar la afirmación del oponente más allá de sus límites naturales</li>
+                                <li><strong>Homónimia:</strong> Utilizar la ambigüedad de los términos</li>
+                                <li><strong>Generalización:</strong> Tomar lo particular como general</li>
+                                <li><strong>Cambio de tema:</strong> Desviar la discusión cuando se está perdiendo</li>
+                                <li><strong>Apelación a la autoridad:</strong> Usar citas y referencias a favor</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Selecciona tres estrategias del "Arte de Tener la Razón" que hayas identificado en el documental y explica cómo podrías reconocerlas en debates contemporáneos (políticos, mediáticos o cotidianos).</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Las actividades 2, 3 y 4 se mantienen igual -->
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La crítica schopenhaueriana a Hegel</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental explora la profunda animadversión que Schopenhauer sentía hacia Hegel y su filosofía. Analiza los fundamentos de esta crítica.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos centrales de la crítica a Hegel:</h4>
+                            <ul>
+                                <li><strong>Oscurantismo:</strong> Acusaba a Hegel de usar lenguaje deliberadamente oscuro e incomprensible</li>
+                                <li><strong>Charlatanería:</strong> Consideraba su filosofía como pseudo-sabiduría</li>
+                                <li><strong>Servilismo estatal:</strong> Criticaba su justificación del Estado prusiano</li>
+                                <li><strong>Optimismo injustificado:</strong> Rechazaba su visión optimista de la historia</li>
+                                <li><strong>Popularidad inmerecida:</strong> Despreciaba su éxito académico y popular</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Consideras que la crítica de Schopenhauer a Hegel era principalmente filosófica o personal? Explica tu posición basándote en lo presentado en el documental.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Schopenhauer y el Romanticismo alemán</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental muestra la influencia de Schopenhauer en artistas y pensadores románticos. Analiza esta relación paradójica.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Influencia en el Romanticismo:</h4>
+                            <ul>
+                                <li><strong>Richard Wagner:</strong> Adoptó su pesimismo metafísico en obras como "Tristán e Isolda"</li>
+                                <li><strong>Thomas Mann:</strong> Exploró temas schopenhauerianos en sus novelas</li>
+                                <li><strong>Literatura europea:</strong> Influencia en Tolstói, Proust y Kafka</li>
+                                <li><strong>Artes visuales:</strong> Impacto en pintores simbolistas y expresionistas</li>
+                                <li><strong>Música:</strong> Influencia en compositores como Mahler</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué crees que la filosofía pesimista de Schopenhauer resultó atractiva para artistas románticos? Explica esta aparente contradicción.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. La misantropía schopenhaueriana</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental aborda la famosa misantropía de Schopenhauer - su desprecio por la humanidad. Analiza los fundamentos filosóficos de esta posición.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Fundamentos de su misantropía:</h4>
+                            <ul>
+                                <li><strong>Naturaleza humana:</strong> Veía al ser humano como egoísta por naturaleza</li>
+                                <li><strong>Experiencia personal:</strong> Sus fracasos académicos y relaciones difíciles</li>
+                                <li><strong>Contexto histórico:</strong> Vivió en una época de grandes cambios y conflictos</li>
+                                <li><strong>Influencias filosóficas:</strong> Leyó a autores misántropos como La Rochefoucauld</li>
+                                <li><strong>Metafísica pesimista:</strong> Su visión de la Voluntad como fuente de sufrimiento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Crees que la misantropía de Schopenhauer era una postura filosófica coherente o principalmente un reflejo de su personalidad y experiencias? Fundamenta tu respuesta.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el documental</h3>
+            <div class="progress-bar">
+                <div class="progress" id="documentary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el documental sobre Schopenhauer</h3>
+            <p>Has explorado las estrategias dialécticas de "El Arte de Tener la Razón", analizado su crítica a Hegel, comprendido su influencia en el romanticismo y reflexionado sobre su misantropía. Estas ideas continúan siendo relevantes para entender los debates contemporáneos y la naturaleza humana.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para marcar el documental como visto
+        function markAsWatched() {
+            // Esto se ejecuta cuando el usuario hace clic en el botón de YouTube
+            setTimeout(() => {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+                // Podrías guardar esto en localStorage si quieres persistencia
+                localStorage.setItem('schopenhauerDocumentaryWatched', 'true');
+            }, 1000);
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('documentary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('schopenhauerDocumentaryProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('schopenhauerDocumentaryProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+            
+            // Verificar si el documental fue marcado como visto
+            if (localStorage.getItem('schopenhauerDocumentaryWatched') === 'true') {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

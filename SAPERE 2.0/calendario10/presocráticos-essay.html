@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: El Paso del Mito al Logos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+            --essay: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #2980b9);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: El Paso del Mito al Logos</h1>
+        <p>El Nacimiento del Pensamiento Racional en la Antigua Grecia</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">PL</div>
+                <div class="philosopher-details">
+                    <h2>Presocráticos y Platón</h2>
+                    <p>Filósofos griegos que marcaron la transición del pensamiento mítico al racional</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora uno de los momentos más importantes en la historia del pensamiento occidental: el paso del mito al logos en la Antigua Grecia. Analiza cómo los primeros filósofos presocráticos abandonaron las explicaciones mitológicas para buscar principios racionales que explicaran la naturaleza, y cómo Platón consolidó esta transición estableciendo las bases del pensamiento filosófico occidental.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: El Nacimiento de la Razón</h2>
+                    <div class="essay-text">
+                        <p>El "paso del mito al logos" representa una de las transformaciones más significativas en la historia del pensamiento humano. Este cambio, ocurrido en la Antigua Grecia entre los siglos VI y V a.C., marcó el tránsito de una comprensión del mundo basada en narraciones míticas y religiosas hacia una explicación racional y sistemática de la realidad. Este ensayo examina este proceso fundamental que dio origen a la filosofía y, con ella, a la ciencia y al pensamiento crítico occidental.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Exploraremos cómo los primeros filósofos, conocidos como presocráticos, abandonaron progresivamente las explicaciones sobrenaturales para buscar principios naturales (arché) que explicaran el cosmos. Posteriormente, analizaremos cómo Platón consolidó esta transición al establecer las bases metodológicas y conceptuales del pensamiento filosófico, separando definitivamente el conocimiento racional de la creencia mitológica.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. El Mundo del Mito: Cosmovisión Tradicional</h2>
+                    <div class="essay-text">
+                        <p>Antes del surgimiento de la filosofía, la cultura griega explicaba el mundo a través del mito. Los relatos de Homero y Hesíodo no solo entretenían, sino que proporcionaban una cosmovisión completa que respondía a las preguntas fundamentales sobre el origen del cosmos, los fenómenos naturales y el lugar del ser humano en el universo.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La mentalidad mítica se caracterizaba por su antropomorfismo: los dioses tenían características humanas y sus acciones explicaban los fenómenos naturales. Un trueno era la expresión del enojo de Zeus, el cambio de estaciones reflejaba el ciclo de Perséfone entre el inframundo y la tierra. Estas explicaciones, aunque poéticas y culturalmente ricas, carecían de fundamentación empírica y de coherencia lógica sistemática.</p>
+                    </div>
+                    <div class="quote">
+                        "En el principio existió el Caos, después Gea la de amplio pecho, sede siempre segura de todos los Inmortales que habitan la nevada cumbre del Olimpo." - Hesíodo, Teogonía
+                    </div>
+                    <div class="essay-text">
+                        <p>El mito cumplía funciones sociales y psicológicas importantes: proporcionaba consuelo, justificaba el orden social y ofrecía una narrativa coherente del mundo. Sin embargo, su carácter dogmático y su dependencia de la autoridad poética limitaban el desarrollo del pensamiento crítico y la investigación sistemática de la naturaleza.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. Los Presocráticos: Los Primeros Filósofos</h2>
+                    <div class="essay-text">
+                        <p>En el siglo VI a.C., en las colonias griegas de Jonia (especialmente en Mileto), surgieron los primeros pensadores que buscaron explicaciones naturales para los fenómenos, abandonando progresivamente las narraciones míticas. Tales de Mileto, considerado el primer filósofo, propuso que el agua era el principio originario (arché) de todas las cosas.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta propuesta, aparentemente simple, representaba una revolución conceptual: en lugar de atribuir la creación del mundo a dioses antropomórficos, Tales buscaba un principio material único que explicara la diversidad de la naturaleza. Su enfoque implicaba que el cosmos era comprensible a través de la razón humana y que operaba según principios regulares y cognoscibles.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Los filósofos posteriores desarrollaron esta línea de pensamiento: Anaximandro propuso el "ápeiron" (lo indeterminado) como principio, Anaxímenes el aire, Heráclito el fuego y el devenir constante, Parménides el ser inmutable y Pitágoras los números como esencia de la realidad. Cada uno aportó elementos clave al desarrollo del pensamiento racional.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. Características del Pensamiento Racional Emergente</h2>
+                    <div class="essay-text">
+                        <p>El logos que surgió con los presocráticos presentaba características distintivas que lo diferenciaban radicalmente del pensamiento mítico. En primer lugar, la búsqueda de principios naturales (physis) en lugar de agentes sobrenaturales. Los primeros filósofos investigaban la naturaleza intrínseca de las cosas, no las voluntades caprichosas de los dioses.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>En segundo lugar, el desarrollo de la argumentación lógica y la crítica racional. Los filósofos no apelaban a la autoridad tradicional, sino que presentaban razones y argumentos que podían ser sometidos a discusión y refutación. Este carácter dialógico y crítico constituye una de las contribuciones más importantes del pensamiento griego.</p>
+                    </div>
+                    <div class="quote">
+                        "Todo fluye, nada permanece." - Heráclito
+                    </div>
+                    <div class="essay-text">
+                        <p>Finalmente, la emergencia de la abstracción conceptual. Los presocráticos desarrollaron conceptos como "ser", "devenir", "naturaleza" y "principio" que permitían un análisis más general y sistemático de la realidad. Esta capacidad de abstracción sentó las bases para el desarrollo posterior de la ciencia y la filosofía.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. Platón: La Consolidación del Logos</h2>
+                    <div class="essay-text">
+                        <p>Platón representa la culminación del proceso de transición del mito al logos. Aunque en sus diálogos utiliza frecuentemente mitos, lo hace con una función pedagógica y dentro de un marco conceptual rigurosamente racional. Su teoría de las Ideas establece una distinción fundamental entre el mundo sensible (aparente) y el mundo inteligible (real).</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Para Platón, el conocimiento verdadero (episteme) solo puede alcanzarse a través de la razón, que permite acceder a las Ideas eternas e inmutables. El conocimiento sensible (doxa) es mera opinión, mientras que el conocimiento racional proporciona certeza. Esta distinción consolida la primacía del logos sobre otras formas de conocimiento.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>En obras como "La República", Platón desarrolla una concepción del Estado basada en principios racionales más que en tradiciones míticas. El filósofo-rey gobierna no por herencia divina o fuerza, sino por su conocimiento de la verdad. Esta visión representa la aplicación del logos a la esfera política y social.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. Conclusión: El Legado del Logos</h2>
+                    <div class="essay-text">
+                        <p>El paso del mito al logos constituye uno de los hitos fundamentales en la historia de la humanidad. Este proceso, iniciado por los presocráticos y consolidado por Platón, estableció las bases del pensamiento racional, crítico y sistemático que caracteriza a la filosofía y la ciencia occidentales.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La transición no fue completa ni inmediata. Elementos míticos persistieron en el pensamiento filosófico, y el logos mismo desarrolló sus propias mitologías. Sin embargo, el surgimiento de la razón como criterio de verdad y método de investigación transformó irreversiblemente nuestra relación con el mundo y con el conocimiento.</p>
+                    </div>
+                    <div class="quote">
+                        "La admiración es lo que impulsa a los hombres a filosofar." - Platón, Teeteto
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Investiga las diferencias entre mito y logos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Investiga y reflexiona sobre las principales diferencias entre el pensamiento mítico y el pensamiento racional (logos) en la Antigua Grecia.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a investigar:</h4>
+                            <ul>
+                                <li>Características del pensamiento mítico</li>
+                                <li>Características del pensamiento racional</li>
+                                <li>Diferencias en la explicación de fenómenos naturales</li>
+                                <li>Cambios en los métodos de conocimiento</li>
+                                <li>Transformaciones en la concepción de la verdad</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu investigación:</h4>
+                    <p>Explica con tus propias palabras las principales diferencias entre el mito y el logos, destacando cómo esta transición transformó la comprensión del mundo.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu investigación sobre las diferencias entre mito y logos aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Desarrolla un esquema para tu ensayo sobre el paso del mito al logos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla un esquema detallado para un ensayo sobre "El Paso del Mito al Logos: El Nacimiento del Pensamiento Racional en la Antigua Grecia".</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">I. Introducción: El nacimiento de la razón</div>
+                                <div class="outline-content">
+                                    - Contexto histórico en la Antigua Grecia<br>
+                                    - Importancia de la transición del mito al logos<br>
+                                    - Tesis central sobre este proceso fundamental
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">II. El mundo del mito</div>
+                                <div class="outline-content">
+                                    - Características del pensamiento mítico<br>
+                                    - Funciones sociales del mito<br>
+                                    - Limitaciones del pensamiento mítico
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">III. Los presocráticos</div>
+                                <div class="outline-content">
+                                    - Tales de Mileto y el primer principio<br>
+                                    - Otros filósofos presocráticos<br>
+                                    - La búsqueda del arché
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu esquema:</h4>
+                    <p>Desarrolla tu propio esquema para el ensayo, incluyendo al menos 4 secciones principales con sus respectivos subtemas.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu esquema para el ensayo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica la contribución de los presocráticos y Platón</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica la contribución específica de los filósofos presocráticos y de Platón al proceso de transición del mito al logos.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos clave de la transición:</h4>
+                            <ul>
+                                <li>Los presocráticos y la búsqueda del principio natural</li>
+                                <li>Abandono de explicaciones sobrenaturales</li>
+                                <li>Desarrollo de la argumentación racional</li>
+                                <li>Platón y la teoría de las Ideas</li>
+                                <li>Consolidación del pensamiento filosófico</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada de cómo los presocráticos iniciaron y Platón consolidó el paso del mito al logos, destacando sus contribuciones específicas.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación sobre la contribución de presocráticos y Platón aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Revisa y corrige tu escrito sobre el paso del mito al logos</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa y corrige el texto que has desarrollado en las actividades anteriores, mejorando su coherencia, claridad y profundidad conceptual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a revisar en tu escrito:</h4>
+                            <ul>
+                                <li>Claridad en la distinción entre mito y logos</li>
+                                <li>Comprensión de las contribuciones presocráticas</li>
+                                <li>Explicación del papel de Platón</li>
+                                <li>Relación entre los diferentes elementos del proceso</li>
+                                <li>Corrección gramatical y ortográfica</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu revisión:</h4>
+                    <p>Describe los principales cambios y mejoras que has realizado a tu escrito y explica por qué consideras que estas mejoras fortalecen tu análisis del paso del mito al logos.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Describe tu proceso de revisión y corrección aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "El Paso del Mito al Logos"</h3>
+            <p>Has investigado las diferencias entre mito y logos, desarrollado un esquema para tu ensayo, explicado la contribución de presocráticos y Platón, y revisado tu escrito. Continúa explorando estos conceptos para profundizar en tu comprensión del nacimiento del pensamiento racional en la Antigua Grecia.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

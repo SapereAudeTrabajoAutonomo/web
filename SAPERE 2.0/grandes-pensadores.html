@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grandes Pensadores - Documentales y Enlaces Interactivos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --timeline-color: #3498db;
+            --ancient-color: #e67e22;
+            --medieval-color: #9b59b6;
+            --modern-color: #3498db;
+            --contemporary-color: #e74c3c;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #34495e;
+            --dark: #ecf0f1;
+            --success: #27ae60;
+            --text-primary: #ecf0f1;
+            --text-secondary: #bdc3c7;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --timeline-color: #2980b9;
+            --ancient-color: #d35400;
+            --medieval-color: #8e44ad;
+            --modern-color: #2980b9;
+            --contemporary-color: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .documentary-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .documentary-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .documentary-title {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .documentary-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .series-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navegación por períodos */
+        .period-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .period-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: var(--light);
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .period-btn.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .period-btn.ancient.active {
+            background: var(--ancient-color);
+            color: white;
+        }
+
+        .period-btn.medieval.active {
+            background: var(--medieval-color);
+            color: white;
+        }
+
+        .period-btn.modern.active {
+            background: var(--modern-color);
+            color: white;
+        }
+
+        .period-btn.contemporary.active {
+            background: var(--contemporary-color);
+            color: white;
+        }
+
+        /* Línea de tiempo interactiva */
+        .timeline-container {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            height: 10px;
+            background: var(--light);
+            border-radius: 5px;
+            margin: 0 100px;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, var(--ancient-color), var(--medieval-color), var(--modern-color), var(--contemporary-color));
+            border-radius: 5px;
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 4px solid var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .timeline-marker.active {
+            transform: translateY(-50%) scale(1.2);
+            border-color: var(--timeline-color);
+        }
+
+        .timeline-marker.ancient {
+            left: 0%;
+            border-color: var(--ancient-color);
+        }
+
+        .timeline-marker.medieval {
+            left: 33%;
+            border-color: var(--medieval-color);
+        }
+
+        .timeline-marker.modern {
+            left: 66%;
+            border-color: var(--modern-color);
+        }
+
+        .timeline-marker.contemporary {
+            left: 100%;
+            border-color: var(--contemporary-color);
+        }
+
+        .timeline-label {
+            position: absolute;
+            top: 40px;
+            transform: translateX(-50%);
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-secondary);
+        }
+
+        .timeline-marker.active .timeline-label {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* Contenido de períodos */
+        .period-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .period-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .period-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .period-header.ancient {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(230, 126, 34, 0.2));
+            border-left: 5px solid var(--ancient-color);
+        }
+
+        .period-header.medieval {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.2));
+            border-left: 5px solid var(--medieval-color);
+        }
+
+        .period-header.modern {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.2));
+            border-left: 5px solid var(--modern-color);
+        }
+
+        .period-header.contemporary {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.2));
+            border-left: 5px solid var(--contemporary-color);
+        }
+
+        .period-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .period-description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        /* Documentales grid */
+        .documentaries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .documentary-card {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid transparent;
+        }
+
+        .documentary-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .documentary-card.ancient {
+            border-top-color: var(--ancient-color);
+        }
+
+        .documentary-card.medieval {
+            border-top-color: var(--medieval-color);
+        }
+
+        .documentary-card.modern {
+            border-top-color: var(--modern-color);
+        }
+
+        .documentary-card.contemporary {
+            border-top-color: var(--contemporary-color);
+        }
+
+        .documentary-thumbnail {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .documentary-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .documentary-card:hover .documentary-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .documentary-card:hover .play-button {
+            opacity: 1;
+        }
+
+        .documentary-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .documentary-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .documentary-avatar.ancient {
+            background: var(--ancient-color);
+        }
+
+        .documentary-avatar.medieval {
+            background: var(--medieval-color);
+        }
+
+        .documentary-avatar.modern {
+            background: var(--modern-color);
+        }
+
+        .documentary-avatar.contemporary {
+            background: var(--contemporary-color);
+        }
+
+        .documentary-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .documentary-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .documentary-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .documentary-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .documentary-resources {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Modal para documentales */
+        .documentary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .modal-body {
+            padding: 1rem 2rem 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 1.5rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        /* Elementos interactivos */
+        .interactive-quote {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-quote:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .concept-highlight {
+            background: linear-gradient(120deg, transparent 0%, transparent 50%, rgba(52, 152, 219, 0.1) 50%);
+            background-size: 220%;
+            background-position: 0%;
+            transition: all 0.5s ease;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            cursor: help;
+            position: relative;
+        }
+
+        .concept-highlight:hover {
+            background-position: 100%;
+        }
+
+        .concept-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .concept-highlight:hover .concept-tooltip {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .documentary-title {
+                font-size: 2rem;
+            }
+            
+            .period-navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .period-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .timeline {
+                margin: 0 50px;
+            }
+            
+            .documentaries-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .documentary-modal {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="documentary-container">
+        <div class="documentary-header">
+            <h1 class="documentary-title">Grandes Pensadores</h1>
+            <p class="documentary-subtitle">Documentales y enlaces interactivos sobre los filósofos más influyentes de la historia occidental</p>
+            <div class="series-info">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>+ de 20 horas de contenido</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-film"></i>
+                    <span>24 documentales</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Recursos educativos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación por períodos -->
+        <div class="period-navigation">
+            <button class="period-btn ancient active" data-period="ancient">
+                <i class="fas fa-monument"></i>
+                Filosofía Antigua
+            </button>
+            <button class="period-btn medieval" data-period="medieval">
+                <i class="fas fa-church"></i>
+                Filosofía Medieval
+            </button>
+            <button class="period-btn modern" data-period="modern">
+                <i class="fas fa-lightbulb"></i>
+                Filosofía Moderna
+            </button>
+            <button class="period-btn contemporary" data-period="contemporary">
+                <i class="fas fa-user-astronaut"></i>
+                Filosofía Contemporánea
+            </button>
+        </div>
+
+        <!-- Línea de tiempo interactiva -->
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-progress" id="timeline-progress"></div>
+                <div class="timeline-marker ancient active" data-period="ancient">
+                    <div class="timeline-label">Antigua<br>600 a.C. - 500 d.C.</div>
+                </div>
+                <div class="timeline-marker medieval" data-period="medieval">
+                    <div class="timeline-label">Medieval<br>500 - 1400</div>
+                </div>
+                <div class="timeline-marker modern" data-period="modern">
+                    <div class="timeline-label">Moderna<br>1400 - 1800</div>
+                </div>
+                <div class="timeline-marker contemporary" data-period="contemporary">
+                    <div class="timeline-label">Contemporánea<br>1800 - Actualidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido de los períodos -->
+        
+        <!-- Filosofía Antigua -->
+        <div class="period-content active" id="ancient-content">
+            <div class="period-header ancient">
+                <h2 class="period-title">Filosofía Antigua</h2>
+                <p class="period-description">El nacimiento del pensamiento racional en la Grecia clásica, donde los primeros filósofos buscaron explicaciones naturales para el cosmos, alejándose de las explicaciones mitológicas.</p>
+            </div>
+
+            <div class="documentaries-grid">
+                <!-- Presocráticos -->
+                <div class="documentary-card ancient" data-documentary="presocraticos">
+                    <div class="documentary-thumbnail">
+                        <img src="https://i0.wp.com/aion.mx/wp-content/uploads/2024/07/escuela-de-mileto-tales-anaximandro-y-anaximenes.jpg?resize=960%2C650&ssl=1" alt="Presocráticos">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar ancient">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>Los Presocráticos</h3>
+                            <p>Siglos VI-V a.C. • Duración: 1h 40min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>Los primeros filósofos que buscaron explicaciones racionales para el origen y naturaleza del cosmos, abandonando las explicaciones mitológicas tradicionales.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=mbiWDsmtwvk&t=0s" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://drive.google.com/file/d/1szPo.../view" class="resource-link" target="_blank">
+                                <i class="fas fa-book"></i>
+                                Bibliografía
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sócrates y Platón -->
+                <div class="documentary-card ancient" data-documentary="socrates-platon">
+                    <div class="documentary-thumbnail">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDBSt_OTYILz9GB0QOZImI_ADfpXzLBo7LAg&s" alt="Sócrates y Platón">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar ancient">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>Sócrates y Platón</h3>
+                            <p>Siglo V-IV a.C. • Duración: 1h 38min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>El método socrático, la teoría de las Ideas, la alegoría de la caverna y el pensamiento político de los fundadores de la filosofía occidental.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=mbiWDsmtwvk&t=5970s" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://drive.google.com/file/d/1UHYE.../view" class="resource-link" target="_blank">
+                                <i class="fas fa-book"></i>
+                                Bibliografía
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aristóteles -->
+                <div class="documentary-card ancient" data-documentary="aristoteles">
+                    <div class="documentary-thumbnail">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA4f1qsYUIBOvmJ5BnJnsN8Tvg-MF7NWNXoQ&s" alt="Aristóteles">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar ancient">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>Aristóteles</h3>
+                            <p>384-322 a.C. • Duración: 46min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>Metafísica, las cuatro causas, ética de la virtud, política y lógica del pensador que sistematizó el conocimiento filosófico.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=FgmUV9VNMOA" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://drive.google.com/file/d/1Dr7i.../view" class="resource-link" target="_blank">
+                                <i class="fas fa-book"></i>
+                                Bibliografía
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Helenismo -->
+                <div class="documentary-card ancient" data-documentary="helenismo">
+                    <div class="documentary-thumbnail">
+                        <img src="data:image/jpeg;base64,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" alt="Helenismo">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar ancient">
+                            <i class="fas fa-columns"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>Helenismo</h3>
+                            <p>Siglo IV a.C. - II d.C. • Duración: 41min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>Estoicismo, epicureísmo, escepticismo y cinismo: las escuelas filosóficas que surgieron después de Aristóteles.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=f-FmNW7VsTI" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://drive.google.com/file/d/12Vit.../view" class="resource-link" target="_blank">
+                                <i class="fas fa-book"></i>
+                                Bibliografía
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filosofía Medieval -->
+        <div class="period-content" id="medieval-content">
+            <div class="period-header medieval">
+                <h2 class="period-title">Filosofía Medieval</h2>
+                <p class="period-description">Síntesis entre la filosofía griega y el pensamiento cristiano, islámico y judío, caracterizada por la búsqueda de armonía entre fe y razón.</p>
+            </div>
+
+            <div class="documentaries-grid">
+                <!-- San Agustín -->
+                <div class="documentary-card medieval" data-documentary="agustin">
+                    <div class="documentary-thumbnail">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMkjlNgHe1y5TW9qOr5FVHY4BgFO4vGq1d3w&s" alt="San Agustín">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar medieval">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>San Agustín</h3>
+                            <p>354-430 • Duración: 30 min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>La fusión del platonismo con el cristianismo, la teoría del tiempo y la doctrina del pecado original.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=k-ZbtlgY4vk" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://plato.stanford.edu/entries/augustine/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Recursos adicionales
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Santo Tomás de Aquino -->
+                <div class="documentary-card medieval" data-documentary="aquino">
+                    <div class="documentary-thumbnail">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxwed6hAE1iOxZ6C0ikY6ApF5UTOznd_vfbg&s" alt="Santo Tomás de Aquino">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar medieval">
+                            <i class="fas fa-cross"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>Santo Tomás de Aquino</h3>
+                            <p>1225-1274 • Duración: 28 min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>La síntesis entre aristotelismo y cristianismo, las cinco vías para demostrar a Dios y la teoría de la ley natural.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=14JuGlkFqgo" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://plato.stanford.edu/entries/aquinas/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Recursos adicionales
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filosofía Moderna -->
+        <div class="period-content" id="modern-content">
+            <div class="period-header modern">
+                <h2 class="period-title">Filosofía Moderna</h2>
+                <p class="period-description">La era de la razón y la revolución científica, caracterizada por el giro hacia el sujeto y el problema del conocimiento como centro de la reflexión filosófica.</p>
+            </div>
+
+            <div class="documentaries-grid">
+
+                <!-- Thomas Hobbes -->
+            <div class="documentary-card modern hobbes" data-documentary="hobbes">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/9i4jb5XBX5s/maxresdefault.jpg" alt="Thomas Hobbes">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Thomas Hobbes</h3>
+                        <p>1588-1679 • Duración: 28 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El estado de naturaleza, el contrato social y el Leviatán como solución al problema del orden político en la sociedad humana.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=gDz8mbkFXDE" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/hobbes/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                <!-- René Descartes -->
+                <div class="documentary-card modern" data-documentary="descartes">
+                    <div class="documentary-thumbnail">
+                        <img src="data:image/jpeg;base64,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" alt="René Descartes">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="documentary-header">
+                        <div class="documentary-avatar modern">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="documentary-info">
+                            <h3>René Descartes</h3>
+                            <p>1596-1650 • Duración: 32 min</p>
+                        </div>
+                    </div>
+                    <div class="documentary-content">
+                        <div class="documentary-description">
+                            <p>La duda metódica, el "Pienso, luego existo" y el dualismo mente-cuerpo que marcaron el inicio de la filosofía moderna.</p>
+                        </div>
+                        <div class="documentary-resources">
+                            <a href="https://www.youtube.com/watch?v=VoyAvX8A_ps" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Ver documental completo
+                            </a>
+                            <a href="https://plato.stanford.edu/entries/descartes/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Recursos adicionales
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Baruch Spinoza -->
+        <div class="documentary-card modern spinoza" data-documentary="spinoza">
+            <div class="documentary-thumbnail">
+                <img src="data:image/jpeg;base64,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" alt="Baruch Spinoza">
+                <div class="play-button">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <div class="documentary-header">
+                <div class="documentary-avatar modern">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <div class="documentary-info">
+                    <h3>Baruch Spinoza</h3>
+                    <p>1632-1677 • Duración: 25 min</p>
+                </div>
+            </div>
+            <div class="documentary-content">
+                <div class="documentary-description">
+                    <p>Panteísmo, ética demostrada según el orden geométrico, Deus sive Natura y la teoría de los afectos. Uno de los racionalistas más influyentes del siglo XVII.</p>
+                </div>
+                <div class="documentary-resources">
+                    <a href="https://www.youtube.com/watch?v=sNxMWJca5l8&t=1526s" class="resource-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        Ver documental completo
+                    </a>
+                    <a href="https://plato.stanford.edu/entries/spinoza/" class="resource-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Recursos adicionales
+                    </a>
+                </div>
+            </div>
+        </div>
+
+                 <!-- John Locke -->
+            <div class="documentary-card modern locke" data-documentary="locke">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/bZiWZJgJT7I/maxresdefault.jpg" alt="John Locke">
+                    <div class="play-button">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>John Locke</h3>
+                        <p>1632-1704 • Duración: 30 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El empirismo, la teoría de la tabula rasa, los derechos naturales y la separación de poderes como base del liberalismo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=wWRSOklfZVQ" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/locke/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- George Berkeley -->
+        <div class="documentary-card modern berkeley" data-documentary="berkeley">
+            <div class="documentary-thumbnail">
+                <img src="data:image/jpeg;base64,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" alt="George Berkeley">
+                <div class="play-button">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <div class="documentary-header">
+                <div class="documentary-avatar modern">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="documentary-info">
+                    <h3>George Berkeley</h3>
+                    <p>1685-1753 • Duración: 35 min</p>
+                </div>
+            </div>
+            <div class="documentary-content">
+                <div class="documentary-description">
+                    <p>Inmaterialismo, la teoría de que "ser es ser percibido" (esse est percipi), y la crítica a la existencia de la materia. Principal representante del empirismo inmaterialista.</p>
+                </div>
+                <div class="documentary-resources">
+                    <a href="https://www.youtube.com/watch?v=kjdRVq0YfOo" class="resource-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        Ver documental completo
+                    </a>
+                    <a href="https://plato.stanford.edu/entries/berkeley/" class="resource-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Recursos adicionales
+                    </a>
+                </div>
+            </div>
+        </div>
+
+            <!-- David Hume -->
+            <div class="documentary-card modern hume" data-documentary="hume">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="David Hume">
+                    <div class="play-button">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>David Hume</h3>
+                        <p>1711-1776 • Duración: 35 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El empirismo radical, la crítica a la causalidad y la distinción entre hechos y valores en la filosofía de la Ilustración.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=ST45Ezh_yoE" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/hume/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jean-Jacques Rousseau -->
+            <div class="documentary-card modern rousseau" data-documentary="rousseau">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/81KfDXTTtXE/maxresdefault.jpg" alt="Jean-Jacques Rousseau">
+                    <div class="play-button">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Jean-Jacques Rousseau</h3>
+                        <p>1712-1778 • Duración: 33 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El buen salvaje, la voluntad general y la crítica a la civilización que influyó en la Revolución Francesa y el romanticismo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=QhBqnrt2GsQ" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/rousseau/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Immanuel Kant -->
+            <div class="documentary-card modern kant" data-documentary="kant">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/nsgAsw4XGvU/maxresdefault.jpg" alt="Immanuel Kant">
+                    <div class="play-button">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Immanuel Kant</h3>
+                        <p>1724-1804 • Duración: 40 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>La Crítica de la Razón Pura, el imperativo categórico y la revolución copernicana en filosofía que unió racionalismo y empirismo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=Y250MsHwRTA" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/kant/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Georg Wilhelm Friedrich Hegel -->
+            <div class="documentary-card modern hegel" data-documentary="hegel">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/H5JGE3lhuNo/maxresdefault.jpg" alt="Georg Wilhelm Friedrich Hegel">
+                    <div class="play-button">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Georg Wilhelm Friedrich Hegel</h3>
+                        <p>1770-1831 • Duración: 60 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>La dialéctica, el idealismo absoluto y la filosofía de la historia como desarrollo del Espíritu hacia la autoconciencia y la libertad.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=uJAL4xoAHXQ" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/hegel/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karl Marx -->
+            <div class="documentary-card modern marx" data-documentary="marx">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/fSQgCy_iIcc/maxresdefault.jpg" alt="Karl Marx">
+                    <div class="play-button">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Karl Marx</h3>
+                        <p>1818-1883 • Duración: 60 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El materialismo histórico, la lucha de clases, la alienación y la crítica al capitalismo que inspiró movimientos revolucionarios.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=CE67NR8aawY" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/marx/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arthur Schopenhauer -->
+            <div class="documentary-card modern schopenhauer" data-documentary="schopenhauer">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="Arthur Schopenhauer">
+                    <div class="play-button">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Arthur Schopenhauer</h3>
+                        <p>1788-1860 • Duración: 66 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El pesimismo filosófico, la Voluntad como esencia del mundo y la liberación a través del arte y la negación del deseo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=adZ8sgBNS1I&t=4s" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/schopenhauer/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friedrich Nietzsche -->
+            <div class="documentary-card modern nietzsche" data-documentary="nietzsche">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/wHWbZmg2hzU/maxresdefault.jpg" alt="Friedrich Nietzsche">
+                    <div class="play-button">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Friedrich Nietzsche</h3>
+                        <p>1844-1900 • Duración: 43 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>La muerte de Dios, el superhombre, la voluntad de poder y la transvaloración de todos los valores en la filosofía contemporánea.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=KwtdD-5m2yY&t=5s" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/nietzsche/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+        
+
+        <!-- Filosofía Contemporánea -->
+        <div class="period-content" id="contemporary-content">
+            <div class="period-header contemporary">
+                <h2 class="period-title">Filosofía Contemporánea</h2>
+                <p class="period-description">Diversificación de corrientes filosóficas, crítica a la metafísica tradicional y surgimiento de nuevas problemáticas en respuesta a los cambios sociales, políticos y científicos.</p>
+            </div>
+
+            <div class="documentaries-grid">
+                <!-- Ludwig Wittgenstein -->
+            <div class="documentary-card modern wittgenstein" data-documentary="wittgenstein">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/pQ33gAyhg2c/maxresdefault.jpg" alt="Ludwig Wittgenstein">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Ludwig Wittgenstein</h3>
+                        <p>1889-1951 • Duración: 42 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Filosofía del lenguaje, los límites del lenguaje como límites del mundo, y la distinción entre decir y mostrar en el Tractatus y las Investigaciones Filosóficas.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=DvH3MgCBl2U" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/wittgenstein/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Martin Heidegger -->
+            <div class="documentary-card modern heidegger" data-documentary="heidegger">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="Martin Heidegger">
+                    <div class="play-button">
+                        <i class="fas fa-question"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Martin Heidegger</h3>
+                        <p>1889-1976 • Duración: 54 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El ser-en-el-mundo, la analítica existencial del Dasein, y la pregunta por el sentido del ser en "Ser y Tiempo", obra fundamental de la filosofía continental.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=LjobYaZIFx4" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/heidegger/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jean-Paul Sartre -->
+            <div class="documentary-card modern sartre" data-documentary="sartre">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="Jean-Paul Sartre">
+                    <div class="play-button">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Jean-Paul Sartre</h3>
+                        <p>1905-1980 • Duración: 22 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>El existencialismo, la libertad radical, la náusea y la idea de que "la existencia precede a la esencia" en el pensamiento ateo contemporáneo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=HArrytsP748" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/sartre/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bertrand Russell -->
+            <div class="documentary-card modern russell" data-documentary="russell">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQDxIVFRUVFRUVFRUWFRUVFRUVFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGhAQGi0dHSUtLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAMIBAwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAACAAEDBAUGBwj/xAA7EAABAwEFBAkDAgUFAQEAAAABAAIRAwQSITFRBUFhcQYTIjKBkaGx8MHR4UJSBxQjcvFikqKywoIk/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAhEQEBAAICAwACAwAAAAAAAAAAAQIRAyESMUEyUQQTQv/aAAwDAQACEQMRAD8A4BOEgnCwpJ0k4QJEkE6BgiCScBA4TwkAiAUUwCIBOAiAUDAJXVI1q3uj/Rx9pdE3Wzi6JJ4NH13KbHP9WrNDZ7390SdPucvVex7K6J2OgBDHVHj9TyD9IHgFtUrBTb3WNbyAHtgrq028GfsiqM2HynzVOvZXNxIw1GIX0BbbMwiCAecei47b2x6D2ns3ZyIgQeO7xV0m3lJCAha9p2LVFTq2MLycg0SSNYRWzo3aaQvVKTgN8Q6PJRdsQhMWHOFK5kZqMqqjIQEKUhCQqIiEDgpSEDgqiIhCQpChIQAQhKMoSiASTlJAySSdBfCIJgiCgScJJwgcJ0gnCBBEAmCIKAgE4CQRBQIBGAmaFbsVnLnADUKW6Vu9G9hh462ocMmjX8Lv9iWdtIZRA8vFZWyaDabRf0wA3eC3qLW6eHz2XDG3K7rpMfg6L6jjfb2RuxzGsHBWzMYkeAH0TsBRXCu826eMUKoAy91l26hIzWxWbiqNbis1vxjHsoDHE65nf/haXWBwgmVl2tsH2WYNp3Kgbrr6qY8munHPj+xS6T9HQ4mpSEHeNd64l7CDBXqdotQGByjL6hcj0hsgxqMMaxhK15TblHLkICic5AXLahIUZCkKAqiMpiEZCEqoAoSjhC4IIymRFMiGTpJIrQARJBPCiGRBMiAQIIkgEQCBgiASARAKBwEYCZoUjQoE1q6DYdGIImThliB91iMwxXbdFKAu9Y7E5DKIGGS5cm701i3LJZS2nfdmSABpqTqVtUmafPkLOtj+w3gZWjRcnjrp3470vUjuUxcqtI/MkZeMfuuuK2K1fFZ9obmFqVoxIOCzLU8DOFnKNRm2tuC4HalaLWwbpxHA4YrubRWYYlwB3Y4cl5ztokWp2uHkucnaV1ttb2WvGWGI0OXosq2VTdIInhGJ4jjwW1QqTSAMSB5wBh7rnNo1TF5m/WMPhVyx+x5p705u2jtE4QMeaplykt9oJeT3SMMBHrhqqfWartj6KsXk15Q3019aRNKSiDkYcgchAQjlC5BGUyIpkApJ0kGkE6QSUQ4TgJBEFAgiASCIBEIBEAkAjAQJoUrQhaEYUUTV3PRqp/SbHzHeuGC3dlbXDGlriRpxWMiOttFpxg5Ynw+ShtG3bovBzQOPLcMyeO73wmW01aZIkEYeRH0lZn8qbzppl4Y1zg0yGkNkuJ/cSZEfBi5dvRx47x/TpaHTQ3ouy3XIHlguhsm0BUF5pzA8F5xYSKpN2k5l0Ce6WGYwEYiJ36LrOilmdTqOa4dhwBAP7tQdI+inld6d/Ga3O17a22hQpXzhMxv5LhLTty01X4FwZua0NbPEu3LS6cPqVLTSpNBLGyYERJIEnl9UdTo5aHMc5sNdAgkQJ3NaD7mMVd3ZcZZ25920KodBBE8Q7yIx8ysfbFqd1rHneLsnScPGVuN6MWkCo6qQCDLRILgJOF5gg7s1l9IrMS1sAyM5Bw3zx5rUvbncZrcdLs+3Sxs5y7yw+pXP17SS5zHGSHOx4OLiB81VKhtMsa3Ebxj7nyCp1bWHvJxkiZ4R7rUlcMsdVHbQJPt9RxyVIojXvkmd8ISukjFCU0pyhKqDa5SNcq0qRrkFkFIqJpUgRTFCjKAoGSTpkGmE6YJ1lBBEEIRhA4CMBC1SAIhwEQCQCIBKHaEYTAIwshoR0xunMEeYI+qGE4Cix0uwKXda8CCLpgwMh+Cusp02U++66IgPkAcBGWXLesJ9FlOjZnszNNpceJbMe66Sx15AmII8Fynt7MYqVbYwnqrLDyc7oAA4uLcFfsVP+oGu3AAxl8zV+ldGIAGG4AKps5t6o4zGOE6Lcx77bt66cT0lr3bY07iCDy3jyjyW/Z69e4KlG68RvMHzXL9M6TnVqZZ3r0QSBhxXT9HrR/SLTgQS0jlp6eax9aVrZQtNbCo1lNv6iHXjCxOkNKnTpkQDgZJz445+66HaNuutEnPNcH0utksIBzT3dFnW3B7Ur53cMcI4qayUHVJptHaLJnHssbmRxMwqb2XqwZuvLZszyy007oJEOa6N7TgJ8QfJei9Tp5sZu7qjRohouicJmdQYlEVb2g9pqPLMBOHhgfWVVKsccvdAhKMoCqyApBOUwQTsUrVCxTNQIoUZCEhFCknTINIJ0wTrKCajCBqMIDapGoGowiDCMIAiUqCRhAEQUUSQSThQdhsu9WsrWgSWNcP9pLgr1mc5rWkd0geEwuX2Ltl1nMReaTJGRG6R9l1Gx6t+gI5fZcsp29fHl00zVL3Bl6AAC4jPHIDnB8lytp21abO54cCTJgtaR2RkRrgtunVjGc3H0wj0R2yk2o26+NQd4+BSO3lN6eX7Rt9ptFbrMWtBEuIJJn9gkea6TovbHMvtqmb5BbqCBGPh7IrTZboIIg55H0+blTpUoIcTEJbtWt0gqEhpbv8AzKwNr7NPVOe45NJ8l0IpdYDTzI7Q8M/cLM6SVBceycqR5Tl9SmPtMsunmk3XMfqwHzgrobc26wNMB11omMSRifU+q5uzm/1bdBB5N/wPNa9eqXGXGSvTZux5ZnJKgKEo3ICtOQShKIoSiAKQTlO0IJGKUBAwKYBFMUxTpFACScpIL4TpgnCygmqQKMKRqA2qQIGogiDaiCFqIKAgiCEIgook6q2e30nuLWPBI4HdoYg+CtIh103RW3QOrP7vQg/VcyprJaTTcHtzH+VnKbjeGWq7SvZ6r8GOawD9TgTJGjQR5qKnZ7VmK1AjCQQ8euOKOy7U69vWMY4EGO0Q0cQBKr2qyV3HsMGO8uuj1XDb34wtqUaxbL69nbG5oc/dqYXNN2fUqOusrXp3tbcAjnK26nR6vF59w7+/+FLRstZrcC1o1z/yrbWrIDYticyo0l967eLiYiLpGOMnMblwHSLahcaxGUOaP/p2HoFu7d2q+gTNYGZkXMfdee7WtV43GmZN50ZTEBo1j3XTjx33XDlykg9iAdo8h9VpFZmx2kFwI3A/PMLTK9DyAcoyjcgKIYoSnTFAKJiFGxBOxSIGKRAJTIihKKEp0xToLwThME4WUEFI1RhGEEjUYQBGiHCMIAjCiCCy9vW8tHU0z23gyZi4ze4nd84KztK3iiy8cXHBrdT9tSsno/ZDVea9TEXpn97x/wCW7uMaKyfarS2DswUmBxHbcMdQPpy3ec6gTEpLNuwSQKGU8qDR2VaH071RhPZiW7nCCfA4ZrSr9LqbYxjgcM1Bsqygsa3N9ZtR7dA2i9jY4klzvIKiLBTd2ajQRjE7jmPRcs+r29fDlfFpVul7XNBEgDP4FiW7pbAIBwzjMkqXaOwKIpyyky9AiRvOEqGy9GKLN19wiXOxBIEkgc9ym8Prr5ZfHD2qpVtNQnEknD7D0XUbJ2BSotmoJeQST+0Ru8cFtWDZgbUc+7l3BGXEjUmT5K5Wp3RJz9BGQGp9BM8um7n1j6cbcePvLuvONs2R1NrX4tdM8pgNB4kDLQDVFZrQHtDh4jQ6Kx0ztGLWDUu/J5k+i5ijVLDLTB9DwK9Gunm3vt0DkJUVmtQeMM940/CkKgYoSnKFA8KRgQtCmYEBtCMpmhIoGKEpyUKBJ0ySir6dMnCiCCkaowpGoDajCALd2R0ar14N24z9zwRh/pbmfbips1tjAIbRXbTaXvOA8zoBqV6bYeillpt7TescMy4k/wDEYJ9r9HNnupO66nTF2T+yBqHCMfGVPJ0nFXg7jUtVa7kTnpTYDiOeupK7CjSaxoYwQGiAFU2Xs5lEOuSbziQTnck3B5R4kq6tW7chJBRVKrWiXEAakwsq19IWNwpC+de60eJzU1sbQUFot1Ong94B0zPkMVyto2tWqYF0DRuA+/mqjVfAe4dEKTLRZqFYSHMNbqycJa55D2O4EtaQeHEqxtbZEG+BEd4aKr/Ct3/4WtO5z/V7vyrXTLplQslygafWvIvPgxcpzgCf3OxgZQJ0BufFMsdnHy3G6Y1Sq3stcRODoJxwI+sK5YrA6AXCMXczJwwWz0C2nYrX1jqdIsrMuy2pBcGHItIwiZmMctQuitezWZg3eHz5gVjD+PP9OnJ/IvrFx/8AJgTAz9eZ+b1ibVcBPAZ7hqeGq6vaFB3dZju4/PyuI6ctNGj1ci/WlpOlMQannIB4OXos1OnlluV7eZ7WtLq1R1TcTDf7Rl9+ZVLq1eqPGTQI1OJKikzkD4KR2QtYBiCfnEFWm1yMjI4/dBdO+B4Cfuk48Z5/lBYZaQc8PZTBZ4OqYy0wDCmhqsCnaFlU7eR3hPor1C3MdhMHQ4euSmqsW0LkSEqACmRJkDJJkkF9EEKcKAwjCAIgoKdJ9WvUDKEwDn3WjOHvfuxGDd8Kajbbds2sHms+HAkg1HPY8DvBzThOWWW4lUNm7V/lXuY5rXEC6L5IaJjt3QCHYTunFZ21trOrmXcsMABMkNG7H2C1olsd5V/iI5zSaTQDAm+8Akn9oAkjnCx7BXtG0nubWrFlJokhoz0bj4rnNiWF1oe2kN7mtB/vcG+IxnwXsVg6FusdI06dQPLjeJIuEnARhMZLjlJjOvb1YZXL36cNaatKzf0y/AYNnFxGsaLI2jt4nCjgP3EY+A3eKt9Otm12VesqUnBpAF+JZoBIwbhAgrlyYxPgPvwXXCSzbz8n5UVWoXdp5J4kyTyQNx4BAXFxxU7IjQ+hW2BXdFLQHaaDqPdRiRwUgfBvaAegCg9f6EWtlHZrrRUMNY+u5x33W1Hkxqdw4kDevKrVtB9or1K9XB9Q34O4EQxrcO61oaBwAXU0HmrQsOxwcaxNptMfppvc6uynwJbddw7GqX8QrAKVro9UyGmg1oa0tEFj3tb6EDw4LV9MTqsropt82G2UqwPZDrtaN9J+D8s4wcOLAvoatJGYg4zmI+ex1Xzj0OsAtVus9F8xUqEunCbrHPA/4jzK+iiG0Wdp/ZptLpdua3Ek8Bh4BXFM1S2VGUW3szkNSceyOJx5C8dxXhfTnbLq9Z0nAdkAZAAzA9yd/oPRul22T1JqEFt4OutOBbTEEgz+t5DQdMBqT41VJe4k7yST7lMqYQzGgC8cdBqePBA5zjqeXpgE73TlyAUz3XRdBxzcR6BZdEPUH9UNHE+wTdkZS46nAeWadlAuxHid3iUi1owPa5ZflUVxopKokNOojy/ymqunGAIygeaKOwOZ+6IjLMDzUbWKdgwdyHoU1IdoePsihs9rezAHDQ4j8LSo29rh2uyd85eaygAMSPBBUdBIHwZpYOhBSWTsi049WcjiOB3ha0rCmhJJJBdRBAiCgMIwowrNhodY9lMGLzg2dJMSorSpdC2WyjeLiytnTcBIu/te3eMJndK4u07Dq0nmm6m4nLAEzy1XvVGlToUerp7mgTm44Qs6kX1Dca26N5xvHmd3guP9ll/b0TjmnJ/w36MPFX+YqsLbvcacO1iLzhwk4a8l6XWrmYeBhofmqVBvVgNpNkjwx1KruvEm+BylN79teoapdfIwGoJEkRpvC8x6fdE2OcalkphrwJcxggPE5gDAO9131rqy6HC7PGZ+aLFrVXXsCIEwDgY4HzWZlZek8ZZqvFWYGCN8EHUexUsb1pdLarH2p76YjK8CIN4DE+wnes1juz4n2C9cu5t5cpq6S1Dg3kfcqKo+cNTHgntLuy0cD/2KjLe1Gkqo7T+GtjfUt3WjKnTc57icGgloN9xyF295Kp0o2n/N219drD1YIp0owBYzAcp70bi4qbo9tE0bJtBjYl9KztN7KDWc2o3jLahHksF2Bi67swSQZEk4kRgMgPBX4mu17o9tY2W00LSb39KpJEZsF68Ad5ulwXuHSFzatWlTwcxzL2OLXXu7nmMF8/1TGPabDyMcYvYeeK9f6NbeYzZNGvVgmhTNHierddpsE7yOrHirixnHNfxS2gOsZZWmS1jTU4EmWt+v+1cDUw7I8VZtttfUe+vVM1KrnOJ4nTQAQByGiqU2SY8+W9Zt3W5NTQqWAvHk3iVGwSfHE+5Keq+ThkMhwSJgRvOfLRVR1H6HsjL7+6jrQ3FxHADEnyRUR+o5D1O4KGrjJwk5x84IISC7HIT85qy09iNHfQJv0eP0RUu64cvnoiBpnPkVE18GR8MJXsTyI9EIVElqEHwCr1cgeHsp7QZDTwjyUDsuR91ANGpdcHaEfldAHrnCtSy15aPLyWarQvJlX61MorXDwiDwqycKItBwU1CtdIc04ggjmMQqARAppdvW9lWzrWNqHNwEcPytmldaNTnOi836F7VIcKLsf2+5HuV3oqi9BcBguGtPXMpYum1QJEToVgbW6RUqJJrVGN3xOIHEKj0t22yzsJBJd+1oJPM7gOJXi21Lc+vVNWpmchoNwCuMuTGWUkelbX6b0KrIa4DGRquUqdL3h5gBzcxJIIO8Dh91y7mkZoZXSccc7y350ntlqNV76rgAXGYGQyw9FGHYeP2QjIpty6xytTE3iOA+pKstb23GMBB8AB9TChpNgTwCnaezOpA8hP28kRcsl7qLS+AWnqWEn9z3l7fGKb1WDc4aRnkZGDp8kFW1FrHUf0ufTrHmxj2D/u5Oxv8ApcJvDA6iYQFaagh0F2bXCddSrI2nU6oWa8OrFR1WAIl5YGSTvgDDmVSMnEl0FsHTDCPf5KFuLuSCSo+fYfQJ3mBd3nvfZJogXjn+nnqo2iT880UTIHaO71KEC8Y3kpPdpkMvunc26AZxO7hxVQ9V36RkPU6phhjvPt+UNETichmhq1N+85BA4ODm6XSjs+cagj6oLLTgOnO79Qk10Ec0FUnFTVWxhy9gof1H5vU1Y5cgqGf3BzKi3Hw+qk/R4/T8qMb+X1QARgpbK/AhAMj5+qCmcVBevpKtfTpodEiCZJYU4RBJJQXdjEivTjX6Fej2wxTkZ4Y7+6d6dJceT29HH+LzvpZVcW4uPd1Oi4tneCSS3x/inJ+Q9o5jkqgSSXWOOXs7Mii3eP2SSVjK5X/8j2Sf3R4/RJJBFV7x/sHsEVExEfMEklfgkYeyPH3KGlvSSQTW7Mf2j6qIZO+b06Sk9AG5/NQitXfPzcEkk+hM7vioanf8EklRYsuZ5FQOzHMe6SSCJ/fcirbuSdJWBM7h5/RRJklA9PfyPsVEM0kkqiSSSRH/2Q==" alt="Bertrand Russell">
+                    <div class="play-button">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Bertrand Russell</h3>
+                        <p>1872-1970 • Duración: 22 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Lógica matemática, filosofía analítica, atomismo lógico y su activismo pacifista. Autor de "Principia Mathematica" junto a Whitehead.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=bWuMVCurMtY" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/russell/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karl Popper -->
+            <div class="documentary-card modern popper" data-documentary="popper">
+                <div class="documentary-thumbnail">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8X5dnp3NcoCflUeacSiqyDSKZqr9YFRs8hA&s" alt="Karl Popper">
+                    <div class="play-button">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Karl Popper</h3>
+                        <p>1902-1994 • Duración: 14 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Falsacionismo, crítica al historicismo y defensa de la sociedad abierta. Su principio de falsabilidad como criterio demarcación científica.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=L69jHAWwExo" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/popper/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simone de Beauvoir -->
+            <div class="documentary-card modern beauvoir" data-documentary="beauvoir">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="Simone de Beauvoir">
+                    <div class="play-button">
+                        <i class="fas fa-female"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Simone de Beauvoir</h3>
+                        <p>1908-1986 • Duración: 36 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Feminismo existencialista, "El segundo sexo" y la famosa frase "No se nace mujer, se llega a serlo". Pionera del feminismo contemporáneo.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=J0eQGXIvai0" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/beauvoir/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hannah Arendt -->
+            <div class="documentary-card modern arendt" data-documentary="arendt">
+                <div class="documentary-thumbnail">
+                    <img src="data:image/jpeg;base64,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" alt="Hannah Arendt">
+                    <div class="play-button">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Hannah Arendt</h3>
+                        <p>1906-1975 • Duración: 33 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Teoría política, la banalidad del mal, y análisis de los totalitarismos. Su concepto de "natalidad" como fundamento de la acción política.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=W40WPoyts_8" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/arendt/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Michel Foucault -->
+            <div class="documentary-card modern foucault" data-documentary="foucault">
+                <div class="documentary-thumbnail">
+                    <img src="https://img.youtube.com/vi/BBJTeNTZtGU/maxresdefault.jpg" alt="Michel Foucault">
+                    <div class="play-button">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                <div class="documentary-header">
+                    <div class="documentary-avatar modern">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="documentary-info">
+                        <h3>Michel Foucault</h3>
+                        <p>1926-1984 • Duración: 49 min</p>
+                    </div>
+                </div>
+                <div class="documentary-content">
+                    <div class="documentary-description">
+                        <p>Teoría del poder, arqueología del saber y genealogía. Análisis de instituciones como la prisión, el manicomio y la sexualidad en la modernidad.</p>
+                    </div>
+                    <div class="documentary-resources">
+                        <a href="https://www.youtube.com/watch?v=E-8J-TzXRkE" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Ver documental completo
+                        </a>
+                        <a href="https://plato.stanford.edu/entries/foucault/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Recursos adicionales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+    <!-- Modal para documentales -->
+    <div class="documentary-modal" id="documentary-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 id="modal-title">Los Presocráticos</h2>
+                <p id="modal-subtitle">Siglos VI-V a.C. • Duración: 1h 40min</p>
+            </div>
+            <div class="modal-body">
+                <div class="video-container">
+                    <iframe id="modal-video" src="https://www.youtube.com/embed/mbiWDsmtwvk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="documentary-description">
+                    <p id="modal-description">Los primeros filósofos que buscaron explicaciones racionales para el origen y naturaleza del cosmos, abandonando las explicaciones mitológicas tradicionales.</p>
+                </div>
+                <div class="interactive-quote">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <p id="modal-quote">"Todo fluye, nada permanece" - Heráclito</p>
+                </div>
+                <div class="documentary-resources">
+                    <a href="#" id="modal-resource1" class="resource-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        Ver documental completo
+                    </a>
+                    <a href="#" id="modal-resource2" class="resource-link" target="_blank">
+                        <i class="fas fa-book"></i>
+                        Bibliografía
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de los documentales
+        const documentaries = {
+            presocraticos: {
+                title: "Los Presocráticos",
+                subtitle: "Siglos VI-V a.C. • Duración: 1h 40min",
+                videoId: "mbiWDsmtwvk",
+                startTime: 0,
+                description: "Los primeros filósofos que buscaron explicaciones racionales para el origen y naturaleza del cosmos, abandonando las explicaciones mitológicas tradicionales.",
+                quote: "Todo fluye, nada permanece - Heráclito",
+                resource1: "https://www.youtube.com/watch?v=mbiWDsmtwvk&t=0s",
+                resource2: "https://drive.google.com/file/d/1szPo.../view"
+            },
+            "socrates-platon": {
+                title: "Sócrates y Platón",
+                subtitle: "Siglo V-IV a.C. • Duración: 1h 38min",
+                videoId: "mbiWDsmtwvk",
+                startTime: 5970,
+                description: "El método socrático, la teoría de las Ideas, la alegoría de la caverna y el pensamiento político de los fundadores de la filosofía occidental.",
+                quote: "Solo sé que no sé nada - Sócrates",
+                resource1: "https://www.youtube.com/watch?v=mbiWDsmtwvk&t=5970s",
+                resource2: "https://drive.google.com/file/d/1UHYE.../view"
+            },
+            aristoteles: {
+                title: "Aristóteles",
+                subtitle: "384-322 a.C. • Duración: 1h 46min",
+                videoId: "mbiWDsmtwvk",
+                startTime: 11826,
+                description: "Metafísica, las cuatro causas, ética de la virtud, política y lógica del pensador que sistematizó el conocimiento filosófico.",
+                quote: "La excelencia no es un acto, sino un hábito - Aristóteles",
+                resource1: "https://www.youtube.com/watch?v=mbiWDsmtwvk&t=11826s",
+                resource2: "https://drive.google.com/file/d/1Dr7i.../view"
+            },
+            helenismo: {
+                title: "Helenismo",
+                subtitle: "Siglo IV a.C. - II d.C. • Duración: 41min",
+                videoId: "mbiWDsmtwvk",
+                startTime: 21789,
+                description: "Estoicismo, epicureísmo, escepticismo y cinismo: las escuelas filosóficas que surgieron después de Aristóteles.",
+                quote: "No es la muerte lo que debe temerse, sino nunca comenzar a vivir - Marco Aurelio",
+                resource1: "https://www.youtube.com/watch?v=mbiWDsmtwvk&t=21789s",
+                resource2: "https://drive.google.com/file/d/12Vit.../view"
+            },
+            agustin: {
+                title: "San Agustín",
+                subtitle: "354-430 • Duración: 30 min",
+                videoId: "H_DaZSqblyw",
+                startTime: 0,
+                description: "La fusión del platonismo con el cristianismo, la teoría del tiempo y la doctrina del pecado original.",
+                quote: "Ama y haz lo que quieras - San Agustín",
+                resource1: "https://www.youtube.com/watch?v=H_DaZSqblyw",
+                resource2: "https://plato.stanford.edu/entries/augustine/"
+            },
+            aquino: {
+                title: "Santo Tomás de Aquino",
+                subtitle: "1225-1274 • Duración: 28 min",
+                videoId: "HHPapGd9T3U",
+                startTime: 0,
+                description: "La síntesis entre aristotelismo y cristianismo, las cinco vías para demostrar a Dios y la teoría de la ley natural.",
+                quote: "La fe presupone el conocimiento natural como la gracia presupone la naturaleza - Santo Tomás",
+                resource1: "https://www.youtube.com/watch?v=HHPapGd9T3U",
+                resource2: "https://plato.stanford.edu/entries/aquinas/"
+            },
+            descartes: {
+                title: "René Descartes",
+                subtitle: "1596-1650 • Duración: 32 min",
+                videoId: "0A6UKoMcE10",
+                startTime: 0,
+                description: "La duda metódica, el 'Pienso, luego existo' y el dualismo mente-cuerpo que marcaron el inicio de la filosofía moderna.",
+                quote: "Pienso, luego existo - Descartes",
+                resource1: "https://www.youtube.com/watch?v=0A6UKoMcE10",
+                resource2: "https://plato.stanford.edu/entries/descartes/"
+            },
+            kant: {
+                title: "Immanuel Kant",
+                subtitle: "1724-1804 • Duración: 40 min",
+                videoId: "nsgAsw4XGvU",
+                startTime: 0,
+                description: "El giro copernicano en filosofía, la Crítica de la Razón Pura y el imperativo categórico como fundamento ético.",
+                quote: "¡Atrévete a saber! Ten el valor de servirte de tu propia razón - Kant",
+                resource1: "https://www.youtube.com/watch?v=nsgAsw4XGvU",
+                resource2: "https://plato.stanford.edu/entries/kant/"
+            },
+            nietzsche: {
+                title: "Friedrich Nietzsche",
+                subtitle: "1844-1900 • Duración: 45 min",
+                videoId: "wHWbZmg2hzU",
+                startTime: 0,
+                description: "La 'muerte de Dios', el superhombre, la voluntad de poder y la crítica a la moral tradicional.",
+                quote: "Lo que no me mata, me hace más fuerte - Nietzsche",
+                resource1: "https://www.youtube.com/watch?v=wHWbZmg2hzU",
+                resource2: "https://plato.stanford.edu/entries/nietzsche/"
+            },
+            sartre: {
+                title: "Jean-Paul Sartre",
+                subtitle: "1905-1980 • Duración: 38 min",
+                videoId: "3bQ8SW_dmyY",
+                startTime: 0,
+                description: "El existencialismo, la libertad radical y la idea de que 'la existencia precede a la esencia'.",
+                quote: "El hombre está condenado a ser libre - Sartre",
+                resource1: "https://www.youtube.com/watch?v=3bQ8SW_dmyY",
+                resource2: "https://plato.stanford.edu/entries/sartre/"
+            }
+        };
+
+        // Elementos DOM
+        const periodBtns = document.querySelectorAll('.period-btn');
+        const timelineMarkers = document.querySelectorAll('.timeline-marker');
+        const periodContents = document.querySelectorAll('.period-content');
+        const documentaryCards = document.querySelectorAll('.documentary-card');
+        const modal = document.getElementById('documentary-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalVideo = document.getElementById('modal-video');
+        const modalDescription = document.getElementById('modal-description');
+        const modalQuote = document.getElementById('modal-quote');
+        const modalResource1 = document.getElementById('modal-resource1');
+        const modalResource2 = document.getElementById('modal-resource2');
+        const timelineProgress = document.getElementById('timeline-progress');
+
+        // Cambiar período activo
+        function setActivePeriod(period) {
+            // Actualizar botones
+            periodBtns.forEach(btn => {
+                if (btn.dataset.period === period) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Actualizar marcadores de timeline
+            timelineMarkers.forEach(marker => {
+                if (marker.dataset.period === period) {
+                    marker.classList.add('active');
+                } else {
+                    marker.classList.remove('active');
+                }
+            });
+
+            // Actualizar contenido
+            periodContents.forEach(content => {
+                if (content.id === `${period}-content`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+
+            // Actualizar progreso de timeline
+            const progressWidths = {
+                ancient: '25%',
+                medieval: '50%',
+                modern: '75%',
+                contemporary: '100%'
+            };
+            timelineProgress.style.width = progressWidths[period];
+        }
+
+        // Event listeners para botones de período
+        periodBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setActivePeriod(btn.dataset.period);
+            });
+        });
+
+        // Event listeners para marcadores de timeline
+        timelineMarkers.forEach(marker => {
+            marker.addEventListener('click', () => {
+                setActivePeriod(marker.dataset.period);
+            });
+        });
+
+        // Abrir modal de documental
+        documentaryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const documentaryId = card.dataset.documentary;
+                const documentary = documentaries[documentaryId];
+                
+                if (documentary) {
+                    modalTitle.textContent = documentary.title;
+                    modalSubtitle.textContent = documentary.subtitle;
+                    
+                    // Configurar el video con el tiempo de inicio si corresponde
+                    if (documentary.startTime > 0) {
+                        modalVideo.src = `https://www.youtube.com/embed/${documentary.videoId}?start=${documentary.startTime}`;
+                    } else {
+                        modalVideo.src = `https://www.youtube.com/embed/${documentary.videoId}`;
+                    }
+                    
+                    modalDescription.textContent = documentary.description;
+                    modalQuote.textContent = `"${documentary.quote}"`;
+                    modalResource1.href = documentary.resource1;
+                    modalResource2.href = documentary.resource2;
+                    
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Cerrar modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            modalVideo.src = ''; // Pausar video al cerrar
+        });
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                modalVideo.src = '';
+            }
+        });
+
+        // Efectos interactivos para conceptos destacados
+        document.querySelectorAll('.concept-highlight').forEach(highlight => {
+            highlight.addEventListener('mouseenter', function() {
+                this.style.backgroundPosition = '100%';
+            });
+            
+            highlight.addEventListener('mouseleave', function() {
+                this.style.backgroundPosition = '0%';
+            });
+        });
+
+        // Inicialización
+        setActivePeriod('ancient');
+    </script>
+</body>
+</html>

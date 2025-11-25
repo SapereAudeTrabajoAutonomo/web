@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas: Pluralistas Presocráticos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+            --flashcards: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flashcards-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcards-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mode-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: var(--flashcards);
+        }
+        
+        .mode-card.active {
+            border-color: var(--flashcards);
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .flashcards-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 500px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            border: 2px solid var(--flashcards);
+        }
+        
+        .flashcard.flipped {
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            color: white;
+        }
+        
+        .flashcard-question, .flashcard-answer {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flashcard-answer {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-question {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-answer {
+            display: block;
+        }
+        
+        .flashcard-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--flashcards);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .self-evaluation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .eval-question {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .eval-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .eval-option {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .eval-option:hover {
+            background: #d5dbdb;
+        }
+        
+        .eval-option.selected {
+            background: var(--flashcards);
+            color: white;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .study-modes {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+            }
+            
+            .eval-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Tarjetas: Pluralistas Presocráticos</h1>
+        <p>Domina los conceptos clave de Empédocles, Anaxágoras y Demócrito</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="flashcards-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">PP</div>
+                <div class="philosopher-details">
+                    <h2>Pluralistas Presocráticos</h2>
+                    <p>Empédocles, Anaxágoras y Demócrito: Filósofos que explicaron la realidad a través de múltiples principios</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="flashcards-description">
+                <p>Este sistema de tarjetas interactivas te permitirá dominar los conceptos fundamentales de los pluralistas presocráticos. Estudia, practica y evalúa tu comprensión de las teorías de Empédocles (cuatro elementos), Anaxágoras (homeomerías) y Demócrito (atomismo).</p>
+            </div>
+            
+            <div class="study-modes">
+                <div class="mode-card active" onclick="setMode('study')">
+                    <div class="mode-icon">📖</div>
+                    <h3>Modo Estudio</h3>
+                    <p>Estudia las tarjetas a tu propio ritmo</p>
+                </div>
+                <div class="mode-card" onclick="setMode('practice')">
+                    <div class="mode-icon">🔄</div>
+                    <h3>Modo Práctica</h3>
+                    <p>Practica con autoevaluación interactiva</p>
+                </div>
+                <div class="mode-card" onclick="setMode('create')">
+                    <div class="mode-icon">✏️</div>
+                    <h3>Crear Tarjetas</h3>
+                    <p>Crea tus propias tarjetas personalizadas</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modo Estudio y Práctica -->
+        <section class="flashcards-container" id="study-practice-container">
+            <div class="flashcard" id="current-flashcard" onclick="flipCard()">
+                <div class="flashcard-counter" id="card-counter">1/25</div>
+                <div class="flashcard-question" id="flashcard-question">
+                    ¿Cuáles son los cuatro elementos o "raíces de todas las cosas" según Empédocles?
+                </div>
+                <div class="flashcard-answer" id="flashcard-answer">
+                    Fuego, aire, agua y tierra, que se combinan y separan mediante las fuerzas del Amor (atracción) y el Odio (repulsión).
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousCard()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextCard()">Siguiente →</button>
+            </div>
+            
+            <div class="self-evaluation" id="self-evaluation">
+                <h3>Autoevaluación</h3>
+                <div class="eval-question" id="eval-question">
+                    ¿Qué son las "homeomerías" según Anaxágoras?
+                </div>
+                <div class="eval-options" id="eval-options">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+                <button class="submit-btn" onclick="checkAnswer()">Verificar Respuesta</button>
+                <div class="submission-feedback" id="eval-feedback"></div>
+            </div>
+        </section>
+        
+        <!-- Modo Crear Tarjetas -->
+        <section class="flashcards-container" id="create-container" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--flashcards);">Crear Tus Propias Tarjetas</h3>
+            
+            <div class="activity-content">
+                <div class="activity-text">
+                    <p>Crea tarjetas personalizadas sobre las teorías pluralistas presocráticas. Incluye conceptos como los cuatro elementos de Empédocles, las homeomerías de Anaxágoras y el atomismo de Demócrito.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <h4>Ejemplos de conceptos para incluir:</h4>
+                        <ul>
+                            <li>Los cuatro elementos de Empédocles</li>
+                            <li>Las fuerzas del Amor y el Odio</li>
+                            <li>Las homeomerías de Anaxágoras</li>
+                            <li>El Nous (Intelecto) como principio ordenador</li>
+                            <li>El atomismo de Demócrito</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4>Nueva Tarjeta:</h4>
+                    <input type="text" id="new-question" placeholder="Pregunta o concepto..." style="width: 100%; padding: 1rem; margin-bottom: 1rem; border: 2px solid #e9ecef; border-radius: 8px;">
+                    <textarea id="new-answer" placeholder="Respuesta o explicación..." style="width: 100%; height: 120px; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="submit-btn" style="margin-top: 1rem;" onclick="addNewCard()">Agregar Tarjeta</button>
+                </div>
+                
+                <div id="custom-cards-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Las tarjetas personalizadas se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudio de tarjetas: Teorías pluralistas</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo estudio para revisar las tarjetas sobre las teorías fundamentales de los pluralistas presocráticos.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a dominar:</h4>
+                            <ul>
+                                <li>Los cuatro elementos de Empédocles</li>
+                                <li>Las homeomerías de Anaxágoras</li>
+                                <li>El atomismo de Demócrito</li>
+                                <li>Las fuerzas del Amor y el Odio</li>
+                                <li>El Nous como principio ordenador</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Después de estudiar las tarjetas, explica con tus propias palabras las principales diferencias entre las teorías de Empédocles, Anaxágoras y Demócrito.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Crear tarjetas: Comparación de teorías</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo creación para desarrollar tus propias tarjetas comparando las teorías de los pluralistas presocráticos.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Temas sugeridos para tus tarjetas:</h4>
+                            <ul>
+                                <li>Similitudes entre las teorías pluralistas</li>
+                                <li>Diferencias en la concepción de la materia</li>
+                                <li>Principios ordenadores en cada teoría</li>
+                                <li>Influencia posterior de estas teorías</li>
+                                <li>Críticas a las teorías pluralistas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu creación:</h4>
+                    <p>Describe al menos 3 tarjetas que hayas creado y explica por qué seleccionaste esos conceptos específicos sobre los pluralistas presocráticos.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tus tarjetas creadas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Práctica con autoevaluación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo práctica para evaluar tu comprensión de los conceptos pluralistas mediante preguntas de opción múltiple.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Áreas de evaluación:</h4>
+                            <ul>
+                                <li>Teoría de los cuatro elementos</li>
+                                <li>Concepto de homeomerías</li>
+                                <li>Atomismo de Demócrito</li>
+                                <li>Principios ordenadores</li>
+                                <li>Influencia en la filosofía posterior</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>¿Qué conceptos encontraste más desafiantes durante la autoevaluación? ¿Cómo piensas reforzar tu comprensión de estos temas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Describe tu experiencia de autoevaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexión: Legado de los pluralistas</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la importancia y el legado de los pluralistas presocráticos en la historia de la filosofía y la ciencia.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>Influencia en el desarrollo del pensamiento científico</li>
+                                <li>Relación con teorías científicas modernas</li>
+                                <li>Contribución al debate sobre la naturaleza de la materia</li>
+                                <li>Importancia en la transición del mito al logos</li>
+                                <li>Legado en la filosofía posterior</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que las teorías de los pluralistas presocráticos fueron un avance significativo en la comprensión de la naturaleza? ¿Por qué sí o por qué no?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en las tarjetas</h3>
+            <div class="progress-bar">
+                <div class="progress" id="flashcards-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el sistema de tarjetas sobre los Pluralistas Presocráticos</h3>
+            <p>Has dominado los conceptos fundamentales de Empédocles, Anaxágoras y Demócrito, creado tus propias tarjetas, practicado con autoevaluación y reflexionado sobre el legado de estos filósofos. Continúa revisando las tarjetas para consolidar tu comprensión de estas teorías fundamentales en la historia del pensamiento.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de tarjetas sobre Pluralistas Presocráticos (25+ conceptos)
+        const pluralistsFlashcards = [
+            {
+                question: "¿Cuáles son los cuatro elementos o 'raíces de todas las cosas' según Empédocles?",
+                answer: "Fuego, aire, agua y tierra, que se combinan y separan mediante las fuerzas del Amor (atracción) y el Odio (repulsión)."
+            },
+            {
+                question: "¿Qué son las 'homeomerías' según Anaxágoras?",
+                answer: "Partículas cualitativamente distintas que contienen en sí mismas todas las cualidades, y que se combinan para formar los objetos."
+            },
+            {
+                question: "¿Qué es el 'Nous' (Intelecto) en la filosofía de Anaxágoras?",
+                answer: "El principio ordenador e inteligente que da forma al cosmos y pone en movimiento las homeomerías."
+            },
+            {
+                question: "¿En qué consiste el atomismo de Demócrito?",
+                answer: "La teoría que postula que la realidad está compuesta por átomos (partículas indivisibles) que se mueven en el vacío."
+            },
+            {
+                question: "¿Qué fuerzas opuestas gobiernan el universo según Empédocles?",
+                answer: "El Amor (Philotes), que une los elementos, y el Odio (Neikos), que los separa."
+            },
+            {
+                question: "¿Cómo explica Anaxágoras la aparente generación y corrupción de las cosas?",
+                answer: "Como simple mezcla y separación de las homeomerías, pues 'nada viene a la existencia ni es destruido, sino que todo es mezcla y separación de cosas que existen'."
+            },
+            {
+                question: "¿Qué características tienen los átomos según Demócrito?",
+                answer: "Son eternos, indivisibles, cualitativamente idénticos pero difieren en forma, tamaño y posición."
+            },
+            {
+                question: "¿Cómo explica Empédocles el origen de los seres vivos?",
+                answer: "A través de un proceso evolutivo donde primero surgieron partes aisladas que luego se unieron formando criaturas completas."
+            },
+            {
+                question: "¿Qué significa la frase de Anaxágoras 'hay una porción de todo en todo'?",
+                answer: "Que cada cosa contiene partículas de todas las demás cosas, aunque predominen las de un tipo específico."
+            },
+            {
+                question: "¿Cómo concibe Demócrito el conocimiento?",
+                answer: "A través de 'imágenes' (eidola) que se desprenden de los objetos y llegan a nuestros sentidos."
+            },
+            {
+                question: "¿Qué papel juega el vacío en la filosofía de Demócrito?",
+                answer: "Es el espacio necesario para que los átomos se muevan y combinen, sin el cual no habría cambio ni pluralidad."
+            },
+            {
+                question: "¿Cómo explica Empédocles la percepción sensorial?",
+                answer: "Como un proceso de 'simpatía' donde los efluvios que emanan de los objetos encuentran poros adecuados en los órganos sensoriales."
+            },
+            {
+                question: "¿En qué se diferencia la teoría de Anaxágoras de la de Empédocles?",
+                answer: "Mientras Empédocles postula cuatro elementos cualitativamente distintos, Anaxágoras afirma la existencia de infinitas homeomerías cualitativamente diferentes."
+            },
+            {
+                question: "¿Qué significa que el Nous de Anaxágoras es 'autónomo' y 'no mezclado'?",
+                answer: "Que existe separado de la materia y no está compuesto de homeomerías, siendo pura inteligencia."
+            },
+            {
+                question: "¿Cómo concibe Demócrito el alma?",
+                answer: "Como compuesta de átomos esféricos, sutiles y móviles, que se dispersan con la muerte."
+            },
+            {
+                question: "¿Qué importancia tiene la teoría de Empédocles sobre los cuatro elementos?",
+                answer: "Fue la base de la teoría de los elementos en la filosofía y ciencia occidental hasta el siglo XVIII."
+            },
+            {
+                question: "¿Cómo explica Anaxágoras la diversidad del mundo?",
+                answer: "Por la proporción diferente en que se mezclan las homeomerías en cada objeto."
+            },
+            {
+                question: "¿Qué significa 'atomismo' etimológicamente?",
+                answer: "Proviene del griego 'atomos', que significa 'indivisible'."
+            },
+            {
+                question: "¿Cómo concibe Empédocles el ciclo cósmico?",
+                answer: "Como una alternancia eterna entre periodos de unión (bajo el Amor) y separación (bajo el Odio) de los elementos."
+            },
+            {
+                question: "¿Qué crítica hace Anaxágoras a la teoría de los cuatro elementos?",
+                answer: "Que no puede explicar la diversidad cualitativa del mundo si solo hay cuatro tipos de materia."
+            },
+            {
+                question: "¿Cómo explica Demócrito la formación de los mundos?",
+                answer: "Por el choque casual de átomos en el vacío, formando torbellinos que dan origen a los cosmos."
+            },
+            {
+                question: "¿Qué influencia tuvo el atomismo de Demócrito?",
+                answer: "Fue retomado por Epicuro y Lucrecio, y anticipó conceptos de la física moderna."
+            },
+            {
+                question: "¿Cómo explica Empédocles la respiración?",
+                answer: "Como un intercambio de sangre y aire a través de poros en la piel, anticipando la circulación sanguínea."
+            },
+            {
+                question: "¿Qué papel juega el Nous en el cosmos de Anaxágoras?",
+                answer: "Es la causa del movimiento inicial que dio origen al torbellino cósmico y ordenó el universo."
+            },
+            {
+                question: "¿Cómo concibe Demócrito la ética?",
+                answer: "Como la búsqueda de la tranquilidad del alma (ataraxia) mediante el equilibrio y la moderación."
+            }
+        ];
+
+        // Variables globales
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let customCards = [];
+        let completedActivities = [];
+        let evaluationQuestions = [
+            {
+                question: "¿Qué son las 'homeomerías' según Anaxágoras?",
+                options: [
+                    "Los cuatro elementos fundamentales",
+                    "Partículas cualitativamente distintas que contienen todas las cualidades",
+                    "Átomos indivisibles que forman la materia",
+                    "Fuerzas opuestas que gobiernan el universo"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Cuáles son los cuatro elementos según Empédocles?",
+                options: [
+                    "Agua, fuego, tierra y éter",
+                    "Fuego, aire, agua y tierra",
+                    "Tierra, agua, aire y metal",
+                    "Fuego, agua, tierra y madera"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Qué es el atomismo de Demócrito?",
+                options: [
+                    "La teoría que postula que todo está compuesto de cuatro elementos",
+                    "La teoría que afirma la existencia de infinitas partículas cualitativamente distintas",
+                    "La teoría que postula que la realidad está compuesta por átomos indivisibles en el vacío",
+                    "La teoría que explica el universo mediante fuerzas de atracción y repulsión"
+                ],
+                correctIndex: 2
+            }
+        ];
+        let currentEvalIndex = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlashcard();
+            updateProgress();
+            loadCustomCards();
+        });
+
+        // Funciones de navegación de tarjetas
+        function updateFlashcard() {
+            const card = pluralistsFlashcards[currentCardIndex];
+            document.getElementById('flashcard-question').textContent = card.question;
+            document.getElementById('flashcard-answer').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${pluralistsFlashcards.length}`;
+            
+            // Actualizar estado de botones de navegación
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === pluralistsFlashcards.length - 1;
+            
+            // Resetear tarjeta a estado no volteado
+            document.getElementById('current-flashcard').classList.remove('flipped');
+            
+            // Si estamos en modo práctica, mostrar evaluación
+            if (currentMode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            } else {
+                hideEvaluation();
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('current-flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < pluralistsFlashcards.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        // Funciones de modo de estudio
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Mostrar/ocultar contenedores según el modo
+            if (mode === 'create') {
+                document.getElementById('study-practice-container').style.display = 'none';
+                document.getElementById('create-container').style.display = 'block';
+            } else {
+                document.getElementById('study-practice-container').style.display = 'block';
+                document.getElementById('create-container').style.display = 'none';
+                hideEvaluation();
+            }
+            
+            // Si es modo práctica, mostrar evaluación para la tarjeta actual
+            if (mode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            }
+        }
+
+        // Funciones de autoevaluación
+        function showEvaluation() {
+            if (currentEvalIndex >= evaluationQuestions.length) {
+                currentEvalIndex = 0; // Reiniciar si llegamos al final
+            }
+            
+            const evalQuestion = evaluationQuestions[currentEvalIndex];
+            document.getElementById('eval-question').textContent = evalQuestion.question;
+            
+            const optionsContainer = document.getElementById('eval-options');
+            optionsContainer.innerHTML = '';
+            
+            evalQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'eval-option';
+                optionElement.textContent = option;
+                optionElement.onclick = function() {
+                    // Remover selección previa
+                    document.querySelectorAll('.eval-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                };
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('self-evaluation').style.display = 'block';
+            document.getElementById('eval-feedback').style.display = 'none';
+        }
+
+        function hideEvaluation() {
+            document.getElementById('self-evaluation').style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.eval-option.selected');
+            if (!selectedOption) {
+                alert('Por favor selecciona una opción antes de verificar.');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.eval-option');
+            const selectedIndex = Array.from(options).indexOf(selectedOption);
+            const isCorrect = selectedIndex === evaluationQuestions[currentEvalIndex].correctIndex;
+            
+            const feedback = document.getElementById('eval-feedback');
+            if (isCorrect) {
+                feedback.className = 'submission-feedback submission-success';
+                feedback.innerHTML = '<strong>¡Correcto!</strong> Has comprendido bien este concepto de los pluralistas presocráticos.';
+            } else {
+                feedback.className = 'submission-feedback';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+                feedback.style.border = '1px solid #f5c6cb';
+                feedback.innerHTML = '<strong>Incorrecto.</strong> Revisa este concepto en las tarjetas de estudio.';
+            }
+            
+            feedback.style.display = 'block';
+            currentEvalIndex++;
+        }
+
+        // Funciones para crear tarjetas personalizadas
+        function addNewCard() {
+            const question = document.getElementById('new-question').value.trim();
+            const answer = document.getElementById('new-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Por favor completa tanto la pregunta como la respuesta.');
+                return;
+            }
+            
+            customCards.push({ question, answer });
+            saveCustomCards();
+            updateCustomCardsList();
+            
+            // Limpiar campos
+            document.getElementById('new-question').value = '';
+            document.getElementById('new-answer').value = '';
+            
+            alert('¡Tarjeta personalizada agregada con éxito!');
+        }
+
+        function updateCustomCardsList() {
+            const container = document.getElementById('custom-cards-list');
+            container.innerHTML = '';
+            
+            if (customCards.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Aún no has creado tarjetas personalizadas.</p>';
+                return;
+            }
+            
+            customCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'flashcard';
+                cardElement.style.marginBottom = '1rem';
+                cardElement.style.padding = '1.5rem';
+                cardElement.style.cursor = 'pointer';
+                cardElement.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+                
+                cardElement.innerHTML = `
+                    <div class="flashcard-question">${card.question}</div>
+                    <div class="flashcard-answer">${card.answer}</div>
+                    <button onclick="deleteCustomCard(${index})" style="position: absolute; bottom: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        function deleteCustomCard(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                customCards.splice(index, 1);
+                saveCustomCards();
+                updateCustomCardsList();
+            }
+        }
+
+        function saveCustomCards() {
+            localStorage.setItem('pluralistsCustomCards', JSON.stringify(customCards));
+        }
+
+        function loadCustomCards() {
+            const savedCards = localStorage.getItem('pluralistsCustomCards');
+            if (savedCards) {
+                customCards = JSON.parse(savedCards);
+                updateCustomCardsList();
+            }
+        }
+
+        // Funciones de actividades
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            
+            if (!response) {
+                alert('Por favor escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            feedback.className = 'submission-feedback submission-success';
+            feedback.innerHTML = '<strong>¡Actividad enviada con éxito!</strong> Tu reflexión ha sido guardada.';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            if (!completedActivities.includes(activityNumber)) {
+                completedActivities.push(activityNumber);
+            }
+            
+            // Verificar si todas las actividades están completadas
+            checkAllActivitiesCompleted();
+        }
+
+        function checkAllActivitiesCompleted() {
+            if (completedActivities.length >= 4) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función de progreso
+        function updateProgress() {
+            const progress = Math.round((currentCardIndex / (pluralistsFlashcards.length - 1)) * 100);
+            document.getElementById('flashcards-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress}% completado`;
+        }
+
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('Volviendo al calendario de filósofos...');
+            // En una implementación real, esto redirigiría al calendario
+        }
+    </script>
+</body>
+</html>

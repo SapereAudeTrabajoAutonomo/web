@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Interactiva: Introducción a la Filosofía</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --compassion: #e67e22;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .activity-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .ethics-exposition {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--philosophy);
+            backdrop-filter: blur(5px);
+        }
+        
+        .exposition-title {
+            color: var(--philosophy);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .ethics-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .ethics-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--philosophy);
+        }
+        
+        .ethics-card h3 {
+            color: var(--philosophy);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .reflection-guide {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .principle-card {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .principle-title {
+            font-weight: bold;
+            color: var(--philosophy);
+            margin-bottom: 0.8rem;
+        }
+        
+        .cases-container {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .case-card {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: #1565c0;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--philosophy);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+        }
+        
+        .principle-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .principle-input:focus {
+            outline: none;
+            border-color: var(--philosophy);
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .ethics-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💭 Actividad Interactiva: Introducción a la Filosofía</h1>
+        <p>Explorando las grandes preguntas de la existencia humana</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="activity-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Introducción a la Filosofía</h2>
+                    <p>Exploración de las grandes preguntas sobre la existencia, el conocimiento y la moral</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Exposición sobre Filosofía General -->
+        <section class="ethics-exposition">
+            <h2 class="exposition-title">¿Qué es la Filosofía?</h2>
+            
+            <div class="ethics-content">
+                <div class="ethics-card">
+                    <h3>🎯 Definición y Origen</h3>
+                    <p>La filosofía (del griego φιλοσοφία, "amor a la sabiduría") es el estudio de cuestiones fundamentales sobre la existencia, el conocimiento, la verdad, la moral, la mente y el lenguaje.</p>
+                    <p>Nació en la Antigua Grecia alrededor del siglo VI a.C. con pensadores como Tales de Mileto, considerado el primer filósofo occidental.</p>
+                </div>
+                
+                <div class="ethics-card">
+                    <h3>💖 Ramas Principales</h3>
+                    <p>La filosofía se divide tradicionalmente en varias ramas principales:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.8rem;">
+                        <li><strong>Metafísica:</strong> Estudio de la realidad última</li>
+                        <li><strong>Epistemología:</strong> Teoría del conocimiento</li>
+                        <li><strong>Ética:</strong> Estudio de la moral y el bien</li>
+                        <li><strong>Lógica:</strong> Estudio del razonamiento válido</li>
+                    </ul>
+                </div>
+                
+                <div class="ethics-card">
+                    <h3>🌍 Importancia Actual</h3>
+                    <p>La filosofía sigue siendo relevante hoy porque:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.8rem;">
+                        <li>Desarrolla el pensamiento crítico</li>
+                        <li>Ayuda a cuestionar supuestos</li>
+                        <li>Proporciona herramientas para analizar problemas complejos</li>
+                        <li>Fomenta la reflexión sobre valores y sentido de la vida</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h3 style="color: var(--philosophy); margin-bottom: 1rem;">El Método Filosófico</h3>
+                <p>La filosofía no se caracteriza por lo que estudia, sino por cómo lo estudia: mediante el cuestionamiento sistemático, el análisis conceptual, la argumentación rigurosa y la reflexión crítica sobre fundamentos y supuestos.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">1. Reflexiona sobre las grandes preguntas filosóficas</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre algunas de las preguntas fundamentales que han ocupado a los filósofos a lo largo de la historia.</p>
+                        
+                        <div class="reflection-guide">
+                            <h4>Preguntas para guiar tu reflexión:</h4>
+                            <ul>
+                                <li>¿Qué es la realidad? ¿Existe una realidad objetiva o todo es subjetivo?</li>
+                                <li>¿Cómo podemos conocer la verdad? ¿Qué es el conocimiento?</li>
+                                <li>¿Qué es una vida buena? ¿Existe un propósito en la vida?</li>
+                                <li>¿Tenemos libre albedrío o nuestras acciones están determinadas?</li>
+                                <li>¿Qué es la conciencia? ¿Cómo se relaciona la mente con el cuerpo?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Selecciona dos de las preguntas anteriores y desarrolla una reflexión personal sobre ellas, explicando tu postura inicial y las dudas que puedas tener.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión sobre las preguntas filosóficas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">2. Explora diferentes corrientes filosóficas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Investiga brevemente sobre diferentes corrientes filosóficas y reflexiona sobre cuál se acerca más a tu forma de pensar.</p>
+                        
+                        <div class="principles-grid">
+                            <div class="principle-card">
+                                <div class="principle-title">Existencialismo</div>
+                                <p>Enfatiza la libertad individual, la elección y la responsabilidad personal. Los existencialistas creen que la vida no tiene un significado inherente, sino que debemos crear nuestro propio significado.</p>
+                                <p><strong>Representantes:</strong> Sartre, Camus, Kierkegaard</p>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <div class="principle-title">Estoicismo</div>
+                                <p>Enseña a aceptar lo que no podemos controlar y a centrarnos en lo que sí podemos controlar: nuestras propias actitudes y respuestas. Busca la tranquilidad mediante la virtud y la razón.</p>
+                                <p><strong>Representantes:</strong> Séneca, Marco Aurelio, Epicteto</p>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <div class="principle-title">Utilitarismo</div>
+                                <p>Sostiene que la acción moralmente correcta es aquella que produce la mayor felicidad para el mayor número de personas. Evalúa las acciones por sus consecuencias.</p>
+                                <p><strong>Representantes:</strong> Bentham, Mill, Singer</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Selecciona una de estas corrientes filosóficas (o investiga otra que te interese) y explica por qué te resulta atractiva o convincente. ¿Qué aspectos de esta filosofía resuenan con tu forma de ver el mundo?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Explica por qué te identificas con una corriente filosófica específica..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">3. Aplica el pensamiento filosófico a situaciones cotidianas</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza cómo diferentes enfoques filosóficos podrían abordar situaciones de la vida real.</p>
+                        
+                        <div class="cases-container">
+                            <div class="case-card">
+                                <div class="case-title">Caso 1: Dilema Ético</div>
+                                <p>Descubres que un compañero de trabajo está robando pequeños suministros de la oficina. ¿Debes reportarlo, hablar con él directamente o ignorarlo? Analiza esta situación desde diferentes perspectivas éticas.</p>
+                            </div>
+                            
+                            <div class="case-card">
+                                <div class="case-title">Caso 2: Decisión de Vida</div>
+                                <p>Te ofrecen un trabajo bien pagado que no te apasiona, o puedes seguir tu vocación con ingresos inciertos. ¿Cómo tomarías esta decisión aplicando principios filosóficos?</p>
+                            </div>
+                            
+                            <div class="case-card">
+                                <div class="case-title">Caso 3: Verdad y Opinión</div>
+                                <p>En una discusión sobre un tema controvertido, alguien afirma que "todas las opiniones son igualmente válidas". ¿Cómo responderías filosóficamente a esta afirmación?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis de casos:</h4>
+                    <p>Selecciona uno de los casos anteriores y analízalo desde al menos dos perspectivas filosóficas diferentes. Explica qué enfoque considerarías más adecuado y por qué.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Analiza el caso seleccionado desde diferentes perspectivas filosóficas..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">4. Desarrolla tu propia postura filosófica</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Sintetiza tus reflexiones anteriores para esbozar tu propia postura filosófica inicial.</p>
+                        
+                        <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos a considerar:</h4>
+                            <ul>
+                                <li>¿Cuál es tu postura sobre la naturaleza de la realidad?</li>
+                                <li>¿Cómo entiendes el conocimiento y la verdad?</li>
+                                <li>¿Qué principios éticos guían tus acciones?</li>
+                                <li>¿Qué valor das a la razón frente a otras formas de conocimiento?</li>
+                                <li>¿Cómo concibes la relación entre el individuo y la sociedad?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu postura filosófica:</h4>
+                    <p>Redacta un breve manifiesto filosófico personal que sintetice tus reflexiones sobre al menos tres de los elementos mencionados anteriormente.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Describe tu postura filosófica personal..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la actividad interactiva</h3>
+            <div class="progress-bar">
+                <div class="progress" id="ethics-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado tu introducción a la filosofía</h3>
+            <p>Has explorado preguntas fundamentales, conocido diferentes corrientes filosóficas, aplicado el pensamiento filosófico a situaciones reales y comenzado a desarrollar tu propia postura filosófica. Continúa cultivando el pensamiento crítico y la reflexión profunda en tu vida diaria.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            if (!response) {
+                isValid = false;
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('ethics-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

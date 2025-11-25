@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Genealogía de la Moral - Nietzsche</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #d35400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #a84300);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #a84300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: Genealogía de la Moral</h1>
+        <p>Explorando el método genealógico y la crítica a la moral cristiana de Friedrich Nietzsche</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">FN</div>
+                <div class="philosopher-details">
+                    <h2>Friedrich Nietzsche</h2>
+                    <p>Filósofo alemán conocido por su crítica a la moral tradicional y su método genealógico para analizar los valores morales</p>
+                    <div class="duration">Duración estimada: 85 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá al método genealógico de Nietzsche y su crítica radical a la moral cristiana. Explorarás los conceptos de moral de señores vs. moral de esclavos, la transvaloración de valores y la psicología del resentimiento.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudia el método genealógico de Nietzsche</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Nietzsche desarrolla un método genealógico para analizar la moral, que consiste en rastrear el origen histórico y psicológico de los valores morales, en lugar de aceptarlos como dados o universales.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Conceptos clave del método genealógico:</h4>
+                            <ul>
+                                <li><strong>Genealogía:</strong> Investigación del origen histórico de los valores morales</li>
+                                <li><strong>Psicología del resentimiento:</strong> Análisis de las motivaciones ocultas detrás de la moral</li>
+                                <li><strong>Deconstrucción:</strong> Desmontar conceptos morales aparentemente evidentes</li>
+                                <li><strong>Voluntad de poder:</strong> Impulso fundamental que subyace a todos los valores</li>
+                                <li><strong>Transvaloración:</strong> Creación de nuevos valores que afirman la vida</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Solo lo que no tiene historia puede ser definido." - Nietzsche, Genealogía de la Moral
+                        </div>
+                        
+                        <p>Nietzsche identifica tres preguntas fundamentales para su investigación genealógica:</p>
+                        <ol>
+                            <li>¿Bajo qué condiciones se inventó el hombre los juicios de valor "bueno" y "malo"?</li>
+                            <li>¿Qué valor tienen estos valores mismos?</li>
+                            <li>¿Han favorecido o impedido el desarrollo de la humanidad?</li>
+                        </ol>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿En qué consiste el método genealógico de Nietzsche y cómo se diferencia de los enfoques tradicionales para estudiar la moral?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿Cuáles son las tres preguntas fundamentales que Nietzsche plantea en la "Genealogía de la Moral"?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué considera Nietzsche que es importante investigar el origen histórico de los valores morales en lugar de aceptarlos como universales y eternos?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza la moral de señores vs. moral de esclavos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Nietzsche distingue dos tipos fundamentales de moral: la moral de señores y la moral de esclavos. Esta distinción es central para entender su crítica a la moral tradicional.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Moral de señores vs. Moral de esclavos:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Moral de Señores</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Moral de Esclavos</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Afirmación de la vida</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Negación de la vida</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">"Bueno" = noble, fuerte, poderoso</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">"Bueno" = humilde, débil, compasivo</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Creación activa de valores</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Reacción contra los señores</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Origen: autoafirmación</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Origen: resentimiento</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="quote">
+                            "El juicio 'bueno' no procede de aquellos a quienes se ha hecho el bien. Fueron los 'buenos' mismos, es decir, los nobles, los poderosos, los que se sintieron y se establecieron a sí mismos y a sus actos como buenos." - Nietzsche
+                        </div>
+                        
+                        <p>Según Nietzsche, la moral occidental contemporánea es predominantemente una moral de esclavos que triunfó sobre la moral de señores a través del cristianismo.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Cuáles son las características principales de la moral de señores según Nietzsche?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Cómo surge la moral de esclavos y qué papel juega el resentimiento en su formación?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Identifica un valor moral contemporáneo y analízalo desde la perspectiva de Nietzsche: ¿pertenece a la moral de señores o a la moral de esclavos? Justifica tu respuesta.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Examina la psicología del resentimiento</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Para Nietzsche, el resentimiento es la fuerza psicológica fundamental que impulsa la moral de esclavos. Los débiles, incapaces de actuar directamente contra los fuertes, desarrollan una venganza imaginaria a través de la moral.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del resentimiento:</h4>
+                            <ul>
+                                <li><strong>Venganza imaginaria:</strong> Los débiles se vengan de los fuertes creando valores que los condenan</li>
+                                <li><strong>Inversión de valores:</strong> Transforman la debilidad en virtud y la fuerza en vicio</li>
+                                <li><strong>Negación de la vida:</strong> Rechazan los instintos vitales y el mundo terrenal</li>
+                                <li><strong>Moral del rebaño:</strong> Imponen uniformidad y mediocridad como ideales</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "El hombre del resentimiento no es ni sincero ni ingenuo ni honesto ni recto consigo mismo. Su alma mira de reojo." - Nietzsche
+                        </div>
+                        
+                        <p>Nietzsche considera que el cristianismo es la expresión más refinada del resentimiento, ya que convierte la impotencia en santidad y condena los valores aristocráticos como pecado.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Qué es el resentimiento para Nietzsche y cómo funciona como motor de la moral de esclavos?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Cómo se manifiesta el resentimiento en la moral cristiana según Nietzsche?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica con tus propias palabras cómo funciona la psicología del resentimiento según Nietzsche y proporciona un ejemplo contemporáneo de esta dinámica.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la transvaloración de valores</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Frente a la moral de esclavos dominante, Nietzsche propone una "transvaloración de todos los valores", es decir, la creación de nuevos valores que afirmen la vida en lugar de negarla.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Elementos de la transvaloración:</h4>
+                            <ul>
+                                <li><strong>Superhombre (Übermensch):</strong> El hombre que ha superado la moral de rebaño</li>
+                                <li><strong>Voluntad de poder:</strong> Afirmación creativa de la vida</li>
+                                <li><strong>Amor fati:</strong> Amor al destino, aceptación total de la vida</li>
+                                <li><strong>Moral del futuro:</strong> Valores que favorecen el desarrollo humano</li>
+                                <li><strong>Crítica al ascetismo:</strong> Rechazo de la negación de los instintos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La transvaloración de todos los valores, esta es mi fórmula para un acto de suprema autoconciencia de la humanidad." - Nietzsche
+                        </div>
+                        
+                        <p>Para Nietzsche, la transvaloración no significa simplemente invertir los valores existentes, sino crear valores completamente nuevos basados en la afirmación de la vida terrenal.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Qué significa la "transvaloración de todos los valores" en Nietzsche?
+                            </div>
+                            <div class="quiz-question">
+                                8. ¿Cómo se relaciona el Superhombre con la transvaloración de valores?
+                            </div>
+                            <div class="quiz-question">
+                                9. ¿Por qué Nietzsche critica el ideal ascético y qué propone en su lugar?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que la propuesta de transvaloración de Nietzsche es viable en el mundo contemporáneo? ¿Qué valores actuales podrían ser objeto de transvaloración?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave de Nietzsche</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Amor fati</div>
+                <div class="term-definition">"Amor al destino". Actitud de afirmación total de la vida, incluyendo el sufrimiento y los aspectos negativos, aceptando que todo lo que sucede es necesario y debe ser amado.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Genealogía</div>
+                <div class="term-definition">Método de investigación que rastrea el origen histórico y psicológico de los conceptos morales, mostrando que no son eternos ni universales sino productos de luchas de poder.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Moral de esclavos</div>
+                <div class="term-definition">Moral reactiva basada en el resentimiento, que glorifica valores como la humildad, la compasión y la obediencia, y condena la fuerza y la autoafirmación.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Moral de señores</div>
+                <div class="term-definition">Moral activa y afirmativa de las clases aristocráticas, que valora la fuerza, el poder, la nobleza y la autoafirmación.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Nihilismo</div>
+                <div class="term-definition">Situación en la que los valores supremos se desvalorizan, resultando en la pérdida de sentido. Nietzsche distingue entre nihilismo pasivo (renuncia) y activo (destrucción creativa).</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Resentimiento (Ressentiment)</div>
+                <div class="term-definition">Sentimiento de rencor e impotencia de los débiles hacia los fuertes, que se expresa mediante una venganza imaginaria a través de la inversión de valores morales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Superhombre (Übermensch)</div>
+                <div class="term-definition">Ideal humano que ha superado la moral de rebaño, creador de nuevos valores y afirmador total de la vida. Representa la superación del hombre actual.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Transvaloración (Umwertung)</div>
+                <div class="term-definition">Proceso de creación de nuevos valores que reemplazan los valores tradicionales de la moral de esclavos. Implica una reevaluación radical de todos los valores.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Voluntad de poder (Wille zur Macht)</div>
+                <div class="term-definition">Principio fundamental de la vida según Nietzsche, que consiste en el impulso de crecimiento, expansión y superación. No es simplemente deseo de dominación, sino impulso creativo.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Muerte de Dios</div>
+                <div class="term-definition">Metáfora que representa el colapso de los fundamentos metafísicos y morales de la cultura occidental, abriendo la posibilidad de crear nuevos valores terrenales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ideal ascético</div>
+                <div class="term-definition">Ideal de negación de la vida y los instintos que Nietzsche critica como expresión del resentimiento y la enfermedad vital.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice el método genealógico de Nietzsche como herramienta para deconstruir la moral tradicional. ¿En qué se diferencia este enfoque de las teorías morales tradicionales y qué ventajas ofrece según Nietzsche?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Discuta la distinción entre moral de señores y moral de esclavos en la "Genealogía de la Moral". ¿Cómo explica Nietzsche el triunfo histórico de la moral de esclavos a través del cristianismo?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine el concepto de resentimiento (Ressentiment) en Nietzsche. ¿Cómo funciona esta psicología como motor de la moral de esclavos y qué consecuencias tiene para la cultura occidental?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Explique qué significa la "transvaloración de todos los valores" en Nietzsche. ¿Qué valores propone en lugar de los tradicionales y cómo se relaciona con figuras como el Superhombre y conceptos como la voluntad de poder?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Compare la crítica de Nietzsche a la moral cristiana con la de otros filósofos (como Schopenhauer o Marx). ¿Qué tiene de original la aproximación nietzscheana y por qué considera que la moral cristiana es "antinatural"?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre la Genealogía de la Moral de Nietzsche</h3>
+            <p>Has explorado uno de los análisis más profundos y polémicos de la moral occidental. Reflexiona sobre estas ideas y cómo se relacionan con tu propia comprensión de los valores morales.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('nietzscheGenealogyProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('nietzscheGenealogyProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

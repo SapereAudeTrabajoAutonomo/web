@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Comentado: Fragmentos de los Presocráticos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --aphorisms: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .aphorisms-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--aphorisms), #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .aphorisms-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--aphorisms);
+            backdrop-filter: blur(5px);
+        }
+        
+        .aphorisms-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .aphorisms-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .aphorism-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--aphorisms);
+            transition: all 0.3s ease;
+        }
+        
+        .aphorism-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .aphorism-number {
+            font-weight: bold;
+            color: var(--aphorisms);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .aphorism-text {
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .philosopher-name {
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .analysis-guide {
+            background: #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .practical-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 3px solid var(--aphorisms);
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--aphorisms);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--aphorisms);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .own-aphorism-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .own-aphorism-input:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--aphorisms), #8e44ad);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .practical-tips {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📜 Texto Comentado: Fragmentos de los Presocráticos</h1>
+        <p>Los primeros filósofos y el origen del pensamiento occidental</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="aphorisms-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">PP</div>
+                <div class="philosopher-details">
+                    <h2>Filósofos Presocráticos</h2>
+                    <p>Los primeros pensadores griegos que buscaron el principio (arché) de todas las cosas</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="aphorisms-description">
+                <p>Explora los fragmentos más importantes de los filósofos presocráticos, desde Tales de Mileto hasta Demócrito. Estos pensamientos representan el origen de la filosofía occidental, el paso del mito al logos, y la búsqueda del principio fundamental de la realidad.</p>
+            </div>
+        </section>
+        
+        <!-- Fragmentos de los Presocráticos -->
+        <section class="aphorisms-container">
+            <h2 style="margin-bottom: 2rem; color: var(--aphorisms); text-align: center;">30 Fragmentos de los Filósofos Presocráticos</h2>
+            
+            <div class="aphorisms-grid" id="aphorisms-grid">
+                <!-- Los fragmentos se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee los fragmentos seleccionados de los Presocráticos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Lee atentamente los 30 fragmentos de los filósofos presocráticos y selecciona los 5 que más te hayan impactado o resonado contigo.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Guía de lectura:</h4>
+                            <ul>
+                                <li>Identifica los diferentes principios (arché) propuestos por cada filósofo</li>
+                                <li>Reflexiona sobre el paso del mito al logos</li>
+                                <li>Relaciona los fragmentos con conceptos científicos modernos</li>
+                                <li>Considera el contexto histórico de cada pensamiento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus fragmentos seleccionados:</h4>
+                    <p>Escribe los números de los 5 fragmentos que más te hayan impactado y explica brevemente por qué cada uno te resulta significativo.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Ejemplo: Fragmento 3: Me impactó porque...&#10;Fragmento 15: Me resonó porque..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Haz comentarios y análisis filosófico de los fragmentos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Selecciona 3 fragmentos y desarrolla un análisis filosófico detallado de cada uno, relacionándolos con el contexto histórico y filosófico de los presocráticos.</p>
+                        
+                        <div class="analysis-guide">
+                            <h4>Guía para el análisis filosófico:</h4>
+                            <ul>
+                                <li><strong>Contexto histórico:</strong> ¿Cómo se relaciona con el paso del mito al logos?</li>
+                                <li><strong>Principio fundamental:</strong> ¿Qué arché propone el filósofo y por qué?</li>
+                                <li><strong>Originalidad:</strong> ¿Qué tiene de novedoso o revolucionario este pensamiento?</li>
+                                <li><strong>Influencia posterior:</strong> ¿Cómo influyó este pensamiento en la filosofía posterior?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis filosófico:</h4>
+                    <p>Desarrolla un comentario filosófico detallado para 3 fragmentos de tu elección.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Fragmento X: [Tu análisis filosófico detallado]&#10;&#10;Fragmento Y: [Tu análisis filosófico detallado]&#10;&#10;Fragmento Z: [Tu análisis filosófico detallado]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Identifica principios cosmológicos y ontológicos</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Identifica y organiza los principios cosmológicos y ontológicos que los presocráticos ofrecen en sus fragmentos, categorizándolos por escuelas de pensamiento.</p>
+                        
+                        <div class="practical-tips">
+                            <div class="tip-card">
+                                <div class="tip-icon">🌊</div>
+                                <h4>Escuela de Mileto</h4>
+                                <p>Principios materiales como arché (Tales, Anaximandro, Anaxímenes)</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🔥</div>
+                                <h4>Heráclito</h4>
+                                <p>El devenir y el logos como principio universal</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">⚫</div>
+                                <h4>Eleáticos</h4>
+                                <p>El ser como principio inmutable (Parménides, Zenón)</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🔬</div>
+                                <h4>Pluralistas</h4>
+                                <p>Múltiples principios elementales (Empédocles, Anaxágoras, Demócrito)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus principios identificados:</h4>
+                    <p>Selecciona al menos 5 principios cosmológicos u ontológicos de los fragmentos y explica su relevancia para el pensamiento filosófico.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="1. [Principio del fragmento X]: Relevancia filosófica...&#10;2. [Principio del fragmento Y]: Relevancia filosófica...&#10;3. [Principio del fragmento Z]: Relevancia filosófica..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Escribe tu propio comentario y aforismos filosóficos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Inspirado en los fragmentos de los presocráticos, escribe tu propio comentario filosófico y crea al menos 3 aforismos originales sobre la naturaleza o el principio de todas las cosas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos a considerar en tus aforismos:</h4>
+                            <ul>
+                                <li>Reflexión sobre el principio (arché) de la realidad</li>
+                                <li>Relación entre el cosmos y el ser humano</li>
+                                <li>Profundidad ontológica o cosmológica</li>
+                                <li>Originalidad en la perspectiva</li>
+                                <li>Coherencia con el pensamiento presocrático</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comentario filosófico:</h4>
+                    <p>Desarrolla un comentario personal sobre la filosofía presocrática que has extraído de los fragmentos.</p>
+                    
+                    <textarea class="activity-response" id="response-4a" placeholder="Escribe tu comentario filosófico personal aquí..."></textarea>
+                    
+                    <h4 style="margin-top: 1.5rem;">Tus aforismos originales:</h4>
+                    <p>Crea al menos 3 aforismos originales inspirados en tu lectura de los presocráticos.</p>
+                    
+                    <input type="text" class="own-aphorism-input" id="aphorism-1" placeholder="Tu primer aforismo...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-2" placeholder="Tu segundo aforismo...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-3" placeholder="Tu tercer aforismo...">
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el texto comentado</h3>
+            <div class="progress-bar">
+                <div class="progress" id="aphorisms-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el texto comentado sobre los Fragmentos de los Presocráticos</h3>
+            <p>Has explorado profundamente el origen del pensamiento filosófico occidental, analizado los principios fundamentales de la realidad propuestos por los primeros filósofos, identificado sus contribuciones al pensamiento y creado tus propias reflexiones filosóficas. Continúa explorando estas bases del pensamiento racional.</p>
+        </div>
+    </div>
+
+    <script>
+        // 30 Fragmentos de los Filósofos Presocráticos
+        const presocraticFragments = [
+            {
+                text: "Todo está lleno de dioses.",
+                philosopher: "Tales de Mileto"
+            },
+            {
+                text: "El principio (arché) de todas las cosas es el agua.",
+                philosopher: "Tales de Mileto"
+            },
+            {
+                text: "El principio de las cosas es lo ápeiron (lo ilimitado, lo indeterminado).",
+                philosopher: "Anaximandro"
+            },
+            {
+                text: "El aire es el principio de todas las cosas.",
+                philosopher: "Anaxímenes"
+            },
+            {
+                text: "Todo fluye, nada permanece.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "No es posible bañarse dos veces en el mismo río.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "La guerra es el padre de todas las cosas.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "El ser es, el no-ser no es.",
+                philosopher: "Parménides"
+            },
+            {
+                text: "Lo mismo es el pensar y el ser.",
+                philosopher: "Parménides"
+            },
+            {
+                text: "Del no-ser no puede surgir el ser.",
+                philosopher: "Parménides"
+            },
+            {
+                text: "Lo que es, es inmóvil.",
+                philosopher: "Parménides"
+            },
+            {
+                text: "La flecha en vuelo está en reposo.",
+                philosopher: "Zenón de Elea"
+            },
+            {
+                text: "Aquiles nunca alcanzará a la tortuga.",
+                philosopher: "Zenón de Elea"
+            },
+            {
+                text: "Todo está en todo.",
+                philosopher: "Anaxágoras"
+            },
+            {
+                text: "El nous (inteligencia) ordena todas las cosas.",
+                philosopher: "Anaxágoras"
+            },
+            {
+                text: "Nada nace ni perece, sino que cosas ya existentes se combinan y luego se separan.",
+                philosopher: "Anaxágoras"
+            },
+            {
+                text: "Hay cuatro raíces de todas las cosas: fuego, aire, agua y tierra.",
+                philosopher: "Empédocles"
+            },
+            {
+                text: "Dos fuerzas gobiernan el universo: Amor y Odio.",
+                philosopher: "Empédocles"
+            },
+            {
+                text: "Por la tierra vemos la tierra, por el agua el agua, por el aire el aire divino, por el fuego el fuego destructor.",
+                philosopher: "Empédocles"
+            },
+            {
+                text: "En realidad sólo existen los átomos y el vacío.",
+                philosopher: "Demócrito"
+            },
+            {
+                text: "Nada existe excepto los átomos y el espacio vacío; todo lo demás es opinión.",
+                philosopher: "Demócrito"
+            },
+            {
+                text: "Dulce y amargo, caliente y frío existen por convención; en realidad sólo existen los átomos y el vacío.",
+                philosopher: "Demócrito"
+            },
+            {
+                text: "El hombre es un microcosmos.",
+                philosopher: "Demócrito"
+            },
+            {
+                text: "El número es el principio de todas las cosas.",
+                philosopher: "Pitágoras"
+            },
+            {
+                text: "Todo está ordenado según el número.",
+                philosopher: "Pitágoras"
+            },
+            {
+                text: "La armonía es la unificación de lo múltiple y el consentimiento de lo discordante.",
+                philosopher: "Pitágoras"
+            },
+            {
+                text: "La naturaleza ama ocultarse.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "El sol es nuevo cada día.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "El camino hacia arriba y el camino hacia abajo son uno y el mismo.",
+                philosopher: "Heráclito"
+            },
+            {
+                text: "El orden del mundo, el mismo para todos, no lo hizo ningún dios ni ningún hombre, sino que siempre fue, es y será fuego eterno.",
+                philosopher: "Heráclito"
+            }
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            loadFragments();
+            updateProgress();
+        }
+
+        // Cargar fragmentos en la página
+        function loadFragments() {
+            const aphorismsGrid = document.getElementById('aphorisms-grid');
+            
+            presocraticFragments.forEach((fragment, index) => {
+                const aphorismCard = document.createElement('div');
+                aphorismCard.className = 'aphorism-card';
+                aphorismCard.innerHTML = `
+                    <div class="aphorism-number">Fragmento ${index + 1}</div>
+                    <div class="aphorism-text">"${fragment.text}"</div>
+                    <div class="philosopher-name">— ${fragment.philosopher}</div>
+                `;
+                aphorismsGrid.appendChild(aphorismCard);
+            });
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 4) {
+                const aphorism1 = document.getElementById('aphorism-1').value.trim();
+                const aphorism2 = document.getElementById('aphorism-2').value.trim();
+                const aphorism3 = document.getElementById('aphorism-3').value.trim();
+                const response4a = document.getElementById('response-4a').value.trim();
+                
+                if (!aphorism1 || !aphorism2 || !aphorism3 || !response4a) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa todos los campos de la actividad 4.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('aphorisms-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

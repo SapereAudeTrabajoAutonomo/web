@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video-Conferencia: El Paso del Mito al Logos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #8e44ad;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --video: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .video-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--video), #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .video-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--video);
+            backdrop-filter: blur(5px);
+        }
+        
+        .video-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        
+        .video-placeholder {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--video);
+        }
+        
+        /* Botón sobrio para YouTube */
+        .youtube-button {
+            background: #2c2c2c;
+            color: white;
+            border: 1px solid #444;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            text-decoration: none;
+        }
+        
+        .youtube-button:hover {
+            background: #333;
+            border-color: #666;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .youtube-icon {
+            color: #ff0000;
+            font-size: 1.4rem;
+        }
+        
+        .video-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .detail-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .detail-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--video);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--video);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--video);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .misinterpretation-examples {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .context-card {
+            background: #f8f9fa;
+            padding: 1.2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .context-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--video);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--video), #8e44ad);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .video-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .context-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎥 Video-Conferencia: El Paso del Mito al Logos</h1>
+        <p>Los primeros rasgos de la filosofía en la Antigua Grecia</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="video-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Filosofía Presocrática</h2>
+                    <p>El nacimiento del pensamiento racional en la Antigua Grecia</p>
+                    <div class="duration">Duración estimada: 60 minutos</div>
+                </div>
+            </div>
+            
+            <div class="video-description">
+                <p>Esta video-conferencia explora uno de los momentos más importantes en la historia del pensamiento: el paso del mito al logos en la Antigua Grecia. Analiza cómo los primeros filósofos presocráticos abandonaron las explicaciones mitológicas para buscar principios racionales que explicaran la naturaleza y el cosmos.</p>
+            </div>
+            
+            <div class="video-details">
+                <div class="detail-card">
+                    <div class="detail-icon">🌅</div>
+                    <h3>Contexto Histórico</h3>
+                    <p>Grecia del siglo VI a.C.</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">⚖️</div>
+                    <h3>Transición Clave</h3>
+                    <p>Del pensamiento mítico al racional</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">🧠</div>
+                    <h3>Figuras Principales</h3>
+                    <p>Tales, Anaximandro, Heráclito, Parménides</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">💡</div>
+                    <h3>Conceptos Fundamentales</h3>
+                    <p>Arjé, Logos, Physis, Cosmos</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Video-Conferencia -->
+        <section class="video-container">
+            <h2 style="margin-bottom: 2rem; color: var(--video);">Video-Conferencia: El Paso del Mito al Logos</h2>
+            
+            <div class="video-placeholder">
+                <div class="video-icon">🎬</div>
+                <h3 style="margin-bottom: 1rem;">El Paso del Mito al Logos: Los Primeros Rasgos de la Filosofía</h3>
+                <p>Video-conferencia completa sobre el nacimiento del pensamiento filosófico</p>
+                <p style="color: #bbb; margin-top: 1rem;">Duración: 60 minutos</p>
+                
+                <a href="https://www.youtube.com/watch?v=VtW0T1-gL1c" target="_blank" class="youtube-button">
+                    <span class="youtube-icon">▶</span>
+                    Ver en YouTube
+                </a>
+            </div>
+            
+            <div style="text-align: left; margin-top: 2rem;">
+                <h4 style="color: var(--video); margin-bottom: 1rem;">Contenido de la video-conferencia:</h4>
+                <ul style="line-height: 1.8; padding-left: 1.5rem;">
+                    <li>Contexto histórico y cultural de la Grecia arcaica</li>
+                    <li>Características del pensamiento mítico (Mythos)</li>
+                    <li>Condiciones que posibilitaron el surgimiento del Logos</li>
+                    <li>Los primeros filósofos: la Escuela de Mileto</li>
+                    <li>El concepto de Arjé (principio originario)</li>
+                    <li>Heráclito y el Logos como ley universal</li>
+                    <li>Parménides y el nacimiento de la ontología</li>
+                    <li>Legado e importancia del pensamiento presocrático</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Mira la video-lección completa sobre el paso del mito al logos</h3>
+                    <span class="activity-time">60 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Visualiza la video-conferencia completa sobre el paso del mito al logos y responde a las siguientes preguntas de comprensión.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos clave a observar durante el video:</h4>
+                            <ul>
+                                <li>Diferencias fundamentales entre el pensamiento mítico y el racional</li>
+                                <li>Condiciones históricas y sociales que favorecieron este cambio</li>
+                                <li>La figura de Tales de Mileto como primer filósofo</li>
+                                <li>El concepto de Arjé en los diferentes pensadores presocráticos</li>
+                                <li>La evolución del pensamiento desde Tales hasta Parménides</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Después de ver el video, explica qué factores consideras más importantes para que se produjera esta transición del mito al logos en la Antigua Grecia.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis sobre la video-conferencia aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza los conceptos fundamentales de los presocráticos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza los conceptos fundamentales desarrollados por los filósofos presocráticos y reflexiona sobre su significado e importancia.</p>
+                        
+                        <div class="misinterpretation-examples">
+                            <h4>Conceptos fundamentales del pensamiento presocrático:</h4>
+                            <div class="example-item">
+                                <strong>"Arjé" (Principio Originario)</strong>
+                                <p>El elemento primordial del que surge toda la realidad. Para Tales era el agua, para Anaximandro el Ápeiron (lo indeterminado), para Anaxímenes el aire.</p>
+                            </div>
+                            <div class="example-item">
+                                <strong>"Logos"</strong>
+                                <p>La razón, el orden y la ley que rige el universo. Desarrollado especialmente por Heráclito como principio racional universal.</p>
+                            </div>
+                            <div class="example-item">
+                                <strong>"Physis" (Naturaleza)</strong>
+                                <p>No solo la naturaleza física, sino la realidad en su totalidad, incluyendo sus principios de cambio y permanencia.</p>
+                            </div>
+                            <div class="example-item">
+                                <strong>"Cosmos"</strong>
+                                <p>El universo entendido como un todo ordenado y armonioso, en contraposición al caos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis crítico:</h4>
+                    <p>¿Cuál de estos conceptos te parece más relevante para comprender la transición del mito al logos? Explica por qué y cómo representa esta transformación del pensamiento.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis sobre los conceptos fundamentales aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Compara el pensamiento mítico y el racional</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Compara las características del pensamiento mítico (Mythos) y el pensamiento racional (Logos) que surgió con los presocráticos.</p>
+                        
+                        <div class="context-grid">
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Mítico</div>
+                                <p>Explicaciones sobrenaturales</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Racional</div>
+                                <p>Explicaciones naturales</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Mítico</div>
+                                <p>Basado en tradición y autoridad</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Racional</div>
+                                <p>Basado en razón y observación</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Mítico</div>
+                                <p>Narración de historias</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Racional</div>
+                                <p>Formulación de argumentos</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Mítico</div>
+                                <p>Finalismo (explicación por fines)</p>
+                            </div>
+                            <div class="context-card">
+                                <div class="context-title">Pensamiento Racional</div>
+                                <p>Causalismo (explicación por causas)</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Condiciones que posibilitaron el paso al Logos:</h4>
+                            <ul>
+                                <li>Desarrollo de la polis (ciudad-estado) y la vida urbana</li>
+                                <li>Contacto con otras culturas a través del comercio</li>
+                                <li>Invención de la moneda y desarrollo de la abstracción</li>
+                                <li>Surgimiento de la escritura alfabética</li>
+                                <li>Desarrollo de técnicas de navegación y observación astronómica</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis comparativo:</h4>
+                    <p>Explica qué ventajas ofrece el pensamiento racional frente al mítico para comprender la realidad, y qué aspectos del pensamiento mítico consideras que se perdieron en esta transición.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu análisis comparativo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la importancia del pensamiento presocrático</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la importancia y el legado del pensamiento presocrático en la filosofía occidental y en nuestra comprensión del mundo.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Legado del pensamiento presocrático:</h4>
+                            <ul>
+                                <li><strong>Fundación de la filosofía occidental:</strong> Establecieron las preguntas fundamentales</li>
+                                <li><strong>Desarrollo del pensamiento científico:</strong> Primera búsqueda de explicaciones naturales</li>
+                                <li><strong>Nacimiento de la metafísica:</strong> Búsqueda del principio último de la realidad</li>
+                                <li><strong>Inicio de la epistemología:</strong> Reflexión sobre el conocimiento y la verdad</li>
+                                <li><strong>Influencia en Platón y Aristóteles:</strong> Base para el desarrollo posterior de la filosofía</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Desarrolla tu postura personal sobre cuál crees que es la contribución más importante de los presocráticos y por qué su pensamiento sigue siendo relevante en la actualidad.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión sobre la importancia del pensamiento presocrático aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la video-conferencia</h3>
+            <div class="progress-bar">
+                <div class="progress" id="video-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la video-conferencia sobre el paso del mito al logos</h3>
+            <p>Has analizado uno de los momentos más importantes en la historia del pensamiento, explorado los conceptos fundamentales de los presocráticos, comparado el pensamiento mítico y racional, y reflexionado sobre el legado de estos primeros filósofos. Continúa explorando estos temas para desarrollar una comprensión más completa de los orígenes de la filosofía occidental.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('video-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Interactiva: Descartes y la Modernidad</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --descartes: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--descartes);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .activity-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--descartes), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theory-exposition {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--descartes);
+            backdrop-filter: blur(5px);
+        }
+        
+        .exposition-title {
+            color: var(--descartes);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .theory-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .theory-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--descartes);
+        }
+        
+        .theory-card h3 {
+            color: var(--descartes);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--descartes);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .debate-guide {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .arguments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .argument-card {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .argument-title {
+            font-weight: bold;
+            color: var(--descartes);
+            margin-bottom: 0.8rem;
+        }
+        
+        .ai-chat-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--descartes);
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .ai-message {
+            background: #f5f5f5;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--descartes);
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--descartes), #1a5276);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--descartes);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--descartes), #1a5276);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .theory-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .arguments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🤔 Actividad Interactiva: Descartes y la Modernidad</h1>
+        <p>Explorando el legado del padre de la filosofía moderna</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="activity-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">RD</div>
+                <div class="philosopher-details">
+                    <h2>René Descartes</h2>
+                    <p>Filósofo francés, padre del racionalismo y la filosofía moderna</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Exposición sobre Descartes y la Modernidad -->
+        <section class="theory-exposition">
+            <h2 class="exposition-title">Descartes: El Inicio de la Modernidad Filosófica</h2>
+            
+            <div class="theory-content">
+                <div class="theory-card">
+                    <h3>🧠 El Giro Epistemológico</h3>
+                    <p>Descartes desplaza el centro de la filosofía de la ontología a la epistemología. La pregunta fundamental ya no es "¿qué existe?" sino "¿cómo puedo conocer con certeza?"</p>
+                    <p>Este giro subjetivo marca el inicio de la filosofía moderna y establece las bases del método científico.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>⚖️ La Duda Metódica</h3>
+                    <p>La duda cartesiana no es escepticismo, sino un método para alcanzar la certeza. Se duda sistemáticamente de todo lo que puede ser dudado para encontrar fundamentos indubitables.</p>
+                    <p>Este método representa la autonomía de la razón frente a la autoridad tradicional.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>🤖 Dualismo Mente-Cuerpo</h3>
+                    <p>La distinción radical entre res cogitans (sustancia pensante) y res extensa (sustancia extensa) establece el dualismo que dominará la modernidad.</p>
+                    <p>Esta separación fundamenta tanto la autonomía del sujeto como la matematización de la naturaleza.</p>
+                </div>
+            </div>
+            
+            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h3 style="color: var(--descartes); margin-bottom: 1rem;">El Legado de Descartes en la Modernidad</h3>
+                <p>El pensamiento cartesiano influye profundamente en la Ilustración, la ciencia moderna, la teoría del conocimiento y la filosofía de la mente. Su énfasis en la razón autónoma, el método y la subjetividad define los problemas centrales de la filosofía moderna.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">1. Analiza el impacto del "Cogito" en la modernidad</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Examina cómo el "Pienso, luego existo" (Cogito ergo sum) revolucionó la filosofía y estableció las bases del sujeto moderno.</p>
+                        
+                        <div class="debate-guide">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>¿Cómo cambia el "Cogito" la relación entre sujeto y objeto?</li>
+                                <li>¿Qué implicaciones tiene para la autonomía del individuo?</li>
+                                <li>¿Cómo influye en el desarrollo de la ciencia moderna?</li>
+                                <li>¿Qué críticas ha recibido el fundamento subjetivo del conocimiento?</li>
+                                <li>¿Sigue siendo relevante el "Cogito" en la era digital?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis del "Cogito":</h4>
+                    <p>Desarrolla un análisis crítico del "Cogito" cartesiano y su impacto en el pensamiento moderno.</p>
+                    
+                    <textarea class="activity-response" id="analysis-cogito" placeholder="Desarrolla tu análisis sobre el 'Cogito' y su influencia en la modernidad..."></textarea>
+                    
+                    <h4>Relevancia contemporánea:</h4>
+                    <p>Reflexiona sobre la vigencia del "Cogito" en el contexto actual de inteligencia artificial y realidad virtual.</p>
+                    
+                    <textarea class="activity-response" id="relevance-cogito" placeholder="¿Sigue siendo válido el 'Cogito' en la era digital?..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">2. Debate con el Agente IA de Descartes</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Dialoga con una inteligencia artificial que simula ser René Descartes. Discute sobre su legado, sus métodos y su relevancia para la filosofía contemporánea.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Temas sugeridos:</div>
+                                <p>• El método de la duda y la certeza</p>
+                                <p>• Dualismo mente-cuerpo</p>
+                                <p>• El papel de Dios en el sistema cartesiano</p>
+                                <p>• Críticas al racionalismo</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Preguntas para Descartes:</div>
+                                <p>• ¿Cómo respondería a las neurociencias?</p>
+                                <p>• ¿Qué opina de la inteligencia artificial?</p>
+                                <p>• ¿Sigue siendo válida su prueba de Dios?</p>
+                                <p>• ¿Cómo aplicaría su método hoy?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-container">
+                        <h4>Chat con René Descartes (IA)</h4>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <div class="message-sender">René Descartes:</div>
+                                <div>Saludos, soy René Descartes. Me complace dialogar contigo sobre los fundamentos de la filosofía moderna. Como he sostenido, debemos comenzar por dudar de todo lo que no sea evidente por sí mismo, para así construir el conocimiento sobre bases sólidas. ¿Qué cuestiones deseas plantearme sobre mi pensamiento o su relevancia actual?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Escribe tu mensaje para Descartes...">
+                            <button class="send-btn" onclick="sendMessage()">Enviar</button>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">3. Compara a Descartes con otros modernos</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza las diferencias y similitudes entre Descartes y otros filósofos modernos, identificando su influencia mutua y sus divergencias.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Descartes vs. Spinoza</div>
+                                <p><strong>Descartes:</strong> Dualismo, libre albedrío, Dios transcendente</p>
+                                <p><strong>Spinoza:</strong> Monismo, determinismo, Dios inmanente</p>
+                                <p><strong>Contraste:</strong> Sustancia múltiple vs. sustancia única</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Descartes vs. Leibniz</div>
+                                <p><strong>Descartes:</strong> Mecanicismo, duda metódica</p>
+                                <p><strong>Leibniz:</strong> Vitalismo, principio de razón suficiente</p>
+                                <p><strong>Contraste:</strong> Res extensa vs. mónadas</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Descartes vs. Kant</div>
+                                <p><strong>Descartes:</strong> Razón pura, ideas innatas</p>
+                                <p><strong>Kant:</strong> Razón crítica, condiciones a priori</p>
+                                <p><strong>Contraste:</strong> Metafísica dogmática vs. crítica</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis comparativo:</h4>
+                    <p>Selecciona dos filósofos modernos y compara sus sistemas con el cartesianismo, destacando continuidades y rupturas.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Compara a Descartes con otros filósofos modernos..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">4. Evalúa el legado cartesiano en el pensamiento actual</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona críticamente sobre la influencia de Descartes en la filosofía contemporánea, la ciencia y la cultura actual.</p>
+                        
+                        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Dimensiones del legado cartesiano:</h4>
+                            <ul>
+                                <li><strong>Ciencia:</strong> Matemización de la naturaleza, mecanicismo</li>
+                                <li><strong>Filosofía:</strong> Subjetividad, fundamentación del conocimiento</li>
+                                <li><strong>Ética:</strong> Autonomía de la razón, provisionalidad moral</li>
+                                <li><strong>Tecnología:</strong> Modelo mente-computadora, IA</li>
+                                <li><strong>Cultura:</strong> Individualismo, racionalismo occidental</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación crítica:</h4>
+                    <p>Desarrolla una evaluación balanceada del legado de Descartes, considerando tanto sus aportes como sus limitaciones.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Evalúa críticamente el legado de Descartes en el pensamiento actual..."></textarea>
+                    
+                    <h4>¿Superado o vigente?</h4>
+                    <p>Formula tu posición personal: ¿Consideras que el proyecto cartesiano está superado o mantiene vigencia?</p>
+                    
+                    <textarea class="activity-response" id="position-cartesian" placeholder="Desarrolla tu posición sobre la vigencia del proyecto cartesiano..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la actividad interactiva</h3>
+            <div class="progress-bar">
+                <div class="progress" id="activity-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el análisis de Descartes y la Modernidad</h3>
+            <p>Has explorado profundamente el pensamiento cartesiano, analizado su impacto en la filosofía moderna, debatido con una simulación del propio Descartes, comparado su sistema con otros pensadores modernos y evaluado críticamente su legado en el pensamiento contemporáneo.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de conocimiento de Descartes
+        const descartesKnowledge = [
+            "Pienso, luego existo (Cogito ergo sum) es la primera verdad indudable que sirve de fundamento a todo el conocimiento.",
+            "La duda metódica es un procedimiento para alcanzar la certeza, no un fin en sí mismo.",
+            "Debemos dudar de todo lo que no sea evidente por sí mismo, incluyendo los sentidos y las verdades matemáticas.",
+            "La distinción entre res cogitans (sustancia pensante) y res extensa (sustancia extensa) es fundamental para mi sistema.",
+            "Dios es la garantía de la verdad de nuestras ideas claras y distintas.",
+            "Las ideas innatas están presentes en nuestra mente desde el nacimiento.",
+            "El método cartesiano consiste en cuatro reglas: evidencia, análisis, síntesis y enumeración.",
+            "El cuerpo humano es una máquina, pero el alma es una sustancia pensante inmaterial.",
+            "Las pasiones del alma tienen su sede en la glándula pineal.",
+            "La moral provisional me permite actuar mientras busco la verdad definitiva.",
+            "La existencia de Dios se demuestra por la idea de perfección que tenemos en nuestra mente.",
+            "El error surge de la voluntad que excede los límites del entendimiento.",
+            "La extensión es la esencia de los cuerpos materiales.",
+            "La verdad se reconoce por su claridad y distinción.",
+            "La filosofía es como un árbol: las raíces son la metafísica, el tronco la física y las ramas las otras ciencias.",
+            "No hay nada en el entendimiento que no haya estado antes en los sentidos, excepto el propio entendimiento.",
+            "La unión del alma y el cuerpo es una unión sustancial, no accidental.",
+            "La conservación del movimiento en el universo es constante.",
+            "La duda hiperbólica incluye la posibilidad de un genio maligno que nos engañe sistemáticamente.",
+            "La certeza matemática es el modelo de todo conocimiento verdadero."
+        ];
+
+        // Respuestas predefinidas del Agente IA de Descartes
+        const descartesResponses = [
+            "El 'Cogito' no es un silogismo, sino una intuición inmediata de la existencia a partir del pensamiento. ¿No te parece evidente por sí mismo?",
+            "La duda metódica es el camino hacia la certeza. Sin dudar sistemáticamente, no podemos distinguir lo verdadero de lo falso con seguridad.",
+            "La distinción entre mente y cuerpo es fundamental. ¿Cómo explicarías la conciencia sin reconocer la existencia de una sustancia pensante?",
+            "Dios es la garantía última de la verdad. Sin Él, ¿cómo podríamos confiar en que nuestras ideas claras y distintas corresponden a la realidad?",
+            "El método que propongo ha permitido avances extraordinarios en la ciencia. ¿No es admirable cómo las matemáticas describen el mundo físico?",
+            "Las ideas innatas no son conocimientos acabados, sino capacidades naturales de la razón. ¿No observas que algunos conceptos son universales?",
+            "La glándula pineal es el punto de unión entre el alma y el cuerpo. La ciencia moderna quizá no la considere así, pero el problema persiste.",
+            "Mi moral provisional me permite vivir virtuosamente mientras busco la verdad. ¿No es prudente tener máximas para guiar la conducta?",
+            "El error surge cuando la voluntad afirma o niega más allá de lo que el entendimiento comprende claramente. La moderación es clave.",
+            "La extensión y el movimiento son los principios para comprender el mundo físico. El mecanicismo explica admirablemente los fenómenos naturales.",
+            "La claridad y distinción son los criterios de verdad. ¿Qué otro criterio propondrías para distinguir lo verdadero de lo falso?",
+            "La unión del alma y el cuerpo es el gran misterio. Experimentamos esta unión, pero la comprendemos deficientemente.",
+            "La conservación del movimiento es un principio fundamental de la física. El universo funciona como una gran máquina.",
+            "El genio maligno es una hipótesis metódica, no una creencia. Nos ayuda a dudar radicalmente para encontrar fundamentos sólidos.",
+            "Las matemáticas son el modelo de conocimiento cierto. ¿No es extraordinario cómo describen relaciones necesarias?",
+            "La autonomía de la razón es el gran legado de la modernidad. Debemos pensar por nosotros mismos, no aceptar autoridades ciegamente.",
+            "El dualismo resuelve el problema de la libertad. El cuerpo sigue leyes mecánicas, pero la mente es libre.",
+            "Las pasiones no son malas en sí mismas, pero deben ser gobernadas por la razón. La virtud está en el dominio de sí.",
+            "La filosofía debe construirse como las matemáticas, desde principios evidentes mediante deducción rigurosa.",
+            "La búsqueda de la verdad requiere paciencia y método. No se alcanza la sabiduría de improviso."
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+        let chatHistory = [];
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+            // Agregar mensaje inicial de Descartes
+            addMessage("René Descartes", descartesResponses[0], "ai");
+        }
+
+        // Agregar mensaje al chat
+        function addMessage(sender, text, type) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.textContent = sender + ':';
+            
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Guardar en historial
+            chatHistory.push({sender, text, type});
+        }
+
+        // Enviar mensaje al chat
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage("Tú", message, "user");
+            
+            // Limpiar input
+            chatInput.value = '';
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                // Generar respuesta de Descartes
+                const randomIndex = Math.floor(Math.random() * descartesResponses.length);
+                const response = descartesResponses[randomIndex];
+                
+                // Agregar respuesta de Descartes
+                addMessage("René Descartes", response, "ai");
+            }, 1000);
+        }
+
+        // Permitir enviar mensaje con Enter
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 1) {
+                const analysisCogito = document.getElementById('analysis-cogito').value.trim();
+                const relevanceCogito = document.getElementById('relevance-cogito').value.trim();
+                
+                if (!analysisCogito || !relevanceCogito) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa ambos campos de análisis.';
+                }
+            } else if (activityNumber === 2) {
+                // Para la actividad 2, verificamos que haya habido interacción en el chat
+                if (chatHistory.length <= 1) { // Solo el mensaje inicial
+                    isValid = false;
+                    feedback.textContent = 'Por favor, interactúa con el Agente IA antes de enviar esta actividad.';
+                }
+            } else if (activityNumber === 4) {
+                const response4 = document.getElementById('response-4').value.trim();
+                const positionCartesian = document.getElementById('position-cartesian').value.trim();
+                
+                if (!response4 || !positionCartesian) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa ambos campos de evaluación.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('activity-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

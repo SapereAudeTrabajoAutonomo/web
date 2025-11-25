@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: Descartes - La Duda Metódica como Fundamento del Conocimiento</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #9b59b6;
+            --accent: #8e44ad;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --essay: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: var(--essay);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #6c3483);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #8e44ad);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: Descartes - La Duda Metódica</h1>
+        <p>El Camino hacia la Certeza: La Duda como Fundamento del Conocimiento</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">RD</div>
+                <div class="philosopher-details">
+                    <h2>René Descartes</h2>
+                    <p>Filósofo y matemático francés, padre del racionalismo y la filosofía moderna</p>
+                </div>
+            </div>
+            
+            <div class="duration">Duración estimada: 80 minutos</div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora el método de la duda cartesiano como fundamento del conocimiento cierto. Analiza el proceso de duda radical, desde la crítica de los sentidos hasta la hipótesis del genio maligno, y examina cómo Descartes transforma la duda en el punto de partida para la reconstrucción del conocimiento sobre bases indubitables, culminando en el descubrimiento del cogito como primera verdad.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: La Búsqueda de Fundamentos Sólidos</h2>
+                    <div class="essay-text">
+                        <p>En el contexto del siglo XVII, marcado por la crisis de los fundamentos del conocimiento tradicional, René Descartes emprende una búsqueda radical de certeza. Desilusionado con la educación escolástica y las disputas filosóficas sin resolución, Descartes busca establecer un nuevo método para alcanzar el conocimiento verdadero. Su proyecto no es simplemente académico, sino que responde a una necesidad profunda de encontrar bases indubitables sobre las cuales reconstruir todo el edificio del saber.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La duda metódica cartesiana representa un giro fundamental en la historia de la filosofía. A diferencia del escepticismo tradicional, que duda por dudar, Descartes utiliza la duda como instrumento metodológico para alcanzar la certeza. Su objetivo no es permanecer en la duda, sino atravesarla para encontrar aquello que resista toda posibilidad de ser puesto en cuestión.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. Los Niveles de la Duda: Un Proceso Escalonado</h2>
+                    <div class="essay-text">
+                        <p>La duda cartesiana no es un acto único, sino un proceso escalonado que se desarrolla con rigor metodológico. Descartes comienza dudando de lo más fácil de poner en cuestión y avanza progresivamente hacia dudas más radicales, poniendo en jaque incluso las creencias más fundamentales.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Nivel de Duda</th>
+                                <th>Objeto de Duda</th>
+                                <th>Argumento</th>
+                                <th>Ejemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. Duda de los sentidos</strong></td>
+                                <td>Conocimiento sensible</td>
+                                <td>Los sentidos nos engañan ocasionalmente</td>
+                                <td>El palo que parece doblarse en el agua</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Duda del estado de vigilia</strong></td>
+                                <td>Distinción sueño/vigilia</td>
+                                <td>No hay criterio seguro para distinguir</td>
+                                <td>Sueños vívidos que parecen reales</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. Duda de las verdades matemáticas</strong></td>
+                                <td>Conocimiento racional</td>
+                                <td>Posibilidad de error en razonamientos simples</td>
+                                <td>2+3=5 podría ser falso</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. Hipótesis del genio maligno</strong></td>
+                                <td>Toda la realidad</td>
+                                <td>Ser omnipotente que nos engaña sistemáticamente</td>
+                                <td>Toda experiencia podría ser ilusoria</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="essay-text">
+                        <p>Cada nivel de duda representa una profundización en el cuestionamiento radical. Mientras que los primeros niveles ponen en cuestión fuentes específicas de conocimiento, la hipótesis del genio maligno amenaza la totalidad de nuestras creencias, incluyendo las verdades matemáticas que parecían más seguras.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. La Duda de los Sentidos: El Primer Escalón</h2>
+                    <div class="essay-text">
+                        <p>Descartes inicia su camino dudando de la fiabilidad de los sentidos. Observa que los sentidos nos han engañado en numerosas ocasiones: vemos objetos lejanos más pequeños de lo que son, el palo sumergido en agua parece quebrado, etc. Si los sentidos nos han engañado alguna vez, ¿por qué confiar en ellos siempre?</p>
+                    </div>
+                    <div class="quote">
+                        "Y puesto que los sentidos nos engañan algunas veces, quise suponer que no hay cosa alguna que sea tal como ellos nos la hacen imaginar."
+                    </div>
+                    <div class="essay-text">
+                        <p>Sin embargo, Descartes reconoce que sería exagerado dudar de todo lo que percibimos. Aunque los sentidos puedan engañarnos acerca de objetos lejanos o muy pequeños, parece absurdo dudar de que estoy sentado junto al fuego, sosteniendo este papel en mis manos. Esta limitación de la duda sensorial lleva a Descartes a buscar un nivel más profundo de cuestionamiento.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. El Argumento del Sueño: Disolviendo la Realidad</h2>
+                    <div class="essay-text">
+                        <p>El segundo nivel de duda, el argumento del sueño, representa una radicalización significativa. Descartes observa que no existe un criterio seguro para distinguir el estado de vigilia del estado de sueño. Los sueños pueden ser tan vívidos y coherentes que, mientras soñamos, estamos convencidos de su realidad.</p>
+                    </div>
+                    <div class="quote">
+                        "No hay indicios ciertos para distinguir con claridad el estado de vigilia del sueño."
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta duda socava la distinción entre realidad y apariencia. Si no puedo estar seguro de si estoy despierto o soñando, entonces toda mi experiencia sensible queda puesta en cuestión. Sin embargo, incluso en este nivel, Descartes identifica un límite: las verdades matemáticas y geométricas parecen mantener su validez tanto en el sueño como en la vigilia. Un cuadrado sigue teniendo cuatro lados, y 2+3 sigue siendo 5, independientemente de si estoy soñando o despierto.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. La Hipótesis del Genio Maligno: La Duda Radical</h2>
+                    <div class="essay-text">
+                        <p>Para llevar la duda a su extremo máximo, Descartes formula la hipótesis del genio maligno: supongamos que existe un ser omnipotente y sumamente astuto que emplea toda su industria en engañarme. Este genio podría hacerme creer que existe un cielo, una tierra, y que tengo un cuerpo, cuando en realidad nada de esto existe.</p>
+                    </div>
+                    <div class="quote">
+                        "Supondré, pues, que hay no un verdadero Dios, sino cierto genio maligno, no menos astuto y engañador que poderoso, que ha puesto todo su cuidado en engañarme."
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta hipótesis representa la duda más radical posible. Invalida no solo los sentidos y la distinción entre sueño y vigilia, sino también las verdades matemáticas más evidentes. El genio maligno podría hacerme errar incluso cuando sumo 2+3 o cuando razono sobre las propiedades de un triángulo. Con esta hipótesis, Descartes alcanza el punto máximo de la duda: todo conocimiento parece haber sido destruido.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. El Cogito: La Primera Verdad</h2>
+                    <div class="essay-text">
+                        <p>En el punto más extremo de la duda, cuando todo parece haber sido destruido, Descartes descubre una verdad que resiste incluso la hipótesis del genio maligno: el hecho mismo de dudar. Si estoy dudando, entonces debo existir como ser que duda. Esta intuición da lugar al famoso cogito ergo sum (pienso, luego existo).</p>
+                    </div>
+                    <div class="quote">
+                        "Pero he advertido que, mientras quería pensar así que todo era falso, era necesario que yo, que lo pensaba, fuese alguna cosa. Y observando que esta verdad: pienso, luego existo, era tan firme y segura que no podían quebrantarla ni las más extravagantes suposiciones de los escépticos, juzgué que podía recibirla sin escrúpulo como el primer principio de la filosofía que buscaba."
+                    </div>
+                    <div class="essay-text">
+                        <p>El cogito no es un razonamiento silogístico, sino una intuición inmediata. No se deduce la existencia del pensamiento, sino que se descubre en el acto mismo de dudar. Esta primera verdad proporciona a Descartes el fundamento indubitable que buscaba: la existencia del sujeto pensante como punto de partida para reconstruir el conocimiento.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Descripción</th>
+                                <th>Implicación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Inmediatez</strong></td>
+                                <td>Se capta directamente en la intuición</td>
+                                <td>No requiere demostración</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Indubitabilidad</strong></td>
+                                <td>Resiste toda duda posible</td>
+                                <td>Fundamento sólido del conocimiento</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Autofundación</strong></td>
+                                <td>Se justifica a sí mismo</td>
+                                <td>No depende de otras verdades</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Universalidad</strong></td>
+                                <td>Válida para todo sujeto pensante</td>
+                                <td>Base para conocimiento objetivo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">7. Reconstrucción del Conocimiento: Del Cogito al Mundo</h2>
+                    <div class="essay-text">
+                        <p>Una vez establecido el cogito como primera verdad, Descartes emprende la tarea de reconstruir el conocimiento. Para ello, necesita criterios que le permitan distinguir lo verdadero de lo falso. Examina la naturaleza del cogito y descubre que su certeza se basa en su claridad y distinción.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Esto le lleva a formular la regla general: todo lo que percibo clara y distintamente es verdadero. Sin embargo, para aplicar esta regla con confianza, necesita demostrar la existencia de un Dios veraz que garantice la fiabilidad de sus facultades cognitivas. La demostración de la existencia de Dios se convierte así en el paso crucial para salir del solipsismo del cogito y recuperar el mundo exterior.</p>
+                    </div>
+                    <div class="quote">
+                        "Y habiendo conocido que hay un Dios, y que todas las cosas dependen de él, y que este Dios no es engañador, luego he juzgado que todo lo que concibo clara y distintamente no puede dejar de ser verdadero."
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">8. Conclusión: El Legado de la Duda Metódica</h2>
+                    <div class="essay-text">
+                        <p>La duda metódica cartesiana representa uno de los momentos fundacionales de la filosofía moderna. Al hacer del sujeto pensante el punto de partida del conocimiento, Descartes inaugura el giro subjetivo que caracterizará gran parte de la filosofía posterior. Su método de duda radical no solo proporciona un modelo de rigor filosófico, sino que establece las bases para una nueva concepción del conocimiento.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El legado de la duda cartesiana es ambivalente. Por un lado, abre el camino al racionalismo y a la búsqueda de certeza mediante la razón. Por otro, plantea problemas que seguirán desafiando a la filosofía: el problema de la relación mente-cuerpo, el solipsismo, y la justificación del conocimiento del mundo exterior.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La grandeza del proyecto cartesiano reside en su audacia y sistematicidad. Al someter todo a la duda para encontrar fundamentos indubitables, Descartes no solo transforma la filosofía, sino que redefine la relación del sujeto con el conocimiento. Su método sigue siendo, siglos después, un modelo de rigor intelectual y una invitación permanente a cuestionar nuestras certezas para alcanzar un conocimiento más sólido y fundamentado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Analiza los niveles de la duda metódica</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Examina y explica cada uno de los niveles de la duda metódica cartesiana, identificando su objetivo específico y su alcance.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a analizar:</h4>
+                            <ul>
+                                <li>Duda de los sentidos: argumentos y limitaciones</li>
+                                <li>Argumento del sueño: alcance e implicaciones</li>
+                                <li>Duda de las verdades matemáticas: justificación</li>
+                                <li>Hipótesis del genio maligno: radicalidad y propósito</li>
+                                <li>Progresión lógica entre los niveles de duda</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis detallado de los niveles de la duda metódica, explicando cómo cada nivel profundiza y amplía el cuestionamiento anterior.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis de los niveles de duda aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Examina el cogito como primera verdad</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza el descubrimiento del cogito como primera verdad indubitable y examina sus características fundamentales.</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">Características del cogito:</div>
+                                <div class="outline-content">
+                                    - Inmediatez: se capta por intuición directa<br>
+                                    - Indubitabilidad: resiste toda duda posible<br>
+                                    - Autofundación: no depende de otras verdades<br>
+                                    - Certeza absoluta: fundamento sólido del conocimiento<br>
+                                    - Universalidad: válida para todo sujeto pensante
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">Naturaleza del cogito:</div>
+                                <div class="outline-content">
+                                    - No es un razonamiento silogístico<br>
+                                    - Se descubre en el acto de dudar<br>
+                                    - Establece la existencia del sujeto pensante<br>
+                                    - Proporciona criterio de verdad (claridad y distinción)<br>
+                                    - Fundamento para reconstrucción del conocimiento
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu examen:</h4>
+                    <p>Desarrolla un análisis detallado del cogito como primera verdad, explicando por qué resiste la duda radical y cómo funciona como fundamento del conocimiento.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu examen del cogito aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Evalúa críticamente la duda metódica</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla una evaluación crítica de la duda metódica cartesiana, identificando sus fortalezas, debilidades y posibles objeciones.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a evaluar críticamente:</h4>
+                            <ul>
+                                <li>Coherencia interna del método</li>
+                                <li>Posibilidad real de dudar radicalmente</li>
+                                <li>Problema del círculo cartesiano</li>
+                                <li>Críticas contemporáneas a la duda metódica</li>
+                                <li>Relevancia del método para problemas epistemológicos actuales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación crítica:</h4>
+                    <p>Desarrolla una evaluación crítica detallada de la duda metódica, analizando tanto sus contribuciones como sus limitaciones desde una perspectiva filosófica contemporánea.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu evaluación crítica aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Aplica la duda metódica a un problema contemporáneo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Aplica el método de la duda cartesiana a un problema o creencia contemporánea, desarrollando un ejercicio de duda metódica sobre un tema actual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Posibles temas para aplicar la duda:</h4>
+                            <ul>
+                                <li>Creencia en la información de redes sociales</li>
+                                <li>Supuestos sobre la realidad virtual</li>
+                                <li>Creencias políticas o ideológicas</li>
+                                <li>Supuestos científicos generalmente aceptados</li>
+                                <li>Experiencia de la identidad personal en entornos digitales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu aplicación del método:</h4>
+                    <p>Selecciona un tema contemporáneo y aplica el método de la duda cartesiana, desarrollando los diferentes niveles de duda y analizando qué resiste el cuestionamiento radical.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu aplicación de la duda metódica aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "La Duda Metódica de Descartes"</h3>
+            <p>Has analizado los niveles de la duda metódica, examinado el cogito como primera verdad, evaluado críticamente el método cartesiano y aplicado la duda a problemas contemporáneos. Continúa explorando este método fundamental para profundizar en tu comprensión de la epistemología y la filosofía moderna.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

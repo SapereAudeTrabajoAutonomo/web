@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: La Propiedad en Locke - Teoría del Valor-Trabajo y Fundamentos del Liberalismo</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2c3e50;
+            --essay: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: var(--essay);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #21618c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: La Propiedad en Locke</h1>
+        <p>Teoría del Valor-Trabajo y Fundamentos del Liberalismo</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Filósofo y médico inglés, padre del liberalismo y la teoría del contrato social</p>
+                </div>
+            </div>
+            
+            <div class="duration">Duración estimada: 75 minutos</div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora la teoría de la propiedad de John Locke, uno de los pilares fundamentales del pensamiento liberal. Analiza el origen de la propiedad en el trabajo, las limitaciones a la apropiación, el papel del dinero y la relación entre propiedad y gobierno, examinando cómo estas ideas continúan influyendo en la economía política contemporánea.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: La Propiedad como Derecho Natural</h2>
+                    <div class="essay-text">
+                        <p>La teoría de la propiedad de John Locke representa uno de los desarrollos más influyentes en la historia del pensamiento político y económico. En el contexto de su obra "Dos Tratados sobre el Gobierno Civil", Locke no solo justifica la propiedad privada como un derecho natural, sino que establece las bases filosóficas para el desarrollo del capitalismo moderno y el Estado liberal.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Contrario a las teorías que fundamentaban la propiedad en el consentimiento colectivo o la concesión divina, Locke argumenta que la propiedad surge naturalmente del trabajo humano. Esta revolucionaria concepción transformó la comprensión de los derechos de propiedad y sentó las bases para las teorías económicas modernas sobre el valor y la distribución de la riqueza.</p>
+                    </div>
+                    <div class="quote">
+                        "Cada hombre tiene una propiedad en su propia persona. A ésta nadie tiene derecho alguno excepto él mismo. El trabajo de su cuerpo y la obra de sus manos, podemos decir, son propiamente suyos."
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. El Origen de la Propiedad: La Teoría del Valor-Trabajo</h2>
+                    <div class="essay-text">
+                        <p>La teoría lockeana de la propiedad se fundamenta en la premisa de que Dios ha dado el mundo en común a la humanidad. Sin embargo, para que los individuos puedan beneficiarse de estos recursos, deben poder apropiarse de partes específicas. Locke resuelve esta aparente contradicción mediante su teoría del valor-trabajo.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Según Locke, es el trabajo lo que legitima la apropiación inicial de los bienes comunes. Cuando un individuo mezcla su trabajo con los recursos naturales -cultivando la tierra, recolectando frutos, cazando animales- transforma esos bienes comunes en propiedad privada. El trabajo añade valor a los recursos naturales, justificando así su apropiación individual.</p>
+                    </div>
+                    <div class="quote">
+                        "Es el trabajo lo que pone la diferencia de valor en todas las cosas. [...] De todo esto será evidente que, aunque las cosas de la naturaleza son dadas en común, sin embargo el hombre, al ser dueño de su propia persona y de las acciones o trabajo de la misma, tiene todavía en sí mismo el gran fundamento de la propiedad."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Antes del Trabajo</th>
+                                <th>Después del Trabajo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tierra sin cultivar</strong></td>
+                                <td>Bien común de valor limitado</td>
+                                <td>Propiedad privada productiva</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frutos silvestres</strong></td>
+                                <td>Recurso disponible para todos</td>
+                                <td>Alimento apropiado mediante recolección</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Animales salvajes</strong></td>
+                                <td>Parte de la naturaleza común</td>
+                                <td>Propiedad mediante la caza</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Valor económico</strong></td>
+                                <td>Mínimo o nulo</td>
+                                <td>Significativamente incrementado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. Las Limitaciones a la Apropiación: La Proviso Lockeana</h2>
+                    <div class="essay-text">
+                        <p>Locke no defiende una apropiación ilimitada. Su teoría incluye dos restricciones fundamentales conocidas como la "proviso lockeana". Primero, el individuo solo puede apropiarse de aquello que pueda usar antes de que se eche a perder ("spoilage proviso"). Segundo, debe dejar "suficiente y tan bueno" para los demás ("enough and as good proviso").</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Estas limitaciones reflejan la concepción lockeana de la propiedad como un derecho natural que debe ser compatible con los derechos iguales de otros. En el estado de naturaleza, la apropiación excesiva que priva a otros de oportunidades similares violaría la ley natural y el propósito divino de la creación.</p>
+                    </div>
+                    <div class="quote">
+                        "Nadie podía dañar a otro en su vida, salud, libertad o posesiones. [...] Donde hay abundancia, no es fácil para un hombre invadir el derecho de otro."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Limitación</th>
+                                <th>Descripción</th>
+                                <th>Implicación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Proviso del deterioro</strong></td>
+                                <td>No apropiarse más de lo que se puede usar antes de que se dañe</td>
+                                <td>Limita la acumulación en sociedades sin dinero</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Proviso de suficiencia</strong></td>
+                                <td>Dejar suficiente y de igual calidad para otros</td>
+                                <td>Garantiza igualdad de oportunidades de apropiación</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ley natural</strong></td>
+                                <td>No dañar la vida, salud o libertad de otros</td>
+                                <td>Establece límites morales a la propiedad</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. El Papel del Dinero y la Acumulación de Riqueza</h2>
+                    <div class="essay-text">
+                        <p>Locke reconoce que la introducción del dinero transforma radicalmente las condiciones de la propiedad. El dinero, al ser un medio de intercambio durable, permite superar la limitación del deterioro. Los individuos pueden ahora acumular riqueza en forma monetaria sin violar la proviso del deterioro, ya que el dinero no se echa a perder.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta transformación tiene consecuencias profundas. Por un lado, permite el desarrollo económico y la especialización del trabajo. Por otro, genera desigualdades económicas significativas y hace que la proviso de "dejar suficiente y tan bueno" sea cada vez más difícil de cumplir a medida que los recursos se vuelven escasos.</p>
+                    </div>
+                    <div class="quote">
+                        "Y así vino a ser el oro y la plata, poco apreciados por los hombres por el uso que de ellos podían hacer, ser asignados un valor que se basaba sólo en el consentimiento."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspecto</th>
+                                <th>Antes del Dinero</th>
+                                <th>Después del Dinero</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Acumulación</strong></td>
+                                <td>Limitada por el deterioro</td>
+                                <td>Posibilidad de acumulación ilimitada</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Desigualdad</strong></td>
+                                <td>Limitada y temporal</td>
+                                <td>Significativa y estructural</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Intercambio</strong></td>
+                                <td>Trueque directo</td>
+                                <td>Mercado monetario</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Proviso lockeana</strong></td>
+                                <td>Generalmente cumplida</td>
+                                <td>Difícil de mantener</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. Propiedad y Gobierno: La Protección Institucional</h2>
+                    <div class="essay-text">
+                        <p>Para Locke, la protección de la propiedad es una de las razones principales para establecer un gobierno civil. En el estado de naturaleza, aunque los individuos tienen derecho a la propiedad, carecen de medios seguros para protegerla de las invasiones de otros. La ausencia de leyes establecidas, jueces imparciales y poder ejecutivo hace que la propiedad sea insegura.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El gobierno civil surge así para proteger los derechos de propiedad de manera más efectiva. Sin embargo, Locke establece límites importantes: el gobierno no puede tomar la propiedad sin consentimiento (impuestos requieren representación) y existe el derecho a la resistencia cuando el gobierno viola su función protectora.</p>
+                    </div>
+                    <div class="quote">
+                        "El fin principal de la unión de los hombres en comunidades y de su sometimiento a gobiernos es la preservación de su propiedad."
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Dimensión</th>
+                                <th>Estado de Naturaleza</th>
+                                <th>Estado Civil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Seguridad de la propiedad</strong></td>
+                                <td>Insegura, depende de la autodefensa</td>
+                                <td>Protegida por leyes e instituciones</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resolución de conflictos</strong></td>
+                                <td>Autotutela, riesgo de parcialidad</td>
+                                <td>Jueces imparciales y procedimientos</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Límites a la propiedad</strong></td>
+                                <td>Ley natural y provisos lockeanas</td>
+                                <td>Leyes positivas y regulaciones</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transferencia de propiedad</strong></td>
+                                <td>Acuerdos informales</td>
+                                <td>Contratos formalizados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. Legado e Influencia Contemporánea</h2>
+                    <div class="essay-text">
+                        <p>La teoría lockeana de la propiedad ha tenido una influencia profunda y duradera en el pensamiento político y económico. Sus ideas fundamentaron las revoluciones liberales del siglo XVIII, influyeron en el desarrollo de la economía clásica y continúan siendo referencia en debates contemporáneos sobre derechos de propiedad, justicia distributiva y límites del Estado.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>En el ámbito económico, la teoría del valor-trabajo de Locke anticipó desarrollos posteriores en la economía política, incluyendo las teorías de Adam Smith y David Ricardo. En el ámbito político, su defensa de la propiedad como derecho natural influyó en declaraciones de derechos como la Declaración de Independencia de Estados Unidos.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Sin embargo, la teoría lockeana también ha enfrentado críticas significativas. Críticos como Karl Marx cuestionaron la justificación de la desigualdad económica, mientras que pensadores ecologistas han señalado las limitaciones de una concepción de la propiedad que no considera suficientemente la sostenibilidad ambiental y los derechos de las generaciones futuras.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">7. Conclusión: La Propiedad Lockeana en el Siglo XXI</h2>
+                    <div class="essay-text">
+                        <p>La teoría de la propiedad de John Locke representa una contribución fundamental al pensamiento liberal que continúa desafiando nuestras concepciones sobre los derechos económicos, la justicia distributiva y los límites del poder estatal. Su visión de la propiedad como extensión de la persona a través del trabajo ofrece una justificación poderosa para los derechos de propiedad, mientras que sus limitaciones naturales sugieren importantes restricciones morales.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>En el contexto contemporáneo, marcado por desigualdades económicas profundas, crisis ambientales y debates sobre los límites de la propiedad intelectual, la teoría lockeana ofrece herramientas conceptuales valiosas pero también plantea preguntas incómodas. ¿Siguen siendo aplicables las provisos lockeanas en una economía globalizada? ¿Cómo reconciliar los derechos de propiedad con las demandas de justicia social y sostenibilidad ecológica?</p>
+                    </div>
+                    <div class="quote">
+                        "La gran y principal fin de los hombres que se unen en comunidades y se someten a gobiernos es la preservación de su propiedad."
+                    </div>
+                    <div class="essay-text">
+                        <p>Al final, el valor duradero de la teoría lockeana reside no solo en sus respuestas específicas, sino en su capacidad para enmarcar preguntas fundamentales sobre la relación entre individuo, propiedad y comunidad. En un mundo de recursos finitos y aspiraciones infinitas, el desafío de construir instituciones que protejan los derechos de propiedad mientras garantizan justicia y oportunidad para todos sigue siendo tan relevante hoy como en la época de Locke.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Analiza la teoría del valor-trabajo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza la teoría del valor-trabajo de Locke, explicando cómo el trabajo transforma los bienes comunes en propiedad privada y añade valor económico.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>El concepto de mezcla del trabajo con la naturaleza</li>
+                                <li>La transformación de valor mediante el trabajo</li>
+                                <li>Ejemplos concretos de apropiación lockeana</li>
+                                <li>Críticas a la teoría del valor-trabajo</li>
+                                <li>Relevancia en economías contemporáneas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis detallado de la teoría del valor-trabajo de Locke, evaluando sus fortalezas conceptuales y sus limitaciones en el contexto económico actual.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis de la teoría del valor-trabajo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Examina las limitaciones a la propiedad</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Examina las limitaciones que Locke establece a la apropiación de propiedad (proviso del deterioro y proviso de suficiencia) y su relevancia contemporánea.</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">I. La proviso del deterioro (spoilage proviso)</div>
+                                <div class="outline-content">
+                                    - Definición y justificación moral<br>
+                                    - Ejemplos en el estado de naturaleza<br>
+                                    - Implicaciones para la acumulación<br>
+                                    - Efecto de la introducción del dinero
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">II. La proviso de suficiencia (enough and as good proviso)</div>
+                                <div class="outline-content">
+                                    - Significado y fundamento en la ley natural<br>
+                                    - Condiciones para su cumplimiento<br>
+                                    - Desafíos en sociedades con recursos limitados<br>
+                                    - Interpretaciones contemporáneas
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">III. Aplicación en contextos actuales</div>
+                                <div class="outline-content">
+                                    - Propiedad intelectual y digital<br>
+                                    - Recursos naturales y sostenibilidad<br>
+                                    - Desigualdad económica global<br>
+                                    - Políticas redistributivas
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu examen:</h4>
+                    <p>Desarrolla un análisis crítico de las limitaciones lockeanas a la propiedad, evaluando su aplicabilidad en economías contemporáneas y su potencial para abordar problemas de justicia distributiva.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu examen de las limitaciones a la propiedad aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Evalúa el papel del dinero en la teoría lockeana</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Evalúa el papel transformador del dinero en la teoría de la propiedad de Locke y sus implicaciones para la desigualdad económica.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Dimensiones a evaluar:</h4>
+                            <ul>
+                                <li>Superación de la limitación del deterioro</li>
+                                <li>Posibilidad de acumulación ilimitada</li>
+                                <li>Consentimiento tácito y convención social</li>
+                                <li>Generación de desigualdad estructural</li>
+                                <li>Relación con el desarrollo del capitalismo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>Desarrolla una evaluación crítica del papel del dinero en la teoría lockeana, analizando cómo transforma las condiciones de la propiedad y qué desafíos plantea para la justicia distributiva.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu evaluación del papel del dinero aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Desarrolla una posición crítica sobre la propiedad lockeana</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla una posición crítica personal sobre la teoría de la propiedad de Locke, considerando sus contribuciones y limitaciones desde una perspectiva contemporánea.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Perspectivas críticas a considerar:</h4>
+                            <ul>
+                                <li>Críticas marxistas a la justificación de la desigualdad</li>
+                                <li>Perspectivas ecologistas sobre sostenibilidad</li>
+                                <li>Críticas feministas a concepciones de propiedad</li>
+                                <li>Posturas comunitaristas sobre bienes comunes</li>
+                                <li>Enfoques decoloniales sobre apropiación de tierras</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu posición crítica:</h4>
+                    <p>Desarrolla una posición crítica personal fundamentada sobre la teoría de la propiedad de Locke, integrando insights de diferentes tradiciones de pensamiento y aplicándolos a problemas contemporáneos.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Desarrolla tu posición crítica aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "La Propiedad en Locke"</h3>
+            <p>Has analizado la teoría del valor-trabajo, examinado las limitaciones a la propiedad, evaluado el papel del dinero y desarrollado una posición crítica personal. Continúa explorando estos conceptos fundamentales para profundizar en tu comprensión de la filosofía política lockeana y sus implicaciones contemporáneas.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

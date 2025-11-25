@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas: Empirismo Lockeano</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #2980b9;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #2980b9;
+            --empirism: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--empirism);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flashcards-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--empirism), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcards-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--empirism);
+            backdrop-filter: blur(5px);
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mode-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: var(--empirism);
+        }
+        
+        .mode-card.active {
+            border-color: var(--empirism);
+            background: rgba(41, 128, 185, 0.05);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .flashcards-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 500px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            border: 2px solid var(--empirism);
+        }
+        
+        .flashcard.flipped {
+            background: linear-gradient(135deg, var(--empirism), #1a5276);
+            color: white;
+        }
+        
+        .flashcard-question, .flashcard-answer {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flashcard-answer {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-question {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-answer {
+            display: block;
+        }
+        
+        .flashcard-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--empirism);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--empirism);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .self-evaluation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .eval-question {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .eval-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .eval-option {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .eval-option:hover {
+            background: #d5dbdb;
+        }
+        
+        .eval-option.selected {
+            background: var(--empirism);
+            color: white;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--empirism);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--empirism);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .study-modes {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+            }
+            
+            .eval-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Tarjetas: Empirismo Lockeano</h1>
+        <p>Domina los conceptos fundamentales del empirismo y la teoría del conocimiento de John Locke</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="flashcards-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Padre del empirismo moderno y teórico del contrato social</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="flashcards-description">
+                <p>Este sistema de tarjetas interactivas te permitirá dominar los conceptos fundamentales del empirismo lockeano. Estudia, practica y evalúa tu comprensión de la tabula rasa, las ideas simples y complejas, y la teoría del conocimiento basada en la experiencia.</p>
+            </div>
+            
+            <div class="study-modes">
+                <div class="mode-card active" onclick="setMode('study')">
+                    <div class="mode-icon">📖</div>
+                    <h3>Modo Estudio</h3>
+                    <p>Estudia las tarjetas a tu propio ritmo</p>
+                </div>
+                <div class="mode-card" onclick="setMode('practice')">
+                    <div class="mode-icon">🔄</div>
+                    <h3>Modo Práctica</h3>
+                    <p>Practica con autoevaluación interactiva</p>
+                </div>
+                <div class="mode-card" onclick="setMode('create')">
+                    <div class="mode-icon">✏️</div>
+                    <h3>Crear Tarjetas</h3>
+                    <p>Crea tus propias tarjetas personalizadas</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modo Estudio y Práctica -->
+        <section class="flashcards-container" id="study-practice-container">
+            <div class="flashcard" id="current-flashcard" onclick="flipCard()">
+                <div class="flashcard-counter" id="card-counter">1/30</div>
+                <div class="flashcard-question" id="flashcard-question">
+                    ¿Qué significa "tabula rasa" en la filosofía de Locke?
+                </div>
+                <div class="flashcard-answer" id="flashcard-answer">
+                    La mente humana al nacer es como una "pizarra en blanco" sin ideas innatas. Todo conocimiento proviene de la experiencia a través de los sentidos.
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousCard()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextCard()">Siguiente →</button>
+            </div>
+            
+            <div class="self-evaluation" id="self-evaluation">
+                <h3>Autoevaluación</h3>
+                <div class="eval-question" id="eval-question">
+                    ¿Qué son las "ideas simples" según Locke?
+                </div>
+                <div class="eval-options" id="eval-options">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+                <button class="submit-btn" onclick="checkAnswer()">Verificar Respuesta</button>
+                <div class="submission-feedback" id="eval-feedback"></div>
+            </div>
+        </section>
+        
+        <!-- Modo Crear Tarjetas -->
+        <section class="flashcards-container" id="create-container" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--empirism);">Crear Tus Propias Tarjetas</h3>
+            
+            <div class="activity-content">
+                <div class="activity-text">
+                    <p>Crea tarjetas personalizadas sobre el empirismo lockeano. Incluye conceptos como tabula rasa, ideas simples y complejas, cualidades primarias y secundarias, y la crítica a las ideas innatas.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <h4>Ejemplos de conceptos para incluir:</h4>
+                        <ul>
+                            <li>Tabula rasa y rechazo de las ideas innatas</li>
+                            <li>Ideas simples vs ideas complejas</li>
+                            <li>Cualidades primarias y secundarias</li>
+                            <li>Las dos fuentes de conocimiento: sensación y reflexión</li>
+                            <li>La teoría política del contrato social</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4>Nueva Tarjeta:</h4>
+                    <input type="text" id="new-question" placeholder="Pregunta o concepto..." style="width: 100%; padding: 1rem; margin-bottom: 1rem; border: 2px solid #e9ecef; border-radius: 8px;">
+                    <textarea id="new-answer" placeholder="Respuesta o explicación..." style="width: 100%; height: 120px; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="submit-btn" style="margin-top: 1rem;" onclick="addNewCard()">Agregar Tarjeta</button>
+                </div>
+                
+                <div id="custom-cards-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Las tarjetas personalizadas se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudio de tarjetas: Tabula Rasa e Ideas Innatas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo estudio para revisar las tarjetas sobre la teoría de la tabula rasa y el rechazo lockeano a las ideas innatas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a dominar:</h4>
+                            <ul>
+                                <li>La crítica a las ideas innatas</li>
+                                <li>La mente como tabula rasa</li>
+                                <li>El origen empírico de todo conocimiento</li>
+                                <li>La importancia de la experiencia</li>
+                                <li>Comparación con el racionalismo cartesiano</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Después de estudiar las tarjetas, explica con tus propias palabras por qué Locke rechaza las ideas innatas y qué implicaciones tiene la teoría de la tabula rasa para la educación y la comprensión del conocimiento humano.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Crear tarjetas: Ideas Simples y Complejas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo creación para desarrollar tus propias tarjetas sobre la distinción entre ideas simples y complejas en el empirismo lockeano.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Temas sugeridos para tus tarjetas:</h4>
+                            <ul>
+                                <li>Características de las ideas simples</li>
+                                <li>Formación de ideas complejas</li>
+                                <li>Los modos, sustancias y relaciones</li>
+                                <li>Ejemplos concretos de ideas simples y complejas</li>
+                                <li>La relación con la experiencia sensorial</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu creación:</h4>
+                    <p>Describe al menos 3 tarjetas que hayas creado y explica por qué seleccionaste esos conceptos específicos sobre la teoría de las ideas en Locke.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tus tarjetas creadas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Práctica con autoevaluación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo práctica para evaluar tu comprensión de los conceptos del empirismo lockeano mediante preguntas de opción múltiple.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Áreas de evaluación:</h4>
+                            <ul>
+                                <li>Tabula rasa y rechazo de ideas innatas</li>
+                                <li>Ideas simples y complejas</li>
+                                <li>Cualidades primarias y secundarias</li>
+                                <li>Las fuentes del conocimiento</li>
+                                <li>Críticas al empirismo lockeano</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>¿Qué conceptos encontraste más desafiantes durante la autoevaluación? ¿Cómo piensas reforzar tu comprensión de estos temas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Describe tu experiencia de autoevaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexión: Vigencia del empirismo lockeano</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la relevancia contemporánea del empirismo lockeano en el contexto de la psicología, la educación y las ciencias cognitivas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La influencia en teorías del aprendizaje</li>
+                                <li>La relación con el conductismo psicológico</li>
+                                <li>Críticas desde la psicología cognitiva</li>
+                                <li>La importancia de la experiencia en la educación</li>
+                                <li>El debate naturaleza vs crianza</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que el empirismo lockeano ofrece herramientas válidas para entender el conocimiento humano en el siglo XXI? ¿Por qué sí o por qué no?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en las tarjetas</h3>
+            <div class="progress-bar">
+                <div class="progress" id="flashcards-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el sistema de tarjetas sobre el empirismo lockeano</h3>
+            <p>Has dominado los conceptos fundamentales de la teoría del conocimiento de Locke, creado tus propias tarjetas, practicado con autoevaluación y reflexionado sobre la vigencia del empirismo. Continúa revisando las tarjetas para consolidar tu comprensión de esta influyente teoría filosófica.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de tarjetas sobre el empirismo lockeano (30+ conceptos)
+        const lockeFlashcards = [
+            {
+                question: "¿Qué significa 'tabula rasa' en la filosofía de Locke?",
+                answer: "La mente humana al nacer es como una 'pizarra en blanco' sin ideas innatas. Todo conocimiento proviene de la experiencia a través de los sentidos."
+            },
+            {
+                question: "¿Qué son las 'ideas simples' según Locke?",
+                answer: "Las percepciones básicas que recibimos directamente de los sentidos, como colores, sonidos, sabores, etc. Son indivisibles y constituyen la base de todo conocimiento."
+            },
+            {
+                question: "¿Cómo se forman las 'ideas complejas'?",
+                answer: "La mente combina, compara y abstrae ideas simples para formar ideas complejas, como sustancias, modos y relaciones."
+            },
+            {
+                question: "¿Qué son las 'cualidades primarias'?",
+                answer: "Propiedades objetivas de los objetos que existen independientemente de nuestra percepción, como forma, tamaño, movimiento y número."
+            },
+            {
+                question: "¿Qué son las 'cualidades secundarias'?",
+                answer: "Propiedades subjetivas que dependen de nuestra percepción, como colores, sonidos, sabores y olores. No existen en los objetos mismos."
+            },
+            {
+                question: "¿Cuáles son las dos fuentes de conocimiento según Locke?",
+                answer: "La sensación (experiencia externa a través de los sentidos) y la reflexión (experiencia interna de las operaciones de nuestra propia mente)."
+            },
+            {
+                question: "¿Por qué Locke rechaza las ideas innatas?",
+                answer: "Porque no hay evidencia universal de su existencia, varían entre culturas, y todo conocimiento puede explicarse mediante la experiencia."
+            },
+            {
+                question: "¿Qué es la 'sustancia' para Locke?",
+                answer: "Un sustrato desconocido que soporta las cualidades que percibimos. Solo conocemos sus cualidades, no su esencia."
+            },
+            {
+                question: "¿Cómo define Locke la 'identidad personal'?",
+                answer: "Basada en la conciencia y la memoria, no en la sustancia material o espiritual. Somos la misma persona en la medida en que recordamos nuestras experiencias pasadas."
+            },
+            {
+                question: "¿Qué papel juega la 'abstracción' en el pensamiento de Locke?",
+                answer: "Es el proceso mediante el cual formamos ideas generales a partir de experiencias particulares, como el concepto de 'humano' a partir de individuos específicos."
+            },
+            {
+                question: "¿Cómo concibe Locke el 'conocimiento'?",
+                answer: "Como la percepción de la conexión y acuerdo, o desacuerdo y repugnancia, de cualquiera de nuestras ideas."
+            },
+            {
+                question: "¿Qué tipos de conocimiento distingue Locke?",
+                answer: "Conocimiento intuitivo (directo e inmediato), demostrativo (a través de razonamiento) y sensitivo (de la existencia de cosas externas)."
+            },
+            {
+                question: "¿Qué son los 'modos' en la clasificación lockeana de las ideas?",
+                answer: "Ideas complejas que dependen de las sustancias, como las ideas de triángulo, gratitud o asesinato."
+            },
+            {
+                question: "¿Cómo define Locke las 'relaciones'?",
+                answer: "Ideas complejas que consisten en la consideración y comparación de una idea con otra."
+            },
+            {
+                question: "¿Qué crítica hace Locke al racionalismo cartesiano?",
+                answer: "Rechaza las ideas innatas y la posibilidad de conocimiento cierto independiente de la experiencia."
+            },
+            {
+                question: "¿Cómo influyó Locke en la Ilustración?",
+                answer: "Su empirismo y defensa de la tolerancia influyeron profundamente en pensadores como Voltaire, Rousseau y los enciclopedistas."
+            },
+            {
+                question: "¿Qué es el 'ensayo sobre el entendimiento humano'?",
+                answer: "La obra principal de Locke donde desarrolla su teoría del conocimiento y su empirismo."
+            },
+            {
+                question: "¿Cómo concibe Locke la 'libertad'?",
+                answer: "Como el poder de actuar o no actuar según la preferencia de la mente, no como una voluntad indeterminada."
+            },
+            {
+                question: "¿Qué relación hay entre Locke y el liberalismo político?",
+                answer: "Su teoría del contrato social y defensa de los derechos naturales influyó en el desarrollo del liberalismo moderno."
+            },
+            {
+                question: "¿Cómo define Locke los 'derechos naturales'?",
+                answer: "Derechos a la vida, libertad y propiedad que poseen todos los seres humanos por naturaleza."
+            },
+            {
+                question: "¿Qué es el 'estado de naturaleza' para Locke?",
+                answer: "Un estado de libertad e igualdad gobernado por la ley natural, no un estado de guerra como en Hobbes."
+            },
+            {
+                question: "¿Por qué se forma el 'gobierno civil' según Locke?",
+                answer: "Para proteger los derechos naturales que son inseguros en el estado de naturaleza, especialmente el derecho de propiedad."
+            },
+            {
+                question: "¿Qué es el 'consentimiento' en la teoría política lockeana?",
+                answer: "La base de la legitimidad política. Los gobernados deben consentir el gobierno para que sea legítimo."
+            },
+            {
+                question: "¿Qué papel juega la 'propiedad' en el pensamiento de Locke?",
+                answer: "Es un derecho natural fundamental que justifica el trabajo y el esfuerzo individual."
+            },
+            {
+                question: "¿Cómo justifica Locke el 'derecho de resistencia'?",
+                answer: "Cuando el gobierno viola el contrato social y amenaza los derechos naturales, el pueblo tiene derecho a resistir y cambiar el gobierno."
+            },
+            {
+                question: "¿Qué influencia tuvo Locke en la Declaración de Independencia de EE.UU.?",
+                answer: "Su teoría de los derechos naturales y el gobierno por consentimiento influyó directamente en Jefferson y los fundadores."
+            },
+            {
+                question: "¿Cómo concibe Locke la 'tolerancia religiosa'?",
+                answer: "Defiende la separación entre Iglesia y Estado y la libertad de conciencia, aunque con limitaciones prácticas."
+            },
+            {
+                question: "¿Qué crítica hace Hume al concepto de sustancia en Locke?",
+                answer: "Hume radicaliza el empirismo argumentando que no tenemos impresión alguna de una sustancia subyacente."
+            },
+            {
+                question: "¿Cómo influyó Locke en la psicología moderna?",
+                answer: "Su empirismo sentó las bases para el asociacionismo y el posterior desarrollo de la psicología experimental."
+            },
+            {
+                question: "¿Qué relación hay entre Locke y la educación moderna?",
+                answer: "Su teoría de la tabula rasa enfatizó la importancia de la experiencia y el ambiente en la formación del carácter y el conocimiento."
+            }
+        ];
+
+        // Variables globales
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let customCards = [];
+        let completedActivities = [];
+        let evaluationQuestions = [
+            {
+                question: "¿Qué son las 'ideas simples' según Locke?",
+                options: [
+                    "Conceptos abstractos innatos",
+                    "Percepciones básicas recibidas de los sentidos",
+                    "Ideas complejas sobre la moral",
+                    "Principios lógicos universales"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Qué significa 'tabula rasa'?",
+                options: [
+                    "Mente llena de ideas innatas",
+                    "Pizarra en blanco sin conocimientos previos",
+                    "Conocimiento basado en la razón pura",
+                    "Teoría de las ideas innatas"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Cuál es la principal diferencia entre cualidades primarias y secundarias?",
+                options: [
+                    "Las primarias son subjetivas, las secundarias objetivas",
+                    "Las primarias existen en los objetos, las secundarias en nuestra percepción",
+                    "Las primarias son menos importantes que las secundarias",
+                    "No hay diferencia significativa"
+                ],
+                correctIndex: 1
+            }
+        ];
+        let currentEvalIndex = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlashcard();
+            updateProgress();
+            loadCustomCards();
+        });
+
+        // Funciones de navegación de tarjetas
+        function updateFlashcard() {
+            const card = lockeFlashcards[currentCardIndex];
+            document.getElementById('flashcard-question').textContent = card.question;
+            document.getElementById('flashcard-answer').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${lockeFlashcards.length}`;
+            
+            // Actualizar estado de botones de navegación
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === lockeFlashcards.length - 1;
+            
+            // Resetear tarjeta a estado no volteado
+            document.getElementById('current-flashcard').classList.remove('flipped');
+            
+            // Si estamos en modo práctica, mostrar evaluación
+            if (currentMode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            } else {
+                hideEvaluation();
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('current-flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < lockeFlashcards.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        // Funciones de modo de estudio
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Mostrar/ocultar contenedores según el modo
+            if (mode === 'create') {
+                document.getElementById('study-practice-container').style.display = 'none';
+                document.getElementById('create-container').style.display = 'block';
+            } else {
+                document.getElementById('study-practice-container').style.display = 'block';
+                document.getElementById('create-container').style.display = 'none';
+                hideEvaluation();
+            }
+            
+            // Si es modo práctica, mostrar evaluación para la tarjeta actual
+            if (mode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            }
+        }
+
+        // Funciones de autoevaluación
+        function showEvaluation() {
+            if (currentEvalIndex >= evaluationQuestions.length) {
+                currentEvalIndex = 0; // Reiniciar si llegamos al final
+            }
+            
+            const evalQuestion = evaluationQuestions[currentEvalIndex];
+            document.getElementById('eval-question').textContent = evalQuestion.question;
+            
+            const optionsContainer = document.getElementById('eval-options');
+            optionsContainer.innerHTML = '';
+            
+            evalQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'eval-option';
+                optionElement.textContent = option;
+                optionElement.onclick = function() {
+                    // Remover selección previa
+                    document.querySelectorAll('.eval-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                };
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('self-evaluation').style.display = 'block';
+            document.getElementById('eval-feedback').style.display = 'none';
+        }
+
+        function hideEvaluation() {
+            document.getElementById('self-evaluation').style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.eval-option.selected');
+            if (!selectedOption) {
+                alert('Por favor selecciona una opción antes de verificar.');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.eval-option');
+            const selectedIndex = Array.from(options).indexOf(selectedOption);
+            const isCorrect = selectedIndex === evaluationQuestions[currentEvalIndex].correctIndex;
+            
+            const feedback = document.getElementById('eval-feedback');
+            if (isCorrect) {
+                feedback.className = 'submission-feedback submission-success';
+                feedback.innerHTML = '<strong>¡Correcto!</strong> Has comprendido bien este concepto del empirismo lockeano.';
+            } else {
+                feedback.className = 'submission-feedback';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+                feedback.style.border = '1px solid #f5c6cb';
+                feedback.innerHTML = '<strong>Incorrecto.</strong> Revisa este concepto en las tarjetas de estudio.';
+            }
+            
+            feedback.style.display = 'block';
+            currentEvalIndex++;
+        }
+
+        // Funciones para crear tarjetas personalizadas
+        function addNewCard() {
+            const question = document.getElementById('new-question').value.trim();
+            const answer = document.getElementById('new-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Por favor completa tanto la pregunta como la respuesta.');
+                return;
+            }
+            
+            customCards.push({ question, answer });
+            saveCustomCards();
+            updateCustomCardsList();
+            
+            // Limpiar campos
+            document.getElementById('new-question').value = '';
+            document.getElementById('new-answer').value = '';
+            
+            alert('¡Tarjeta personalizada agregada con éxito!');
+        }
+
+        function updateCustomCardsList() {
+            const container = document.getElementById('custom-cards-list');
+            container.innerHTML = '';
+            
+            if (customCards.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Aún no has creado tarjetas personalizadas.</p>';
+                return;
+            }
+            
+            customCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'flashcard';
+                cardElement.style.marginBottom = '1rem';
+                cardElement.style.padding = '1.5rem';
+                cardElement.style.cursor = 'pointer';
+                cardElement.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+                
+                cardElement.innerHTML = `
+                    <div class="flashcard-question">${card.question}</div>
+                    <div class="flashcard-answer">${card.answer}</div>
+                    <button onclick="deleteCustomCard(${index})" style="position: absolute; bottom: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        function deleteCustomCard(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                customCards.splice(index, 1);
+                saveCustomCards();
+                updateCustomCardsList();
+            }
+        }
+
+        function saveCustomCards() {
+            localStorage.setItem('lockeCustomCards', JSON.stringify(customCards));
+        }
+
+        function loadCustomCards() {
+            const savedCards = localStorage.getItem('lockeCustomCards');
+            if (savedCards) {
+                customCards = JSON.parse(savedCards);
+                updateCustomCardsList();
+            }
+        }
+
+        // Funciones de actividades
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            
+            if (!response) {
+                alert('Por favor escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            feedback.className = 'submission-feedback submission-success';
+            feedback.innerHTML = '<strong>¡Actividad enviada con éxito!</strong> Tu reflexión ha sido guardada.';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            if (!completedActivities.includes(activityNumber)) {
+                completedActivities.push(activityNumber);
+            }
+            
+            // Verificar si todas las actividades están completadas
+            checkAllActivitiesCompleted();
+        }
+
+        function checkAllActivitiesCompleted() {
+            if (completedActivities.length >= 4) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función de progreso
+        function updateProgress() {
+            const progress = Math.round((currentCardIndex / (lockeFlashcards.length - 1)) * 100);
+            document.getElementById('flashcards-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress}% completado`;
+        }
+
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('Volviendo al calendario de filósofos...');
+            // En una implementación real, esto redirigiría al calendario
+        }
+    </script>
+</body>
+</html>

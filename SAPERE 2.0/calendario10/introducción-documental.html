@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documental: El Nacimiento de la Filosofía</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --philosophy-birth: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy-birth), #2471a3);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .documentary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy-birth), #2471a3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .video-option {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .video-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(135deg, #cc0000, #aa0000);
+        }
+        
+        .video-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .documentary-description {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--philosophy-birth);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy-birth);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy-birth);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy-birth);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .watched-indicator {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documental: El Nacimiento de la Filosofía</h1>
+        <p>Explorando los orígenes del pensamiento racional en la Antigua Grecia</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="documentary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Los Primeros Filósofos</h2>
+                    <p>Presocráticos: Tales, Anaximandro, Heráclito, Parménides y más</p>
+                    <div class="duration">Duración estimada: 60 minutos</div>
+                </div>
+            </div>
+            
+            <div class="documentary-description">
+                <p>Este documental explora el surgimiento de la filosofía en la Antigua Grecia, desde los primeros pensadores presocráticos que buscaban explicaciones racionales para el cosmos, hasta el desarrollo de las escuelas filosóficas que sentaron las bases del pensamiento occidental. Analiza el paso del mito al logos, las primeras teorías sobre la naturaleza y el ser, y cómo estas ideas revolucionaron la forma de entender el mundo.</p>
+            </div>
+        </section>
+        
+        <section class="video-container">
+            <h3>Ver Documental Completo en YouTube</h3>
+            
+            <!-- Botón de redirección a YouTube -->
+            <a href="https://www.youtube.com/watch?v=cBlW_EVj9lg" 
+               target="_blank" 
+               class="video-option"
+               onclick="markAsWatched()">
+                <span>▶</span>
+                Ver Documental en YouTube
+            </a>
+            
+            <div class="video-info">
+                <p><strong>Duración:</strong> 60 minutos</p>
+                <p><strong>Plataforma:</strong> YouTube</p>
+                <p><strong>Instrucciones:</strong> Haz clic en el botón rojo para abrir el documental en una nueva pestaña. Cuando termines, regresa a esta página para completar las actividades.</p>
+            </div>
+            
+            <div class="watched-indicator" id="watched-indicator">
+                ✅ Documental marcado como visto
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Análisis del documental: El paso del mito al logos</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de ver el documental completo sobre el nacimiento de la filosofía, reflexiona sobre la transición del pensamiento mítico al pensamiento racional presentada en el documental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Conceptos clave mencionados en el documental:</h4>
+                            <ul>
+                                <li><strong>Mito al logos:</strong> La transición de explicaciones mitológicas a explicaciones racionales</li>
+                                <li><strong>Arjé (principio):</strong> La búsqueda del elemento primordial del cosmos</li>
+                                <li><strong>Escuela de Mileto:</strong> Tales, Anaximandro y Anaxímenes y sus teorías sobre la naturaleza</li>
+                                <li><strong>Heráclito y Parménides:</strong> Las visiones contrastantes sobre el cambio y la permanencia</li>
+                                <li><strong>Atomismo:</strong> La teoría de Leucipo y Demócrito sobre la composición de la materia</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Selecciona dos filósofos presocráticos presentados en el documental y explica cómo sus teorías representan un avance significativo respecto al pensamiento mítico tradicional.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La búsqueda del principio originario (Arjé)</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental explora cómo los primeros filósofos buscaban identificar el principio fundamental (arjé) que da origen y sustenta toda la realidad. Analiza los diferentes planteamientos sobre este concepto.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Principales teorías sobre el arjé:</h4>
+                            <ul>
+                                <li><strong>Tales de Mileto:</strong> El agua como principio de todas las cosas</li>
+                                <li><strong>Anaximandro:</strong> El ápeiron (lo indeterminado, ilimitado)</li>
+                                <li><strong>Anaxímenes:</strong> El aire como sustancia primordial</li>
+                                <li><strong>Heráclito:</strong> El fuego y el devenir constante</li>
+                                <li><strong>Parménides:</strong> El ser único, inmutable y eterno</li>
+                                <li><strong>Empédocles:</strong> Los cuatro elementos (tierra, agua, aire, fuego)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Todo fluye, nada permanece; todo se transforma en un proceso incesante."
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Consideras que la búsqueda del arjé por parte de los presocráticos fue principalmente un intento científico de explicar la naturaleza o una búsqueda filosófica sobre el ser? Fundamenta tu respuesta basándote en lo presentado en el documental.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. La importancia del contexto histórico y geográfico</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental muestra cómo el contexto histórico y geográfico de la Antigua Grecia influyó en el surgimiento de la filosofía. Analiza estos factores determinantes.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Factores que favorecieron el nacimiento de la filosofía:</h4>
+                            <ul>
+                                <li><strong>Condiciones geográficas:</strong> La posición de Grecia como cruce de culturas</li>
+                                <li><strong>Desarrollo político:</strong> La aparición de la polis y la democracia</li>
+                                <li><strong>Contacto cultural:</strong> Intercambios con Egipto, Mesopotamia y Persia</li>
+                                <li><strong>Condiciones económicas:</strong> El desarrollo del comercio y la prosperidad</li>
+                                <li><strong>Libertad intelectual:</strong> La ausencia de dogmas religiosos rígidos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Crees que la filosofía podría haber surgido en otro contexto histórico y geográfico, o fue un fenómeno único de la Antigua Grecia? Explica tu respuesta considerando los factores presentados en el documental.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. La influencia de los presocráticos en la filosofía posterior</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental aborda cómo las ideas de los primeros filósofos influyeron en el desarrollo posterior de la filosofía. Analiza esta continuidad histórica.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Influencia en la filosofía posterior:</h4>
+                            <ul>
+                                <li><strong>Sócrates y Platón:</strong> La continuación de la búsqueda de la verdad</li>
+                                <li><strong>Aristóteles:</strong> La sistematización del conocimiento filosófico</li>
+                                <li><strong>Filosofía helenística:</strong> La aplicación práctica de la filosofía</li>
+                                <li><strong>Filosofía moderna:</strong> El redescubrimiento de los presocráticos</li>
+                                <li><strong>Ciencia contemporánea:</strong> Paralelismos con teorías físicas modernas</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Los primeros filósofos fueron también los primeros científicos, buscando explicaciones naturales para los fenómenos del mundo."
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Selecciona una idea de un filósofo presocrático presentada en el documental y explica cómo anticipa o se relaciona con conceptos de la filosofía o ciencia moderna.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el documental</h3>
+            <div class="progress-bar">
+                <div class="progress" id="documentary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el documental sobre el Nacimiento de la Filosofía</h3>
+            <p>Has explorado los orígenes del pensamiento racional en la Antigua Grecia, analizado las teorías de los primeros filósofos, comprendido el contexto histórico que permitió este desarrollo y reflexionado sobre la influencia de los presocráticos en la filosofía posterior. Estas ideas fundamentales continúan siendo relevantes para entender la evolución del pensamiento humano.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para marcar el documental como visto
+        function markAsWatched() {
+            // Esto se ejecuta cuando el usuario hace clic en el botón de YouTube
+            setTimeout(() => {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+                // Podrías guardar esto en localStorage si quieres persistencia
+                localStorage.setItem('philosophyBirthDocumentaryWatched', 'true');
+            }, 1000);
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('documentary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('philosophyBirthDocumentaryProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('philosophyBirthDocumentaryProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+            
+            // Verificar si el documental fue marcado como visto
+            if (localStorage.getItem('philosophyBirthDocumentaryWatched') === 'true') {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: El Agua como Principio - Filosofía Presocrática</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #1a5276);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        .water-icon {
+            color: var(--philosophy);
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: El Agua como Principio</h1>
+        <p>Explorando la teoría de Tales de Mileto y su influencia en la filosofía presocrática</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">T</div>
+                <div class="philosopher-details">
+                    <h2>Tales de Mileto</h2>
+                    <p>Primer filósofo occidental, considerado el padre de la filosofía y fundador de la escuela de Mileto</p>
+                    <div class="duration">Duración estimada: 70 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá a la revolucionaria teoría de Tales de Mileto sobre el agua como principio (arjé) de todas las cosas. Explorarás el contexto histórico, las bases de su argumentación y su influencia en el desarrollo del pensamiento filosófico y científico.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudia el contexto histórico de la teoría de Tales</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Tales de Mileto (c. 624-546 a.C.) vivió en una época de transición entre el pensamiento mítico y el racional. Su propuesta del agua como principio fundamental representa el nacimiento de la filosofía occidental.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Contexto histórico clave:</h4>
+                            <ul>
+                                <li><strong>Mileto:</strong> Ciudad griega en Jonia (actual Turquía), centro comercial y cultural</li>
+                                <li><strong>Influencias orientales:</strong> Contacto con conocimientos egipcios y babilónicos</li>
+                                <li><strong>Transición del mito al logos:</strong> Paso de explicaciones sobrenaturales a naturales</li>
+                                <li><strong>Navegación y comercio:</strong> Importancia del agua en la vida económica de Mileto</li>
+                                <li><strong>Primera filosofía de la naturaleza:</strong> Búsqueda de un principio material único</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Tales afirma que el principio de todas las cosas es el agua, y por eso también manifestaba que la Tierra estaba sobre el agua." - Aristóteles, Metafísica
+                        </div>
+                        
+                        <p>Según el video de referencia, Tales desarrolló su teoría observando la importancia fundamental del agua en todos los aspectos de la vida:</p>
+                        <ol>
+                            <li>El agua es esencial para la vida de plantas, animales y humanos</li>
+                            <li>Los cambios de estado del agua (sólido, líquido, gaseoso) explican la diversidad de formas</li>
+                            <li>La Tierra flota sobre el agua como una isla</li>
+                            <li>La humedad está presente en todas las semillas y alimentos</li>
+                        </ol>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Por qué se considera a Tales de Mileto el primer filósofo occidental?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿Qué factores históricos y culturales influyeron en el desarrollo de su teoría?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué crees que el agua era un candidato convincente como principio único para explicar la diversidad del mundo en el siglo VI a.C.?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza los argumentos de Tales sobre el agua como arjé</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Tales no se limitó a afirmar que el agua era el principio de todas las cosas, sino que desarrolló argumentos basados en la observación para sustentar su teoría.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Argumentos principales de Tales:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Argumento</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Explicación</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Vitalidad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Toda vida depende del agua para existir</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Transformación</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El agua puede cambiar de estado (sólido, líquido, gaseoso)</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Ubicuidad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El agua está presente en todas partes de la naturaleza</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Sustentación</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">La Tierra flota sobre el agua</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Generación</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">La humedad es principio de crecimiento</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="quote">
+                            "La humedad es el elemento natural que contiene en sí mismo el principio del movimiento y del cambio." - Interpretación de la teoría de Tales
+                        </div>
+                        
+                        <p>Según el análisis del video, Tales observó que:</p>
+                        <ul>
+                            <li>Las semillas son húmedas y necesitan agua para germinar</li>
+                            <li>El calor (fuego) surge de la evaporación del agua</li>
+                            <li>La tierra se forma por sedimentación del agua</li>
+                            <li>El aire contiene humedad en forma de vapor</li>
+                        </ul>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Cuáles fueron los principales argumentos observacionales que utilizó Tales para sustentar su teoría?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Cómo explicaba Tales la formación de los demás elementos (tierra, aire, fuego) a partir del agua?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que los argumentos de Tales eran científicos para su época? Identifica las fortalezas y limitaciones de su teoría desde una perspectiva contemporánea.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Examina las críticas y evolución de la teoría</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La teoría de Tales no permaneció sin críticas. Sus sucesores en la escuela de Mileto desarrollaron teorías alternativas que buscaban superar las limitaciones de su planteamiento.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Críticas y evoluciones posteriores:</h4>
+                            <ul>
+                                <li><strong>Anaximandro:</strong> Criticó que un elemento concreto no podía explicar los opuestos, propuso el "apeiron" (lo indeterminado)</li>
+                                <li><strong>Anaxímenes:</strong> Propuso el aire como principio, con mecanismos de condensación y rarefacción</li>
+                                <li><strong>Heráclito:</strong> Consideró el fuego como símbolo del cambio perpetuo</li>
+                                <li><strong>Parménides:</strong> Cuestionó la posibilidad misma del cambio</li>
+                                <li><strong>Empédocles:</strong> Propuso cuatro elementos (agua, aire, fuego, tierra)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Anaximandro, compañero y sucesor de Tales, dijo que el principio y elemento de las cosas existentes era el ápeiron [lo indeterminado]." - Simplicio
+                        </div>
+                        
+                        <p>El video explica que aunque la teoría específica de Tales fue superada, su método y preguntas fundamentales sentaron las bases de la filosofía y la ciencia occidentales:</p>
+                        <ul>
+                            <li>Búsqueda de principios naturales en lugar de explicaciones míticas</li>
+                            <li>Confianza en la razón y la observación</li>
+                            <li>Intento de explicar la diversidad a partir de la unidad</li>
+                            <li>Comprensión del mundo como un cosmos ordenado</li>
+                        </ul>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Qué limitaciones encontraron los sucesores de Tales en su teoría del agua como principio?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Cómo evolucionó la búsqueda del arjé después de Tales?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica por qué la crítica de Anaximandro a la teoría de Tales representa un avance en el pensamiento filosófico. ¿Qué ventajas tenía el "apeiron" sobre el agua como principio?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre el legado de Tales en la filosofía y ciencia</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Aunque la teoría específica de Tales fue superada, su enfoque y método revolucionaron el pensamiento humano y sentaron las bases para el desarrollo de la filosofía y la ciencia.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Legado fundamental de Tales:</h4>
+                            <ul>
+                                <li><strong>Nacimiento de la filosofía:</strong> Primera explicación racional del universo</li>
+                                <li><strong>Método científico incipiente:</strong> Observación + razón como herramientas de conocimiento</li>
+                                <li><strong>Abstracción:</strong> Capacidad de pensar en términos de principios generales</li>
+                                <li><strong>Monismo material:</strong> Búsqueda de una sustancia fundamental</li>
+                                <li><strong>Secularización:</strong> Explicaciones naturales vs. sobrenaturales</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Lo que Tales hizo fue preguntarse por la physis (naturaleza) y responder con un logos (razón), no con un mito." - Interpretación contemporánea
+                        </div>
+                        
+                        <p>El video destaca que el verdadero valor de Tales no está en su respuesta específica (el agua), sino en el tipo de preguntas que formuló y el método que empleó:</p>
+                        <ul>
+                            <li>Pregunta por el principio (arjé) de todas las cosas</li>
+                            <li>Búsqueda de una explicación unitaria de la realidad</li>
+                            <li>Confianza en que la naturaleza es comprensible racionalmente</li>
+                            <li>Establecimiento de la tradición crítica en filosofía</li>
+                        </ul>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Por qué se considera a Tales el padre de la filosofía occidental?
+                            </div>
+                            <div class="quiz-question">
+                                8. ¿Qué elementos del método de Tales anticipan el método científico moderno?
+                            </div>
+                            <div class="quiz-question">
+                                9. ¿Cómo influyó la teoría de Tales en el desarrollo posterior de la filosofía presocrática?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Qué aspectos del pensamiento de Tales consideras más relevantes para la ciencia contemporánea? ¿En qué sentido podemos considerar que la búsqueda moderna del "principio único" (como la teoría de cuerdas o el campo unificado) continúa la tradición iniciada por Tales?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Arjé (ἀρχή)</div>
+                <div class="term-definition">Principio fundamental, origen o sustancia primera de todas las cosas. Para Tales, el agua era el arjé del cual todo procede y al cual todo retorna.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Physis (φύσις)</div>
+                <div class="term-definition">Naturaleza o realidad fundamental de las cosas. Los presocráticos investigaban la physis para comprender el principio ordenador del cosmos.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Cosmos (κόσμος)</div>
+                <div class="term-definition">Universo ordenado y estructurado, en contraposición al caos. Los presocráticos veían el mundo como un cosmos comprensible racionalmente.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Logos (λόγος)</div>
+                <div class="term-definition">Razón, palabra, discurso racional. Representa el paso del pensamiento mítico al pensamiento racional y argumentativo.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Mito (μῦθος)</div>
+                <div class="term-definition">Relato tradicional que explica el origen del mundo mediante fuerzas sobrenaturales. Los presocráticos sustituyeron el mito por el logos.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Monismo</div>
+                <div class="term-definition">Doctrina filosófica que reduce toda la realidad a un único principio o sustancia fundamental. Tales fue el primer monista material.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Apeiron (ἄπειρον)</div>
+                <div class="term-definition">"Lo indeterminado" o "lo ilimitado". Principio propuesto por Anaximandro para superar las limitaciones de la teoría de Tales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Escuela de Mileto</div>
+                <div class="term-definition">Primera escuela filosófica occidental, fundada por Tales y continuada por Anaximandro y Anaxímenes. Se centraba en la investigación de la naturaleza.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Presocráticos</div>
+                <div class="term-definition">Filósofos griegos anteriores a Sócrates que se caracterizaron por su interés en la cosmología y la búsqueda del principio fundamental de la realidad.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Materialismo</div>
+                <div class="term-definition">Doctrina que considera que toda realidad está constituida por materia. Tales inició el materialismo en la filosofía occidental.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Transición del mito al logos</div>
+                <div class="term-definition">Proceso histórico por el cual el pensamiento griego pasó de las explicaciones míticas a las explicaciones racionales y naturales.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice la teoría de Tales sobre el agua como principio (arjé) de todas las cosas. ¿Qué argumentos utilizó para sustentar su teoría y por qué representa un punto de inflexión en la historia del pensamiento occidental?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Compare la teoría de Tales con las de sus sucesores en la escuela de Mileto (Anaximandro y Anaxímenes). ¿Qué problemas identificaron en la teoría del agua y cómo intentaron resolverlos?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine el contexto histórico y cultural en el que surgió la filosofía de Tales. ¿Qué factores hicieron posible el "milagro griego" y el paso del mito al logos?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Explique en qué sentido Tales puede considerarse el primer científico de la historia. ¿Qué elementos de su método anticipan el método científico moderno?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Discuta la vigencia del proyecto filosófico de Tales en la ciencia contemporánea. ¿En qué medida continúa la física moderna la búsqueda presocrática de un principio único que explique toda la realidad?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre el agua como principio en la filosofía presocrática</h3>
+            <p>Has explorado una de las teorías más revolucionarias de la historia del pensamiento. La propuesta de Tales no solo marcó el nacimiento de la filosofía occidental, sino que estableció las bases del método científico y la confianza en la razón humana para comprender el universo.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('talesWaterPrincipleProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('talesWaterPrincipleProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

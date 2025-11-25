@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia de la Filosofía - Viaje Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --timeline-color: #3498db;
+            --ancient-color: #e67e22;
+            --medieval-color: #9b59b6;
+            --modern-color: #3498db;
+            --contemporary-color: #e74c3c;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #34495e;
+            --dark: #ecf0f1;
+            --success: #27ae60;
+            --text-primary: #ecf0f1;
+            --text-secondary: #bdc3c7;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --timeline-color: #2980b9;
+            --ancient-color: #d35400;
+            --medieval-color: #8e44ad;
+            --modern-color: #2980b9;
+            --contemporary-color: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .philosophy-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .philosophy-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .philosophy-title {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .credits {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navegación por períodos */
+        .period-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .period-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: var(--light);
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .period-btn.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .period-btn.ancient.active {
+            background: var(--ancient-color);
+            color: white;
+        }
+
+        .period-btn.medieval.active {
+            background: var(--medieval-color);
+            color: white;
+        }
+
+        .period-btn.modern.active {
+            background: var(--modern-color);
+            color: white;
+        }
+
+        .period-btn.contemporary.active {
+            background: var(--contemporary-color);
+            color: white;
+        }
+
+        /* Línea de tiempo interactiva */
+        .timeline-container {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            height: 10px;
+            background: var(--light);
+            border-radius: 5px;
+            margin: 0 100px;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, var(--ancient-color), var(--medieval-color), var(--modern-color), var(--contemporary-color));
+            border-radius: 5px;
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 4px solid var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .timeline-marker.active {
+            transform: translateY(-50%) scale(1.2);
+            border-color: var(--timeline-color);
+        }
+
+        .timeline-marker.ancient {
+            left: 0%;
+            border-color: var(--ancient-color);
+        }
+
+        .timeline-marker.medieval {
+            left: 33%;
+            border-color: var(--medieval-color);
+        }
+
+        .timeline-marker.modern {
+            left: 66%;
+            border-color: var(--modern-color);
+        }
+
+        .timeline-marker.contemporary {
+            left: 100%;
+            border-color: var(--contemporary-color);
+        }
+
+        .timeline-label {
+            position: absolute;
+            top: 40px;
+            transform: translateX(-50%);
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-secondary);
+        }
+
+        .timeline-marker.active .timeline-label {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* Contenido de períodos */
+        .period-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .period-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .period-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .period-header.ancient {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(230, 126, 34, 0.2));
+            border-left: 5px solid var(--ancient-color);
+        }
+
+        .period-header.medieval {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.2));
+            border-left: 5px solid var(--medieval-color);
+        }
+
+        .period-header.modern {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.2));
+            border-left: 5px solid var(--modern-color);
+        }
+
+        .period-header.contemporary {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.2));
+            border-left: 5px solid var(--contemporary-color);
+        }
+
+        .period-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .period-description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        /* Filósofos grid */
+        .philosophers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .philosopher-card {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid transparent;
+        }
+
+        .philosopher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .philosopher-card.ancient {
+            border-top-color: var(--ancient-color);
+        }
+
+        .philosopher-card.medieval {
+            border-top-color: var(--medieval-color);
+        }
+
+        .philosopher-card.modern {
+            border-top-color: var(--modern-color);
+        }
+
+        .philosopher-card.contemporary {
+            border-top-color: var(--contemporary-color);
+        }
+
+        .philosopher-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .philosopher-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .philosopher-avatar.ancient {
+            background: var(--ancient-color);
+        }
+
+        .philosopher-avatar.medieval {
+            background: var(--medieval-color);
+        }
+
+        .philosopher-avatar.modern {
+            background: var(--modern-color);
+        }
+
+        .philosopher-avatar.contemporary {
+            background: var(--contemporary-color);
+        }
+
+        .philosopher-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .philosopher-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .philosopher-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .philosopher-ideas {
+            margin-bottom: 1.5rem;
+        }
+
+        .philosopher-ideas h4 {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .philosopher-ideas ul {
+            list-style-type: none;
+        }
+
+        .philosopher-ideas li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .philosopher-ideas li:before {
+            content: "•";
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .philosopher-resources {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Modal para filósofos */
+        .philosopher-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .modal-body {
+            padding: 1rem 2rem 2rem;
+        }
+
+        /* Elementos interactivos */
+        .interactive-quote {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-quote:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .concept-highlight {
+            background: linear-gradient(120deg, transparent 0%, transparent 50%, rgba(52, 152, 219, 0.1) 50%);
+            background-size: 220%;
+            background-position: 0%;
+            transition: all 0.5s ease;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            cursor: help;
+            position: relative;
+        }
+
+        .concept-highlight:hover {
+            background-position: 100%;
+        }
+
+        .concept-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .concept-highlight:hover .concept-tooltip {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .philosophy-title {
+                font-size: 2rem;
+            }
+            
+            .period-navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .period-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .timeline {
+                margin: 0 50px;
+            }
+            
+            .philosophers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .philosopher-modal {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="philosophy-container">
+        <div class="philosophy-header">
+            <h1 class="philosophy-title">Historia de la Filosofía Occidental</h1>
+            <p class="philosophy-subtitle">Un viaje interactivo a través de 2,500 años de pensamiento, desde los presocráticos hasta la filosofía contemporánea</p>
+            
+                
+            </div>
+        </div>
+
+        <!-- Navegación por períodos -->
+        <div class="period-navigation">
+            <button class="period-btn ancient active" data-period="ancient">
+                <i class="fas fa-monument"></i>
+                Filosofía Antigua
+            </button>
+            <button class="period-btn medieval" data-period="medieval">
+                <i class="fas fa-church"></i>
+                Filosofía Medieval
+            </button>
+            <button class="period-btn modern" data-period="modern">
+                <i class="fas fa-lightbulb"></i>
+                Filosofía Moderna
+            </button>
+            <button class="period-btn contemporary" data-period="contemporary">
+                <i class="fas fa-user-astronaut"></i>
+                Filosofía Contemporánea
+            </button>
+        </div>
+
+        <!-- Línea de tiempo interactiva -->
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-progress" id="timeline-progress"></div>
+                <div class="timeline-marker ancient active" data-period="ancient">
+                    <div class="timeline-label">Antigua<br>600 a.C. - 500 d.C.</div>
+                </div>
+                <div class="timeline-marker medieval" data-period="medieval">
+                    <div class="timeline-label">Medieval<br>500 - 1400</div>
+                </div>
+                <div class="timeline-marker modern" data-period="modern">
+                    <div class="timeline-label">Moderna<br>1400 - 1800</div>
+                </div>
+                <div class="timeline-marker contemporary" data-period="contemporary">
+                    <div class="timeline-label">Contemporánea<br>1800 - Actualidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido de los períodos -->
+        
+        <!-- Filosofía Antigua -->
+        <div class="period-content active" id="ancient-content">
+            <div class="period-header ancient">
+                <h2 class="period-title">Filosofía Antigua</h2>
+                <p class="period-description">El nacimiento del pensamiento racional en la Grecia clásica, donde los primeros filósofos buscaron explicaciones naturales para el cosmos, alejándose de las explicaciones mitológicas.</p>
+            </div>
+
+            <div class="philosophers-grid">
+                <!-- Presocráticos -->
+                <div class="philosopher-card ancient" data-philosopher="presocraticos">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar ancient">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Los Presocráticos</h3>
+                            <p>Siglos VI-V a.C. • Filósofos de la Naturaleza</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-seedling"></i> Conceptos Fundamentales</h4>
+                            <ul>
+                                <li>Búsqueda del <span class="concept-highlight">arché<span class="concept-tooltip">Principio fundamental u origen de todas las cosas</span></span> (principio originario)</li>
+                                <li>Explicaciones <span class="concept-highlight">naturalistas<span class="concept-tooltip">Explicaciones basadas en la naturaleza, no en mitos</span></span> del cosmos</li>
+                                <li>Primeras reflexiones sobre la materia y el cambio</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"Todo fluye, nada permanece"</p>
+                            <small>- Heráclito de Éfeso</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/presocratics/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford Encyclopedia
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sócrates -->
+                <div class="philosopher-card ancient" data-philosopher="socrates">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar ancient">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Sócrates</h3>
+                            <p>470-399 a.C. • Atenas</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Contribuciones Principales</h4>
+                            <ul>
+                                <li>Método <span class="concept-highlight">socrático<span class="concept-tooltip">Diálogo basado en preguntas para llegar a la verdad</span></span> (dialéctica)</li>
+                                <li>"Solo sé que no sé nada" - reconocimiento de la ignorancia</li>
+                                <li>Énfasis en la <span class="concept-highlight">autoconocimiento<span class="concept-tooltip">Conocerse a uno mismo como base del saber</span></span></li>
+                                <li>Intelectualismo moral: la virtud como conocimiento</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"Una vida no examinada no merece ser vivida"</p>
+                            <small>- Sócrates</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/socrates/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Socrates
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=0aPlTdnCgJ8" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                School of Life
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platón -->
+                <div class="philosopher-card ancient" data-philosopher="platon">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar ancient">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Platón</h3>
+                            <p>427-347 a.C. • Atenas</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Teorías Fundamentales</h4>
+                            <ul>
+                                <li>Teoría de las <span class="concept-highlight">Ideas o Formas<span class="concept-tooltip">Realidades perfectas e inmutables que existen en un mundo trascendente</span></span></li>
+                                <li>Dualismo ontológico: mundo sensible vs mundo inteligible</li>
+                                <li>Filosofía política en "La República"</li>
+                                <li>Teoría del conocimiento como reminiscencia</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"El mayor castigo para quienes se niegan a gobernarse es ser gobernados por alguien peor"</p>
+                            <small>- Platón</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/plato/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Plato
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=VDiyQub6vpw" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Crash Course
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aristóteles -->
+                <div class="philosopher-card ancient" data-philosopher="aristoteles">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar ancient">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Aristóteles</h3>
+                            <p>384-322 a.C. • Estagira</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Sistema Filosófico</h4>
+                            <ul>
+                                <li>Fundador de la <span class="concept-highlight">lógica formal<span class="concept-tooltip">Sistema de razonamiento basado en silogismos</span></span></li>
+                                <li>Teoría de las <span class="concept-highlight">cuatro causas<span class="concept-tooltip">Material, formal, eficiente y final</span></span></li>
+                                <li>Ética de la <span class="concept-highlight">virtud<span class="concept-tooltip">Excelencia moral adquirida mediante el hábito</span></span> y término medio</li>
+                                <li>Clasificación sistemática del conocimiento</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"La excelencia no es un acto, sino un hábito"</p>
+                            <small>- Aristóteles</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/aristotle/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Aristotle
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=csIW4W_DYX4" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Wireless Philosophy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filosofía Medieval -->
+        <div class="period-content" id="medieval-content">
+            <div class="period-header medieval">
+                <h2 class="period-title">Filosofía Medieval</h2>
+                <p class="period-description">Síntesis entre la filosofía griega y el pensamiento cristiano, islámico y judío, caracterizada por la búsqueda de armonía entre fe y razón.</p>
+            </div>
+
+            <div class="philosophers-grid">
+                <!-- San Agustín -->
+                <div class="philosopher-card medieval" data-philosopher="agustin">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar medieval">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>San Agustín</h3>
+                            <p>354-430 • Hipona</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Pensamiento Central</h4>
+                            <ul>
+                                <li>Fusión de <span class="concept-highlight">platonismo<span class="concept-tooltip">Filosofía de Platón adaptada al cristianismo</span></span> y cristianismo</li>
+                                <li>Teoría del tiempo en "Confesiones"</li>
+                                <li>Doctrina del <span class="concept-highlight">pecado original<span class="concept-tooltip">Transmisión del primer pecado de Adán a toda la humanidad</span></span></li>
+                                <li>La Ciudad de Dios vs la Ciudad Terrenal</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"Ama y haz lo que quieras"</p>
+                            <small>- San Agustín</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/augustine/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Augustine
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Santo Tomás de Aquino -->
+                <div class="philosopher-card medieval" data-philosopher="aquino">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar medieval">
+                            <i class="fas fa-cross"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Santo Tomás de Aquino</h3>
+                            <p>1225-1274 • Nápoles</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Síntesis Filosófica</h4>
+                            <ul>
+                                <li>Integración de <span class="concept-highlight">aristotelismo<span class="concept-tooltip">Filosofía de Aristóteles adaptada al cristianismo</span></span> y cristianismo</li>
+                                <li>Las <span class="concept-highlight">cinco vías<span class="concept-tooltip">Argumentos para demostrar la existencia de Dios</span></span> para demostrar a Dios</li>
+                                <li>Distinción entre esencia y existencia</li>
+                                <li>Ley natural y ley eterna</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"La fe presupone el conocimiento natural como la gracia presupone la naturaleza"</p>
+                            <small>- Santo Tomás</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/aquinas/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Aquinas
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=HHPapGd9T3U" class="resource-link" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                                Thomas Aquinas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guillermo de Ockham -->
+                <div class="philosopher-card medieval" data-philosopher="ockham">
+                    <div class="philosopher-header">
+                        <div class="philosopher-avatar medieval">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="philosopher-info">
+                            <h3>Guillermo de Ockham</h3>
+                            <p>1285-1349 • Inglaterra</p>
+                        </div>
+                    </div>
+                    <div class="philosopher-content">
+                        <div class="philosopher-ideas">
+                            <h4><i class="fas fa-lightbulb"></i> Nominalismo y Lógica</h4>
+                            <ul>
+                                <li><span class="concept-highlight">Navaja de Ockham<span class="concept-tooltip">Principio de parsimonia: la explicación más simple suele ser la correcta</span></span></li>
+                                <li>Crítica al realismo de los universales</li>
+                                <li>Separación entre razón y fe</li>
+                                <li>Teoría del conocimiento intuitivo</li>
+                            </ul>
+                        </div>
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"No deben multiplicarse los entes sin necesidad"</p>
+                            <small>- Ockham</small>
+                        </div>
+                        <div class="philosopher-resources">
+                            <a href="https://plato.stanford.edu/entries/ockham/" class="resource-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                Stanford: Ockham
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filosofía Moderna -->
+        <div class="period-content" id="modern-content">
+            <div class="period-header modern">
+                <h2 class="period-title">Filosofía Moderna</h2>
+                <p class="period-description">La era de la razón y la revolución científica, caracterizada por el giro hacia el sujeto y el problema del conocimiento como centro de la reflexión filosófica.</p>
+            </div>
+
+            <div class="philosophers-grid">
+               <!-- Thomas Hobbes -->
+            <div class="philosopher-card modern hobbes" data-philosopher="hobbes">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Thomas Hobbes</h3>
+                        <p>1588-1679 • Inglaterra</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Materialismo Político</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Estado de naturaleza<span class="concept-tooltip">Condición humana anterior al Estado donde prima la guerra de todos contra todos</span></span> como guerra permanente</li>
+                            <li>El <span class="concept-highlight">Leviatán<span class="concept-tooltip">Estado soberano absoluto que garantiza la seguridad y el orden</span></span> como solución política</li>
+                            <li><span class="concept-highlight">Contrato social<span class="concept-tooltip">Acuerdo mediante el cual los individuos ceden derechos al soberano</span></span> para evitar la anarquía</li>
+                            <li>Materialismo mecanicista</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El hombre es un lobo para el hombre"</p>
+                        <small>- Hobbes</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/hobbes/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Hobbes
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=9i4jb5XBX5s" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- René Descartes -->
+            <div class="philosopher-card modern descartes" data-philosopher="descartes">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>René Descartes</h3>
+                        <p>1596-1650 • Francia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Racionalismo Cartesiano</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Duda metódica<span class="concept-tooltip">Método sistemático de duda para alcanzar certezas</span></span> como punto de partida</li>
+                            <li>"Pienso, luego existo" (<span class="concept-highlight">Cogito ergo sum<span class="concept-tooltip">Fundamento indudable del conocimiento</span></span>)</li>
+                            <li><span class="concept-highlight">Dualismo<span class="concept-tooltip">Separación radical entre mente (res cogitans) y cuerpo (res extensa)</span></span> mente-cuerpo</li>
+                            <li>Método de las cuatro reglas</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Pienso, luego existo"</p>
+                        <small>- Descartes</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/descartes/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Descartes
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=CAjWUrwvxs4" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baruch Spinoza -->
+            <div class="philosopher-card modern spinoza" data-philosopher="spinoza">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Baruch Spinoza</h3>
+                        <p>1632-1677 • Países Bajos</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Panteísmo Racionalista</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Deus sive Natura<span class="concept-tooltip">Dios o la Naturaleza: identificación de Dios con el universo</span></span></li>
+                            <li>Ética demostrada <span class="concept-highlight">more geometrico<span class="concept-tooltip">Según el método geométrico, con definiciones, axiomas y demostraciones</span></span></li>
+                            <li>Monismo de la <span class="concept-highlight">substancia<span class="concept-tooltip">Solo existe una única sustancia infinita: Dios o Naturaleza</span></span></li>
+                            <li>Teoría de los afectos y la libertad</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Dios es la sustancia infinita"</p>
+                        <small>- Spinoza</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/spinoza/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Spinoza
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=pVEeXjPiw54" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- John Locke -->
+            <div class="philosopher-card modern locke" data-philosopher="locke">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>John Locke</h3>
+                        <p>1632-1704 • Inglaterra</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Empirismo Liberal</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Tabula rasa<span class="concept-tooltip">La mente como "pizarra en blanco" que se llena con la experiencia</span></span> como teoría del conocimiento</li>
+                            <li><span class="concept-highlight">Derechos naturales<span class="concept-tooltip">Derechos a la vida, libertad y propiedad anteriores al Estado</span></span> inalienables</li>
+                            <li>Teoría del <span class="concept-highlight">contrato social<span class="concept-tooltip">Acuerdo para crear un gobierno limitado que proteja derechos</span></span> limitado</li>
+                            <li>Separación de poderes</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"La mente es como un papel en blanco"</p>
+                        <small>- Locke</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/locke/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Locke
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=bZiWZJgJT7I" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gottfried Leibniz -->
+            <div class="philosopher-card modern leibniz" data-philosopher="leibniz">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Gottfried Leibniz</h3>
+                        <p>1646-1716 • Alemania</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Racionalismo Optimista</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Mónadas<span class="concept-tooltip">Sustancias simples, indivisibles y sin ventanas que componen la realidad</span></span> como sustancias simples</li>
+                            <li>"Este es el <span class="concept-highlight">mejor de los mundos posibles<span class="concept-tooltip">Dios, siendo perfecto, creó el mejor universo posible</span></span>"</li>
+                            <li>Teoría de la <span class="concept-highlight">armonía preestablecida<span class="concept-tooltip">Dios sincronizó las mónadas desde la creación</span></span></li>
+                            <li>Cálculo infinitesimal</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Vivimos en el mejor de los mundos posibles"</p>
+                        <small>- Leibniz</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/leibniz/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Leibniz
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=3hxYh09esdk" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- George Berkeley -->
+            <div class="philosopher-card modern berkeley" data-philosopher="berkeley">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>George Berkeley</h3>
+                        <p>1685-1753 • Irlanda</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Idealismo Inmaterialista</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Esse est percipi<span class="concept-tooltip">"Ser es ser percibido": la existencia depende de la percepción</span></span></li>
+                            <li>Negación de la <span class="concept-highlight">materia<span class="concept-tooltip">Crítica a la existencia de la sustancia material independiente</span></span></li>
+                            <li>La realidad como <span class="concept-highlight">ideas en la mente<span class="concept-tooltip">El mundo existe como conjunto de ideas en mentes finitas e infinita</span></span></li>
+                            <li>Dios como percipiente eterno</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Ser es ser percibido"</p>
+                        <small>- Berkeley</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/berkeley/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Berkeley
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=eAPnY6Vz1VU" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- David Hume -->
+            <div class="philosopher-card modern hume" data-philosopher="hume">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>David Hume</h3>
+                        <p>1711-1776 • Escocia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Empirismo Escéptico</h4>
+                        <ul>
+                            <li>Crítica a la <span class="concept-highlight">causalidad<span class="concept-tooltip">La causalidad es solo costumbre psicológica, no conexión necesaria</span></span></li>
+                            <li>Distinción <span class="concept-highlight">hecho-valor<span class="concept-tooltip">No se puede derivar un "debe ser" de un "es"</span></span></li>
+                            <li>Teoría de las <span class="concept-highlight">impresiones e ideas<span class="concept-tooltip">Todo conocimiento deriva de impresiones sensibles</span></span></li>
+                            <li>Escepticismo moderado</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"La razón es, y solo debe ser, esclava de las pasiones"</p>
+                        <small>- Hume</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/hume/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Hume
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=HS52H_CqZLE" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jean-Jacques Rousseau -->
+            <div class="philosopher-card modern rousseau" data-philosopher="rousseau">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Jean-Jacques Rousseau</h3>
+                        <p>1712-1778 • Suiza/Francia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Romanticismo Político</h4>
+                        <ul>
+                            <li>El <span class="concept-highlight">buen salvaje<span class="concept-tooltip">El ser humano es naturalmente bueno, la sociedad lo corrompe</span></span></li>
+                            <li><span class="concept-highlight">Voluntad general<span class="concept-tooltip">Voluntad colectiva que busca el bien común, no la suma de intereses particulares</span></span> vs. voluntad particular</li>
+                            <li>Crítica a la <span class="concept-highlight">civilización<span class="concept-tooltip">El progreso técnico no implica progreso moral</span></span></li>
+                            <li>Educación natural</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El hombre nace libre, pero en todas partes está encadenado"</p>
+                        <small>- Rousseau</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/rousseau/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Rousseau
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=81KfDXTTtXE" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Immanuel Kant -->
+            <div class="philosopher-card modern kant" data-philosopher="kant">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Immanuel Kant</h3>
+                        <p>1724-1804 • Prusia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Idealismo Trascendental</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Revolución copernicana<span class="concept-tooltip">El sujeto constituye activamente el objeto de conocimiento</span></span> en filosofía</li>
+                            <li><span class="concept-highlight">Imperativo categórico<span class="concept-tooltip">Actúa solo según aquella máxima que puedas querer que se convierta en ley universal</span></span></li>
+                            <li>Distinción <span class="concept-highlight">noumeno-fenómeno<span class="concept-tooltip">Lo que aparece vs. lo que es en sí mismo</span></span></li>
+                            <li>Crítica de la razón pura, práctica y del juicio</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"¡Atrévete a saber! Ten valor de usar tu propia razón"</p>
+                        <small>- Kant</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/kant/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Kant
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=nsgAsw4XGvU&t=9s" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Georg Wilhelm Friedrich Hegel -->
+            <div class="philosopher-card modern hegel" data-philosopher="hegel">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Georg Wilhelm Friedrich Hegel</h3>
+                        <p>1770-1831 • Alemania</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Idealismo Absoluto</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Dialéctica<span class="concept-tooltip">Proceso de tesis, antítesis y síntesis que impulsa el desarrollo</span></span> como motor histórico</li>
+                            <li>La <span class="concept-highlight">astucia de la razón<span class="concept-tooltip">La razón usa las pasiones humanas para sus propios fines</span></span></li>
+                            <li><span class="concept-highlight">Espíritu absoluto<span class="concept-tooltip">La realidad como autodespliegue del Espíritu hacia la autoconciencia</span></span></li>
+                            <li>Filosofía de la historia</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Lo real es racional y lo racional es real"</p>
+                        <small>- Hegel</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/hegel/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Hegel
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=H5JGE3lhuNo" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karl Marx -->
+        <div class="philosopher-card modern marx" data-philosopher="marx">
+            <div class="philosopher-header">
+                <div class="philosopher-avatar modern">
+                    <i class="fas fa-hammer"></i>
+                </div>
+                <div class="philosopher-info">
+                    <h3>Karl Marx</h3>
+                    <p>1818-1883 • Alemania</p>
+                </div>
+            </div>
+            <div class="philosopher-content">
+                <div class="philosopher-ideas">
+                    <h4><i class="fas fa-lightbulb"></i> Materialismo Histórico</h4>
+                    <ul>
+                        <li><span class="concept-highlight">Materialismo histórico<span class="concept-tooltip">La base económica determina la superestructura jurídica, política e ideológica</span></span> como método</li>
+                        <li><span class="concept-highlight">Lucha de clases<span class="concept-tooltip">Motor de la historia: opresores vs oprimidos a través de las épocas</span></span> como motor de la historia</li>
+                        <li>Crítica de la <span class="concept-highlight">alienación<span class="concept-tooltip">Separación del trabajador de su producto, su actividad y su esencia humana</span></span> capitalista</li>
+                        <li>Teoría del <span class="concept-highlight">plusvalor<span class="concept-tooltip">Valor creado por el trabajador que es apropiado por el capitalista</span></span></li>
+                    </ul>
+                </div>
+                <div class="interactive-quote">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"Los filósofos no han hecho más que interpretar el mundo de distintos modos; de lo que se trata es de transformarlo"</p>
+                    <small>- Marx</small>
+                </div>
+                <div class="philosopher-resources">
+                    <a href="https://plato.stanford.edu/entries/marx/" class="resource-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Stanford: Marx
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=fSQgCy_iIcc" class="resource-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        Crash Course
+                    </a>
+                </div>
+            </div>
+        </div>
+
+            <!-- Arthur Schopenhauer -->
+            <div class="philosopher-card modern schopenhauer" data-philosopher="schopenhauer">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Arthur Schopenhauer</h3>
+                        <p>1788-1860 • Alemania</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Pesimismo Filosófico</h4>
+                        <ul>
+                            <li>El mundo como <span class="concept-highlight">Voluntad y Representación<span class="concept-tooltip">La realidad tiene dos aspectos: voluntad ciega y representación fenoménica</span></span></li>
+                            <li><span class="concept-highlight">Pesimismo metafísico<span class="concept-tooltip">La vida es esencialmente sufrimiento causado por la voluntad insaciable</span></span></li>
+                            <li>Liberación a través del <span class="concept-highlight">arte y la ascésis<span class="concept-tooltip">El arte permite contemplación desinteresada, la ascésis niega la voluntad</span></span></li>
+                            <li>Influencia del budismo</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"La vida es un péndulo que oscila entre el dolor y el aburrimiento"</p>
+                        <small>- Schopenhauer</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/schopenhauer/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Schopenhauer
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=q0zmfNx7OM4" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friedrich Nietzsche -->
+            <div class="philosopher-card modern nietzsche" data-philosopher="nietzsche">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Friedrich Nietzsche</h3>
+                        <p>1844-1900 • Alemania</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Vitalismo Trágico</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Muerte de Dios<span class="concept-tooltip">Crítica a los valores tradicionales y la moral cristiana</span></span> y transvaloración</li>
+                            <li>El <span class="concept-highlight">superhombre<span class="concept-tooltip">Individuo que crea sus propios valores más allá del bien y del mal</span></span> (Übermensch)</li>
+                            <li><span class="concept-highlight">Voluntad de poder<span class="concept-tooltip">Impulso fundamental de la vida hacia la expansión y superación</span></span></li>
+                            <li>Eterno retorno de lo mismo</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Lo que no me mata, me hace más fuerte"</p>
+                        <small>- Nietzsche</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/nietzsche/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Nietzsche
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=wHWbZmg2hzU" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Filosofía Contemporánea -->
+        <div class="period-content" id="contemporary-content">
+            <div class="period-header contemporary">
+                <h2 class="period-title">Filosofía Contemporánea</h2>
+                <p class="period-description">Diversificación de corrientes filosóficas, crítica a la metafísica tradicional y surgimiento de nuevas problemáticas en respuesta a los cambios sociales, políticos y científicos.</p>
+            </div>
+
+            <div class="philosophers-grid">
+                 <!-- Ludwig Wittgenstein -->
+            <div class="philosopher-card modern wittgenstein" data-philosopher="wittgenstein">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Ludwig Wittgenstein</h3>
+                        <p>1889-1951 • Austria/Reino Unido</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Filosofía del Lenguaje</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Los límites de mi lenguaje<span class="concept-tooltip">"Los límites de mi lenguaje significan los límites de mi mundo"</span></span> son los límites de mi mundo</li>
+                            <li>Del <span class="concept-highlight">Tractatus<span class="concept-tooltip">Obra temprana: teoría pictórica del significado</span></span> a las <span class="concept-highlight">Investigaciones<span class="concept-tooltip">Obra tardía: juegos del lenguaje y significado como uso</span></span></li>
+                            <li>Teoría de los <span class="concept-highlight">juegos del lenguaje<span class="concept-tooltip">El significado de las palabras depende de su uso en contextos específicos</span></span></li>
+                            <li>Crítica a la filosofía tradicional</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"De lo que no se puede hablar, hay que callar"</p>
+                        <small>- Wittgenstein</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/wittgenstein/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Wittgenstein
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=pQ33gAyhg2c" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Martin Heidegger -->
+            <div class="philosopher-card modern heidegger" data-philosopher="heidegger">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Martin Heidegger</h3>
+                        <p>1889-1976 • Alemania</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Existencialismo y Fenomenología</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Ser-en-el-mundo<span class="concept-tooltip">El Dasein existe siempre en un mundo, no separado de él</span></span> (In-der-Welt-sein)</li>
+                            <li>Analítica del <span class="concept-highlight">Dasein<span class="concept-tooltip">El ser-ahí, el ser humano como ente que se pregunta por el ser</span></span></li>
+                            <li>La pregunta por el <span class="concept-highlight">Ser<span class="concept-tooltip">Cuestionamiento fundamental olvidado por la metafísica tradicional</span></span></li>
+                            <li>Concepto de <span class="concept-highlight">autenticidad<span class="concept-tooltip">Modo de existir asumiendo la propia finitud y posibilidades</span></span></li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El ser-ahí es un ser-para-la-muerte"</p>
+                        <small>- Heidegger</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/heidegger/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Heidegger
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=Br1sGrA7XTU" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jean-Paul Sartre -->
+            <div class="philosopher-card modern sartre" data-philosopher="sartre">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Jean-Paul Sartre</h3>
+                        <p>1905-1980 • Francia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Existencialismo Francés</h4>
+                        <ul>
+                            <li><span class="concept-highlight">La existencia precede a la esencia<span class="concept-tooltip">El ser humano primero existe y luego define su esencia mediante sus actos</span></span></li>
+                            <li><span class="concept-highlight">Libertad radical<span class="concept-tooltip">El ser humano está condenado a ser libre y es responsable de sus elecciones</span></span> y responsabilidad</li>
+                            <li>Concepto de <span class="concept-highlight">mala fe<span class="concept-tooltip">Autoengaño mediante el cual negamos nuestra libertad</span></span> (mauvaise foi)</li>
+                            <li>Compromiso político y literario</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El hombre está condenado a ser libre"</p>
+                        <small>- Sartre</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/sartre/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Sartre
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=3bQsZxDQgzU" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bertrand Russell -->
+            <div class="philosopher-card modern russell" data-philosopher="russell">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Bertrand Russell</h3>
+                        <p>1872-1970 • Reino Unido</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Filosofía Analítica y Lógica</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Atomismo lógico<span class="concept-tooltip">La realidad consiste en hechos atómicos independientes</span></span> y teoría de las descripciones</li>
+                            <li><span class="concept-highlight">Paradojas de la teoría de conjuntos<span class="concept-tooltip">Trabajo fundamental en fundamentos de las matemáticas</span></span></li>
+                            <li>Crítica a las <span class="concept-highlight">creencias sin evidencia<span class="concept-tooltip">Defensa del escepticismo científico y racional</span></span></li>
+                            <li>Activismo pacifista y social</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"La mayoría de la gente preferiría morir antes que pensar; de hecho, lo hacen"</p>
+                        <small>- Russell</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/russell/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Russell
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=rSoO-bI8ax4" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karl Popper -->
+            <div class="philosopher-card modern popper" data-philosopher="popper">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Karl Popper</h3>
+                        <p>1902-1994 • Austria/Reino Unido</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Filosofía de la Ciencia</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Falsacionismo<span class="concept-tooltip">Criterio de demarcación: una teoría es científica si es falsable</span></span> como criterio de demarcación</li>
+                            <li>Crítica al <span class="concept-highlight">historicismo<span class="concept-tooltip">Rechazo de las leyes históricas inevitables</span></span> en ciencias sociales</li>
+                            <li>Defensa de la <span class="concept-highlight">sociedad abierta<span class="concept-tooltip">Sociedad que permite la crítica y el cambio pacífico</span></span></li>
+                            <li>Teoría del conocimiento conjectural</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"La ciencia debe comenzar con los mitos y con la crítica de los mitos"</p>
+                        <small>- Popper</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/popper/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Popper
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=-X8Xfl0JdTQ" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simone de Beauvoir -->
+            <div class="philosopher-card modern beauvoir" data-philosopher="beauvoir">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Simone de Beauvoir</h3>
+                        <p>1908-1986 • Francia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Feminismo Existencialista</h4>
+                        <ul>
+                            <li><span class="concept-highlight">"No se nace mujer, se llega a serlo"<span class="concept-tooltip">La feminidad como construcción social, no destino biológico</span></span></li>
+                            <li>Distinción entre <span class="concept-highlight">sexo y género<span class="concept-tooltip">Lo biológico vs. lo culturalmente construido</span></span></li>
+                            <li>La mujer como <span class="concept-highlight">el Otro<span class="concept-tooltip">La mujer definida en relación al hombre como sujeto</span></span></li>
+                            <li>Ética de la ambigüedad</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El problema de la mujer siempre ha sido un problema de hombres"</p>
+                        <small>- Beauvoir</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/beauvoir/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Beauvoir
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=Ws2Y2cWme8c" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hannah Arendt -->
+            <div class="philosopher-card modern arendt" data-philosopher="arendt">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Hannah Arendt</h3>
+                        <p>1906-1975 • Alemania/EEUU</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Teoría Política</h4>
+                        <ul>
+                            <li>Concepto de <span class="concept-highlight">la banalidad del mal<span class="concept-tooltip">El mal puede cometerse por personas ordinarias que no piensan críticamente</span></span></li>
+                            <li>Análisis de los <span class="concept-highlight">totalitarismos<span class="concept-tooltip">Estudio de los regímenes nazi y estalinista</span></span></li>
+                            <li>Distinción entre <span class="concept-highlight">labor, trabajo y acción<span class="concept-tooltip">Tres actividades fundamentales de la condición humana</span></span></li>
+                            <li>Teoría de la natalidad</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"El mayor mal es el mal cometido por nadie"</p>
+                        <small>- Arendt</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/arendt/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Arendt
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=NA0JXEzQrZM" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Michel Foucault -->
+            <div class="philosopher-card modern foucault" data-philosopher="foucault">
+                <div class="philosopher-header">
+                    <div class="philosopher-avatar modern">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="philosopher-info">
+                        <h3>Michel Foucault</h3>
+                        <p>1926-1984 • Francia</p>
+                    </div>
+                </div>
+                <div class="philosopher-content">
+                    <div class="philosopher-ideas">
+                        <h4><i class="fas fa-lightbulb"></i> Teoría del Poder y Genealogía</h4>
+                        <ul>
+                            <li><span class="concept-highlight">Arqueología del saber<span class="concept-tooltip">Análisis de las condiciones de posibilidad del conocimiento</span></span> y genealogía</li>
+                            <li>Teoría del <span class="concept-highlight">poder<span class="concept-tooltip">El poder como relación estratégica, no como posesión</span></span> productivo</li>
+                            <li>Concepto de <span class="concept-highlight">biopolítica<span class="concept-tooltip">Administración política de la vida de las poblaciones</span></span></li>
+                            <li>Análisis de instituciones disciplinarias</li>
+                        </ul>
+                    </div>
+                    <div class="interactive-quote">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p>"Donde hay poder, hay resistencia"</p>
+                        <small>- Foucault</small>
+                    </div>
+                    <div class="philosopher-resources">
+                        <a href="https://plato.stanford.edu/entries/foucault/" class="resource-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Stanford: Foucault
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=BBJTeNTZtGU" class="resource-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            Crash Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal para filósofos -->
+    <div class="philosopher-modal" id="philosopher-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 id="modal-title">Filósofo</h2>
+                <p id="modal-subtitle">Información detallada</p>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos completos de filósofos
+        const philosophersData = {
+            'presocraticos': {
+                title: 'Los Presocráticos - Filósofos de la Naturaleza',
+                period: 'Antigua',
+                content: `
+                    <h3>Los Primeros Filósofos</h3>
+                    <p>Los presocráticos fueron los primeros pensadores que buscaron explicaciones racionales para el origen y naturaleza del cosmos, abandonando las explicaciones mitológicas tradicionales.</p>
+                    
+                    <div class="philosopher-detail">
+                        <h4>Principales Representantes:</h4>
+                        <ul>
+                            <li><strong>Tales de Mileto</strong> (c. 624-546 a.C.) - Consideró el agua como el principio de todas las cosas</li>
+                            <li><strong>Anaximandro</strong> (c. 610-546 a.C.) - Propuso el ápeiron (lo indeterminado) como arché</li>
+                            <li><strong>Heráclito</strong> (c. 535-475 a.C.) - Enfatizó el cambio constante: "Todo fluye"</li>
+                            <li><strong>Parménides</strong> (c. 515-450 a.C.) - Afirmó la inmutabilidad del ser</li>
+                            <li><strong>Demócrito</strong> (c. 460-370 a.C.) - Desarrolló la teoría atomista</li>
+                        </ul>
+                        
+                        <h4>Contribuciones Fundamentales:</h4>
+                        <p>Estos pensadores sentaron las bases del pensamiento científico y filosófico occidental al:</p>
+                        <ul>
+                            <li>Buscar principios naturales (physis) en lugar de explicaciones sobrenaturales</li>
+                            <li>Desarrollar el pensamiento abstracto y conceptual</li>
+                            <li>Plantear preguntas fundamentales sobre la realidad, el cambio y la permanencia</li>
+                            <li>Establecer las primeras distinciones entre apariencia y realidad</li>
+                        </ul>
+                    </div>
+                `,
+                resources: [
+                    {name: 'Stanford Encyclopedia', url: 'https://plato.stanford.edu/entries/presocratics/'},
+                    {name: 'Internet Encyclopedia', url: 'https://iep.utm.edu/presocra/'}
+                ]
+            },
+            'socrates': {
+                title: 'Sócrates - El Padre de la Filosofía Occidental',
+                period: 'Antigua',
+                content: `
+                    <h3>El Método Socrático</h3>
+                    <p>Sócrates revolucionó la filosofía al centrarse en cuestiones éticas y desarrollar el método dialéctico basado en preguntas y respuestas.</p>
+                    
+                    <div class="philosopher-detail">
+                        <h4>Características de su Pensamiento:</h4>
+                        <ul>
+                            <li><strong>Método socrático (mayéutica)</strong>: Ayudar a "dar a luz" la verdad mediante preguntas</li>
+                            <li><strong>Intelectualismo moral</strong>: La virtud como conocimiento - quien conoce el bien lo practica</li>
+                            <li><strong>Autoconocimiento</strong>: "Conócete a ti mismo" como fundamento del saber</li>
+                            <li><strong>Ironía socrática</strong>: Fingir ignorancia para examinar las creencias del interlocutor</li>
+                        </ul>
+                        
+                        <h4>Legado e Influencia:</h4>
+                        <p>Aunque no dejó escritos, su influencia fue enorme a través de sus discípulos, especialmente Platón. Su juicio y muerte por cicuta se convirtieron en símbolo de la lucha entre filosofía y poder político.</p>
+                        
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"No puedo enseñar nada a nadie. Solo puedo hacerles pensar"</p>
+                            <small>- Sócrates</small>
+                        </div>
+                    </div>
+                `,
+                resources: [
+                    {name: 'Stanford: Socrates', url: 'https://plato.stanford.edu/entries/socrates/'},
+                    {name: 'School of Life Video', url: 'https://www.youtube.com/watch?v=0aPlTdnCgJ8'}
+                ]
+            },
+            'descartes': {
+                title: 'René Descartes - El Fundador de la Filosofía Moderna',
+                period: 'Moderna',
+                content: `
+                    <h3>El Racionalismo Cartesiano</h3>
+                    <p>Descartes marcó el inicio de la filosofía moderna con su método de duda radical y su búsqueda de fundamentos indudables para el conocimiento.</p>
+                    
+                    <div class="philosopher-detail">
+                        <h4>Principales Contribuciones:</h4>
+                        <ul>
+                            <li><strong>Duda metódica</strong>: Poner en duda todo conocimiento hasta encontrar fundamentos indudables</li>
+                            <li><strong>Cogito ergo sum</strong>: "Pienso, luego existo" como primera verdad indudable</li>
+                            <li><strong>Dualismo sustancial</strong>: Separación radical entre mente (res cogitans) y cuerpo (res extensa)</li>
+                            <li><strong>Método de las cuatro reglas</strong>: Evidencia, análisis, síntesis y enumeración</li>
+                        </ul>
+                        
+                        <h4>Obras Fundamentales:</h4>
+                        <ul>
+                            <li><em>Discurso del Método</em> (1637)</li>
+                            <li><em>Meditaciones Metafísicas</em> (1641)</li>
+                            <li><em>Los Principios de la Filosofía</em> (1644)</li>
+                        </ul>
+                        
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"Daría todo lo que sé por la mitad de lo que ignoro"</p>
+                            <small>- Descartes</small>
+                        </div>
+                    </div>
+                `,
+                resources: [
+                    {name: 'Stanford: Descartes', url: 'https://plato.stanford.edu/entries/descartes/'},
+                    {name: 'Crash Course Video', url: 'https://www.youtube.com/watch?v=0A6UKoMcE10'}
+                ]
+            },
+            'nietzsche': {
+                title: 'Friedrich Nietzsche - El Filósofo del Martillo',
+                period: 'Contemporánea',
+                content: `
+                    <h3>La Transvaloración de Todos los Valores</h3>
+                    <p>Nietzsche desarrolló una crítica radical a la cultura occidental, la moral cristiana y la tradición metafísica, proponiendo una nueva forma de entender la vida y los valores.</p>
+                    
+                    <div class="philosopher-detail">
+                        <h4>Conceptos Centrales:</h4>
+                        <ul>
+                            <li><strong>Muerte de Dios</strong>: Crítica a los fundamentos metafísicos y religiosos de Occidente</li>
+                            <li><strong>Superhombre (Übermensch)</strong>: Ideal humano que crea sus propios valores más allá del bien y del mal</li>
+                            <li><strong>Voluntad de poder</strong>: Principio fundamental de la vida como expansión y afirmación</li>
+                            <li><strong>Eterno retorno</strong>: Idea de que la vida debe vivirse como si cada momento fuera a repetirse eternamente</li>
+                        </ul>
+                        
+                        <h4>Obras Fundamentales:</h4>
+                        <ul>
+                            <li><em>Así habló Zaratustra</em> (1883-1885)</li>
+                            <li><em>Más allá del bien y del mal</em> (1886)</li>
+                            <li><em>La genealogía de la moral</em> (1887)</li>
+                            <li><em>El crepúsculo de los ídolos</em> (1889)</li>
+                        </ul>
+                        
+                        <div class="interactive-quote">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <p>"Yo os enseño el superhombre. El hombre es algo que debe ser superado"</p>
+                            <small>- Nietzsche, Así habló Zaratustra</small>
+                        </div>
+                    </div>
+                `,
+                resources: [
+                    {name: 'Stanford: Nietzsche', url: 'https://plato.stanford.edu/entries/nietzsche/'},
+                    {name: 'School of Life Video', url: 'https://www.youtube.com/watch?v=wHWbZmg2hzU'}
+                ]
+            }
+            // Más datos de filósofos...
+        };
+
+        // Estado de la aplicación
+        let currentPeriod = 'ancient';
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPeriodNavigation();
+            setupTimelineInteractions();
+            setupPhilosopherCards();
+            setupVisualEffects();
+        });
+
+        // Configurar navegación por períodos
+        function setupPeriodNavigation() {
+            const periodButtons = document.querySelectorAll('.period-btn');
+            
+            periodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    
+                    // Actualizar botones activos
+                    periodButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Actualizar marcadores de timeline
+                    document.querySelectorAll('.timeline-marker').forEach(marker => {
+                        marker.classList.remove('active');
+                    });
+                    document.querySelector(`.timeline-marker.${period}`).classList.add('active');
+                    
+                    // Actualizar progreso de timeline
+                    const progressWidth = {
+                        'ancient': '25%',
+                        'medieval': '50%',
+                        'modern': '75%',
+                        'contemporary': '100%'
+                    };
+                    document.getElementById('timeline-progress').style.width = progressWidth[period];
+                    
+                    // Mostrar contenido del período
+                    showPeriodContent(period);
+                    
+                    currentPeriod = period;
+                });
+            });
+        }
+
+        // Configurar interacciones con la línea de tiempo
+        function setupTimelineInteractions() {
+            const timelineMarkers = document.querySelectorAll('.timeline-marker');
+            
+            timelineMarkers.forEach(marker => {
+                marker.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    
+                    // Simular clic en el botón correspondiente
+                    document.querySelector(`.period-btn.${period}`).click();
+                });
+            });
+        }
+
+        // Configurar tarjetas de filósofos
+        function setupPhilosopherCards() {
+            const philosopherCards = document.querySelectorAll('.philosopher-card');
+            const modal = document.getElementById('philosopher-modal');
+            const closeModal = document.getElementById('close-modal');
+            
+            philosopherCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const philosopher = this.getAttribute('data-philosopher');
+                    showPhilosopherModal(philosopher);
+                });
+            });
+            
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Mostrar contenido del período
+        function showPeriodContent(period) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.period-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar contenido del período seleccionado
+            document.getElementById(`${period}-content`).classList.add('active');
+            
+            // Animación de scroll suave
+            document.getElementById(`${period}-content`).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Mostrar modal del filósofo
+        function showPhilosopherModal(philosopherKey) {
+            const philosopher = philosophersData[philosopherKey];
+            const modal = document.getElementById('philosopher-modal');
+            
+            if (!philosopher) {
+                console.error('Filósofo no encontrado:', philosopherKey);
+                return;
+            }
+            
+            document.getElementById('modal-title').textContent = philosopher.title;
+            document.getElementById('modal-subtitle').textContent = `Período ${philosopher.period}`;
+            document.getElementById('modal-body').innerHTML = philosopher.content;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Efectos visuales adicionales
+        function setupVisualEffects() {
+            // Efecto parallax para el header
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector('.philosophy-header');
+                header.style.transform = `translateY(${scrolled * 0.5}px)`;
+            });
+            
+            // Animación de aparición para las tarjetas
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.philosopher-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>

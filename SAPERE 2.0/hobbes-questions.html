@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Leviatán - Thomas Hobbes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .quiz-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .question-container {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin-bottom: 1rem;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--flashcards);
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--accent);
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-quiz-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+            display: block;
+            margin: 2rem auto;
+        }
+        
+        .submit-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .quiz-results {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin: 1rem 0;
+        }
+        
+        .incorrect-questions {
+            margin-top: 2rem;
+        }
+        
+        .incorrect-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Cuestionario: Leviatán - Thomas Hobbes</h1>
+        <p>Explora el contrato social y el estado de naturaleza en la filosofía política de Hobbes</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="quiz-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">TH</div>
+                <div class="philosopher-details">
+                    <h2>Thomas Hobbes</h2>
+                    <p>Filósofo inglés del contrato social, el estado de naturaleza y el Leviatán</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="quiz-description">
+                <p>Este cuestionario te permitirá evaluar tu comprensión de la obra "Leviatán" de Thomas Hobbes, donde desarrolla su teoría del contrato social y el estado soberano. Responde las preguntas, revisa tus errores y reflexiona sobre los conceptos clave del pensamiento hobbesiano.</p>
+            </div>
+        </section>
+        
+        <!-- Cuestionario -->
+        <section class="quiz-container" id="quiz-container">
+            <div id="question-container">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousQuestion()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Siguiente →</button>
+            </div>
+            
+            <button class="submit-quiz-btn" id="submit-quiz-btn" onclick="submitQuiz()">Enviar Cuestionario</button>
+        </section>
+        
+        <!-- Resultados del cuestionario -->
+        <section class="quiz-results" id="quiz-results">
+            <div class="result-header">
+                <h2>Resultados del Cuestionario</h2>
+                <div class="score-display" id="score-display">0/30</div>
+                <p id="result-message">Basado en tus respuestas</p>
+            </div>
+            
+            <div class="incorrect-questions" id="incorrect-questions">
+                <!-- Las preguntas incorrectas se mostrarán aquí -->
+            </div>
+            
+            <button class="submit-btn" onclick="closeResults()">Continuar con las actividades</button>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Responde el cuestionario sobre Hobbes</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Completa el cuestionario de 30 preguntas sobre "Leviatán" de Thomas Hobbes. Selecciona la respuesta correcta para cada pregunta y envía el cuestionario cuando hayas terminado.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a evaluar:</h4>
+                            <ul>
+                                <li>El estado de naturaleza y la guerra de todos contra todos</li>
+                                <li>El contrato social y la creación del Estado</li>
+                                <li>El Leviatán como soberano absoluto</li>
+                                <li>Los derechos naturales y la ley natural</li>
+                                <li>La teoría materialista y mecanicista de Hobbes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>Después de completar el cuestionario, describe qué aspectos de la filosofía política de Hobbes te resultaron más interesantes o desafiantes.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Describe tu experiencia con el cuestionario aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Revisa tus respuestas incorrectas</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa las preguntas que respondiste incorrectamente en el cuestionario. Estudia los conceptos relacionados y asegúrate de comprender por qué tus respuestas fueron incorrectas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Estrategias para revisar:</h4>
+                            <ul>
+                                <li>Identifica patrones en tus errores</li>
+                                <li>Relee las secciones relevantes de la obra</li>
+                                <li>Busca explicaciones alternativas de los conceptos</li>
+                                <li>Relaciona los conceptos con ejemplos concretos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Describe qué conceptos te resultaron más difíciles de comprender y qué estrategias utilizaste para mejorar tu comprensión.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tu proceso de revisión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica el estado de naturaleza hobbesiano</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica con tus propias palabras qué es el "estado de naturaleza" según Hobbes y por qué considera necesario superarlo mediante el contrato social.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La igualdad natural entre los seres humanos</li>
+                                <li>La competencia, la desconfianza y la gloria como causas de conflicto</li>
+                                <li>La guerra de todos contra todos (bellum omnium contra omnes)</li>
+                                <li>La vida en el estado de naturaleza como "solitaria, pobre, desagradable, brutal y corta"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada del estado de naturaleza en la filosofía de Hobbes.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Analiza el concepto de Leviatán</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza el concepto de "Leviatán" en la filosofía política de Hobbes y su papel como soberano absoluto.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Puntos a considerar:</h4>
+                            <ul>
+                                <li>La creación del Leviatán mediante el contrato social</li>
+                                <li>Los poderes y derechos del soberano</li>
+                                <li>La relación entre soberano y súbditos</li>
+                                <li>La justificación del poder absoluto</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis crítico del concepto de Leviatán y evalúa su relevancia en el pensamiento político contemporáneo.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el cuestionario</h3>
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el cuestionario sobre "Leviatán"</h3>
+            <p>Has evaluado tu comprensión de la filosofía política hobbesiana, revisado tus respuestas incorrectas, explicado el estado de naturaleza y analizado el concepto de Leviatán. Continúa explorando estos conceptos para profundizar en tu comprensión de esta obra fundamental de la teoría política.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas sobre "Leviatán" de Hobbes (30 preguntas)
+        const hobbesQuizQuestions = [
+            {
+                question: "¿Cómo describe Hobbes el estado de naturaleza?",
+                options: [
+                    "Como una guerra de todos contra todos",
+                    "Como un estado de paz y armonía",
+                    "Como un estado de cooperación natural",
+                    "Como un estado de desarrollo cultural"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿cuál es la principal causa de conflicto en el estado de naturaleza?",
+                options: [
+                    "La igualdad natural y la competencia por recursos",
+                    "La desigualdad natural entre los seres humanos",
+                    "La maldad innata de los seres humanos",
+                    "La influencia de factores externos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa la frase 'homo homini lupus' en el contexto de Hobbes?",
+                options: [
+                    "El hombre es un lobo para el hombre",
+                    "El hombre es naturalmente bueno",
+                    "El hombre necesita vivir en sociedad",
+                    "El hombre es un ser racional"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Hobbes la vida en el estado de naturaleza?",
+                options: [
+                    "Solitaria, pobre, desagradable, brutal y corta",
+                    "Comunitaria, rica, agradable, pacífica y larga",
+                    "Individualista, moderada, neutral, simple y variable",
+                    "Colectiva, desarrollada, compleja, cultural y evolutiva"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué es el Leviatán según Hobbes?",
+                options: [
+                    "El Estado soberano creado por contrato social",
+                    "Un monstruo mitológico",
+                    "El poder eclesiástico",
+                    "La naturaleza humana"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué derechos tiene el soberano en el Leviatán?",
+                options: [
+                    "Poder absoluto e indivisible",
+                    "Poder limitado por una constitución",
+                    "Poder compartido con otros órganos",
+                    "Poder temporal y revocable"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué es el contrato social según Hobbes?",
+                options: [
+                    "El acuerdo por el cual los individuos ceden sus derechos a un soberano",
+                    "Un pacto entre iguales para compartir recursos",
+                    "Un acuerdo comercial entre ciudadanos",
+                    "Un tratado internacional entre naciones"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué derechos conservan los individuos bajo el Leviatán?",
+                options: [
+                    "El derecho a la vida cuando está en peligro inminente",
+                    "Todos los derechos naturales",
+                    "Solo los derechos civiles",
+                    "Ningún derecho, todos son cedidos al soberano"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo justifica Hobbes el poder absoluto del soberano?",
+                options: [
+                    "Como necesario para evitar el regreso al estado de naturaleza",
+                    "Como un derecho divino",
+                    "Como resultado de la superioridad natural",
+                    "Como una concesión temporal"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juegan las leyes de naturaleza en el pensamiento de Hobbes?",
+                options: [
+                    "Son principios racionales que llevan a buscar la paz",
+                    "Son mandatos divinos revelados",
+                    "Son normas culturales variables",
+                    "Son ideales inalcanzables"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿cuál es el primer derecho natural?",
+                options: [
+                    "El derecho a la autoconservación",
+                    "El derecho a la propiedad",
+                    "El derecho a la libertad",
+                    "El derecho a la igualdad"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué caracteriza la teoría materialista de Hobbes?",
+                options: [
+                    "Que todo en el universo es materia en movimiento",
+                    "Que solo existe lo que puede ser percibido",
+                    "Que la realidad es una construcción mental",
+                    "Que el espíritu precede a la materia"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo concibe Hobbes la relación entre religión y Estado?",
+                options: [
+                    "El soberano debe controlar la religión para evitar conflictos",
+                    "La religión debe ser independiente del Estado",
+                    "El Estado debe someterse a la autoridad religiosa",
+                    "La religión es un asunto puramente privado"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿qué motiva a los seres humanos a actuar?",
+                options: [
+                    "Deseos y aversiones que buscan placer y evitan dolor",
+                    "Un sentido innato del deber moral",
+                    "La búsqueda del bien común",
+                    "Mandatos divinos y revelaciones"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa para Hobbes 'la palabra dada no ata' en el estado de naturaleza?",
+                options: [
+                    "Que los pactos sin espada son solo palabras",
+                    "Que siempre hay que cumplir las promesas",
+                    "Que las palabras carecen de significado",
+                    "Que los contratos son sagrados"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Hobbes la libertad en el estado civil?",
+                options: [
+                    "Como silencio de la ley",
+                    "Como ausencia de toda restricción",
+                    "Como autonomía individual absoluta",
+                    "Como participación política"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica dirige Hobbes a la democracia?",
+                options: [
+                    "Que conduce a la inestabilidad y el conflicto",
+                    "Que es demasiado lenta para tomar decisiones",
+                    "Que no representa a las minorías",
+                    "Que es incompatible con la libertad"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿qué es la justicia?",
+                options: [
+                    "Cumplir los pactos establecidos",
+                    "Dar a cada uno lo que merece",
+                    "Seguir la voluntad divina",
+                    "Promover la igualdad social"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juega el miedo en la filosofía política de Hobbes?",
+                options: [
+                    "Es el fundamento del Estado y la obediencia",
+                    "Es un sentimiento irracional que debe superarse",
+                    "Es una emoción secundaria sin importancia política",
+                    "Es un instrumento de opresión que debe eliminarse"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo entiende Hobbes la soberanía?",
+                options: [
+                    "Como poder absoluto, indivisible e irrevocable",
+                    "Como poder limitado y divisible",
+                    "Como poder temporal y delegado",
+                    "Como poder compartido y representativo"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué objeta Hobbes a la división de poderes?",
+                options: [
+                    "Que debilita al Estado y puede llevar a la guerra civil",
+                    "Que es demasiado complicada administrativamente",
+                    "Que no respeta los derechos individuales",
+                    "Que es incompatible con la monarquía"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿qué permite la superación del estado de naturaleza?",
+                options: [
+                    "La creación de un poder común mediante contrato",
+                    "El desarrollo moral de los individuos",
+                    "La intervención divina",
+                    "El progreso tecnológico"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa para Hobbes que los seres humanos son iguales por naturaleza?",
+                options: [
+                    "Que tienen capacidades similares para dañarse mutuamente",
+                    "Que tienen los mismos derechos y deberes",
+                    "Que son idénticos física y mentalmente",
+                    "Que merecen el mismo trato en todas las circunstancias"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Hobbes la diferencia entre estado de naturaleza y estado civil?",
+                options: [
+                    "En el estado civil hay un poder común que garantiza la seguridad",
+                    "En el estado civil hay mayor desarrollo económico",
+                    "En el estado civil hay más libertad individual",
+                    "En el estado civil hay igualdad perfecta"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué objeta Hobbes al derecho de resistencia?",
+                options: [
+                    "Que debilita la autoridad del soberano",
+                    "Que es un derecho natural inalienable",
+                    "Que solo aplica en casos extremos",
+                    "Que es necesario para controlar al poder"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿qué relación hay entre poder y derecho?",
+                options: [
+                    "El derecho depende del poder que lo garantice",
+                    "El derecho es independiente del poder",
+                    "El poder siempre viola el derecho",
+                    "El derecho limita el poder"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa para Hobbes 'autorización' en el contrato social?",
+                options: [
+                    "Que los individuos autorizan al soberano a actuar en su nombre",
+                    "Que el soberano necesita permiso para gobernar",
+                    "Que los ciudadanos delegan algunos poderes",
+                    "Que hay un proceso de validación del poder"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo define Hobbes la ley natural?",
+                options: [
+                    "Como un precepto de la razón que prohíbe lo destructivo para la vida",
+                    "Como un mandato divino revelado",
+                    "Como una norma cultural universal",
+                    "Como una tendencia instintiva"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica dirige Hobbes a la Iglesia católica?",
+                options: [
+                    "Que pretende un poder espiritual independiente del Estado",
+                    "Que es demasiado jerárquica",
+                    "Que no se adapta a los tiempos modernos",
+                    "Que es incompatible con la ciencia"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Hobbes, ¿qué distingue al estado civil del estado de naturaleza?",
+                options: [
+                    "La existencia de un poder coercitivo que garantiza la seguridad",
+                    "El nivel de desarrollo económico y cultural",
+                    "La presencia de instituciones democráticas",
+                    "El grado de libertad individual"
+                ],
+                correct: 0
+            }
+        ];
+
+        // Variables globales
+        let currentQuestion = 0;
+        let userAnswers = new Array(hobbesQuizQuestions.length).fill(null);
+        let quizSubmitted = false;
+        let activitiesCompleted = 0;
+
+        // Inicializar el cuestionario
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        // Mostrar la pregunta actual
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = hobbesQuizQuestions[currentQuestion];
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const optionClass = isSelected ? 'option selected' : 'option';
+                optionsHTML += `
+                    <div class="${optionClass}" onclick="selectOption(${index})">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pregunta ${currentQuestion + 1} de ${hobbesQuizQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar botones de navegación
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === hobbesQuizQuestions.length - 1;
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            displayQuestion();
+        }
+
+        // Navegar a la pregunta anterior
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        // Navegar a la siguiente pregunta
+        function nextQuestion() {
+            if (currentQuestion < hobbesQuizQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        // Enviar el cuestionario
+        function submitQuiz() {
+            quizSubmitted = true;
+            calculateScore();
+            showResults();
+        }
+
+        // Calcular la puntuación
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < hobbesQuizQuestions.length; i++) {
+                if (userAnswers[i] === hobbesQuizQuestions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            const score = calculateScore();
+            const percentage = Math.round((score / hobbesQuizQuestions.length) * 100);
+            
+            document.getElementById('score-display').textContent = `${score}/${hobbesQuizQuestions.length}`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '¡Excelente! Dominas los conceptos fundamentales de la filosofía política hobbesiana.';
+            } else if (percentage >= 70) {
+                message = '¡Buen trabajo! Tienes un buen entendimiento del pensamiento de Hobbes.';
+            } else if (percentage >= 50) {
+                message = 'Aprobado. Tienes conocimientos básicos pero necesitas profundizar más.';
+            } else {
+                message = 'Necesitas estudiar más los conceptos fundamentales de esta obra.';
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Mostrar preguntas incorrectas
+            let incorrectHTML = '<h3>Preguntas incorrectas:</h3>';
+            let hasIncorrect = false;
+            
+            for (let i = 0; i < hobbesQuizQuestions.length; i++) {
+                if (userAnswers[i] !== hobbesQuizQuestions[i].correct) {
+                    hasIncorrect = true;
+                    const question = hobbesQuizQuestions[i];
+                    const userAnswer = userAnswers[i] !== null ? question.options[userAnswers[i]] : 'Sin respuesta';
+                    const correctAnswer = question.options[question.correct];
+                    
+                    incorrectHTML += `
+                        <div class="incorrect-question">
+                            <p><strong>Pregunta ${i + 1}:</strong> ${question.question}</p>
+                            <p><strong>Tu respuesta:</strong> ${userAnswer}</p>
+                            <p><strong>Respuesta correcta:</strong> ${correctAnswer}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (!hasIncorrect) {
+                incorrectHTML = '<p>¡Felicidades! No tienes preguntas incorrectas.</p>';
+            }
+            
+            document.getElementById('incorrect-questions').innerHTML = incorrectHTML;
+            
+            // Mostrar resultados y ocultar cuestionario
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Cerrar resultados
+        function closeResults() {
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('activity-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const answeredQuestions = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = Math.round((answeredQuestions / hobbesQuizQuestions.length) * 100);
+            
+            document.getElementById('quiz-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completó todo
+            if (activitiesCompleted >= 4 && answeredQuestions === hobbesQuizQuestions.length) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, escribe tu respuesta antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < 4) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar el cuestionario cuando se carga la página
+        window.onload = initializeQuiz;
+    </script>
+</body>
+</html>

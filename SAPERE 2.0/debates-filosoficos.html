@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia de Debates Filosóficos | Diálogo con IA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --user-msg: #d6eaf8;
+            --ai-msg: #fadbd8;
+            --philosophy: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .debate-topics h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .topic-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .topic-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+        
+        .topic-card.active {
+            background: rgba(255,255,255,0.2);
+            border-left-color: var(--secondary);
+        }
+        
+        .topic-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-card p {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+            margin-bottom: 0.8rem;
+        }
+        
+        .join-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .join-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px 0 0 10px;
+            overflow: hidden;
+            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .debate-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .debate-info h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .debate-info p {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        .debate-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #bdc3c7;
+        }
+        
+        .debate-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            min-height: 0; /* Importante para flexbox scrolling */
+        }
+        
+        .messages-area {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: #f8f9fa;
+            min-height: 0; /* Importante para flexbox scrolling */
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 12px;
+            position: relative;
+            animation: fadeIn 0.4s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background: var(--user-msg);
+            border-bottom-right-radius: 2px;
+        }
+        
+        .ai-message {
+            align-self: flex-start;
+            background: var(--ai-msg);
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .message-user {
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .message-time {
+            color: #7f8c8d;
+        }
+        
+        .message-content {
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        /* ÁREA DE ESCRITURA MEJORADA */
+        .input-container {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            background: white;
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 0.8rem;
+            align-items: flex-end;
+            max-width: 100%;
+        }
+        
+        .input-area textarea {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            resize: none;
+            height: 60px;
+            min-height: 60px;
+            max-height: 120px;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        
+        .input-area button {
+            padding: 0.7rem 1.2rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+            height: 60px;
+            flex-shrink: 0;
+        }
+        
+        .input-area button:hover {
+            background: #2980b9;
+        }
+        
+        .input-area button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action-btn {
+            background: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-action-btn:hover {
+            background: #dfe6e9;
+            transform: translateY(-1px);
+        }
+        
+        .ai-tools {
+            width: 280px;
+            background: white;
+            border-left: 1px solid #eee;
+            padding: 1rem;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        .ai-tools h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .ai-badge {
+            background: var(--philosophy);
+            color: white;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+        }
+        
+        .tool-section {
+            margin-bottom: 1.2rem;
+        }
+        
+        .tool-section h4 {
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tool-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        
+        .tool-btn {
+            padding: 0.7rem;
+            background: var(--light);
+            border: none;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+        }
+        
+        .tool-btn:hover {
+            background: #dfe6e9;
+            transform: translateY(-2px);
+        }
+        
+        .tool-btn i {
+            color: var(--philosophy);
+            font-size: 1rem;
+        }
+        
+        .philosopher-quote {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--philosophy);
+            margin-top: 1.2rem;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+        
+        .quote-author {
+            text-align: right;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            color: var(--dark);
+            font-size: 0.8rem;
+        }
+        
+        .welcome-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        
+        .welcome-screen i {
+            font-size: 3.5rem;
+            color: var(--philosophy);
+            margin-bottom: 1.5rem;
+        }
+        
+        .welcome-screen h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-screen p {
+            font-size: 1rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .thinking-indicator {
+            display: none;
+            padding: 0.8rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            align-self: flex-start;
+            max-width: 80%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .thinking-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--dark);
+            border-radius: 50%;
+            animation: bounce 1.5s infinite;
+        }
+        
+        .thinking-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .thinking-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        /* Mejoras responsive */
+        @media (max-width: 1024px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                max-height: 250px;
+            }
+            
+            .debate-container {
+                flex-direction: column;
+            }
+            
+            .ai-tools {
+                width: 100%;
+                max-height: 250px;
+            }
+            
+            .input-container {
+                padding: 0.8rem;
+            }
+            
+            .input-area textarea {
+                height: 50px;
+                min-height: 50px;
+            }
+            
+            .input-area button {
+                height: 50px;
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .debate-header {
+                flex-direction: column;
+                gap: 0.8rem;
+                align-items: flex-start;
+            }
+            
+            .debate-stats {
+                gap: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar con temas de debate -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Academia Filosófica</h1>
+            </div>
+            
+            <div class="debate-topics">
+                <h2>Debates Filosóficos</h2>
+                <div class="topic-list" id="topic-list">
+                    <!-- Los temas se cargarán con JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Encabezado del debate -->
+            <div class="debate-header">
+                <div class="debate-info">
+                    <h2 id="current-topic-title">Selecciona un tema de debate</h2>
+                    <p id="current-topic-description">Haz clic en cualquier tema para comenzar un debate filosófico</p>
+                </div>
+                <div class="debate-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="message-count">0</div>
+                        <div class="stat-label">Mensajes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="user-side">-</div>
+                        <div class="stat-label">Tu postura</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="ai-side">-</div>
+                        <div class="stat-label">IA postura</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Área de debate -->
+            <div class="debate-container">
+                <!-- Mensajes del debate -->
+                <div class="messages-area" id="messages-area">
+                    <div class="welcome-screen" id="welcome-screen">
+                        <i class="fas fa-question-circle"></i>
+                        <h2>Bienvenido a la Academia de Debates Filosóficos</h2>
+                        <p>Selecciona un tema de la lista para comenzar un diálogo filosófico con nuestro asistente de IA especializado. Podrás debatir sobre cuestiones fundamentales de la existencia, el conocimiento, la moral y la realidad.</p>
+                        <p>La IA actuará como un expositor experto en filosofía, presentando argumentos bien fundamentados y contraargumentos para estimular tu pensamiento crítico.</p>
+                    </div>
+                </div>
+                
+                <!-- Panel de herramientas de IA -->
+                <div class="ai-tools">
+                    <h3>Asistente Filosófico <span class="ai-badge">FILOSOFÍA</span></h3>
+                    
+                    <div class="tool-section">
+                        <h4><i class="fas fa-tools"></i> Herramientas de Debate</h4>
+                        <div class="tool-buttons">
+                            <button class="tool-btn" id="analyze-argument">
+                                <i class="fas fa-search"></i>
+                                <span>Analizar argumento</span>
+                            </button>
+                            <button class="tool-btn" id="counter-arguments">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>Contraargumentos</span>
+                            </button>
+                            <button class="tool-btn" id="philosophical-context">
+                                <i class="fas fa-book"></i>
+                                <span>Contexto filosófico</span>
+                            </button>
+                            <button class="tool-btn" id="key-concepts">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Conceptos clave</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-section">
+                        <h4><i class="fas fa-user-graduate"></i> Modo de Diálogo</h4>
+                        <div class="tool-buttons">
+                            <button class="tool-btn" id="socratic-mode">
+                                <i class="fas fa-question"></i>
+                                <span>Método socrático</span>
+                            </button>
+                            <button class="tool-btn" id="devils-advocate">
+                                <i class="fas fa-devil"></i>
+                                <span>Abogado del diablo</span>
+                            </button>
+                            <button class="tool-btn" id="change-perspective">
+                                <i class="fas fa-eye"></i>
+                                <span>Cambiar perspectiva</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="philosopher-quote">
+                        "No puedo enseñar nada a nadie. Solo puedo hacerles pensar."
+                        <div class="quote-author">- Sócrates</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ÁREA DE ESCRITURA MEJORADA -->
+            <div class="input-container">
+                <div class="input-area">
+                    <textarea id="user-input" placeholder="Escribe tu argumento filosófico aquí... (Enter para enviar, Shift+Enter para nueva línea)"></textarea>
+                    <button id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-action-btn" data-text="¿Podrías explicar eso con más detalle?">Preguntar</button>
+                    <button class="quick-action-btn" data-text="No estoy de acuerdo porque...">Disentir</button>
+                    <button class="quick-action-btn" data-text="¿Qué evidencia apoya esa afirmación?">Evidencia</button>
+                    <button class="quick-action-btn" data-text="Dame un ejemplo concreto">Ejemplo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de temas filosóficos
+        const philosophicalTopics = [
+            {
+                id: 1,
+                title: "¿Existe la verdad absoluta?",
+                description: "Discusión sobre epistemología y teoría del conocimiento",
+                userSide: "Relativista",
+                aiSide: "Objetivista",
+                initialMessage: "Como filósofo objetivista, sostengo que existen verdades absolutas que son independientes de nuestras percepciones. Por ejemplo, las leyes de la lógica y las matemáticas son verdades universales. ¿Qué piensas sobre esto? ¿Crees que toda verdad es relativa al contexto cultural e histórico?"
+            },
+            {
+                id: 2,
+                title: "Ética en la inteligencia artificial",
+                description: "Debate contemporáneo sobre tecnología y moral",
+                userSide: "Utilitarista tecnológico",
+                aiSide: "Deontólogo kantiano",
+                initialMessage: "Desde una perspectiva kantiana, considero que la IA debe ser diseñada respetando la dignidad humana como fin en sí mismo, no como medio. Los sistemas de IA no pueden tener intencionalidad moral genuina. ¿Crees que podemos programar ética en las máquinas, o esto es una categoría exclusivamente humana?"
+            },
+            {
+                id: 3,
+                title: "¿Es posible la libertad en un mundo determinado?",
+                description: "Debate sobre libre albedrío y determinismo",
+                userSide: "Compatibilista",
+                aiSide: "Determinista fuerte",
+                initialMessage: "Como determinista, sostengo que todos nuestros actos están causalmente determinados por factores previos: genética, ambiente, experiencias pasadas. La libertad es una ilusión necesaria para la vida práctica. ¿Cómo concilias tu sentido de libertad personal con el determinismo científico?"
+            },
+            {
+                id: 4,
+                title: "¿La moral es objetiva o depende de la cultura?",
+                description: "Relativismo moral vs. universalismo ético",
+                userSide: "Relativista cultural",
+                aiSide: "Universalista moral",
+                initialMessage: "Defiendo el universalismo moral: existen principios éticos válidos para todos los seres humanos, independientemente de su cultura. Por ejemplo, la prohibición de torturar inocentes es universal. ¿Crees que todas las normas morales son construcciones culturales sin validez transcultural?"
+            }
+        ];
+
+        // Estado de la aplicación
+        let currentTopic = null;
+        let messageCount = 0;
+        let debateHistory = [];
+        let currentMode = "normal";
+
+        // Referencias a elementos del DOM
+        const topicList = document.getElementById('topic-list');
+        const currentTopicTitle = document.getElementById('current-topic-title');
+        const currentTopicDescription = document.getElementById('current-topic-description');
+        const messageCountElement = document.getElementById('message-count');
+        const userSideElement = document.getElementById('user-side');
+        const aiSideElement = document.getElementById('ai-side');
+        const messagesArea = document.getElementById('messages-area');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Cargar temas en el sidebar
+        function loadTopics() {
+            philosophicalTopics.forEach(topic => {
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.dataset.id = topic.id;
+                
+                topicCard.innerHTML = `
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                    <button class="join-btn" data-id="${topic.id}">Unirse al Debate</button>
+                `;
+                
+                topicList.appendChild(topicCard);
+                
+                // Añadir evento al botón
+                topicCard.querySelector('.join-btn').addEventListener('click', function() {
+                    joinDebate(parseInt(this.dataset.id));
+                });
+            });
+        }
+
+        // Unirse a un debate
+        function joinDebate(topicId) {
+            currentTopic = philosophicalTopics.find(topic => topic.id === topicId);
+            
+            // Actualizar la UI
+            currentTopicTitle.textContent = currentTopic.title;
+            currentTopicDescription.textContent = currentTopic.description;
+            userSideElement.textContent = currentTopic.userSide;
+            aiSideElement.textContent = currentTopic.aiSide;
+            
+            // Ocultar pantalla de bienvenida
+            welcomeScreen.style.display = 'none';
+            
+            // Limpiar mensajes anteriores
+            messagesArea.innerHTML = '';
+            messageCount = 0;
+            updateMessageCount();
+            
+            // Añadir mensaje inicial de la IA
+            addAIMessage(currentTopic.initialMessage);
+            
+            // Marcar tema como activo en el sidebar
+            document.querySelectorAll('.topic-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`.topic-card[data-id="${topicId}"]`).classList.add('active');
+            
+            // Enfocar el área de texto
+            userInput.focus();
+        }
+
+        // Añadir mensaje del usuario al DOM
+        function addUserMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-user">Tú (${currentTopic.userSide})</span>
+                    <span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+                <div class="message-content">${content}</div>
+                <div class="message-actions">
+                    <button class="action-btn" onclick="analyzeUserMessage('${content.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-search"></i> Analizar
+                    </button>
+                </div>
+            `;
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+            messageCount++;
+            updateMessageCount();
+        }
+
+        // Añadir mensaje de la IA al DOM
+        function addAIMessage(content, isThinking = false) {
+            if (isThinking) {
+                const thinkingDiv = document.createElement('div');
+                thinkingDiv.className = 'thinking-indicator';
+                thinkingDiv.id = 'thinking-indicator';
+                
+                thinkingDiv.innerHTML = `
+                    <div class="message-header">
+                        <span class="message-user">Asistente Filosófico (${currentTopic.aiSide})</span>
+                    </div>
+                    <div class="thinking-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+                
+                messagesArea.appendChild(thinkingDiv);
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+                return;
+            }
+            
+            // Eliminar indicador de pensamiento si existe
+            const thinkingIndicator = document.getElementById('thinking-indicator');
+            if (thinkingIndicator) {
+                thinkingIndicator.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message';
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-user">Asistente Filosófico (${currentTopic.aiSide})</span>
+                    <span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+                <div class="message-content">${content}</div>
+                <div class="message-actions">
+                    <button class="action-btn" onclick="generateCounterArguments('${content.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-balance-scale"></i> Contraargumentar
+                    </button>
+                    <button class="action-btn" onclick="explainPhilosophicalContext('${content.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-book"></i> Contexto
+                    </button>
+                </div>
+            `;
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+            messageCount++;
+            updateMessageCount();
+            
+            // Guardar en historial
+            debateHistory.push({
+                role: 'ai',
+                content: content,
+                timestamp: new Date()
+            });
+        }
+
+        // Actualizar contador de mensajes
+        function updateMessageCount() {
+            messageCountElement.textContent = messageCount;
+        }
+
+        // Enviar mensaje del usuario
+        function sendMessage() {
+            const content = userInput.value.trim();
+            if (!content || !currentTopic) return;
+            
+            addUserMessage(content);
+            userInput.value = '';
+            
+            // Guardar en historial
+            debateHistory.push({
+                role: 'user',
+                content: content,
+                timestamp: new Date()
+            });
+            
+            // Simular pensamiento de la IA
+            addAIMessage('', true);
+            
+            // Generar respuesta de la IA después de un retraso
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(content, currentMode);
+                addAIMessage(aiResponse);
+            }, 1500);
+        }
+
+        // Generar respuesta de la IA (simulada)
+        function generateAIResponse(userMessage, mode) {
+            // Respuestas basadas en el tema actual y modo de diálogo
+            let responses = [];
+            
+            if (mode === "socratic") {
+                responses = [
+                    `Interesante punto. ¿Podrías desarrollar más esa idea? ¿Qué evidencias apoyan tu posición?`,
+                    `Tu argumento me hace preguntarme: ¿cómo reconcilias eso con la objeción principal de tu postura opuesta?`,
+                    `Desde mi perspectiva como ${currentTopic.aiSide}, veo un posible problema en tu razonamiento. ¿Has considerado que...?`
+                ];
+            } else if (mode === "devil") {
+                responses = [
+                    `Jugando al abogado del diablo, ¿no podría argumentarse lo contrario? Es decir, que...`,
+                    `Un crítico de tu postura diría que estás pasando por alto una objeción importante. ¿Cómo responderías a eso?`,
+                    `Desde la posición más extrema opuesta a la tuya, se podría afirmar que... ¿Qué debilidades ves en ese contraargumento?`
+                ];
+            } else {
+                // Modo normal - respuestas específicas por tema
+                switch(currentTopic.id) {
+                    case 1: // Verdad absoluta
+                        responses = [
+                            `Como ${currentTopic.aiSide}, sostengo que si negamos la verdad absoluta, caemos en una contradicción performativa. ¿Cómo resuelves esta paradoja?`,
+                            `Desde la epistemología, podemos distinguir entre verdades necesarias y contingentes. Las primeras sí parecen absolutas. ¿Estás de acuerdo?`,
+                            `El relativismo radical conduce al escepticismo total. Si no hay verdades absolutas, ¿cómo fundamentamos el conocimiento científico?`
+                        ];
+                        break;
+                    case 2: // Ética en IA
+                        responses = [
+                            `La ética kantiana que defiendo aplicada a la IA plantea que los sistemas automáticos nunca deben tratar a las personas como meros medios. ¿Cómo programamos esto en algoritmos?`,
+                            `Tu postura ${currentTopic.userSide} prioriza los resultados sobre los principios. Pero ¿qué garantías tenemos de que la IA calculará correctamente las consecuencias?`
+                        ];
+                        break;
+                    default:
+                        responses = [
+                            `Interesante argumento. Desde mi perspectiva como ${currentTopic.aiSide}, veo que...`,
+                            `Tu punto es válido, pero consideremos esta objeción: ...`,
+                            `Podríamos analizar tu argumento desde la perspectiva de filósofos relevantes, quienes sostendrían que...`
+                        ];
+                }
+            }
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Configurar botones de acciones rápidas
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                userInput.value = this.dataset.text;
+                userInput.focus();
+            });
+        });
+
+        // Autoajuste de altura del textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Funciones globales para botones de mensajes
+        window.analyzeUserMessage = function(content) {
+            const analysis = `Análisis de tu argumento: "${content}"\n\n- Fortalezas: Desarrollas una posición coherente\n- Debilidades: Podrías considerar posibles objeciones\n- Sugerencias: Te recomendaría explorar perspectivas alternativas`;
+            addAIMessage(analysis);
+        };
+
+        window.generateCounterArguments = function(content) {
+            const counterArgs = `Contraargumentos a: "${content}"\n\n1. Primer contraargumento\n2. Segundo contraargumento\n3. Tercer contraargumento\n\n¿Cómo responderías a estas objeciones?`;
+            addAIMessage(counterArgs);
+        };
+
+        window.explainPhilosophicalContext = function(content) {
+            const context = `Contexto filosófico relacionado con: "${content}"\n\nEste argumento conecta con tradiciones filosóficas relevantes y ha sido discutido por pensadores importantes.`;
+            addAIMessage(context);
+        };
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', loadTopics);
+    </script>
+</body>
+</html>

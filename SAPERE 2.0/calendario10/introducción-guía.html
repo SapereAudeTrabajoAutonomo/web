@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Introducción a la Filosofía</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #138d75);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        .branches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .branch-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .branch-name {
+            font-weight: bold;
+            color: var(--philosophy);
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+            
+            .branches-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: Introducción a la Filosofía</h1>
+        <p>Explorando los fundamentos del pensamiento filosófico y sus principales áreas de estudio</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Φ</div>
+                <div class="philosopher-details">
+                    <h2>Introducción a la Filosofía</h2>
+                    <p>Una guía para comprender los conceptos fundamentales, métodos y ramas del pensamiento filosófico</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá al fascinante mundo de la filosofía, explorando su significado, origen histórico, principales ramas y métodos de pensamiento. Descubrirás cómo la filosofía nos ayuda a cuestionar lo aparentemente obvio y a desarrollar un pensamiento más crítico y reflexivo.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. ¿Qué es la filosofía?</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La filosofía (del griego φιλοσοφία, "amor a la sabiduría") es el estudio de problemas fundamentales sobre la existencia, el conocimiento, la verdad, la moral, la belleza, la mente y el lenguaje. A diferencia de otras disciplinas, la filosofía se caracteriza por su enfoque crítico y sistemático, basado en el razonamiento lógico.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características fundamentales de la filosofía:</h4>
+                            <ul>
+                                <li><strong>Radicalidad:</strong> Va a la raíz de los problemas</li>
+                                <li><strong>Universalidad:</strong> Se ocupa de cuestiones que afectan a todos</li>
+                                <li><strong>Crítica:</strong> Cuestiona lo establecido y las apariencias</li>
+                                <li><strong>Racionalidad:</strong> Se basa en argumentos y razones</li>
+                                <li><strong>Sistematicidad:</strong> Busca coherencia entre las ideas</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La admiración es la actitud del hombre que ve la grandeza allí donde otros no ven nada extraordinario. Es la actitud del filósofo." - Platón
+                        </div>
+                        
+                        <p>La filosofía no proporciona respuestas definitivas, sino que nos enseña a formular mejor las preguntas y a examinar críticamente nuestras creencias y supuestos.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Qué significa etimológicamente la palabra "filosofía" y por qué es significativo este significado?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿En qué se diferencia el enfoque filosófico de otras formas de abordar problemas?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué crees que es importante cuestionar lo que damos por sentado? ¿Puedes identificar alguna creencia o suposición en tu vida cotidiana que merezca ser examinada filosóficamente?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Las ramas principales de la filosofía</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La filosofía se divide tradicionalmente en varias ramas principales, cada una enfocada en un conjunto específico de problemas fundamentales. Estas divisiones nos ayudan a organizar el vasto campo de la investigación filosófica.</p>
+                        
+                        <div class="branches-grid">
+                            <div class="branch-card">
+                                <div class="branch-name">Metafísica</div>
+                                <div class="branch-description">Estudio de la naturaleza última de la realidad, el ser y la existencia.</div>
+                            </div>
+                            <div class="branch-card">
+                                <div class="branch-name">Epistemología</div>
+                                <div class="branch-description">Teoría del conocimiento: qué podemos conocer y cómo lo conocemos.</div>
+                            </div>
+                            <div class="branch-card">
+                                <div class="branch-name">Ética</div>
+                                <div class="branch-description">Estudio de la moral, el bien, el mal y cómo debemos actuar.</div>
+                            </div>
+                            <div class="branch-card">
+                                <div class="branch-name">Lógica</div>
+                                <div class="branch-description">Estudio de los principios del razonamiento válido.</div>
+                            </div>
+                            <div class="branch-card">
+                                <div class="branch-name">Estética</div>
+                                <div class="branch-description">Filosofía del arte, la belleza y la experiencia estética.</div>
+                            </div>
+                            <div class="branch-card">
+                                <div class="branch-name">Filosofía política</div>
+                                <div class="branch-description">Reflexión sobre el poder, la justicia y la organización social.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="quote">
+                            "La filosofía es la ciencia de los primeros principios y de las primeras causas." - Aristóteles
+                        </div>
+                        
+                        <p>Cada rama plantea preguntas fundamentales: ¿Existe el libre albedrío? (Metafísica) ¿Cómo distinguimos la creencia verdadera del conocimiento? (Epistemología) ¿Qué hace que una acción sea moralmente correcta? (Ética)</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Cuáles son las seis ramas principales de la filosofía y qué estudia cada una?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Por qué es importante la lógica para todas las demás ramas de la filosofía?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Elige una de las ramas de la filosofía y explica por qué sus preguntas fundamentales son relevantes para la vida contemporánea. Proporciona un ejemplo concreto.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. El origen de la filosofía en la Grecia antigua</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La filosofía occidental nació en la Grecia antigua alrededor del siglo VI a.C., con los llamados "presocráticos". Estos primeros filósofos buscaban explicaciones racionales para los fenómenos naturales, abandonando progresivamente las explicaciones mitológicas.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Principales períodos de la filosofía antigua:</h4>
+                            <ul>
+                                <li><strong>Presocráticos (siglos VI-V a.C.):</strong> Tales, Anaximandro, Heráclito, Parménides. Se centraron en la physis (naturaleza).</li>
+                                <li><strong>Sócrates, Platón y Aristóteles (siglos V-IV a.C.):</strong> El "gran siglo" de la filosofía griega.</li>
+                                <li><strong>Filosofía helenística (siglos IV a.C.-II d.C.):</strong> Estoicismo, epicureísmo, escepticismo.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Asombro es lo que siente el hombre cuando se enfrenta a un enigma, y ese asombro es el que le impulsa a filosofar." - Aristóteles
+                        </div>
+                        
+                        <p>La transición del mito al logos (razón) representa el nacimiento del pensamiento racional y crítico que caracteriza a la filosofía. Los griegos desarrollaron la capacidad de cuestionar las tradiciones y buscar explicaciones basadas en la observación y el razonamiento.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Qué significa la transición "del mito al logos" y por qué fue fundamental para el nacimiento de la filosofía?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Cuáles fueron las principales contribuciones de Sócrates, Platón y Aristóteles al desarrollo de la filosofía?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica por qué el contexto cultural y político de la Grecia antigua fue favorable para el desarrollo de la filosofía. ¿Qué condiciones crees que son necesarias para que florezca el pensamiento filosófico?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. El valor de la filosofía en el mundo contemporáneo</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>En un mundo dominado por la tecnología y la especialización, podría parecer que la filosofía ha perdido relevancia. Sin embargo, su valor es más importante que nunca para enfrentar los complejos desafíos éticos, políticos y existenciales de nuestro tiempo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>La relevancia contemporánea de la filosofía:</h4>
+                            <ul>
+                                <li><strong>Pensamiento crítico:</strong> Capacidad para analizar información y argumentos de forma rigurosa</li>
+                                <li><strong>Ética aplicada:</strong> Bioética, ética ambiental, ética tecnológica</li>
+                                <li><strong>Filosofía política:</strong> Reflexión sobre la justicia, los derechos humanos y la democracia</li>
+                                <li><strong>Filosofía de la ciencia:</strong> Comprensión crítica del método científico y sus límites</li>
+                                <li><strong>Sabiduría práctica:</strong> Desarrollo de una perspectiva más profunda sobre la vida</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "No se aprende filosofía, se aprende a filosofar." - Immanuel Kant
+                        </div>
+                        
+                        <p>La filosofía nos equipa con herramientas conceptuales para navegar en un mundo de creciente complejidad, desinformación y cambios acelerados. Nos enseña no qué pensar, sino cómo pensar.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Por qué el desarrollo del pensamiento crítico es especialmente valioso en la sociedad contemporánea?
+                            </div>
+                            <div class="quiz-question">
+                                8. Menciona tres áreas de la vida moderna donde la reflexión filosófica es particularmente relevante.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿De qué manera crees que el estudio de la filosofía puede enriquecer tu vida personal y profesional? ¿Qué habilidades filosóficas consideras más valiosas para el mundo actual?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Filosóficos Fundamentales</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">A priori / A posteriori</div>
+                <div class="term-definition">Conocimiento que es independiente de la experiencia (a priori) o que deriva de ella (a posteriori).</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Dialéctica</div>
+                <div class="term-definition">Método de razonamiento que procede mediante el conflicto y superación de contradicciones.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Empirismo</div>
+                <div class="term-definition">Doctrina que sostiene que todo conocimiento deriva de la experiencia sensorial.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Epistemología</div>
+                <div class="term-definition">Rama de la filosofía que estudia el conocimiento: su naturaleza, origen y límites.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ética</div>
+                <div class="term-definition">Estudio filosófico de la moral, los valores y los principios que guían la conducta humana.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Fenomenología</div>
+                <div class="term-definition">Método filosófico que estudia las estructuras de la experiencia consciente.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Lógica</div>
+                <div class="term-definition">Estudio de los principios del razonamiento válido y la inferencia correcta.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Metafísica</div>
+                <div class="term-definition">Rama de la filosofía que estudia la naturaleza fundamental de la realidad y el ser.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ontología</div>
+                <div class="term-definition">Parte de la metafísica que estudia el ser en cuanto ser y las categorías fundamentales de la realidad.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Racionalismo</div>
+                <div class="term-definition">Doctrina que privilegia la razón como fuente principal de conocimiento.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice la afirmación de que "la filosofía comienza con el asombro". ¿En qué sentido el asombro frente a lo ordinario puede considerarse el origen del pensamiento filosófico?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Compare y contraste el enfoque de la filosofía con el de las ciencias naturales. ¿Qué puede ofrecer la filosofía que las ciencias no pueden proporcionar?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine la relevancia contemporánea de la filosofía en un mundo dominado por la tecnología y la especialización. ¿Sigue siendo necesaria la reflexión filosófica en el siglo XXI?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Discuta la relación entre filosofía y vida cotidiana. ¿De qué manera el pensamiento filosófico puede transformar nuestra manera de vivir?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Explique por qué el desarrollo del pensamiento crítico es una de las contribuciones más valiosas de la filosofía a la educación y la sociedad.</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía de Introducción a la Filosofía</h3>
+            <p>Has explorado los fundamentos del pensamiento filosófico, sus principales ramas y su relevancia en el mundo contemporáneo. La filosofía es un viaje que acabas de comenzar - continúa cuestionando, reflexionando y buscando la sabiduría en tu vida diaria.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('philosophyIntroProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('philosophyIntroProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

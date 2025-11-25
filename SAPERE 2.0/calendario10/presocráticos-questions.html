@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Filósofos Monistas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .quiz-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .question-container {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin-bottom: 1rem;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--flashcards);
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--accent);
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-quiz-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+            display: block;
+            margin: 2rem auto;
+        }
+        
+        .submit-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .quiz-results {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin: 1rem 0;
+        }
+        
+        .incorrect-questions {
+            margin-top: 2rem;
+        }
+        
+        .incorrect-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--flashcards), #21618c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Cuestionario: Filósofos Monistas</h1>
+        <p>Explora la tradición filosófica que postula la unidad fundamental de la realidad</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="quiz-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">M</div>
+                <div class="philosopher-details">
+                    <h2>Filósofos Monistas</h2>
+                    <p>Tradición filosófica que postula la unidad fundamental de toda la realidad</p>
+                    <div class="duration">Duración estimada: 60 minutos</div>
+                </div>
+            </div>
+            
+            <div class="quiz-description">
+                <p>Este cuestionario te permitirá evaluar tu comprensión de la tradición monista en filosofía, desde los presocráticos hasta pensadores contemporáneos. Responde las preguntas, revisa tus errores y reflexiona sobre los conceptos clave del monismo filosófico.</p>
+            </div>
+        </section>
+        
+        <!-- Cuestionario -->
+        <section class="quiz-container" id="quiz-container">
+            <div id="question-container">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousQuestion()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Siguiente →</button>
+            </div>
+            
+            <button class="submit-quiz-btn" id="submit-quiz-btn" onclick="submitQuiz()">Enviar Cuestionario</button>
+        </section>
+        
+        <!-- Resultados del cuestionario -->
+        <section class="quiz-results" id="quiz-results">
+            <div class="result-header">
+                <h2>Resultados del Cuestionario</h2>
+                <div class="score-display" id="score-display">0/20</div>
+                <p id="result-message">Basado en tus respuestas</p>
+            </div>
+            
+            <div class="incorrect-questions" id="incorrect-questions">
+                <!-- Las preguntas incorrectas se mostrarán aquí -->
+            </div>
+            
+            <button class="submit-btn" onclick="closeResults()">Continuar con las actividades</button>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Responde el cuestionario sobre monismo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Completa el cuestionario de 20 preguntas sobre filósofos monistas. Selecciona la respuesta correcta para cada pregunta y envía el cuestionario cuando hayas terminado.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a evaluar:</h4>
+                            <ul>
+                                <li>Monismo presocrático (Tales, Anaximandro, Anaxímenes)</li>
+                                <li>Monismo de Parménides y la escuela eleática</li>
+                                <li>Monismo de Spinoza: Deus sive Natura</li>
+                                <li>Monismo neutral y contemporáneo</li>
+                                <li>Críticas al monismo y alternativas dualistas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>Después de completar el cuestionario, describe qué aspectos de la filosofía monista te resultaron más interesantes o desafiantes.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Describe tu experiencia con el cuestionario aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Revisa tus respuestas incorrectas</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa las preguntas que respondiste incorrectamente en el cuestionario. Estudia los conceptos relacionados y asegúrate de comprender por qué tus respuestas fueron incorrectas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Estrategias para revisar:</h4>
+                            <ul>
+                                <li>Identifica patrones en tus errores</li>
+                                <li>Relee las secciones relevantes de las obras</li>
+                                <li>Busca explicaciones alternativas de los conceptos</li>
+                                <li>Relaciona los conceptos con ejemplos concretos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Describe qué conceptos te resultaron más difíciles de comprender y qué estrategias utilizaste para mejorar tu comprensión.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tu proceso de revisión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica el monismo de Spinoza</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica con tus propias palabras el monismo de Spinoza, centrándote en su concepto de "Deus sive Natura" (Dios o la Naturaleza).</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La sustancia única e infinita</li>
+                                <li>Atributos y modos</li>
+                                <li>Determinismo y necesidad</li>
+                                <li>Conocimiento y libertad en Spinoza</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada del monismo spinozista.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Compara diferentes tipos de monismo</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Compara diferentes tipos de monismo (materialista, idealista, neutral) y analiza sus fortalezas y debilidades.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Tipos de monismo a considerar:</h4>
+                            <ul>
+                                <li>Monismo materialista (todo es materia)</li>
+                                <li>Monismo idealista (todo es mente/espíritu)</li>
+                                <li>Monismo neutral (todo procede de una sustancia neutral)</li>
+                                <li>Monismo de la sustancia vs monismo de propiedades</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comparación:</h4>
+                    <p>Desarrolla una comparación crítica de los diferentes tipos de monismo y evalúa sus implicaciones filosóficas.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu comparación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el cuestionario</h3>
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el cuestionario sobre Filósofos Monistas</h3>
+            <p>Has evaluado tu comprensión de la tradición monista, revisado tus respuestas incorrectas, explicado el monismo de Spinoza y comparado diferentes tipos de monismo. Continúa explorando estos conceptos para profundizar en tu comprensión de esta tradición filosófica fundamental.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas sobre filósofos monistas (20 preguntas)
+        const monismQuizQuestions = [
+            {
+                question: "¿Qué postula fundamentalmente el monismo filosófico?",
+                options: [
+                    "Que toda la realidad está constituida por una única sustancia o principio",
+                    "Que existen dos sustancias fundamentales: materia y espíritu",
+                    "Que la realidad está compuesta por múltiples sustancias independientes",
+                    "Que no podemos conocer la naturaleza última de la realidad"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cuál de estos filósofos presocráticos es considerado monista?",
+                options: [
+                    "Tales de Mileto, que postuló que el agua es el principio de todas las cosas",
+                    "Empédocles, con su teoría de los cuatro elementos",
+                    "Anaxágoras, con su teoría del nous",
+                    "Demócrito, con su atomismo"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué caracteriza el monismo de Parménides?",
+                options: [
+                    "La afirmación de que el Ser es uno, eterno e inmutable",
+                    "La teoría de que todo está en constante cambio",
+                    "La postulación de múltiples realidades independientes",
+                    "La negación de toda posibilidad de conocimiento"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Spinoza, ¿qué es 'Deus sive Natura'?",
+                options: [
+                    "Dios o la Naturaleza como la única sustancia infinita",
+                    "La separación radical entre Dios y el mundo natural",
+                    "La existencia de dos dioses: uno bueno y uno malo",
+                    "La naturaleza como creación contingente de Dios"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa el monismo neutral?",
+                options: [
+                    "Que la realidad fundamental no es ni mental ni material",
+                    "Que debemos mantener una posición neutral en debates filosóficos",
+                    "Que la mente y la materia son igualmente importantes",
+                    "Que no existe una realidad fundamental"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué crítica común recibe el monismo?",
+                options: [
+                    "Que no puede explicar adecuadamente la diversidad y el cambio",
+                    "Que es demasiado complejo e incomprensible",
+                    "Que niega la existencia de la realidad",
+                    "Que es incompatible con la ciencia moderna"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Spinoza la relación entre mente y cuerpo?",
+                options: [
+                    "Como dos atributos de una misma sustancia",
+                    "Como dos sustancias completamente separadas",
+                    "Como una ilusión sin realidad sustancial",
+                    "Como una relación de causalidad unidireccional"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué filósofo propuso un monismo idealista afirmando que 'el mundo es mi representación'?",
+                options: [
+                    "Arthur Schopenhauer",
+                    "René Descartes",
+                    "David Hume",
+                    "John Locke"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué diferencia al monismo del panteísmo?",
+                options: [
+                    "El monismo es una posición metafísica, el panteísmo una teológica",
+                    "El monismo niega a Dios, el panteísmo lo afirma",
+                    "El monismo es materialista, el panteísmo es espiritualista",
+                    "No hay diferencia sustancial entre ambos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué tipo de monismo defiende la física clásica?",
+                options: [
+                    "Monismo materialista",
+                    "Monismo idealista",
+                    "Monismo neutral",
+                    "Monismo espiritualista"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según los monistas, ¿cómo se explica la aparente diversidad del mundo?",
+                options: [
+                    "Como modos o manifestaciones de la sustancia única",
+                    "Como una ilusión completa sin base real",
+                    "Como el resultado del azar y la contingencia",
+                    "Como prueba de la existencia de múltiples sustancias"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué filósofo contemporáneo defendió una forma de monismo llamada 'fisicalismo'?",
+                options: [
+                    "Willard Van Orman Quine",
+                    "Ludwig Wittgenstein",
+                    "Jean-Paul Sartre",
+                    "Martin Heidegger"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo se relaciona el monismo con el problema mente-cuerpo?",
+                options: [
+                    "Niega el problema al postular una única sustancia",
+                    "Lo agrava al enfatizar la diferencia entre mente y cuerpo",
+                    "Lo considera un pseudoproblema sin solución",
+                    "Propone una solución basada en la interacción causal"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué caracteriza el monismo anómalo de Donald Davidson?",
+                options: [
+                    "Postula una identidad entre eventos mentales y físicos, pero sin leyes estrictas",
+                    "Niega cualquier relación entre lo mental y lo físico",
+                    "Afirma la primacía de lo mental sobre lo físico",
+                    "Defiende un dualismo de propiedades"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué objeta Kant al monismo spinozista?",
+                options: [
+                    "Que confunde las condiciones del pensamiento con propiedades de las cosas en sí",
+                    "Que es incompatible con la libertad humana",
+                    "Que no puede explicar la existencia del mal",
+                    "Que contradice las verdades de la fe religiosa"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿En qué obra desarrolla Spinoza principalmente su monismo?",
+                options: [
+                    "Ética demostrada según el orden geométrico",
+                    "Crítica de la razón pura",
+                    "Discurso del método",
+                    "Investigación sobre el entendimiento humano"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué diferencia el monismo de la sustancia del monismo de propiedades?",
+                options: [
+                    "El primero postula una sustancia única, el segundo propiedades fundamentales únicas",
+                    "El primero es materialista, el segundo idealista",
+                    "El primero es antiguo, el segundo contemporáneo",
+                    "No hay diferencia significativa entre ambos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué filósofo presocrático postuló que el aire es el principio de todas las cosas?",
+                options: [
+                    "Anaxímenes",
+                    "Anaximandro",
+                    "Heráclito",
+                    "Pitágoras"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo caracteriza Hegel su monismo idealista?",
+                options: [
+                    "Como un proceso dialéctico de autodesarrollo del Espíritu Absoluto",
+                    "Como una sustancia estática e inmutable",
+                    "Como la identificación de Dios con la naturaleza",
+                    "Como la negación de toda realidad trascendente"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué ventaja principal atribuyen los monistas a su posición?",
+                options: [
+                    "Ofrece una visión unificada y coherente de la realidad",
+                    "Es más fácil de entender que el dualismo",
+                    "Se ajusta mejor al sentido común",
+                    "Es más compatible con las creencias religiosas"
+                ],
+                correct: 0
+            }
+        ];
+
+        // Variables globales
+        let currentQuestion = 0;
+        let userAnswers = new Array(monismQuizQuestions.length).fill(null);
+        let quizSubmitted = false;
+        let activitiesCompleted = 0;
+
+        // Inicializar el cuestionario
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        // Mostrar la pregunta actual
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = monismQuizQuestions[currentQuestion];
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const optionClass = isSelected ? 'option selected' : 'option';
+                optionsHTML += `
+                    <div class="${optionClass}" onclick="selectOption(${index})">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pregunta ${currentQuestion + 1} de ${monismQuizQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar botones de navegación
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === monismQuizQuestions.length - 1;
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            displayQuestion();
+        }
+
+        // Navegar a la pregunta anterior
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        // Navegar a la siguiente pregunta
+        function nextQuestion() {
+            if (currentQuestion < monismQuizQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        // Enviar el cuestionario
+        function submitQuiz() {
+            quizSubmitted = true;
+            calculateScore();
+            showResults();
+        }
+
+        // Calcular la puntuación
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < monismQuizQuestions.length; i++) {
+                if (userAnswers[i] === monismQuizQuestions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            const score = calculateScore();
+            const percentage = Math.round((score / monismQuizQuestions.length) * 100);
+            
+            document.getElementById('score-display').textContent = `${score}/${monismQuizQuestions.length}`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '¡Excelente! Dominas los conceptos fundamentales del monismo filosófico.';
+            } else if (percentage >= 70) {
+                message = '¡Buen trabajo! Tienes un buen entendimiento de la tradición monista.';
+            } else if (percentage >= 50) {
+                message = 'Aprobado. Tienes conocimientos básicos pero necesitas profundizar más.';
+            } else {
+                message = 'Necesitas estudiar más los conceptos fundamentales de esta tradición filosófica.';
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Mostrar preguntas incorrectas
+            let incorrectHTML = '<h3>Preguntas incorrectas:</h3>';
+            let hasIncorrect = false;
+            
+            for (let i = 0; i < monismQuizQuestions.length; i++) {
+                if (userAnswers[i] !== monismQuizQuestions[i].correct) {
+                    hasIncorrect = true;
+                    const question = monismQuizQuestions[i];
+                    const userAnswer = userAnswers[i] !== null ? question.options[userAnswers[i]] : 'Sin respuesta';
+                    const correctAnswer = question.options[question.correct];
+                    
+                    incorrectHTML += `
+                        <div class="incorrect-question">
+                            <p><strong>Pregunta ${i + 1}:</strong> ${question.question}</p>
+                            <p><strong>Tu respuesta:</strong> ${userAnswer}</p>
+                            <p><strong>Respuesta correcta:</strong> ${correctAnswer}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (!hasIncorrect) {
+                incorrectHTML = '<p>¡Felicidades! No tienes preguntas incorrectas.</p>';
+            }
+            
+            document.getElementById('incorrect-questions').innerHTML = incorrectHTML;
+            
+            // Mostrar resultados y ocultar cuestionario
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Cerrar resultados
+        function closeResults() {
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('activity-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const answeredQuestions = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = Math.round((answeredQuestions / monismQuizQuestions.length) * 100);
+            
+            document.getElementById('quiz-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completó todo
+            if (activitiesCompleted >= 4 && answeredQuestions === monismQuizQuestions.length) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, escribe tu respuesta antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < 4) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar el cuestionario cuando se carga la página
+        window.onload = initializeQuiz;
+    </script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Estado de Naturaleza vs Estado Civil - Hobbes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #c0392b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #a93226);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #a93226);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: Estado de Naturaleza vs Estado Civil</h1>
+        <p>Explorando la distinción fundamental en la filosofía política de Thomas Hobbes</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">TH</div>
+                <div class="philosopher-details">
+                    <h2>Thomas Hobbes</h2>
+                    <p>Filósofo inglés del siglo XVII, fundador de la filosofía política moderna y teórico del absolutismo político</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá a la distinción fundamental entre el estado de naturaleza y el estado civil en el pensamiento de Hobbes. Explorarás las características de cada estado, las razones para la transición y las implicaciones para la teoría política moderna.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Analiza el Estado de Naturaleza hobbesiano</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El estado de naturaleza es el punto de partida de la teoría política de Hobbes. Representa la condición humana antes del establecimiento de la sociedad civil y el gobierno.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Estado de Naturaleza:</h4>
+                            <ul>
+                                <li><strong>Igualdad natural:</strong> Los hombres son iguales en facultades físicas y mentales</li>
+                                <li><strong>Libertad natural:</strong> Derecho a todo lo necesario para la autoconservación</li>
+                                <li><strong>Competencia:</strong> Lucha por recursos escasos y poder</li>
+                                <li><strong>Desconfianza:</strong> Temor mutuo por la seguridad personal</li>
+                                <li><strong>Gloria:</strong> Búsqueda de reputación y reconocimiento</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "El hombre es un lobo para el hombre" - Hobbes
+                        </div>
+                        
+                        <p>Hobbes describe el estado de naturaleza como una condición de "guerra de todos contra todos", donde la vida es "solitaria, pobre, tosca, embrutecida y breve".</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Cuáles son las tres causas principales de conflicto en el estado de naturaleza según Hobbes?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿Por qué Hobbes considera que los hombres son naturalmente iguales?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que la descripción hobbesiana del estado de naturaleza es realista? ¿Qué aspectos te parecen acertados y cuáles cuestionables?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Examina las Leyes de Naturaleza</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Frente a la insoportable condición del estado de naturaleza, la razón humana descubre las "leyes de naturaleza" que permiten la transición hacia la sociedad civil.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Leyes Fundamentales de Naturaleza:</h4>
+                            <ol>
+                                <li><strong>Buscar la paz:</strong> Mientras haya esperanza de obtenerla</li>
+                                <li><strong>Renunciar a derechos:</strong> Renunciar al derecho sobre todas las cosas</li>
+                                <li><strong>Cumplir los pactos:</strong> Los hombres deben cumplir los convenios que han celebrado</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "La primera y fundamental ley de la naturaleza es buscar la paz y seguirla" - Hobbes
+                        </div>
+                        
+                        <p>Estas leyes de naturaleza son preceptos de la razón que indican cómo preservar la vida y alcanzar la paz. Sin embargo, en el estado de naturaleza carecen de fuerza coercitiva.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Qué son las leyes de naturaleza para Hobbes y cómo se diferencian de las leyes civiles?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Por qué las leyes de naturaleza son insuficientes para garantizar la paz en el estado de naturaleza?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica por qué las leyes de naturaleza, aunque racionales, no pueden garantizar la paz en el estado de naturaleza según Hobbes.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Estudia el Contrato Social y el Estado Civil</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El contrato social es el mecanismo mediante el cual los individuos salen del estado de naturaleza y crean el estado civil, transfiriendo sus derechos naturales a un soberano.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Contrato Hobbesiano:</h4>
+                            <ul>
+                                <li><strong>Unilateral:</strong> Solo los súbditos se obligan, no el soberano</li>
+                                <li><strong>Irrevocable:</strong> No se puede disolver el pacto</li>
+                                <li><strong>Absoluto:</strong> Transferencia total de derechos (excepto derecho a la vida)</li>
+                                <li><strong>Artificial:</strong> Creado por convención humana, no natural</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "El pacto no es con el soberano, sino de cada hombre con cada hombre" - Hobbes
+                        </div>
+                        
+                        <p>El estado civil se caracteriza por la existencia de un poder soberano que garantiza el cumplimiento de los contratos y mantiene la paz mediante el monopolio de la fuerza.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Cómo se forma el estado civil según Hobbes y qué papel juega el contrato social?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Por qué el contrato hobbesiano es irrevocable y absoluto?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica con tus propias palabras cómo funciona el contrato social en Hobbes y por qué considera necesario un poder soberano absoluto.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Compara Estado de Naturaleza vs Estado Civil</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La distinción entre estado de naturaleza y estado civil es fundamental para entender la teoría política de Hobbes y su defensa del absolutismo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Comparativa Estado de Naturaleza vs Estado Civil:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Aspecto</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Estado de Naturaleza</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Estado Civil</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Seguridad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Inseguridad permanente</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Protegida por el soberano</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Propiedad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">No existe propiedad segura</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Garantizada por las leyes</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Justicia</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Cada uno es juez de sí mismo</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Administrada por el soberano</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Libertad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Libertad natural ilimitada</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Libertad civil regulada</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="quote">
+                            "En el estado de naturaleza no hay propiedad, ni dominio, ni distinción entre mío y tuyo" - Hobbes
+                        </div>
+                        
+                        <p>Para Hobbes, el estado civil, aunque implica la pérdida de la libertad natural, garantiza la seguridad y permite el desarrollo de la civilización.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Qué ventajas ofrece el estado civil sobre el estado de naturaleza según Hobbes?
+                            </div>
+                            <div class="quiz-question">
+                                8. ¿Por qué Hobbes considera preferible la seguridad del estado civil a la libertad del estado de naturaleza?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Estás de acuerdo con la valoración de Hobbes que privilegia la seguridad sobre la libertad? ¿En qué situaciones contemporáneas identificas este dilema?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave de Hobbes</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Estado de Naturaleza</div>
+                <div class="term-definition">Condición hipotética anterior a la sociedad civil, caracterizada por la guerra de todos contra todos, donde no hay ley, moral ni propiedad segura.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Estado Civil</div>
+                <div class="term-definition">Sociedad organizada bajo un poder soberano que garantiza la seguridad y el cumplimiento de las leyes mediante el monopolio de la fuerza.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Contrato Social</div>
+                <div class="term-definition">Acuerdo mediante el cual los individuos transfieren sus derechos naturales a un soberano a cambio de protección y seguridad.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Leviatán</div>
+                <div class="term-definition">Metáfora del Estado como "dios mortal" que concentra todo el poder y garantiza la paz mediante su autoridad absoluta.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Soberanía</div>
+                <div class="term-definition">Poder supremo, indivisible e irrevocable del Estado sobre los individuos y el territorio.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Derecho Natural</div>
+                <div class="term-definition">Libertad que cada hombre tiene de usar su propio poder para la preservación de su propia naturaleza.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ley de Naturaleza</div>
+                <div class="term-definition">Precepto de la razón que prohíbe a un hombre hacer lo que pueda destruir su vida o privarle de los medios de conservarla.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Guerra de todos contra todos</div>
+                <div class="term-definition">Estado permanente de conflicto en el estado de naturaleza donde cada individuo es enemigo potencial de todos los demás.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Poder Absoluto</div>
+                <div class="term-definition">Concentración de toda la autoridad política en una sola entidad (soberano) sin división de poderes.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Autoconservación</div>
+                <div class="term-definition">Impulso fundamental de todo ser vivo a preservar su propia existencia, considerado por Hobbes como el derecho natural más básico.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice la descripción hobbesiana del estado de naturaleza. ¿En qué se basa Hobbes para caracterizarlo como un estado de "guerra de todos contra todos" y qué implicaciones tiene esta concepción para su teoría política?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Discuta el concepto de contrato social en Hobbes. ¿Cómo justifica la necesidad de un poder soberano absoluto y en qué se diferencia su teoría contractual de la de otros pensadores como Locke o Rousseau?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine la relación entre libertad y seguridad en el pensamiento de Hobbes. ¿Por qué considera que la seguridad proporcionada por el estado civil es preferible a la libertad del estado de naturaleza?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Explique la teoría de la soberanía en Hobbes. ¿Por qué defiende que el poder soberano debe ser absoluto, indivisible e irrevocable?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Evalúe la vigencia del pensamiento hobbesiano en el mundo contemporáneo. ¿En qué aspectos de la política actual identifica la influencia de sus ideas sobre el estado, la seguridad y el poder?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre Estado de Naturaleza vs Estado Civil en Hobbes</h3>
+            <p>Has explorado una de las distinciones fundamentales de la filosofía política moderna. Reflexiona sobre estas ideas y cómo se relacionan con tu comprensión del poder, el Estado y la sociedad contemporánea.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('hobbesStateNatureProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('hobbesStateNatureProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

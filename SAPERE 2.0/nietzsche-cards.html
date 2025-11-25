@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas: Sistema Nietzscheano</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #c0392b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flashcards-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #a93226);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(192, 57, 43, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcards-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .mode-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: var(--flashcards);
+        }
+        
+        .mode-card.active {
+            border-color: var(--flashcards);
+            background: rgba(192, 57, 43, 0.05);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .flashcards-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 500px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            border: 2px solid var(--flashcards);
+        }
+        
+        .flashcard.flipped {
+            background: linear-gradient(135deg, var(--flashcards), #a93226);
+            color: white;
+        }
+        
+        .flashcard-question, .flashcard-answer {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flashcard-answer {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-question {
+            display: none;
+        }
+        
+        .flashcard.flipped .flashcard-answer {
+            display: block;
+        }
+        
+        .flashcard-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--flashcards);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .self-evaluation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .eval-question {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .eval-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .eval-option {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .eval-option:hover {
+            background: #d5dbdb;
+        }
+        
+        .eval-option.selected {
+            background: var(--flashcards);
+            color: white;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .study-modes {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+            }
+            
+            .eval-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Tarjetas: Sistema Nietzscheano</h1>
+        <p>Domina los conceptos clave de la filosofía de Friedrich Nietzsche</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="flashcards-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">FN</div>
+                <div class="philosopher-details">
+                    <h2>Friedrich Nietzsche</h2>
+                    <p>Filósofo alemán de la voluntad de poder, el superhombre y la muerte de Dios</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="flashcards-description">
+                <p>Este sistema de tarjetas interactivas te permitirá dominar los conceptos fundamentales del sistema filosófico de Nietzsche. Estudia, practica y evalúa tu comprensión de su crítica a la moral, la voluntad de poder y el eterno retorno.</p>
+            </div>
+            
+            <div class="study-modes">
+                <div class="mode-card active" onclick="setMode('study')">
+                    <div class="mode-icon">📖</div>
+                    <h3>Modo Estudio</h3>
+                    <p>Estudia las tarjetas a tu propio ritmo</p>
+                </div>
+                <div class="mode-card" onclick="setMode('practice')">
+                    <div class="mode-icon">🔄</div>
+                    <h3>Modo Práctica</h3>
+                    <p>Practica con autoevaluación interactiva</p>
+                </div>
+                <div class="mode-card" onclick="setMode('create')">
+                    <div class="mode-icon">✏️</div>
+                    <h3>Crear Tarjetas</h3>
+                    <p>Crea tus propias tarjetas personalizadas</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modo Estudio y Práctica -->
+        <section class="flashcards-container" id="study-practice-container">
+            <div class="flashcard" id="current-flashcard" onclick="flipCard()">
+                <div class="flashcard-counter" id="card-counter">1/30</div>
+                <div class="flashcard-question" id="flashcard-question">
+                    ¿Cuál es el concepto central de Nietzsche que representa la afirmación de la vida en toda su plenitud, incluyendo el sufrimiento?
+                </div>
+                <div class="flashcard-answer" id="flashcard-answer">
+                    El amor fati (amor al destino), que implica amar y afirmar todo lo que ha sucedido, sucede y sucederá.
+                </div>
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousCard()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextCard()">Siguiente →</button>
+            </div>
+            
+            <div class="self-evaluation" id="self-evaluation">
+                <h3>Autoevaluación</h3>
+                <div class="eval-question" id="eval-question">
+                    ¿Qué representa la figura del "superhombre" (Übermensch) en la filosofía de Nietzsche?
+                </div>
+                <div class="eval-options" id="eval-options">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+                <button class="submit-btn" onclick="checkAnswer()">Verificar Respuesta</button>
+                <div class="submission-feedback" id="eval-feedback"></div>
+            </div>
+        </section>
+        
+        <!-- Modo Crear Tarjetas -->
+        <section class="flashcards-container" id="create-container" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--flashcards);">Crear Tus Propias Tarjetas</h3>
+            
+            <div class="activity-content">
+                <div class="activity-text">
+                    <p>Crea tarjetas personalizadas sobre la crítica nietzscheana a la moral y los valores tradicionales. Incluye conceptos como la moral de señores vs moral de esclavos, la transvaloración de todos los valores y la genealogía de la moral.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <h4>Ejemplos de conceptos para incluir:</h4>
+                        <ul>
+                            <li>Moral de señores vs moral de esclavos</li>
+                            <li>Voluntad de poder como principio fundamental</li>
+                            <li>El eterno retorno de lo mismo</li>
+                            <li>Crítica al cristianismo y la metafísica</li>
+                            <li>El nihilismo y su superación</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4>Nueva Tarjeta:</h4>
+                    <input type="text" id="new-question" placeholder="Pregunta o concepto..." style="width: 100%; padding: 1rem; margin-bottom: 1rem; border: 2px solid #e9ecef; border-radius: 8px;">
+                    <textarea id="new-answer" placeholder="Respuesta o explicación..." style="width: 100%; height: 120px; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="submit-btn" style="margin-top: 1rem;" onclick="addNewCard()">Agregar Tarjeta</button>
+                </div>
+                
+                <div id="custom-cards-list" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Las tarjetas personalizadas se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudio de tarjetas: Voluntad de Poder y Superhombre</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo estudio para revisar las tarjetas sobre los conceptos fundamentales de Voluntad de Poder y Superhombre en Nietzsche.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Conceptos clave a dominar:</h4>
+                            <ul>
+                                <li>Voluntad de poder como principio ontológico</li>
+                                <li>El superhombre (Übermensch) como superación del hombre actual</li>
+                                <li>Crítica al nihilismo pasivo</li>
+                                <li>La muerte de Dios y sus consecuencias</li>
+                                <li>Amor fati y afirmación de la vida</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>Después de estudiar las tarjetas, explica con tus propias palabras la relación entre Voluntad de Poder y Superhombre, y por qué estos conceptos son centrales en la filosofía nietzscheana.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Crear tarjetas: Genealogía de la moral</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo creación para desarrollar tus propias tarjetas sobre la genealogía de la moral en Nietzsche.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Temas sugeridos para tus tarjetas:</h4>
+                            <ul>
+                                <li>Moral de señores vs moral de esclavos</li>
+                                <li>La transvaloración de todos los valores</li>
+                                <li>Crítica a la moral cristiana</li>
+                                <li>El resentimiento como origen de ciertos valores</li>
+                                <li>La inversión de los valores aristocráticos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu creación:</h4>
+                    <p>Describe al menos 3 tarjetas que hayas creado y explica por qué seleccionaste esos conceptos específicos sobre la genealogía de la moral en Nietzsche.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tus tarjetas creadas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Práctica con autoevaluación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Usa el modo práctica para evaluar tu comprensión de los conceptos nietzscheanos mediante preguntas de opción múltiple.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Áreas de evaluación:</h4>
+                            <ul>
+                                <li>Voluntad de poder</li>
+                                <li>Superhombre y eterno retorno</li>
+                                <li>Crítica a la moral tradicional</li>
+                                <li>Genealogía de los valores</li>
+                                <li>Nihilismo y su superación</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>¿Qué conceptos encontraste más desafiantes durante la autoevaluación? ¿Cómo piensas reforzar tu comprensión de estos temas?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Describe tu experiencia de autoevaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexión: Actualidad del pensamiento nietzscheano</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona sobre la relevancia contemporánea del pensamiento de Nietzsche en el mundo actual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>La crítica a los valores tradicionales en la sociedad contemporánea</li>
+                                <li>El nihilismo en la cultura posmoderna</li>
+                                <li>La búsqueda de autenticidad y autoafirmación</li>
+                                <li>La crítica al igualitarismo y la mediocridad</li>
+                                <li>La voluntad de poder en las relaciones sociales actuales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Consideras que el pensamiento de Nietzsche ofrece herramientas válidas para entender los desafíos del siglo XXI? ¿Por qué sí o por qué no?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en las tarjetas</h3>
+            <div class="progress-bar">
+                <div class="progress" id="flashcards-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el sistema de tarjetas sobre Nietzsche</h3>
+            <p>Has dominado los conceptos fundamentales del sistema nietzscheano, creado tus propias tarjetas, practicado con autoevaluación y reflexionado sobre la actualidad de su pensamiento. Continúa revisando las tarjetas para consolidar tu comprensión de esta filosofía transformadora e influyente.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de tarjetas sobre Nietzsche (30+ conceptos)
+        const nietzscheFlashcards = [
+            {
+                question: "¿Cuál es el concepto central de Nietzsche que representa la afirmación de la vida en toda su plenitud, incluyendo el sufrimiento?",
+                answer: "El amor fati (amor al destino), que implica amar y afirmar todo lo que ha sucedido, sucede y sucederá."
+            },
+            {
+                question: "¿Qué representa la figura del 'superhombre' (Übermensch) en la filosofía de Nietzsche?",
+                answer: "El ser humano que ha superado los valores tradicionales, ha creado sus propios valores y afirma la vida en toda su plenitud."
+            },
+            {
+                question: "Según Nietzsche, ¿cuál es el principio fundamental que rige todo lo vivo y todo devenir?",
+                answer: "La voluntad de poder (Wille zur Macht), entendida como impulso de crecimiento, expansión y superación."
+            },
+            {
+                question: "¿Qué famosa declaración de Nietzsche simboliza la crisis de los valores tradicionales en la modernidad?",
+                answer: "'Dios ha muerto', que representa el colapso de los fundamentos metafísicos y morales de la cultura occidental."
+            },
+            {
+                question: "¿Qué concepto describe Nietzsche como 'la más abismal de las ideas' que pone a prueba la capacidad de afirmar la vida?",
+                answer: "El eterno retorno de lo mismo: la idea de que toda nuestra vida se repetirá infinitas veces exactamente igual."
+            },
+            {
+                question: "¿Cómo caracteriza Nietzsche la diferencia entre la 'moral de señores' y la 'moral de esclavos'?",
+                answer: "La moral de señores valora la fortaleza, nobleza y autoafirmación; la moral de esclavos valora la humildad, compasión y obediencia."
+            },
+            {
+                question: "¿Qué proceso describe Nietzsche como necesario para crear nuevos valores tras la 'muerte de Dios'?",
+                answer: "La transvaloración de todos los valores (Umwertung aller Werte), que implica crear valores que afirmen la vida."
+            },
+            {
+                question: "Según Nietzsche, ¿cuál es el origen psicológico de la moral cristiana?",
+                answer: "El resentimiento de los débiles contra los fuertes, que invierten los valores aristocráticos para justificar su debilidad."
+            },
+            {
+                question: "¿Qué significa para Nietzsche la 'inocencia del devenir'?",
+                answer: "Que el mundo no tiene propósito moral intrínseco, no hay culpa en la naturaleza, y todo cambio es libre de juicios morales."
+            },
+            {
+                question: "¿Cómo define Nietzsche al 'último hombre' en Así habló Zaratustra?",
+                answer: "El ser humano conformista, mediocre y satisfecho que evita todo riesgo y busca solo comodidad y seguridad."
+            },
+            {
+                question: "¿Qué crítica fundamental hace Nietzsche a la metafísica tradicional?",
+                answer: "Que inventa un 'mundo verdadero' trascendente para despreciar este mundo sensible, generando nihilismo."
+            },
+            {
+                question: "Según Nietzsche, ¿qué papel juega el arte en la vida humana?",
+                answer: "El arte permite afirmar la vida al transformar lo terrible y doloroso en algo bello y digno de ser vivido."
+            },
+            {
+                question: "¿Qué significa para Nietzsche la 'perspectiva' en el conocimiento?",
+                answer: "Que todo conocimiento es interpretación desde una posición particular, no existe una visión 'objetiva' o 'desinteresada'."
+            },
+            {
+                question: "¿Cómo caracteriza Nietzsche al 'espíritu libre'?",
+                answer: "Como aquel que se ha liberado de los prejuicios morales y metafísicos, y busca crear nuevos valores."
+            },
+            {
+                question: "¿Qué entiende Nietzsche por 'nihilismo'?",
+                answer: "La desvalorización de los valores supremos, la sensación de que nada tiene sentido o valor."
+            },
+            {
+                question: "Según Nietzsche, ¿cuál es la relación entre el cuerpo y el espíritu?",
+                answer: "El espíritu es una herramienta del cuerpo, y la 'gran razón' está en el cuerpo, no en la conciencia."
+            },
+            {
+                question: "¿Qué crítica hace Nietzsche a la compasión (Mitleid)?",
+                answer: "Que debilita la fuerza vital, multiplica el sufrimiento y surge del resentimiento contra la vida."
+            },
+            {
+                question: "¿Cómo define Nietzsche la 'voluntad de poder' en los seres humanos?",
+                answer: "Como el impulso fundamental hacia el crecimiento, la superación, la creación y la afirmación de la vida."
+            },
+            {
+                question: "¿Qué papel juega el sufrimiento en la filosofía de Nietzsche?",
+                answer: "El sufrimiento es necesario para el crecimiento espiritual y la creación de valores superiores."
+            },
+            {
+                question: "Según Nietzsche, ¿qué es la 'genealogía' como método filosófico?",
+                answer: "Investigar el origen histórico y psicológico de los valores morales, mostrando que no son eternos ni universales."
+            },
+            {
+                question: "¿Cómo caracteriza Nietzsche la relación entre el arte apolíneo y el dionisíaco?",
+                answer: "Lo apolíneo representa el orden, la forma y la individuación; lo dionisíaco representa el caos, la embriaguez y la unidad primordial."
+            },
+            {
+                question: "¿Qué significa para Nietzsche 'convertirse en lo que se es'?",
+                answer: "Aceptar y afirmar plenamente la propia naturaleza, desarrollando todas las potencialidades únicas de cada individuo."
+            },
+            {
+                question: "Según Nietzsche, ¿cuál es la función del 'superhombre' en relación con la humanidad actual?",
+                answer: "El superhombre es el sentido de la tierra, la meta hacia la que debe evolucionar la humanidad actual."
+            },
+            {
+                question: "¿Qué crítica hace Nietzsche a la razón y la lógica?",
+                answer: "Que son instrumentos al servicio de la vida, no facultades desinteresadas para alcanzar la verdad absoluta."
+            },
+            {
+                question: "¿Cómo entiende Nietzsche la 'autosuperación' (Selbstüberwindung)?",
+                answer: "Como el proceso constante de trascender los propios límites y crear valores más altos."
+            },
+            {
+                question: "Según Nietzsche, ¿qué papel juega la 'máscara' en la vida humana?",
+                answer: "La máscara es necesaria para el crecimiento espiritual, ya que primero debemos representar un papel antes de llegar a serlo."
+            },
+            {
+                question: "¿Qué significa para Nietzsche la 'inmoralidad' del superhombre?",
+                answer: "Que está más allá del bien y del mal convencionales, crea sus propios valores basados en la afirmación de la vida."
+            },
+            {
+                question: "¿Cómo caracteriza Nietzsche la diferencia entre 'moral' y 'moralina'?",
+                answer: "La moralina es la moral hipócrita y pequeña de quienes juzgan sin crear, mientras que la verdadera moral surge de la autoafirmación creadora."
+            },
+            {
+                question: "Según Nietzsche, ¿qué relación hay entre la voluntad de poder y el conocimiento?",
+                answer: "El conocimiento es una expresión de la voluntad de poder, una forma de apropiarse e interpretar el mundo."
+            },
+            {
+                question: "¿Qué entiende Nietzsche por 'espíritu de la pesadez'?",
+                answer: "La tendencia humana a cargar con valores, culpas y resentimientos que impiden el vuelo creativo y la afirmación de la vida."
+            }
+        ];
+
+        // Variables globales
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let customCards = [];
+        let completedActivities = [];
+        let evaluationQuestions = [
+            {
+                question: "¿Qué representa la figura del 'superhombre' (Übermensch) en la filosofía de Nietzsche?",
+                options: [
+                    "Un ser divino que gobierna sobre la humanidad",
+                    "El ser humano que ha superado los valores tradicionales y crea sus propios valores",
+                    "Un líder político autoritario",
+                    "Una persona con habilidades sobrehumanas físicas"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Cuál es el significado de la frase 'Dios ha muerto' en Nietzsche?",
+                options: [
+                    "Que la religión ha desaparecido completamente",
+                    "El colapso de los fundamentos metafísicos y morales de la cultura occidental",
+                    "Que Nietzsche era ateo militante",
+                    "Una metáfora sobre la crisis de las iglesias"
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "¿Qué es la 'voluntad de poder' para Nietzsche?",
+                options: [
+                    "El deseo de dominar a otros",
+                    "El impulso fundamental de crecimiento, expansión y superación",
+                    "La ambición política",
+                    "Una fuerza sobrenatural que gobierna el universo"
+                ],
+                correctIndex: 1
+            }
+        ];
+        let currentEvalIndex = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlashcard();
+            updateProgress();
+            loadCustomCards();
+        });
+
+        // Funciones de navegación de tarjetas
+        function updateFlashcard() {
+            const card = nietzscheFlashcards[currentCardIndex];
+            document.getElementById('flashcard-question').textContent = card.question;
+            document.getElementById('flashcard-answer').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${nietzscheFlashcards.length}`;
+            
+            // Actualizar estado de botones de navegación
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === nietzscheFlashcards.length - 1;
+            
+            // Resetear tarjeta a estado no volteado
+            document.getElementById('current-flashcard').classList.remove('flipped');
+            
+            // Si estamos en modo práctica, mostrar evaluación
+            if (currentMode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            } else {
+                hideEvaluation();
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('current-flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < nietzscheFlashcards.length - 1) {
+                currentCardIndex++;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateFlashcard();
+                updateProgress();
+            }
+        }
+
+        // Funciones de modo de estudio
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Mostrar/ocultar contenedores según el modo
+            if (mode === 'create') {
+                document.getElementById('study-practice-container').style.display = 'none';
+                document.getElementById('create-container').style.display = 'block';
+            } else {
+                document.getElementById('study-practice-container').style.display = 'block';
+                document.getElementById('create-container').style.display = 'none';
+                hideEvaluation();
+            }
+            
+            // Si es modo práctica, mostrar evaluación para la tarjeta actual
+            if (mode === 'practice' && currentCardIndex % 3 === 0) {
+                showEvaluation();
+            }
+        }
+
+        // Funciones de autoevaluación
+        function showEvaluation() {
+            if (currentEvalIndex >= evaluationQuestions.length) {
+                currentEvalIndex = 0; // Reiniciar si llegamos al final
+            }
+            
+            const evalQuestion = evaluationQuestions[currentEvalIndex];
+            document.getElementById('eval-question').textContent = evalQuestion.question;
+            
+            const optionsContainer = document.getElementById('eval-options');
+            optionsContainer.innerHTML = '';
+            
+            evalQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'eval-option';
+                optionElement.textContent = option;
+                optionElement.onclick = function() {
+                    // Remover selección previa
+                    document.querySelectorAll('.eval-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                };
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('self-evaluation').style.display = 'block';
+            document.getElementById('eval-feedback').style.display = 'none';
+        }
+
+        function hideEvaluation() {
+            document.getElementById('self-evaluation').style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const selectedOption = document.querySelector('.eval-option.selected');
+            if (!selectedOption) {
+                alert('Por favor selecciona una opción antes de verificar.');
+                return;
+            }
+            
+            const options = document.querySelectorAll('.eval-option');
+            const selectedIndex = Array.from(options).indexOf(selectedOption);
+            const isCorrect = selectedIndex === evaluationQuestions[currentEvalIndex].correctIndex;
+            
+            const feedback = document.getElementById('eval-feedback');
+            if (isCorrect) {
+                feedback.className = 'submission-feedback submission-success';
+                feedback.innerHTML = '<strong>¡Correcto!</strong> Has comprendido bien este concepto nietzscheano.';
+            } else {
+                feedback.className = 'submission-feedback';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+                feedback.style.border = '1px solid #f5c6cb';
+                feedback.innerHTML = '<strong>Incorrecto.</strong> Revisa este concepto en las tarjetas de estudio.';
+            }
+            
+            feedback.style.display = 'block';
+            currentEvalIndex++;
+        }
+
+        // Funciones para crear tarjetas personalizadas
+        function addNewCard() {
+            const question = document.getElementById('new-question').value.trim();
+            const answer = document.getElementById('new-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Por favor completa tanto la pregunta como la respuesta.');
+                return;
+            }
+            
+            customCards.push({ question, answer });
+            saveCustomCards();
+            updateCustomCardsList();
+            
+            // Limpiar campos
+            document.getElementById('new-question').value = '';
+            document.getElementById('new-answer').value = '';
+            
+            alert('¡Tarjeta personalizada agregada con éxito!');
+        }
+
+        function updateCustomCardsList() {
+            const container = document.getElementById('custom-cards-list');
+            container.innerHTML = '';
+            
+            if (customCards.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Aún no has creado tarjetas personalizadas.</p>';
+                return;
+            }
+            
+            customCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'flashcard';
+                cardElement.style.marginBottom = '1rem';
+                cardElement.style.padding = '1.5rem';
+                cardElement.style.cursor = 'pointer';
+                cardElement.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+                
+                cardElement.innerHTML = `
+                    <div class="flashcard-question">${card.question}</div>
+                    <div class="flashcard-answer">${card.answer}</div>
+                    <button onclick="deleteCustomCard(${index})" style="position: absolute; bottom: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        function deleteCustomCard(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                customCards.splice(index, 1);
+                saveCustomCards();
+                updateCustomCardsList();
+            }
+        }
+
+        function saveCustomCards() {
+            localStorage.setItem('nietzscheCustomCards', JSON.stringify(customCards));
+        }
+
+        function loadCustomCards() {
+            const savedCards = localStorage.getItem('nietzscheCustomCards');
+            if (savedCards) {
+                customCards = JSON.parse(savedCards);
+                updateCustomCardsList();
+            }
+        }
+
+        // Funciones de actividades
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            
+            if (!response) {
+                alert('Por favor escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            feedback.className = 'submission-feedback submission-success';
+            feedback.innerHTML = '<strong>¡Actividad enviada con éxito!</strong> Tu reflexión ha sido guardada.';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            if (!completedActivities.includes(activityNumber)) {
+                completedActivities.push(activityNumber);
+            }
+            
+            // Verificar si todas las actividades están completadas
+            checkAllActivitiesCompleted();
+        }
+
+        function checkAllActivitiesCompleted() {
+            if (completedActivities.length >= 4) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función de progreso
+        function updateProgress() {
+            const progress = Math.round((currentCardIndex / (nietzscheFlashcards.length - 1)) * 100);
+            document.getElementById('flashcards-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${progress}% completado`;
+        }
+
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('Volviendo al calendario de filósofos...');
+            // En una implementación real, esto redirigiría al calendario
+        }
+    </script>
+</body>
+</html>

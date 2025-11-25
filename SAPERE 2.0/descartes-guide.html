@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: El Método Cartesiano - Descartes</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #21618c);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #21618c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: El Método Cartesiano</h1>
+        <p>Explorando el método racionalista de René Descartes para alcanzar el conocimiento verdadero</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">RD</div>
+                <div class="philosopher-details">
+                    <h2>René Descartes</h2>
+                    <p>Filósofo y matemático francés del siglo XVII, padre del racionalismo y la filosofía moderna</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá al método cartesiano, el sistema de pensamiento desarrollado por Descartes para alcanzar conocimiento cierto y fundamentado. Explorarás las cuatro reglas del método, la duda metódica y su aplicación en la filosofía y la ciencia.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Analiza las Cuatro Reglas del Método</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El método cartesiano se fundamenta en cuatro reglas básicas que permiten dirigir correctamente la razón y alcanzar el conocimiento verdadero.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Las Cuatro Reglas del Método:</h4>
+                            <ol>
+                                <li><strong>Evidencia:</strong> "No admitir jamás cosa alguna como verdadera sin haber conocido con evidencia que así era"</li>
+                                <li><strong>Análisis:</strong> "Dividir cada una de las dificultades que examinare en tantas partes como fuere posible"</li>
+                                <li><strong>Síntesis:</strong> "Conducir por orden mis pensamientos, comenzando por los objetos más simples"</li>
+                                <li><strong>Enumeración:</strong> "Hacer en todo enumeraciones tan completas y revisiones tan generales, que llegase a estar seguro de no omitir nada"</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Estas largas cadenas de razones, todas simples y fáciles, de que suelen servirse los geómetras para llegar a sus más difíciles demostraciones, me habían dado ocasión de imaginar que todas las cosas que pueden caer bajo el conocimiento de los hombres se siguen unas a otras de la misma manera" - Descartes
+                        </div>
+                        
+                        <p>Descartes propone aplicar el rigor del método matemático a todos los ámbitos del conocimiento, incluyendo la filosofía y las ciencias.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Cuál es el propósito fundamental de las cuatro reglas del método cartesiano?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿Por qué Descartes considera importante dividir los problemas en partes más simples?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que el método cartesiano es aplicable a todos los tipos de conocimiento? ¿Qué ventajas y limitaciones identificas en este enfoque?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Examina la Duda Metódica</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La duda metódica es el punto de partida del sistema cartesiano, un procedimiento sistemático para encontrar fundamentos indudables del conocimiento.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Niveles de la Duda Metódica:</h4>
+                            <ol>
+                                <li><strong>Duda de los sentidos:</strong> Los sentidos a veces nos engañan, por lo que no podemos confiar plenamente en ellos</li>
+                                <li><strong>Duda del estado de vigilia:</strong> Diferenciar entre sueño y realidad es problemático</li>
+                                <li><strong>Duda hiperbólica:</strong> Hipótesis del genio maligno que nos engaña sistemáticamente</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Puesto que los sentidos nos engañan a veces, quise suponer que no había cosa alguna que fuese tal como ellos nos la hacen imaginar" - Descartes
+                        </div>
+                        
+                        <p>La duda cartesiana no es escéptica sino metodológica: su objetivo no es permanecer en la duda, sino encontrar una verdad indudable que sirva de fundamento.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿En qué se diferencia la duda metódica cartesiana del escepticismo filosófico?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Qué propósito tiene la hipótesis del "genio maligno" en el método cartesiano?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica por qué la duda metódica, aunque radical, no conduce al escepticismo según Descartes.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Estudia el Cogito y el Fundamento del Conocimiento</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>En medio de la duda más radical, Descartes encuentra una verdad indudable: el "cogito, ergo sum" (pienso, luego existo).</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Cogito:</h4>
+                            <ul>
+                                <li><strong>Primera verdad:</strong> Fundamento indudable de todo conocimiento</li>
+                                <li><strong>Autoevidente:</strong> Se conoce por intuición racional inmediata</li>
+                                <li><strong>Resistente a la duda:</strong> Incluso al dudar, se prueba la existencia del sujeto que duda</li>
+                                <li><strong>Naturaleza del yo:</strong> Revela al sujeto como "cosa que piensa" (res cogitans)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Pero inmediatamente después advertí que, mientras de este modo quería pensar que todo era falso, era necesario que yo, que lo pensaba, fuese algo. Y notando que esta verdad: pienso, luego existo, era tan firme y segura..." - Descartes
+                        </div>
+                        
+                        <p>El cogito no solo establece la existencia del sujeto, sino que también revela el criterio de verdad: todo lo que se percibe clara y distintamente es verdadero.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Por qué el "cogito, ergo sum" resiste la duda más radical según Descartes?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Qué implica para Descartes que el yo sea fundamentalmente una "cosa que piensa"?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica con tus propias palabras por qué el "cogito, ergo sum" constituye el fundamento del sistema cartesiano.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Aplica el Método Cartesiano</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El método cartesiano tiene aplicaciones concretas en diversos campos del conocimiento, desde las matemáticas hasta la filosofía.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Aplicaciones del Método Cartesiano:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Campo</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Aplicación</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Resultado</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Matemáticas</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Geometría analítica</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Unión del álgebra y la geometría</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Física</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Mecanicismo</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Explicación del mundo por causas eficientes</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Filosofía</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Dualismo mente-cuerpo</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Distinción entre res cogitans y res extensa</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Epistemología</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Criterio de verdad</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Claridad y distinción como criterio</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="quote">
+                            "Todo el método consiste en el orden y disposición de las cosas hacia las cuales debe dirigirse la agudeza de la mente para descubrir alguna verdad" - Descartes
+                        </div>
+                        
+                        <p>El método cartesiano influyó profundamente en el desarrollo de la ciencia moderna y en la forma de concebir la relación entre razón y experiencia.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Cómo aplica Descartes su método a la demostración de la existencia de Dios?
+                            </div>
+                            <div class="quiz-question">
+                                8. ¿Qué ventajas ofrece el método cartesiano frente a los métodos tradicionales de conocimiento?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿En qué áreas del conocimiento contemporáneo identificas la influencia del método cartesiano? ¿Sigue siendo relevante este enfoque en la actualidad?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave del Método Cartesiano</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Método Cartesiano</div>
+                <div class="term-definition">Sistema de pensamiento desarrollado por Descartes basado en cuatro reglas para alcanzar conocimiento cierto: evidencia, análisis, síntesis y enumeración.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Duda Metódica</div>
+                <div class="term-definition">Procedimiento sistemático de poner en duda todo conocimiento para encontrar fundamentos indudables, no como fin sino como medio.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Cogito, Ergo Sum</div>
+                <div class="term-definition">"Pienso, luego existo" - Primera verdad indudable encontrada por Descartes que sirve de fundamento a todo su sistema filosófico.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Criterio de Verdad</div>
+                <div class="term-definition">Principio según el cual todo lo que se percibe clara y distintamente es verdadero.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Genio Maligno</div>
+                <div class="term-definition">Hipótesis de un ser todopoderoso que nos engaña sistemáticamente, utilizada para llevar la duda al extremo.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Res Cogitans</div>
+                <div class="term-definition">Sustancia pensante, inmaterial e indivisible, que constituye la naturaleza del alma humana.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Res Extensa</div>
+                <div class="term-definition">Sustancia extensa, material y divisible, que constituye la naturaleza del mundo físico.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Dualismo Cartesiano</div>
+                <div class="term-definition">Doctrina que establece una distinción radical entre la mente (res cogitans) y el cuerpo (res extensa).</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Intuición Racional</div>
+                <div class="term-definition">Conocimiento inmediato y evidente que la mente percibe directamente sin necesidad de demostración.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Deducción</div>
+                <div class="term-definition">Proceso de inferencia necesario a partir de verdades evidentes para llegar a nuevas conclusiones.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice las cuatro reglas del método cartesiano. ¿Cómo contribuye cada una de ellas a la búsqueda de conocimiento cierto y qué relación guardan entre sí?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Discuta el papel de la duda metódica en el sistema cartesiano. ¿En qué se diferencia de otras formas de escepticismo y qué función cumple en la fundamentación del conocimiento?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine el "cogito, ergo sum" como primera verdad indudable. ¿Por qué resiste la duda más radical y qué implicaciones tiene para la teoría del conocimiento?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Explique el criterio de verdad cartesiano (claridad y distinción). ¿Cómo se aplica este criterio y qué problemas filosóficos plantea?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Evalúe la influencia del método cartesiano en el desarrollo de la ciencia moderna. ¿En qué aspectos el pensamiento científico contemporáneo refleja los principios del racionalismo cartesiano?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre el Método Cartesiano</h3>
+            <p>Has explorado uno de los sistemas metodológicos más influyentes de la filosofía moderna. Reflexiona sobre estas ideas y cómo se relacionan con tu comprensión de la razón, el conocimiento y la ciencia contemporánea.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('descartesMethodProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('descartesMethodProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>
+[file content end]

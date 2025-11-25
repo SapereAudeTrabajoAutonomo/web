@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: La Sombra de la Voluntad - Schopenhauer</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --essay: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(22, 160, 133, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #138d75);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: La Sombra de la Voluntad</h1>
+        <p>El Legado Crítico de Schopenhauer en el Arte y la Psique Moderna</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">AS</div>
+                <div class="philosopher-details">
+                    <h2>Arthur Schopenhauer</h2>
+                    <p>Filósofo alemán del pesimismo metafísico y la voluntad ciega</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora la influencia del pensamiento de Schopenhauer en el arte y la psicología moderna. Analiza cómo sus conceptos de Voluntad, sufrimiento y liberación a través del arte moldearon la sensibilidad modernista y anticiparon descubrimientos clave en psicología profunda.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: El Filósofo de los Artistas</h2>
+                    <div class="essay-text">
+                        <p>Arthur Schopenhauer se erige como una figura singular en la historia del pensamiento, un filósofo cuya obra trascendió los confines de la academia para ejercer una profunda y duradera influencia cultural. Mientras sus contemporáneos lo ignoraban, su pensamiento encontró un eco resonante en el mundo creativo, ganándole con justicia el apelativo de «el filósofo de los artistas». Su pesimismo metafísico, lejos de ser un mero ejercicio intelectual, ofreció un nuevo léxico para explorar las tensiones fundamentales de la existencia, cautivando a músicos, literatos y, eventualmente, a los pioneros de la psicología moderna.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Este ensayo se propone analizar cómo los conceptos revolucionarios de Schopenhauer —la primacía de una voluntad irracional como esencia del mundo, la consecuente inevitabilidad del sufrimiento y las vías de liberación a través de la contemplación estética y la negación ética— fueron absorbidos, reinterpretados y transformados, moldeando así corrientes fundamentales en la literatura, la música y la psicología del siglo XX. Su filosofía no solo proporcionó el andamiaje metafísico para la sensibilidad modernista, sino que anticipó algunas de las ideas más disruptivas sobre la mente humana que definirían la centuria siguiente.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. El Fundamento Filosófico: Voluntad, Sufrimiento y Liberación</h2>
+                    <div class="essay-text">
+                        <p>Para evaluar el vasto legado de Schopenhauer, es imprescindible comprender los pilares de su sistema, una obra que marcó un decisivo "giro del pensamiento" en la historia de la filosofía. Al quebrar la tesis tradicional de un universo regido por un principio racional, que había dominado el pensamiento occidental desde Platón, Schopenhauer introdujo una visión radicalmente nueva y perturbadora de la realidad, fundamentada en la primacía de lo irracional.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El concepto central y más original de su filosofía es la Voluntad (Wille). Para Schopenhauer, esta no es una facultad psicológica individual, sino la esencia íntima, universal e irracional del mundo, un "deseo ciego, voraz y sin fin" que subyace a todos los fenómenos. Con esta idea, se opuso frontalmente a toda la tradición filosófica occidental, pero de forma más aguda al idealismo alemán de su tiempo.</p>
+                    </div>
+                    <div class="quote">
+                        "Donde Hegel veía una Razón histórica o Geist desplegándose con propósito a través del cosmos, Schopenhauer postuló un impulso metafísico inconsciente, carente de finalidad, límites o fundamento."
+                    </div>
+                    <div class="essay-text">
+                        <p>La consecuencia directa de un universo regido por una Voluntad insaciable es el sufrimiento. Si el ser es un querer constante, la existencia se convierte en una oscilación perpetua entre el anhelo y el hastío. La célebre sentencia de Schopenhauer, «Toda vida es sufrimiento», resume su pesimismo metafísico. Concebía el mundo como una «colonia penitenciaria» donde los seres, impulsados por la Voluntad de vivir, están condenados a una lucha incesante que solo genera dolor, frustración y, en los breves momentos de satisfacción, un aburrimiento mortal.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. El Eco en la Literatura: El Pesimismo Hecho Narrativa</h2>
+                    <div class="essay-text">
+                        <p>El pensamiento de Schopenhauer sedujo al mundo literario mucho antes que al académico, en gran medida por una prosa de inusual elegancia y contundencia que contrastaba marcadamente con el estilo denso de sus contemporáneos. Schopenhauer no escribía como un profesor, sino como un sabio que desentrañaba el enigma del mundo con una lucidez memorable, proveyendo a los artistas de un potente arsenal conceptual.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Uno de sus admiradores más devotos fue León Tolstói. El novelista ruso no solo lo llamó «el más genial de los hombres», sino que encontró en su filosofía un pilar para su propia visión del mundo. Fascinado por encima de todo por su ética, Tolstói llegó a equiparar sus enseñanzas morales con las de Jesucristo y Buda, destacando el profundo valor de la piedad universal como fundamento de la conducta.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La influencia de Schopenhauer fue igualmente decisiva en la configuración de la sensibilidad modernista, proveyendo un marco para la exploración de la psique del individuo y su alienación. Thomas Mann le dedicó un célebre ensayo en el que elogió su "fino instinto para comprender y expresar la esencia del arte y, sobre todo, de la música".</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. La Metafísica de la Música: La Voluntad Hecha Sonido</h2>
+                    <div class="essay-text">
+                        <p>La teoría estética de Arthur Schopenhauer alcanza su punto culminante en su concepción de la música. Para él, esta no era simplemente un arte más, sino una manifestación metafísica de naturaleza única. La consideraba un "lenguaje universal cuya claridad supera incluso a la del propio mundo intuitivo", un acceso directo a la esencia misma de la realidad.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El núcleo de su "metafísica de la música" reside en una distinción fundamental: mientras las demás artes son copias de las Ideas platónicas, la música trasciende este nivel. Según Schopenhauer, es una "objetivación de toda la voluntad", un reflejo directo e inmediato del querer ciego e irracional que constituye el sustrato del universo.</p>
+                    </div>
+                    <div class="quote">
+                        "En su análisis de la música de Beethoven, por ejemplo, veía una expresión perfecta del 'carácter tumultuoso' de la voluntad de vivir."
+                    </div>
+                    <div class="essay-text">
+                        <p>Estas ideas ejercieron una influencia directa y transformadora en compositores posteriores. Músicos como Richard Wagner y Gustav Mahler lo "admiraron con entusiasmo", adoptando su visión del poder trascendental de la música. Wagner, en particular, no solo se inspiró en la filosofía, sino que la integró en su concepción del drama musical.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. El Preludio del Psicoanálisis: El Descubrimiento de lo Inconsciente</h2>
+                    <div class="essay-text">
+                        <p>La conexión entre el pensamiento de Schopenhauer y la psicología de Sigmund Freud es tan fundamental que resulta imposible comprender el origen del psicoanálisis sin reconocer su deuda con el filósofo. Mucho antes de que Freud diera un nombre y una estructura clínica a las fuerzas ocultas de la psique, Schopenhauer ya había "allanado el camino [...] en el descubrimiento del inconsciente".</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El concepto schopenhaueriano de la Voluntad funciona como un precursor directo del inconsciente freudiano. Schopenhauer fue el primer gran pensador occidental en "asumir el valor secundario de la razón en comparación con el inmenso poder y dominio de lo que habita en cada uno de nosotros y que no está iluminado por la luz de la razón: lo inconsciente".</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Este "deseo incalmable" que surge de la Voluntad es la matriz de la que nacerá el concepto nuclear del psicoanálisis. La idea de que el ser humano no es un agente racional dueño de sí, sino una entidad movida por fuerzas que desconoce, es una intuición puramente schopenhaueriana que desmanteló la concepción clásica del sujeto.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. Conclusión: La Vigencia de una Filosofía Irracional</h2>
+                    <div class="essay-text">
+                        <p>El pensamiento de Arthur Schopenhauer, inicialmente recibido con indiferencia, terminó por infiltrarse en las grietas de la cultura occidental, proporcionando un marco conceptual indispensable para entender la experiencia humana a través de una lente no racionalista. Su filosofía, articulada en torno a la Voluntad ciega, el sufrimiento endémico y las vías de redención estética y ética, ofreció un lenguaje nuevo y poderoso a una época que comenzaba a desconfiar de las promesas de la razón y el progreso.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>El impacto global de su obra radica en el radical "giro del pensamiento" que propuso: al sostener que la esencia del universo es irracional, Schopenhauer marcó un hito decisivo en la historia de la filosofía. Esta idea fundamental resonó con una fuerza inusitada en el modernismo artístico, que buscaba expresar la disonancia y la angustia del individuo, y sentó las bases para el nacimiento de la psicología profunda.</p>
+                    </div>
+                    <div class="quote">
+                        "Resulta irónico que un filósofo que predicaba la negación de la voluntad se convirtiera en la principal fuente de inspiración para algunos de los artistas y pensadores más voluntaristas de la modernidad."
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Investiga la concepción schopenhaueriana del arte</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Investiga y reflexiona sobre la concepción del arte en la filosofía de Schopenhauer. Considera especialmente su teoría de la contemplación estética como liberación temporal del sufrimiento.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a investigar:</h4>
+                            <ul>
+                                <li>La contemplación desinteresada como vía de escape</li>
+                                <li>El arte como representación de las Ideas platónicas</li>
+                                <li>La jerarquía de las artes según Schopenhauer</li>
+                                <li>El genio artístico y su capacidad perceptiva</li>
+                                <li>Diferencias entre las artes plásticas y la música</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu investigación:</h4>
+                    <p>Explica con tus propias palabras cómo entiende Schopenhauer la función del arte y por qué considera que ofrece una liberación temporal del sufrimiento inherente a la existencia.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu investigación sobre la concepción schopenhaueriana del arte aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Desarrolla un esquema para tu ensayo sobre la Voluntad</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Desarrolla un esquema detallado para un ensayo sobre "La Sombra de la Voluntad: El Legado Crítico de Schopenhauer en el Arte y la Psique Moderna".</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">I. Introducción: El filósofo de los artistas</div>
+                                <div class="outline-content">
+                                    - Contexto histórico y recepción inicial<br>
+                                    - Relevancia para el arte y la psicología moderna<br>
+                                    - Tesis central del ensayo
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">II. Fundamentos filosóficos</div>
+                                <div class="outline-content">
+                                    - La Voluntad como esencia del mundo<br>
+                                    - El sufrimiento inherente a la existencia<br>
+                                    - Vías de liberación: arte y negación ética
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">III. Influencia en la literatura</div>
+                                <div class="outline-content">
+                                    - Tolstói y la ética de la compasión<br>
+                                    - Thomas Mann y la sensibilidad modernista<br>
+                                    - Kafka y la alienación existencial
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu esquema:</h4>
+                    <p>Desarrolla tu propio esquema para el ensayo, incluyendo al menos 4 secciones principales con sus respectivos subtemas.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu esquema para el ensayo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica la música como expresión directa de la voluntad</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica la teoría de Schopenhauer sobre la música como expresión directa de la Voluntad, comparándola con su concepción de las demás artes.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos clave de la teoría musical schopenhaueriana:</h4>
+                            <ul>
+                                <li>La música como objetivación directa de la Voluntad</li>
+                                <li>Diferencias con las artes plásticas (representación de Ideas)</li>
+                                <li>La música como lenguaje universal</li>
+                                <li>Influencia en compositores como Wagner y Mahler</li>
+                                <li>La música y la expresión de emociones universales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada de por qué Schopenhauer considera la música como la expresión más directa de la Voluntad y qué implicaciones tiene esta concepción.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación sobre la música como expresión de la Voluntad aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Revisa y corrige tu escrito sobre el legado de Schopenhauer</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa y corrige el texto que has desarrollado en las actividades anteriores, mejorando su coherencia, claridad y profundidad conceptual.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a revisar en tu escrito:</h4>
+                            <ul>
+                                <li>Claridad y precisión conceptual</li>
+                                <li>Coherencia argumentativa</li>
+                                <li>Uso adecuado de terminología filosófica</li>
+                                <li>Estructura lógica del texto</li>
+                                <li>Corrección gramatical y ortográfica</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu revisión:</h4>
+                    <p>Describe los principales cambios y mejoras que has realizado a tu escrito y explica por qué consideras que estas mejoras fortalecen tu análisis del legado de Schopenhauer.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Describe tu proceso de revisión y corrección aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "La Sombra de la Voluntad"</h3>
+            <p>Has investigado la concepción schopenhaueriana del arte, desarrollado un esquema para tu ensayo, explicado la música como expresión directa de la Voluntad y revisado tu escrito. Continúa explorando estos conceptos para profundizar en tu comprensión del legado de Schopenhauer en el arte y la psicología moderna.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

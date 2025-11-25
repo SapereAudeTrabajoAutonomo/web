@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documental: El Atomismo de Demócrito</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --atomism: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--atomism), #138d75);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .documentary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--atomism), #138d75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .video-option {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .video-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(135deg, #cc0000, #aa0000);
+        }
+        
+        .video-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .documentary-description {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--atomism);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--atomism);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--atomism);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--atomism);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .watched-indicator {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .atom-diagram {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .atom-symbol {
+            font-size: 4rem;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documental: El Atomismo de Demócrito</h1>
+        <p>La teoría revolucionaria que anticipó la física moderna</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="documentary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Δ</div>
+                <div class="philosopher-details">
+                    <h2>Demócrito de Abdera</h2>
+                    <p>c. 460 - c. 370 a.C. - Fundador del atomismo filosófico</p>
+                    <div class="duration">Duración estimada: 45 minutos</div>
+                </div>
+            </div>
+            
+            <div class="documentary-description">
+                <p>Este documental explora la revolucionaria teoría atomista desarrollada por Demócrito y su maestro Leucipo. La teoría propone que toda la realidad está compuesta por partículas indivisibles (átomos) que se mueven en el vacío, una idea que anticipó sorprendentemente conceptos de la física moderna. Analiza cómo esta teoría explicaba la diversidad del mundo, el cambio, la percepción y la naturaleza de la realidad.</p>
+            </div>
+        </section>
+        
+        <section class="video-container">
+            <h3>Ver Documental Completo en YouTube</h3>
+            
+            <!-- Botón de redirección a YouTube -->
+            <a href="https://www.youtube.com/watch?v=5kTMycqrfvI" 
+               target="_blank" 
+               class="video-option"
+               onclick="markAsWatched()">
+                <span>▶</span>
+                Ver Documental en YouTube
+            </a>
+            
+            <div class="video-info">
+                <p><strong>Duración:</strong> 45 minutos</p>
+                <p><strong>Plataforma:</strong> YouTube</p>
+                <p><strong>Instrucciones:</strong> Haz clic en el botón rojo para abrir el documental en una nueva pestaña. Cuando termines, regresa a esta página para completar las actividades.</p>
+            </div>
+            
+            <div class="watched-indicator" id="watched-indicator">
+                ✅ Documental marcado como visto
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Los principios fundamentales del atomismo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental presenta los dos principios fundamentales de la teoría atomista: los átomos y el vacío. Analiza cómo estos conceptos permitían explicar la realidad de manera coherente.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Principios del atomismo:</h4>
+                            <ul>
+                                <li><strong>Átomos (atomos):</strong> Partículas indivisibles, eternas e inmutables</li>
+                                <li><strong>Vacío (kenon):</strong> Espacio vacío donde se mueven los átomos</li>
+                                <li><strong>Características atómicas:</strong> Forma, tamaño, posición y orden</li>
+                                <li><strong>Movimiento eterno:</strong> Los átomos se mueven constantemente en el vacío</li>
+                                <li><strong>Necesidad mecánica:</strong> Todo sucede por causas naturales, no por designio divino</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="atom-diagram">
+                            <div class="atom-symbol">⚛️</div>
+                            <p><em>"Solo hay átomos y vacío; todo lo demás es opinión" - Demócrito</em></p>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica cómo la teoría atomista de Demócrito resolvía el problema del cambio (devenir) que había planteado Parménides, manteniendo al mismo tiempo la permanencia de los principios fundamentales.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La explicación de la diversidad y las cualidades</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Demócrito explicaba la diversidad de las cosas mediante las diferentes combinaciones de átomos. Analiza cómo esta teoría permitía comprender las cualidades sensibles del mundo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Explicación de las cualidades:</h4>
+                            <ul>
+                                <li><strong>Forma y textura:</strong> Dependen de la forma de los átomos constituyentes</li>
+                                <li><strong>Color y sabor:</strong> Resultan de la interacción átomos-órganos sensoriales</li>
+                                <li><strong>Dureza y densidad:</strong> Relacionadas con el empaquetamiento atómico</li>
+                                <li><strong>Cambios de estado:</strong> Explicados por reorganización atómica</li>
+                                <li><strong>Generación y corrupción:</strong> Agregación y disgregación de átomos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Por convención, dulce; por convención, amargo; por convención, caliente; por convención, frío; por convención, color; pero en realidad, átomos y vacío."
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿En qué sentido la distinción entre cualidades primarias (objetivas) y secundarias (subjetivas) anticipada por Demócrito representa un avance en la teoría del conocimiento? Proporciona ejemplos concretos.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. La teoría de la percepción y el conocimiento</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental explora cómo Demócrito explicaba los procesos de percepción y conocimiento mediante interacciones atómicas. Analiza esta teoría mecanicista.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Teoría de la percepción:</h4>
+                            <ul>
+                                <li><strong>Eidola (imágenes):</strong> Películas atómicas que emiten los objetos</li>
+                                <li><strong>Visión:</strong> Entrada de eidola a través de los ojos</li>
+                                <li><strong>Audición:</strong> Movimiento de átomos en el aire (ondas sonoras)</li>
+                                <li><strong>Olfato y gusto:</strong> Átomos específicos que interactúan con órganos</li>
+                                <li><strong>Pensamiento:</strong> Átomos más sutiles y esféricos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>Tipos de conocimiento:</h4>
+                            <ul>
+                                <li><strong>Conocimiento oscuro:</strong> Basado en los sentidos (limitado)</li>
+                                <li><strong>Conocimiento legítimo:</strong> Basado en la razón (verdadero)</li>
+                                <li><strong>Crítica sensorial:</strong> Los sentidos nos engañan sobre la realidad última</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>Analiza las fortalezas y limitaciones de la teoría mecanicista de la percepción de Demócrito. ¿Qué aspectos resultan más convincentes y cuáles más problemáticos?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Legado e influencia en la ciencia moderna</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El documental muestra cómo la teoría atomista, aunque marginada en su tiempo, resurgió y encontró confirmación en la ciencia moderna. Analiza este sorprendente paralelismo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Anticipaciones notables:</h4>
+                            <ul>
+                                <li><strong>Teoría atómica moderna:</strong> Dalton y la química del siglo XIX</li>
+                                <li><strong>Física de partículas:</strong> Electrones, protones, neutrones</li>
+                                <li><strong>Mecánica cuántica:</strong> Probabilismo vs determinismo</li>
+                                <li><strong>Cosmología:</strong> Teorías sobre el origen del universo</li>
+                                <li><strong>Biología molecular:</strong> ADN y estructura de la materia viva</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>Influencia histórica:</h4>
+                            <ul>
+                                <li><strong>Epicureísmo:</strong> Adopción y desarrollo del atomismo</li>
+                                <li><strong>Edad Media:</strong> Marginación y posterior redescubrimiento</li>
+                                <li><strong>Renacimiento:</strong> Recuperación por humanistas y científicos</li>
+                                <li><strong>Ilustración:</strong> Base del materialismo filosófico</li>
+                                <li><strong>Ciencia contemporánea:</strong> Confirmación experimental</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué crees que la teoría atomista de Demócrito, a pesar de su genialidad, fue marginada durante siglos en favor de otras teorías como la de los cuatro elementos? ¿Qué factores históricos y culturales influyeron en este proceso?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el documental</h3>
+            <div class="progress-bar">
+                <div class="progress" id="documentary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el documental sobre el Atomismo de Demócrito</h3>
+            <p>Has explorado una de las teorías más sorprendentes de la filosofía antigua, que anticipó conceptos fundamentales de la ciencia moderna. La visión de Demócrito de un universo compuesto por átomos en movimiento mecánico representa un hito en el desarrollo del pensamiento racional y materialista. Su legado perdura en la física contemporánea y en nuestra comprensión fundamental de la naturaleza de la materia.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para marcar el documental como visto
+        function markAsWatched() {
+            setTimeout(() => {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+                localStorage.setItem('democritusAtomismDocumentaryWatched', 'true');
+            }, 1000);
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('documentary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('democritusAtomismDocumentaryProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('democritusAtomismDocumentaryProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+            
+            // Verificar si el documental fue marcado como visto
+            if (localStorage.getItem('democritusAtomismDocumentaryWatched') === 'true') {
+                document.getElementById('watched-indicator').style.display = 'inline-block';
+            }
+        }
+        
+        // Función para volver al calendario
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'calendario10.html';
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Presocráticos Pluralistas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --flashcards: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--flashcards);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .quiz-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--flashcards);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .question-container {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin-bottom: 1rem;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: var(--flashcards);
+            background: rgba(41, 128, 185, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--accent);
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .nav-btn {
+            background: var(--flashcards);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.4);
+        }
+        
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-quiz-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+            display: block;
+            margin: 2rem auto;
+        }
+        
+        .submit-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .quiz-results {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--flashcards);
+            margin: 1rem 0;
+        }
+        
+        .incorrect-questions {
+            margin-top: 2rem;
+        }
+        
+        .incorrect-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--flashcards);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--flashcards);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--flashcards), #1a5276);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .navigation-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Cuestionario: Presocráticos Pluralistas</h1>
+        <p>Explora las teorías de los filósofos que postularon múltiples principios fundamentales</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="quiz-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Π</div>
+                <div class="philosopher-details">
+                    <h2>Presocráticos Pluralistas</h2>
+                    <p>Empédocles, Anaxágoras, Demócrito y Leucipo</p>
+                    <div class="duration">Duración estimada: 60 minutos</div>
+                </div>
+            </div>
+            
+            <div class="quiz-description">
+                <p>Este cuestionario te permitirá evaluar tu comprensión de los filósofos presocráticos pluralistas, quienes propusieron que la realidad está compuesta por múltiples principios fundamentales. Responde las preguntas sobre sus teorías, conceptos clave y diferencias con otros pensadores presocráticos.</p>
+            </div>
+        </section>
+        
+        <!-- Cuestionario -->
+        <section class="quiz-container" id="quiz-container">
+            <div id="question-container">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div class="navigation-controls">
+                <button class="nav-btn" id="prev-btn" onclick="previousQuestion()">← Anterior</button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Siguiente →</button>
+            </div>
+            
+            <button class="submit-quiz-btn" id="submit-quiz-btn" onclick="submitQuiz()">Enviar Cuestionario</button>
+        </section>
+        
+        <!-- Resultados del cuestionario -->
+        <section class="quiz-results" id="quiz-results">
+            <div class="result-header">
+                <h2>Resultados del Cuestionario</h2>
+                <div class="score-display" id="score-display">0/20</div>
+                <p id="result-message">Basado en tus respuestas</p>
+            </div>
+            
+            <div class="incorrect-questions" id="incorrect-questions">
+                <!-- Las preguntas incorrectas se mostrarán aquí -->
+            </div>
+            
+            <button class="submit-btn" onclick="closeResults()">Continuar con las actividades</button>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Responde el cuestionario sobre pluralistas</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Completa el cuestionario de 20 preguntas sobre los filósofos presocráticos pluralistas. Selecciona la respuesta correcta para cada pregunta y envía el cuestionario cuando hayas terminado.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Filósofos y conceptos clave:</h4>
+                            <ul>
+                                <li>Empédocles: teoría de los cuatro elementos</li>
+                                <li>Anaxágoras: teoría de las homeomerías</li>
+                                <li>Demócrito y Leucipo: teoría atomista</li>
+                                <li>Comparación con los monistas presocráticos</li>
+                                <li>Influencia en el pensamiento posterior</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu experiencia:</h4>
+                    <p>Después de completar el cuestionario, describe qué teoría pluralista te resultó más interesante o convincente.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Describe tu experiencia con el cuestionario aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Revisa tus respuestas incorrectas</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Revisa las preguntas que respondiste incorrectamente en el cuestionario. Estudia los conceptos relacionados y asegúrate de comprender por qué tus respuestas fueron incorrectas.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Estrategias para revisar:</h4>
+                            <ul>
+                                <li>Identifica patrones en tus errores</li>
+                                <li>Relee las teorías de los pluralistas</li>
+                                <li>Compara las diferentes propuestas pluralistas</li>
+                                <li>Relaciona las teorías con ejemplos concretos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Describe qué conceptos sobre los pluralistas te resultaron más difíciles de comprender y qué estrategias utilizaste para mejorar tu comprensión.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Describe tu proceso de revisión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica las teorías pluralistas</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Explica con tus propias palabras las principales teorías de los filósofos pluralistas y sus diferencias fundamentales.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Teorías principales:</h4>
+                            <ul>
+                                <li>Empédocles: cuatro elementos raíz y fuerzas de Amor y Odio</li>
+                                <li>Anaxágoras: homeomerías y Nous (Inteligencia)</li>
+                                <li>Demócrito y Leucipo: atomismo y vacío</li>
+                                <li>Diferencias con los monistas (Tales, Anaxímenes, Heráclito)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Desarrolla una explicación detallada de cada teoría pluralista y cómo se diferencian entre sí.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Analiza la influencia de los pluralistas</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza la influencia de los filósofos pluralistas en el pensamiento posterior, especialmente en la filosofía y la ciencia.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>Influencia en Platón y Aristóteles</li>
+                                <li>Relación con el desarrollo de la ciencia moderna</li>
+                                <li>Comparación con teorías científicas contemporáneas</li>
+                                <li>Legado en el pensamiento occidental</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis crítico sobre la importancia de los pluralistas en la historia del pensamiento y su influencia en la filosofía y ciencia posteriores.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el cuestionario</h3>
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el cuestionario sobre presocráticos pluralistas</h3>
+            <p>Has evaluado tu comprensión de las teorías de Empédocles, Anaxágoras, Demócrito y Leucipo, revisado tus respuestas incorrectas, explicado sus teorías y analizado su influencia en el pensamiento posterior. Continúa explorando estos conceptos para profundizar en tu comprensión del pensamiento presocrático.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas sobre presocráticos pluralistas (20 preguntas)
+        const philosophyQuizQuestions = [
+            {
+                question: "¿Qué caracteriza a los filósofos presocráticos pluralistas?",
+                options: [
+                    "Postularon que la realidad está compuesta por múltiples principios fundamentales",
+                    "Defendieron que todo proviene de un único principio (arjé)",
+                    "Negaron la existencia de principios fundamentales",
+                    "Afirmaron que la realidad es ilusoria"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cuáles son los cuatro elementos raíz según Empédocles?",
+                options: [
+                    "Agua, aire, fuego y tierra",
+                    "Agua, aire, fuego y éter",
+                    "Tierra, agua, aire y luz",
+                    "Fuego, agua, tierra y metal"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Empédocles, ¿qué fuerzas gobiernan la combinación y separación de los elementos?",
+                options: [
+                    "Amor (Philia) y Odio (Neikos)",
+                    "Razón y Pasión",
+                    "Orden y Caos",
+                    "Bien y Mal"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué significa el término 'homeomerías' en la filosofía de Anaxágoras?",
+                options: [
+                    "Partes semejantes: partículas cualitativamente idénticas al todo",
+                    "Partes diferentes: partículas cualitativamente distintas al todo",
+                    "Partes infinitas: partículas sin cualidades definidas",
+                    "Partes primarias: los componentes básicos de la materia"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué es el Nous en la filosofía de Anaxágoras?",
+                options: [
+                    "Una inteligencia ordenadora que da forma al cosmos",
+                    "El principio material fundamental",
+                    "El alma individual de cada ser",
+                    "La ley natural que rige el universo"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué filósofos desarrollaron la teoría atomista?",
+                options: [
+                    "Leucipo y Demócrito",
+                    "Empédocles y Anaxágoras",
+                    "Parménides y Zenón",
+                    "Heráclito y Tales"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según los atomistas, ¿qué son los átomos?",
+                options: [
+                    "Partículas indivisibles e inmutables que componen toda la realidad",
+                    "Partículas divisibles y cambiantes",
+                    "Entidades espirituales sin materia",
+                    "Formas geométricas perfectas"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué papel juega el vacío en la teoría atomista?",
+                options: [
+                    "Es el espacio necesario para que los átomos se muevan y combinen",
+                    "Es una ilusión, no existe realmente",
+                    "Es el principio activo que anima a los átomos",
+                    "Es la sustancia primordial de la que surgen los átomos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿En qué se diferencia la teoría de Anaxágoras de la de Empédocles?",
+                options: [
+                    "Anaxágoras postula infinitas homeomerías, Empédocles solo cuatro elementos",
+                    "Empédocles postula infinitas homeomerías, Anaxágoras solo cuatro elementos",
+                    "Ambas teorías son idénticas en sus principios fundamentales",
+                    "Anaxágoras niega cualquier principio ordenador, Empédocles lo afirma"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo explica Empédocles el origen de los seres vivos?",
+                options: [
+                    "Surgen por combinación azarosa de los elementos, sobreviviendo los más aptos",
+                    "Son creados directamente por los dioses",
+                    "Emergen espontáneamente de la tierra",
+                    "Provienen de otros planetas"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Demócrito, ¿cómo se diferencian los átomos entre sí?",
+                options: [
+                    "Por su forma, tamaño, posición y disposición",
+                    "Por su color, olor y sabor",
+                    "Por su composición química interna",
+                    "Por su carga eléctrica"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué afirmaba Anaxágoras sobre la composición de todas las cosas?",
+                options: [
+                    "En todo hay parte de todo",
+                    "Cada cosa está compuesta por un único elemento",
+                    "La materia es homogénea en todas partes",
+                    "Las cosas están compuestas por átomos y vacío"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo concebían los atomistas la percepción sensorial?",
+                options: [
+                    "Como el resultado de efluvios de átomos que impactan en nuestros sentidos",
+                    "Como una ilusión sin correspondencia con la realidad",
+                    "Como una capacidad exclusivamente espiritual",
+                    "Como un proceso puramente mecánico sin base material"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué postura tenían los pluralistas sobre el cambio y la permanencia?",
+                options: [
+                    "Reconocían tanto el cambio aparente como la permanencia de los principios fundamentales",
+                    "Negaban completamente la posibilidad de cualquier cambio",
+                    "Afirmaban que todo está en perpetuo cambio sin nada permanente",
+                    "Consideraban el cambio como una ilusión de los sentidos"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿En qué se diferencia el pluralismo del monismo presocrático?",
+                options: [
+                    "Los pluralistas postulan múltiples principios, los monistas un único principio",
+                    "Los pluralistas son materialistas, los monistas idealistas",
+                    "Los pluralistas niegan la existencia de principios, los monistas la afirman",
+                    "Los pluralistas se centran en la ética, los monistas en la física"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué influencia tuvo el atomismo en el pensamiento posterior?",
+                options: [
+                    "Influenció el desarrollo de la ciencia moderna, especialmente la física",
+                    "Fue completamente olvidado hasta el siglo XX",
+                    "Solo influenció a los escépticos antiguos",
+                    "Fue refutado completamente por Aristóteles y no tuvo influencia"
+                ],
+                correct: 0
+            },
+            {
+                question: "Según Empédocles, ¿cómo se produce el conocimiento?",
+                options: [
+                    "Lo semejante conoce lo semejante: los elementos en nosotros conocen los elementos externos",
+                    "El conocimiento es una ilusión sin base real",
+                    "Solo conocemos a través de la revelación divina",
+                    "El conocimiento surge exclusivamente de la experiencia sensorial"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué criticaba Anaxágoras a la teoría de los cuatro elementos de Empédocles?",
+                options: [
+                    "Que cuatro elementos no bastaban para explicar la diversidad cualitativa del mundo",
+                    "Que los elementos no eran realmente fundamentales",
+                    "Que faltaba un elemento espiritual",
+                    "Que los elementos no podían combinarse entre sí"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Cómo explicaban los atomistas la formación de los mundos?",
+                options: [
+                    "Por el movimiento azaroso de los átomos en el vacío que forman torbellinos",
+                    "Por creación divina directa",
+                    "Por evolución gradual a partir de una masa primordial",
+                    "Por la acción de principios inteligentes ordenadores"
+                ],
+                correct: 0
+            },
+            {
+                question: "¿Qué tenían en común las teorías de los principales pluralistas?",
+                options: [
+                    "Todas intentaban reconciliar el ser permanente de Parménides con el cambio aparente",
+                    "Todas negaban la posibilidad de cualquier conocimiento",
+                    "Todas postulaban un único principio material",
+                    "Todas afirmaban la inmortalidad del alma individual"
+                ],
+                correct: 0
+            }
+        ];
+
+        // Variables globales
+        let currentQuestion = 0;
+        let userAnswers = new Array(philosophyQuizQuestions.length).fill(null);
+        let quizSubmitted = false;
+        let activitiesCompleted = 0;
+
+        // Inicializar el cuestionario
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        // Mostrar la pregunta actual
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = philosophyQuizQuestions[currentQuestion];
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const optionClass = isSelected ? 'option selected' : 'option';
+                optionsHTML += `
+                    <div class="${optionClass}" onclick="selectOption(${index})">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pregunta ${currentQuestion + 1} de ${philosophyQuizQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            // Actualizar botones de navegación
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').disabled = currentQuestion === philosophyQuizQuestions.length - 1;
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            displayQuestion();
+        }
+
+        // Navegar a la pregunta anterior
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        // Navegar a la siguiente pregunta
+        function nextQuestion() {
+            if (currentQuestion < philosophyQuizQuestions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        // Enviar el cuestionario
+        function submitQuiz() {
+            quizSubmitted = true;
+            calculateScore();
+            showResults();
+        }
+
+        // Calcular la puntuación
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < philosophyQuizQuestions.length; i++) {
+                if (userAnswers[i] === philosophyQuizQuestions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            const score = calculateScore();
+            const percentage = Math.round((score / philosophyQuizQuestions.length) * 100);
+            
+            document.getElementById('score-display').textContent = `${score}/${philosophyQuizQuestions.length}`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '¡Excelente! Dominas las teorías de los presocráticos pluralistas.';
+            } else if (percentage >= 70) {
+                message = '¡Buen trabajo! Tienes un buen entendimiento del pensamiento pluralista.';
+            } else if (percentage >= 50) {
+                message = 'Aprobado. Tienes conocimientos básicos pero necesitas profundizar más.';
+            } else {
+                message = 'Necesitas estudiar más las teorías de los presocráticos pluralistas.';
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Mostrar preguntas incorrectas
+            let incorrectHTML = '<h3>Preguntas incorrectas:</h3>';
+            let hasIncorrect = false;
+            
+            for (let i = 0; i < philosophyQuizQuestions.length; i++) {
+                if (userAnswers[i] !== philosophyQuizQuestions[i].correct) {
+                    hasIncorrect = true;
+                    const question = philosophyQuizQuestions[i];
+                    const userAnswer = userAnswers[i] !== null ? question.options[userAnswers[i]] : 'Sin respuesta';
+                    const correctAnswer = question.options[question.correct];
+                    
+                    incorrectHTML += `
+                        <div class="incorrect-question">
+                            <p><strong>Pregunta ${i + 1}:</strong> ${question.question}</p>
+                            <p><strong>Tu respuesta:</strong> ${userAnswer}</p>
+                            <p><strong>Respuesta correcta:</strong> ${correctAnswer}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (!hasIncorrect) {
+                incorrectHTML = '<p>¡Felicidades! No tienes preguntas incorrectas.</p>';
+            }
+            
+            document.getElementById('incorrect-questions').innerHTML = incorrectHTML;
+            
+            // Mostrar resultados y ocultar cuestionario
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Cerrar resultados
+        function closeResults() {
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('activity-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const answeredQuestions = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = Math.round((answeredQuestions / philosophyQuizQuestions.length) * 100);
+            
+            document.getElementById('quiz-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completó todo
+            if (activitiesCompleted >= 4 && answeredQuestions === philosophyQuizQuestions.length) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, escribe tu respuesta antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < 4) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar el cuestionario cuando se carga la página
+        window.onload = initializeQuiz;
+    </script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen: Empédocles y Anaxágoras - Los Pluralistas Presocráticos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad; /* Cambio de color para diferenciar */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .summary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-content {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section {
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section h3 {
+            color: var(--philosophy);
+            border-bottom: 2px solid var(--philosophy);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Resumen: Empédocles y Anaxágoras - Los Pluralistas Presocráticos</h1>
+        <p>Superando el Monismo: La Explicación Pluralista de la Realidad</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="summary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">EP</div>
+                <div class="philosopher-details">
+                    <h2>Empédocles y Anaxágoras</h2>
+                    <p>Filósofos pluralistas del siglo V a.C. que propusieron explicaciones complejas de la realidad basadas en múltiples principios</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="summary-description">
+                <p>Este resumen te introducirá a Empédocles y Anaxágoras, dos de los principales filósofos pluralistas presocráticos. Explorarás cómo superaron las limitaciones del monismo al proponer que la realidad está compuesta por múltiples principios fundamentales, sentando las bases para el desarrollo posterior de la filosofía natural y la ciencia.</p>
+            </div>
+        </section>
+        
+        <section class="summary-content">
+            <div class="summary-section">
+                <h3>Resumen Ejecutivo</h3>
+                <p>Empédocles (c. 495-435 a.C.) y Anaxágoras (c. 500-428 a.C.) representan una etapa crucial en el desarrollo del pensamiento presocrático. Frente a las limitaciones del monismo (que reducía toda la realidad a un único principio), estos filósofos desarrollaron sistemas pluralistas que explicaban la diversidad del mundo mediante múltiples elementos o principios fundamentales.</p>
+                
+                <div class="concept-box">
+                    <h4>Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>Pluralismo:</strong> Teoría que explica la realidad mediante múltiples principios</li>
+                        <li><strong>Elementos (Empédocles):</strong> Tierra, agua, aire y fuego como raíces de todas las cosas</li>
+                        <li><strong>Homeomerías (Anaxágoras):</strong> Partículas cualitativamente distintas que componen la materia</li>
+                        <li><strong>Fuerzas cósmicas:</strong> Amor y Discordia (Empédocles) como principios de unión y separación</li>
+                        <li><strong>Nous (Anaxágoras):</strong> Inteligencia cósmica como principio ordenador del universo</li>
+                    </ul>
+                </div>
+                
+                <p>El pluralismo de Empédocles y Anaxágoras representó un avance significativo en la explicación de la naturaleza, permitiendo dar cuenta tanto de la unidad como de la diversidad del cosmos. Sus teorías anticiparon conceptos que serían desarrollados posteriormente en la filosofía y la ciencia.</p>
+                
+                <div class="quote">
+                    "Cuatro son las raíces de todas las cosas: fuego, agua, tierra y aire." - Empédocles
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Empédocles: Los Cuatro Elementos y las Fuerzas Cósmicas</h3>
+                
+                <p>Empédocles de Agrigento (Sicilia) fue un filósofo, médico y poeta que desarrolló una teoría cosmológica basada en cuatro elementos fundamentales (que llamó "raíces") y dos fuerzas cósmicas que gobiernan su interacción.</p>
+                
+                <div class="concept-box">
+                    <h4>La Teoría de Empédocles:</h4>
+                    <ul>
+                        <li><strong>Los cuatro elementos:</strong> Tierra, agua, aire y fuego como principios materiales eternos</li>
+                        <li><strong>Amor (Philia):</strong> Fuerza de unión y armonía que combina los elementos</li>
+                        <li><strong>Discordia (Neikos):</strong> Fuerza de separación y conflicto que disocia los elementos</li>
+                        <li><strong>Ciclo cósmico:</strong> Alternancia eterna entre períodos de unión (Amor) y separación (Discordia)</li>
+                        <li><strong>Teoría del conocimiento:</strong> "Lo semejante conoce lo semejante" - percibimos los elementos externos mediante los mismos elementos en nosotros</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "Doble es el nacimiento de las cosas mortales, y doble su destrucción." - Empédocles
+                </div>
+                
+                <h4>La Cosmología de Empédocles</h4>
+                <p>Empédocles concebía el universo como un escenario de eterno conflicto entre las fuerzas del Amor y la Discordia. En el estado de predominio del Amor, todos los elementos están perfectamente mezclados formando una Esfera homogénea. Cuando predomina la Discordia, los elementos se separan completamente. En los estados intermedios, se forman los mundos y los seres vivos.</p>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Anaxágoras: Las Homeomerías y el Nous</h3>
+                <p>Anaxágoras de Clazómenas (Jonia) desarrolló una teoría pluralista más sofisticada, postulando la existencia de infinitas partículas cualitativamente distintas (homeomerías) y un principio inteligente (Nous) que ordena el cosmos.</p>
+                
+                <div class="concept-box">
+                    <h4>La Teoría de Anaxágoras:</h4>
+                    <ul>
+                        <li><strong>Homeomerías:</strong> Partículas infinitamente divisibles que contienen todas las cualidades</li>
+                        <li><strong>Nous (Inteligencia):</strong> Principio ordenador, infinito, autónomo y omnisciente</li>
+                        <li><strong>Todo está en todo:</strong> Cada sustancia contiene partículas de todas las demás</li>
+                        <li><strong>Predominancia:</strong> Las cualidades de una sustancia dependen de qué homeomerías predominen</li>
+                        <li><strong>Vórtice cósmico:</strong> El Nous inicia un movimiento rotatorio que separa y ordena las homeomerías</li>
+                    </ul>
+                </div>
+                
+                <p>Anaxágoras introdujo por primera vez en la filosofía un principio inteligente como causa del orden cósmico, aunque su explicación seguía siendo fundamentalmente mecanicista. Su teoría de las homeomerías representaba un intento de explicar cómo de la mezcla original podían surgir sustancias cualitativamente distintas.</p>
+                
+                <div class="quote">
+                    "Todas las cosas estaban juntas, infinitas en número y en pequeñez." - Anaxágoras
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Comparación entre Empédocles y Anaxágoras</h3>
+                
+                <h4>Semejanzas y Diferencias</h4>
+                <p>Aunque ambos eran pluralistas que rechazaban el monismo, Empédocles y Anaxágoras desarrollaron sistemas filosóficos significativamente diferentes en sus principios fundamentales y explicaciones cosmológicas.</p>
+                
+                <div class="concept-box">
+                    <h4>Comparación de sus teorías:</h4>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tr>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Aspecto</th>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Empédocles</th>
+                            <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Anaxágoras</th>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Principios materiales</td>
+                            <td style="border:1px solid #ddd; padding:8px;">4 elementos (tierra, agua, aire, fuego)</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Infinitas homeomerías (partículas cualitativas)</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Principio ordenador</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Amor y Discordia (fuerzas ciegas)</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Nous (Inteligencia cósmica)</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Composición de las cosas</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Combinación de elementos en proporciones</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Predominancia de ciertas homeomerías</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">Origen del cosmos</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Ciclo eterno entre unión y separación</td>
+                            <td style="border:1px solid #ddd; padding:8px;">Vórtice iniciado por el Nous</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h4>Legado e Influencia</h4>
+                <p>Las teorías de Empédocles y Anaxágoras influyeron significativamente en el desarrollo posterior de la filosofía griega. La teoría de los cuatro elementos de Empédocles sería adoptada y desarrollada por Aristóteles, dominando el pensamiento científico durante siglos. El Nous de Anaxágoras, por su parte, influyó en la filosofía de Platón y en el desarrollo del concepto de causa final.</p>
+            </div>
+            
+            <div class="summary-section">
+                <h3>El Pluralismo como Superación del Monismo</h3>
+                <p>El pluralismo de Empédocles y Anaxágoras representó un avance significativo en la explicación filosófica de la naturaleza, al abordar problemas que el monismo no podía resolver satisfactoriamente.</p>
+                
+                <div class="concept-box">
+                    <h4>Contribuciones del Pluralismo:</h4>
+                    <ul>
+                        <li><strong>Explicación de la diversidad:</strong> Permite dar cuenta de la variedad cualitativa del mundo</li>
+                        <li><strong>Teoría del cambio:</strong> Explica la generación y corrupción mediante combinación y separación</li>
+                        <li><strong>Superación del problema del movimiento:</strong> Los pluralistas no necesitan explicar cómo de lo Uno inmóvil surge el movimiento</li>
+                        <li><strong>Anticipación de conceptos científicos:</strong> Sus teorías prefiguran conceptos como elementos químicos y partículas subatómicas</li>
+                        <li><strong>Introducción de la teleología:</strong> Anaxágoras introduce por primera vez un principio inteligente como causa del orden cósmico</li>
+                    </ul>
+                </div>
+                
+                <p>El pluralismo presocrático marcó un punto de inflexión en la historia del pensamiento, al demostrar que era posible desarrollar explicaciones coherentes de la realidad sin reducirla a un único principio. Este enfoque abrió el camino para las teorías atomistas y, en última instancia, para el desarrollo de la ciencia moderna.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee el resumen sobre Empédocles y Anaxágoras</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Has leído el resumen sobre Empédocles y Anaxágoras y sus contribuciones al pensamiento pluralista presocrático. Ahora reflexiona sobre los conceptos principales:</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos clave para recordar:</h4>
+                            <ul>
+                                <li>El pluralismo como superación del monismo</li>
+                                <li>Los cuatro elementos de Empédocles</li>
+                                <li>Las homeomerías de Anaxágoras</li>
+                                <li>El Nous como principio ordenador</li>
+                                <li>Las fuerzas cósmicas del Amor y la Discordia</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu síntesis:</h4>
+                    <p>Escribe un breve resumen con tus propias palabras sobre la importancia del pluralismo de Empédocles y Anaxágoras en el desarrollo del pensamiento filosófico.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu síntesis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Compara las teorías de Empédocles y Anaxágoras</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Empédocles y Anaxágoras desarrollaron teorías pluralistas significativamente diferentes para explicar la composición y orden del cosmos. Cada uno propuso soluciones distintas a los problemas planteados por el monismo presocrático.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Comparación de las teorías pluralistas:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Aspecto</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Empédocles</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Anaxágoras</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Principios materiales</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">4 elementos (tierra, agua, aire, fuego)</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Infinitas homeomerías</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Principio ordenador</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Amor y Discordia</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Nous (Inteligencia)</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Explicación del cambio</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Combinación y separación de elementos</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Predominancia de homeomerías</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica las diferencias principales entre las teorías de Empédocles y Anaxágoras. ¿Qué ventajas tenía cada una de estas teorías para explicar la diversidad y el orden del cosmos?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Analiza la importancia del Nous de Anaxágoras</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El Nous (Inteligencia) de Anaxágoras representa una innovación fundamental en la filosofía presocrática. Por primera vez, se introduce un principio inteligente como causa del orden cósmico, aunque su explicación sigue siendo fundamentalmente mecanicista.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Nous:</h4>
+                            <ol>
+                                <li><strong>Autonomía:</strong> Es independiente y no se mezcla con nada</li>
+                                <li><strong>Omnisciencia:</strong> Conoce todas las cosas</li>
+                                <li><strong>Poder ordenador:</strong> Gobierna todas las cosas</li>
+                                <li><strong>Infinidad:</strong> Es ilimitado en poder y conocimiento</li>
+                                <li><strong>Iniciador del movimiento:</strong> Pone en marcha el vórtice cósmico</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Todas las cosas las ordenó la Inteligencia, tanto las que iban a ser como las que eran." - Anaxágoras
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Por qué considera que la introducción del Nous fue un avance significativo en la filosofía presocrática? ¿En qué aspectos anticipa conceptos posteriores de la filosofía y la ciencia?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre el legado del pluralismo presocrático</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El pluralismo de Empédocles y Anaxágoras representó un punto de inflexión en la historia del pensamiento filosófico. Al superar las limitaciones del monismo, estos filósofos desarrollaron explicaciones más sofisticadas de la realidad que influyeron significativamente en el desarrollo posterior de la filosofía y la ciencia.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Legado del pluralismo presocrático:</h4>
+                            <ul>
+                                <li><strong>Influencia en Platón y Aristóteles:</strong> Sus teorías influyeron en los grandes sistemas filosóficos clásicos</li>
+                                <li><strong>Anticipación de conceptos científicos:</strong> Prefiguraron ideas como elementos químicos y partículas subatómicas</li>
+                                <li><strong>Desarrollo de la teleología:</strong> Anaxágoras introdujo el primer principio inteligente como causa del orden</li>
+                                <li><strong>Superación del monismo:</strong> Demostraron que era posible explicar la realidad mediante múltiples principios</li>
+                                <li><strong>Preparación para el atomismo:</strong> Sus teorías allanaron el camino para el desarrollo del atomismo por Leucipo y Demócrito</li>
+                            </ul>
+                        </div>
+                        
+                        <p>El pluralismo presocrático marcó un hito en la evolución del pensamiento racional, demostrando la capacidad de la razón humana para desarrollar explicaciones cada vez más complejas y satisfactorias de la realidad.</p>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Qué aspectos del pluralismo de Empédocles y Anaxágoras consideras más relevantes para el desarrollo posterior de la filosofía y la ciencia? ¿Por qué crees que estas teorías representaron un avance significativo respecto al monismo presocrático?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el resumen</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el resumen de "Empédocles y Anaxágoras - Los Pluralistas Presocráticos"</h3>
+            <p>Has explorado las teorías pluralistas de Empédocles y Anaxágoras y su importancia en la superación del monismo presocrático. Reflexiona sobre cómo estas ideas influyeron en el desarrollo posterior de la filosofía y anticiparon conceptos que serían desarrollados por la ciencia moderna.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('summary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('pluralistPresocraticsProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('pluralistPresocraticsProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

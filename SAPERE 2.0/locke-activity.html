@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Interactiva: Locke y la Propiedad como Derecho Natural</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e67e22;
+            --accent: #c0392b;
+            --light: #fef9e7;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --locke: #d35400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--locke);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .activity-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--locke), #a84300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theory-exposition {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--locke);
+            backdrop-filter: blur(5px);
+        }
+        
+        .exposition-title {
+            color: var(--locke);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .theory-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .theory-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--locke);
+        }
+        
+        .theory-card h3 {
+            color: var(--locke);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--locke);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .debate-guide {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .arguments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .argument-card {
+            background: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .argument-title {
+            font-weight: bold;
+            color: var(--locke);
+            margin-bottom: 0.8rem;
+        }
+        
+        .ai-chat-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--locke);
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: #fdebd0;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .ai-message {
+            background: #f5f5f5;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--locke);
+            box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--locke), #a84300);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 84, 0, 0.3);
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--locke);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--locke), #a84300);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #d35400);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .theory-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .arguments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏛️ Actividad Interactiva: Locke y la Propiedad como Derecho Natural</h1>
+        <p>Explorando los fundamentos del derecho de propiedad en el pensamiento liberal</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="activity-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Filósofo inglés, padre del liberalismo y teórico del derecho natural</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Exposición sobre Locke y la Propiedad -->
+        <section class="theory-exposition">
+            <h2 class="exposition-title">Locke: La Propiedad como Derecho Natural</h2>
+            
+            <div class="theory-content">
+                <div class="theory-card">
+                    <h3>👤 El Estado de Naturaleza</h3>
+                    <p>Para Locke, el estado de naturaleza es un estado de libertad e igualdad, no de guerra. Los seres humanos poseen derechos naturales anteriores al Estado: vida, libertad y propiedad.</p>
+                    <p>Estos derechos son inalienables y provienen de la ley natural, que es accesible a través de la razón.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>⚒️ La Teoría del Trabajo</h3>
+                    <p>La propiedad se origina cuando una persona mezcla su trabajo con recursos naturales. Al apropiarse de algo mediante el trabajo, lo transforma y hace suyo.</p>
+                    <p>Esta teoría justifica la propiedad privada como extensión de la persona a través de su actividad laboral.</p>
+                </div>
+                
+                <div class="theory-card">
+                    <h3>📜 La Provisión Lockeana</h3>
+                    <p>La apropiación es legítima siempre que quede "suficiente y tan bueno" para los demás. Además, no debe permitirse el desperdicio de bienes perecederos.</p>
+                    <p>Estas condiciones limitan la acumulación ilimitada en el estado de naturaleza.</p>
+                </div>
+            </div>
+            
+            <div style="background: #fdebd0; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h3 style="color: var(--locke); margin-bottom: 1rem;">El Legado de Locke en el Pensamiento Político</h3>
+                <p>La teoría lockeana de la propiedad influye profundamente en el liberalismo clásico, la economía política, las revoluciones burguesas y los sistemas constitucionales modernos. Su defensa de los derechos naturales fundamenta las democracias liberales y los sistemas de derechos humanos.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">1. Analiza la teoría lockeana de la propiedad</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Examina cómo Locke fundamenta el derecho de propiedad como un derecho natural derivado del trabajo.</p>
+                        
+                        <div class="debate-guide">
+                            <h4>Aspectos a considerar:</h4>
+                            <ul>
+                                <li>¿Cómo justifica Locke la transición de la propiedad común a la privada?</li>
+                                <li>¿Qué papel juega el trabajo en la creación de propiedad?</li>
+                                <li>¿Cómo funcionan las limitaciones de la "provisión lockeana"?</li>
+                                <li>¿Qué críticas ha recibido esta teoría?</li>
+                                <li>¿Sigue siendo válida en la economía contemporánea?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis de la teoría lockeana:</h4>
+                    <p>Desarrolla un análisis crítico de la justificación lockeana de la propiedad como derecho natural.</p>
+                    
+                    <textarea class="activity-response" id="analysis-property" placeholder="Desarrolla tu análisis sobre la teoría lockeana de la propiedad..."></textarea>
+                    
+                    <h4>Limitaciones y críticas:</h4>
+                    <p>Reflexiona sobre las principales objeciones a la teoría de Locke y su aplicabilidad en el mundo actual.</p>
+                    
+                    <textarea class="activity-response" id="critiques-locke" placeholder="Analiza las críticas a la teoría lockeana de la propiedad..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">2. Debate con el Agente IA de Locke</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Dialoga con una inteligencia artificial que simula ser John Locke. Discute sobre su teoría de la propiedad, sus fundamentos y su relevancia para la filosofía política contemporánea.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Temas sugeridos:</div>
+                                <p>• La propiedad como derecho natural</p>
+                                <p>• La teoría del trabajo como fundamento</p>
+                                <p>• Limitaciones a la propiedad</p>
+                                <p>• Propiedad intelectual en la era digital</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Preguntas para Locke:</div>
+                                <p>• ¿Cómo aplicaría su teoría a recursos escasos?</p>
+                                <p>• ¿Qué opina de la propiedad intelectual?</p>
+                                <p>• ¿Cómo respondería a las críticas marxistas?</p>
+                                <p>• ¿Aplicaría su teoría a bienes digitales?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-container">
+                        <h4>Chat con John Locke (IA)</h4>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <div class="message-sender">John Locke:</div>
+                                <div>Saludos, soy John Locke. Me complace dialogar contigo sobre los fundamentos del derecho de propiedad. Como he sostenido, cada hombre tiene propiedad en su propia persona, y cuando mezcla su trabajo con los bienes de la naturaleza, hace suyo aquello con lo que ha trabajado. ¿Qué cuestiones deseas plantearme sobre mi teoría de la propiedad o su aplicación en el mundo contemporáneo?</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Escribe tu mensaje para Locke...">
+                            <button class="send-btn" onclick="sendMessage()">Enviar</button>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">3. Compara a Locke con otros teóricos de la propiedad</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza las diferencias y similitudes entre Locke y otros pensadores que han teorizado sobre la propiedad, identificando sus enfoques y fundamentos.</p>
+                        
+                        <div class="arguments-grid">
+                            <div class="argument-card">
+                                <div class="argument-title">Locke vs. Hobbes</div>
+                                <p><strong>Locke:</strong> Estado de naturaleza pacífico, propiedad como derecho natural</p>
+                                <p><strong>Hobbes:</strong> Estado de naturaleza belicoso, propiedad creada por el soberano</p>
+                                <p><strong>Contraste:</strong> Derechos naturales vs. convencionalismo</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Locke vs. Rousseau</div>
+                                <p><strong>Locke:</strong> Propiedad como derecho natural, legitimidad de la desigualdad</p>
+                                <p><strong>Rousseau:</strong> Propiedad como origen de la desigualdad e injusticia</p>
+                                <p><strong>Contraste:</strong> Legitimación vs. crítica de la propiedad privada</p>
+                            </div>
+                            
+                            <div class="argument-card">
+                                <div class="argument-title">Locke vs. Marx</div>
+                                <p><strong>Locke:</strong> Trabajo como fuente de propiedad legítima</p>
+                                <p><strong>Marx:</strong> Trabajo alienado bajo el capitalismo, propiedad como robo</p>
+                                <p><strong>Contraste:</strong> Justificación burguesa vs. crítica proletaria</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis comparativo:</h4>
+                    <p>Selecciona dos teóricos de la propiedad y compara sus sistemas con el lockeano, destacando continuidades y rupturas.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Compara a Locke con otros teóricos de la propiedad..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header-section">
+                    <h3 class="activity-title">4. Evalúa la vigencia de la teoría lockeana en el siglo XXI</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Reflexiona críticamente sobre la aplicabilidad de la teoría lockeana de la propiedad en el contexto contemporáneo de economía global, bienes digitales y crisis ecológica.</p>
+                        
+                        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Desafíos contemporáneos para la teoría lockeana:</h4>
+                            <ul>
+                                <li><strong>Bienes digitales:</strong> ¿Cómo aplicar la teoría del trabajo a software, datos y contenido digital?</li>
+                                <li><strong>Propiedad intelectual:</strong> Patentes, copyright y derechos de autor en la era digital</li>
+                                <li><strong>Crisis ecológica:</strong> Recursos escasos y la "provisión lockeana"</li>
+                                <li><strong>Desigualdad global:</strong> Distribución de la propiedad en el capitalismo avanzado</li>
+                                <li><strong>Bienes comunes:</strong> Conocimiento abierto, creative commons y bienes públicos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu evaluación crítica:</h4>
+                    <p>Desarrolla una evaluación balanceada de la teoría de Locke, considerando tanto sus aportes como sus limitaciones en el mundo actual.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Evalúa críticamente la vigencia de la teoría lockeana en el siglo XXI..."></textarea>
+                    
+                    <h4>¿Vigente o superada?</h4>
+                    <p>Formula tu posición personal: ¿Consideras que la teoría lockeana de la propiedad está superada o mantiene vigencia?</p>
+                    
+                    <textarea class="activity-response" id="position-locke" placeholder="Desarrolla tu posición sobre la vigencia de la teoría lockeana..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la actividad interactiva</h3>
+            <div class="progress-bar">
+                <div class="progress" id="activity-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el análisis de Locke y la Propiedad como Derecho Natural</h3>
+            <p>Has explorado profundamente la teoría lockeana de la propiedad, analizado sus fundamentos filosóficos, debatido con una simulación del propio Locke, comparado su sistema con otros pensadores y evaluado críticamente su vigencia en el contexto contemporáneo.</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de conocimiento de Locke
+        const lockeKnowledge = [
+            "Cada hombre tiene propiedad en su propia persona. A ésta nadie tiene derecho alguno excepto él mismo.",
+            "El trabajo de su cuerpo y la obra de sus manos, podemos decir, son propiamente suyos.",
+            "Lo que sea que entonces quite del estado que la naturaleza ha provisto y dejado en él, lo ha mezclado con su trabajo, y unido a ello algo que es suyo, y por ello lo hace su propiedad.",
+            "Al menos donde hay suficiente y tan bueno left en común para otros.",
+            "Nada fue hecho por Dios para el hombre para estropear o destruir.",
+            "El gran y principal fin, por tanto, de la unión de los hombres en estados y de ponerse bajo gobierno, es la preservación de su propiedad.",
+            "La libertad del hombre en sociedad es estar bajo ningún otro poder legislativo sino el establecido por consentimiento.",
+            "Donde no hay propiedad, no hay justicia.",
+            "La propiedad que los hombres tienen en sus propias personas, nadie tiene derecho a ella sino ellos mismos.",
+            "El trabajo del hombre es lo que añade valor a las cosas.",
+            "El que se nourre de las bellotas que recogió bajo una encina, o de las manzanas que recogió de los árboles del bosque, sin duda se ha apropiado de ellos para sí.",
+            "Es el trabajo lo que pone la diferencia de valor en todo.",
+            "La moneda inventada el consentimiento de los hombres.",
+            "La tierra y todo lo que hay en ella es dada a los hijos de los hombres para el apoyo y consuelo de su ser.",
+            "La razón, que es esa ley, enseña a toda la humanidad que quiera consultarla.",
+            "Seremos poco aptos para dudar que el derecho de propiedad se deriva del trabajo.",
+            "La propiedad, cuyo origen es el derecho del hombre a proveer a su propia subsistencia.",
+            "El gobierno no tiene otro fin que la preservación de la propiedad.",
+            "El estado de naturaleza tiene una ley de naturaleza para gobernarlo.",
+            "Los hombres son por naturaleza libres, iguales e independientes."
+        ];
+
+        // Respuestas predefinidas del Agente IA de Locke
+        const lockeResponses = [
+            "La propiedad se origina cuando una persona mezcla su trabajo con los bienes de la naturaleza. Al apropiarse de algo mediante el trabajo, lo transforma y hace suyo. ¿No te parece evidente por sí mismo?",
+            "La condición de que quede 'suficiente y tan bueno' para los demás es fundamental para legitimar la apropiación. Sin esta provisión, la propiedad privada sería injusta.",
+            "El trabajo es lo que añade valor a las cosas. Un acre de tierra cultivada vale mucho más que un acre de tierra sin cultivar. ¿No es esto evidente?",
+            "El gobierno se instituye principalmente para proteger la propiedad. Sin seguridad en la propiedad, ¿cómo podrían los hombres disfrutar de los frutos de su trabajo?",
+            "La moneda permite la acumulación sin violar la prohibición del desperdicio, pues el dinero no se pudre. Esto permite el desarrollo del comercio y la prosperidad.",
+            "Los derechos de propiedad son anteriores al Estado. La sociedad política se crea para proteger estos derechos naturales, no para crearlos.",
+            "La libertad y la propiedad están íntimamente ligadas. Un hombre sin propiedad sobre su persona y su trabajo no es realmente libre.",
+            "La razón nos enseña la ley natural, que incluye el derecho a preservar nuestra vida y, por extensión, a apropiarnos de lo necesario para ello.",
+            "La desigualdad de posesiones surge naturalmente de las diferentes capacidades y esfuerzos de los hombres. Esto no es injusto mientras todos tengan oportunidad.",
+            "El consentimiento de los hombres establece el uso del dinero, que supera las limitaciones naturales a la acumulación.",
+            "Donde no hay propiedad, no puede haber injusticia, pues la justicia consiste en dar a cada uno lo que es suyo.",
+            "El estado de naturaleza es de paz, buena voluntad, asistencia mutua y preservación, no de guerra universal como sostiene Hobbes.",
+            "El derecho de propiedad se extiende también a los frutos de nuestra industria intelectual. Las ideas son producto del trabajo mental.",
+            "La tierra y todo lo que hay en ella fue dada por Dios a los hombres en común, pero el trabajo individual legitima la apropiación privada.",
+            "Nadie puede ser obligado a ceder su propiedad sin su consentimiento. Los impuestos requieren el consentimiento de los propietarios a través de sus representantes.",
+            "La propiedad intelectual merece protección tanto como la propiedad material, pues ambas son fruto del trabajo humano.",
+            "La limitación de no desperdiciar bienes perecederos asegura que la apropiación beneficie a la humanidad en general.",
+            "El valor de las cosas depende principalmente de la cantidad de trabajo incorporado en ellas. ¿No observas esto en el mercado?",
+            "La libertad económica es inseparable de la libertad política. Un hombre que no controla los frutos de su trabajo no es dueño de sí mismo.",
+            "El derecho a la propiedad incluye el derecho a transmitirla a los herederos, pues los padres tienen obligación de proveer para sus hijos."
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+        let chatHistory = [];
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+            // Agregar mensaje inicial de Locke
+            addMessage("John Locke", lockeResponses[0], "ai");
+        }
+
+        // Agregar mensaje al chat
+        function addMessage(sender, text, type) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.textContent = sender + ':';
+            
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Guardar en historial
+            chatHistory.push({sender, text, type});
+        }
+
+        // Enviar mensaje al chat
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage("Tú", message, "user");
+            
+            // Limpiar input
+            chatInput.value = '';
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                // Generar respuesta de Locke
+                const randomIndex = Math.floor(Math.random() * lockeResponses.length);
+                const response = lockeResponses[randomIndex];
+                
+                // Agregar respuesta de Locke
+                addMessage("John Locke", response, "ai");
+            }, 1000);
+        }
+
+        // Permitir enviar mensaje con Enter
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 1) {
+                const analysisProperty = document.getElementById('analysis-property').value.trim();
+                const critiquesLocke = document.getElementById('critiques-locke').value.trim();
+                
+                if (!analysisProperty || !critiquesLocke) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa ambos campos de análisis.';
+                }
+            } else if (activityNumber === 2) {
+                // Para la actividad 2, verificamos que haya habido interacción en el chat
+                if (chatHistory.length <= 1) { // Solo el mensaje inicial
+                    isValid = false;
+                    feedback.textContent = 'Por favor, interactúa con el Agente IA antes de enviar esta actividad.';
+                }
+            } else if (activityNumber === 4) {
+                const response4 = document.getElementById('response-4').value.trim();
+                const positionLocke = document.getElementById('position-locke').value.trim();
+                
+                if (!response4 || !positionLocke) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa ambos campos de evaluación.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('activity-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

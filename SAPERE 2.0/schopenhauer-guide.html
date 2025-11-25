@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: El Pesimismo Filosófico - Schopenhauer</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: El Pesimismo Filosófico</h1>
+        <p>Explorando la filosofía de Arthur Schopenhauer</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">AS</div>
+                <div class="philosopher-details">
+                    <h2>Arthur Schopenhauer</h2>
+                    <p>Filósofo alemán conocido por su pesimismo filosófico y su obra "El mundo como voluntad y representación"</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá a los conceptos centrales del pesimismo filosófico de Schopenhauer. Explorarás sus argumentos sobre la naturaleza del sufrimiento, la voluntad de vivir y la compasión como fundamento moral.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Estudia los argumentos del pesimismo</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Schopenhauer argumenta que la vida es fundamentalmente sufrimiento. Según él, la existencia humana está dominada por el dolor, el aburrimiento y la insatisfacción perpetua.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Conceptos clave:</h4>
+                            <ul>
+                                <li><strong>Voluntad:</strong> Fuerza ciega e irracional que impulsa toda existencia</li>
+                                <li><strong>Representación:</strong> El mundo tal como lo percibimos a través de nuestros sentidos</li>
+                                <li><strong>Insatisfacción:</strong> Estado permanente debido a la naturaleza de la voluntad</li>
+                                <li><strong>Principio de individuación:</strong> La ilusión de que somos individuos separados</li>
+                                <li><strong>Velo de Maya:</strong> Concepto hindú que designa el velo de la ilusión</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La vida es un negocio que no cubre los gastos." - Schopenhauer
+                        </div>
+                        
+                        <p>Schopenhauer identifica tres fuentes principales de sufrimiento:</p>
+                        <ol>
+                            <li>El dolor cuando no satisfacemos nuestros deseos</li>
+                            <li>El aburrimiento cuando los satisfacernos</li>
+                            <li>La conciencia de nuestra mortalidad</li>
+                        </ol>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Cuáles son los dos conceptos clave sobre los que se estructura el sistema filosófico de Schopenhauer, tal y como se refleja en el título de su obra principal?
+                            </div>
+                            <div class="quiz-question">
+                                2. Explique la afirmación inicial de Schopenhauer: «El mundo es mi representación». ¿Qué relación establece entre el sujeto y el objeto?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿En qué medida consideras que los argumentos de Schopenhauer sobre el pesimismo se aplican a la experiencia humana contemporánea?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza el sufrimiento como esencia de la vida</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Para Schopenhauer, el sufrimiento no es un accidente en la vida humana, sino su esencia misma. La voluntad nos impulsa constantemente hacia metas que, una vez alcanzadas, pierden su valor, generando nuevo deseo y, por tanto, nuevo sufrimiento.</p>
+                        
+                        <div class="concept-box">
+                            <h4>El péndulo de la vida:</h4>
+                            <p>Schopenhauer describe la existencia humana como oscilando entre dos extremos:</p>
+                            <ul>
+                                <li><strong>Dolor:</strong> Cuando tenemos deseos insatisfechos</li>
+                                <li><strong>Aburrimiento:</strong> Cuando nuestros deseos están satisfechos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La vida humana es como un péndulo que oscila entre el dolor y el aburrimiento." - Schopenhauer
+                        </div>
+                        
+                        <p>Según esta perspectiva, incluso los placeres son meramente ausencia temporal de dolor, no fuentes genuinas de felicidad.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Por qué Schopenhauer considera que toda vida es sufrimiento? ¿Cuál es la causa metafísica de este pesimismo?
+                            </div>
+                            <div class="quiz-question">
+                                4. Según Schopenhauer, ¿cuál es la naturaleza fundamental de la «voluntad» y cómo se diferencia de las concepciones filosóficas tradicionales sobre el principio del universo?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Reflexiona sobre un deseo importante que hayas satisfecho recientemente. ¿Experimentaste el "aburrimiento" del que habla Schopenhauer después de alcanzarlo?</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica la negación de la voluntad de vivir</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Frente al sufrimiento inherente a la vida, Schopenhauer propone la "negación de la voluntad de vivir" como posible solución. Esto no significa el suicidio (que considera una afirmación de la voluntad), sino una actitud de ascetismo y renuncia.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Vías de escape del sufrimiento:</h4>
+                            <ul>
+                                <li><strong>Arte:</strong> Contemplación desinteresada que nos libera temporalmente de la voluntad</li>
+                                <li><strong>Moralidad:</strong> Práctica de la compasión que nos identifica con el sufrimiento ajeno</li>
+                                <li><strong>Ascetismo:</strong> Negación consciente de los deseos de la voluntad</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La negación de la voluntad de vivir no es en modo alguno la aniquilación de una sustancia, sino un acto del libre albedrío." - Schopenhauer
+                        </div>
+                        
+                        <p>Schopenhauer se inspiró en filosofías orientales como el budismo, que también buscan la liberación del sufrimiento mediante la extinción del deseo.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿Qué papel desempeña el arte en la filosofía de Schopenhauer como remedio contra el dolor de la existencia?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Quién es el «genio» para Schopenhauer y cuál es su capacidad distintiva en relación con el arte y el conocimiento?
+                            </div>
+                            <div class="quiz-question">
+                                7. Describa la vía ética que Schopenhauer propone para la liberación definitiva de la tiranía de la voluntad.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>¿Cómo entiendes la diferencia entre la "negación de la voluntad" que propone Schopenhauer y el suicidio? Explica con tus propias palabras.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre la compasión como fundamento moral</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>A pesar de su pesimismo, Schopenhauer desarrolla una ética basada en la compasión. Considera que al reconocer que todos compartimos el mismo sufrimiento fundamental, podemos desarrollar empatía hacia los demás.</p>
+                        
+                        <div class="concept-box">
+                            <h4>La compasión en Schopenhauer:</h4>
+                            <ul>
+                                <li><strong>Fundamento moral:</strong> La compasión como único motivo moral genuino</li>
+                                <li><strong>Identificación metafísica:</strong> Reconocimiento de que todos somos manifestaciones de la misma voluntad</li>
+                                <li><strong>Superación del egoísmo:</strong> La compasión nos libera del encierro en nuestro propio yo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La compasión es la base de toda moral libre." - Schopenhauer
+                        </div>
+                        
+                        <p>Para Schopenhauer, la compasión surge del reconocimiento de que el sufrimiento ajeno no es fundamentalmente diferente del propio, ya que todos participamos de la misma esencia.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                8. ¿Cuál es el significado de la fórmula sánscrita Tat twam asi («esto mismo eres tú») en la ética de Schopenhauer?
+                            </div>
+                            <div class="quiz-question">
+                                9. ¿Por qué la música ocupa un lugar privilegiado y separado del resto de las artes en el sistema estético schopenhaueriano?
+                            </div>
+                            <div class="quiz-question">
+                                10. ¿Cómo rompió la filosofía de Schopenhauer con el Idealismo Alemán de su época, representado por pensadores como Hegel y Fichte?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que la compasión puede ser un fundamento sólido para la moralidad, incluso desde una perspectiva pesimista como la de Schopenhauer? ¿Por qué?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave de Schopenhauer</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Agapé</div>
+                <div class="term-definition">Amor universal, incondicionado y puro, identificado con la compasión (caritas), en oposición a éros (amor egoísta). Es la base del actuar virtuoso.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ascetismo</div>
+                <div class="term-definition">La práctica de la renuncia al mundo y a los deseos corporales (como el ayuno o la castidad) como vía para la negación de la voluntad de vivir y la liberación definitiva del sufrimiento.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Compasión (Mitleid)</div>
+                <div class="term-definition">Sentimiento de empatía con el sufrimiento ajeno, basado en el conocimiento metafísico de que todos los seres comparten la misma esencia (la voluntad). Es el fundamento de la moral y de toda virtud genuina.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Cosa en sí (Ding an sich)</div>
+                <div class="term-definition">Concepto heredado de Kant que se refiere a la realidad última y esencial de las cosas, independiente de nuestra percepción. Schopenhauer la identificó con la voluntad.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Genio (Genie)</div>
+                <div class="term-definition">El artista, una figura excepcional con una capacidad intelectual superior que le permite, a través de la intuición, contemplar las Ideas platónicas y plasmarlas en obras de arte para el deleite y alivio de los demás.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Idea platónica (Platonische Idee)</div>
+                <div class="term-definition">Las formas eternas o modelos arquetípicos de las cosas. Son los distintos grados en que la voluntad única se objetiva en el mundo. El arte es el medio para contemplar estas Ideas.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Principio de individuación (Principium Individuationis)</div>
+                <div class="term-definition">Principio que, a través de las formas del espacio y el tiempo, causa la ilusión de que la voluntad única se manifiesta como una multiplicidad de individuos separados y distintos. Es la base del egoísmo y el conflicto.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Representación (Vorstellung)</div>
+                <div class="term-definition">El mundo entero en tanto que es objeto para un sujeto cognoscente. Todo lo que percibimos y conocemos, desde la tierra hasta el sol, existe solo como una imagen en nuestra conciencia o cerebro.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Tat twam asi</div>
+                <div class="term-definition">Fórmula sánscrita de las Upanishads que significa «esto mismo eres tú». Sintetiza la verdad metafísica de la unidad de todos los seres y sirve como fundamento para la ética de la compasión.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Velo de Maya (Schleier von Maya)</div>
+                <div class="term-definition">Concepto de la mitología hindú que designa el «velo de la ilusión». Es análogo al principio de individuación de Schopenhauer, ya que oculta la unidad esencial de la realidad (la voluntad) y nos hace percibir un mundo de multiplicidad y diferencia.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Voluntad (o voluntad de vivir)</div>
+                <div class="term-definition">La esencia íntima del mundo, la cosa en sí. Es un impulso ciego, único, irracional, inconsciente, insaciable y sin propósito, que se objetiva en todos los fenómenos del universo, desde las fuerzas de la naturaleza hasta el ser humano.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice la relación entre la metafísica de Schopenhauer (la Voluntad como cosa en sí) y su epistemología (el mundo como Representación). ¿De qué manera la experiencia interna del cuerpo sirve como puente entre ambos conceptos y cómo fundamenta su sistema?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Discuta el concepto de pesimismo de Schopenhauer. ¿Es simplemente una descripción de la miseria del mundo o es una consecuencia necesaria de su sistema metafísico? Utilice sus ideas sobre el deseo, el sufrimiento, el aburrimiento y la lucha por la vida para apoyar su argumento.</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Compare y contraste las dos principales vías de liberación del sufrimiento en la filosofía de Schopenhauer: la contemplación estética y la renuncia ética (ascetismo). Explique por qué una ofrece un alivio temporal y la otra una liberación definitiva.</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Examine las influencias de Platón, Kant y la filosofía oriental (particularmente las Upanishads y el budismo) en el pensamiento de Schopenhauer. ¿De qué manera sintetizó estas diversas fuentes para crear un sistema filosófico coherente y original?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Explique la «objetivación de la voluntad» a través de la jerarquía de las Ideas platónicas. ¿Cómo utiliza Schopenhauer este concepto para estructurar el mundo natural, desde las fuerzas inorgánicas hasta el ser humano, y cómo se manifiesta la lucha perpetua en cada nivel de esta jerarquía?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre el pesimismo filosófico de Schopenhauer</h3>
+            <p>Has explorado los conceptos centrales de una de las filosofías más influyentes del siglo XIX. Reflexiona sobre estas ideas y cómo se relacionan con tu propia comprensión de la vida y el sufrimiento.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('schopenhauerGuideProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('schopenhauerGuideProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Comentado: Aforismos sobre la Voluntad de Poder</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #d35400;
+            --aphorisms: #c0392b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--philosophy);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .aphorisms-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--aphorisms), #a52714);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(192, 57, 43, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .aphorisms-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--aphorisms);
+            backdrop-filter: blur(5px);
+        }
+        
+        .aphorisms-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .aphorisms-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .aphorism-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--aphorisms);
+            transition: all 0.3s ease;
+        }
+        
+        .aphorism-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .aphorism-number {
+            font-weight: bold;
+            color: var(--aphorisms);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .aphorism-text {
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .analysis-guide {
+            background: #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .practical-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 3px solid var(--aphorisms);
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--aphorisms);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--aphorisms);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+        
+        .own-aphorism-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .own-aphorism-input:focus {
+            outline: none;
+            border-color: var(--aphorisms);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--aphorisms), #a52714);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .practical-tips {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📖 Texto Comentado: Aforismos sobre la Voluntad de Poder</h1>
+        <p>La filosofía vitalista de Friedrich Nietzsche</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="aphorisms-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">FN</div>
+                <div class="philosopher-details">
+                    <h2>Friedrich Nietzsche</h2>
+                    <p>Filósofo alemán de la voluntad de poder y la transvaloración de valores</p>
+                    <div class="duration">Duración estimada: 75 minutos</div>
+                </div>
+            </div>
+            
+            <div class="aphorisms-description">
+                <p>Explora los aforismos más incisivos de Nietzsche sobre la Voluntad de Poder, el Superhombre y la crítica a la moral tradicional. Estos pensamientos condensan su filosofía en reflexiones provocadoras que desafían las convenciones y proponen una nueva forma de entender la existencia.</p>
+            </div>
+        </section>
+        
+        <!-- Aforismos de Nietzsche -->
+        <section class="aphorisms-container">
+            <h2 style="margin-bottom: 2rem; color: var(--aphorisms); text-align: center;">50 Aforismos sobre la Voluntad de Poder</h2>
+            
+            <div class="aphorisms-grid" id="aphorisms-grid">
+                <!-- Los aforismos se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee los aforismos seleccionados de Nietzsche</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Lee atentamente los 50 aforismos de Nietzsche y selecciona los 5 que más te hayan impactado o resonado contigo.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Guía de lectura:</h4>
+                            <ul>
+                                <li>Identifica los temas recurrentes: Voluntad de Poder, Superhombre, crítica moral</li>
+                                <li>Reflexiona sobre la aplicación práctica de cada pensamiento</li>
+                                <li>Relaciona los aforismos con tu experiencia personal</li>
+                                <li>Considera el contexto filosófico de cada afirmación</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus aforismos seleccionados:</h4>
+                    <p>Escribe los números de los 5 aforismos que más te hayan impactado y explica brevemente por qué cada uno te resulta significativo.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Ejemplo: Aforismo 3: Me impactó porque...&#10;Aforismo 15: Me resonó porque..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Haz comentarios y análisis filosófico de los aforismos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Selecciona 3 aforismos y desarrolla un análisis filosófico detallado de cada uno, relacionándolos con el sistema filosófico de Nietzsche.</p>
+                        
+                        <div class="analysis-guide">
+                            <h4>Guía para el análisis filosófico:</h4>
+                            <ul>
+                                <li><strong>Contexto filosófico:</strong> ¿Cómo se relaciona con la Voluntad de Poder, el Superhombre o la crítica moral?</li>
+                                <li><strong>Originalidad:</strong> ¿Qué tiene de novedoso o disruptivo este pensamiento?</li>
+                                <li><strong>Aplicación práctica:</strong> ¿Cómo puede aplicarse este pensamiento en la vida contemporánea?</li>
+                                <li><strong>Crítica:</strong> ¿Qué limitaciones o problemas identificas en esta perspectiva?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis filosófico:</h4>
+                    <p>Desarrolla un comentario filosófico detallado para 3 aforismos de tu elección.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Aforismo X: [Tu análisis filosófico detallado]&#10;&#10;Aforismo Y: [Tu análisis filosófico detallado]&#10;&#10;Aforismo Z: [Tu análisis filosófico detallado]"></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Identifica principios para la autosuperación</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Identifica y organiza los principios de autosuperación que Nietzsche ofrece en sus aforismos, categorizándolos por áreas de aplicación.</p>
+                        
+                        <div class="practical-tips">
+                            <div class="tip-card">
+                                <div class="tip-icon">💪</div>
+                                <h4>Voluntad de Poder</h4>
+                                <p>Principios para el desarrollo del poder creativo personal</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🚫</div>
+                                <h4>Crítica Moral</h4>
+                                <p>Reflexiones para superar la moral de rebaño</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🌟</div>
+                                <h4>Superhombre</h4>
+                                <p>Ideas para la autosuperación y creación de valores</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🎯</div>
+                                <h4>Afirmación Vital</h4>
+                                <p>Principios para decir "sí" a la vida en su totalidad</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tus principios identificados:</h4>
+                    <p>Selecciona al menos 5 principios de autosuperación de los aforismos y explica cómo podrías aplicarlos en tu desarrollo personal.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="1. [Principio del aforismo X]: Aplicación práctica...&#10;2. [Principio del aforismo Y]: Aplicación práctica...&#10;3. [Principio del aforismo Z]: Aplicación práctica..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Escribe tu propio comentario y aforismos</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Inspirado en los aforismos de Nietzsche, escribe tu propio comentario filosófico y crea al menos 3 aforismos originales.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos a considerar en tus aforismos:</h4>
+                            <ul>
+                                <li>Provocación y desafío a las convenciones</li>
+                                <li>Profundidad filosófica y vital</li>
+                                <li>Afirmación de la Voluntad de Poder</li>
+                                <li>Originalidad en la perspectiva</li>
+                                <li>Coherencia con tu experiencia vital</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comentario filosófico:</h4>
+                    <p>Desarrolla un comentario personal sobre la filosofía vitalista que has extraído de los aforismos de Nietzsche.</p>
+                    
+                    <textarea class="activity-response" id="response-4a" placeholder="Escribe tu comentario filosófico personal aquí..."></textarea>
+                    
+                    <h4 style="margin-top: 1.5rem;">Tus aforismos originales:</h4>
+                    <p>Crea al menos 3 aforismos originales inspirados en tu lectura de Nietzsche.</p>
+                    
+                    <input type="text" class="own-aphorism-input" id="aphorism-1" placeholder="Tu primer aforismo...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-2" placeholder="Tu segundo aforismo...">
+                    <input type="text" class="own-aphorism-input" id="aphorism-3" placeholder="Tu tercer aforismo...">
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el texto comentado</h3>
+            <div class="progress-bar">
+                <div class="progress" id="aphorisms-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el texto comentado sobre los aforismos de Nietzsche</h3>
+            <p>Has explorado profundamente la filosofía vitalista de Nietzsche, analizado filosóficamente sus aforismos, identificado principios para la autosuperación y creado tus propias reflexiones. Continúa practicando esta forma de pensamiento para desarrollar tu propia Voluntad de Poder.</p>
+        </div>
+    </div>
+
+    <script>
+        // 50 Aforismos profundos de Nietzsche
+        const nietzscheAphorisms = [
+            "Lo que no me mata, me hace más fuerte.",
+            "Dios ha muerto. Dios sigue muerto. Y nosotros lo hemos matado.",
+            "Yo os enseño el Superhombre. El hombre es algo que debe ser superado.",
+            "Debes tener caos dentro de ti para dar a luz a una estrella danzante.",
+            "El individuo ha luchado siempre para no ser absorbido por la tribu.",
+            "La madurez del hombre es haber vuelto a encontrar la seriedad con que jugaba cuando era niño.",
+            "Sin música, la vida sería un error.",
+            "Hay que tener el caos en uno mismo para poder dar a luz una estrella danzante.",
+            "El que lucha con monstruos debe cuidar de no convertirse también en monstruo.",
+            "No hay hechos, sólo interpretaciones.",
+            "La esperanza es el peor de los males, pues prolonga el tormento del hombre.",
+            "En el amor siempre hay algo de locura, mas en la locura siempre hay algo de razón.",
+            "La ventaja de tener mala memoria es que se goza muchas veces de las mismas cosas.",
+            "La vida es un instinto de desarrollo, de supervivencia, de acumulación de fuerzas, de poder.",
+            "El hombre es una cuerda tendida entre el animal y el Superhombre.",
+            "El pensamiento del suicidio es un poderoso consuelo: ayuda a superar muchas noches terribles.",
+            "La moral es la mejor de todas las reglas para guiar a la humanidad.",
+            "La verdad es aquella clase de error sin la cual una determinada especie de seres vivos no podría vivir.",
+            "El cristianismo nació para dar al corazón un alivio; pero luego tuvo necesidad de primeramente angustiar el corazón.",
+            "La espiritualización de la sensualidad se llama amor.",
+            "Quien tiene un porqué para vivir, puede soportar casi cualquier cómo.",
+            "El destino de los hombres está hecho de momentos felices, toda la vida los tiene, pero no de épocas felices.",
+            "La palabra más soez y la carta más grosera son mejores, son más educadas que el silencio.",
+            "El que no pueda bendecir, que aprenda a maldecir.",
+            "El arte existe para que no muera la verdad.",
+            "La esperanza es el peor de los males, pues prolonga el tormento del hombre.",
+            "La guerra vuelve estúpido al vencedor y rencoroso al vencido.",
+            "La mujer fue el segundo error de Dios.",
+            "La mentira más común es aquella con la que un hombre se engaña a sí mismo. Engañar a los demás es un defecto relativamente vano.",
+            "La vida es eso que te va sucediendo mientras tú te empeñas en hacer otros planes.",
+            "El que desprecia es porque todavía no ha podido obtener.",
+            "Sólo comprendemos aquellas preguntas que podemos responder.",
+            "El hombre superior se distingue del inferior por la intrepidez con que profesa las inmoralidades.",
+            "En el cielo, todos los sitios interesantes están prohibidos.",
+            "La espiritualización de la sensualidad se llama amor.",
+            "El que no puede poner su voluntad en las cosas, pone por lo menos un sentido en ellas.",
+            "El que tiene un porqué para vivir se puede enfrentar a todos los 'cómos'.",
+            "La esperanza es el peor de los males, pues prolonga el tormento del hombre.",
+            "La madurez del hombre es haber vuelto a encontrar la seriedad con que jugaba cuando era niño.",
+            "La ventaja de tener mala memoria es que se goza muchas veces de las mismas cosas.",
+            "La vida es un instinto de desarrollo, de supervivencia, de acumulación de fuerzas, de poder.",
+            "El pensamiento del suicidio es un poderoso consuelo: ayuda a superar muchas noches terribles.",
+            "La moral es la mejor de todas las reglas para guiar a la humanidad.",
+            "La verdad es aquella clase de error sin la cual una determinada especie de seres vivos no podría vivir.",
+            "El cristianismo nació para dar al corazón un alivio; pero luego tuvo necesidad de primeramente angustiar el corazón.",
+            "La espiritualización de la sensualidad se llama amor.",
+            "Quien tiene un porqué para vivir, puede soportar casi cualquier cómo.",
+            "El destino de los hombres está hecho de momentos felices, toda la vida los tiene, pero no de épocas felices.",
+            "La palabra más soez y la carta más grosera son mejores, son más educadas que el silencio.",
+            "El que no pueda bendecir, que aprenda a maldecir."
+        ];
+
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            loadAphorisms();
+            updateProgress();
+        }
+
+        // Cargar aforismos en la página
+        function loadAphorisms() {
+            const aphorismsGrid = document.getElementById('aphorisms-grid');
+            
+            nietzscheAphorisms.forEach((aphorism, index) => {
+                const aphorismCard = document.createElement('div');
+                aphorismCard.className = 'aphorism-card';
+                aphorismCard.innerHTML = `
+                    <div class="aphorism-number">Aforismo ${index + 1}</div>
+                    <div class="aphorism-text">"${aphorism}"</div>
+                `;
+                aphorismsGrid.appendChild(aphorismCard);
+            });
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            let isValid = true;
+            let feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            // Validaciones específicas por actividad
+            if (activityNumber === 4) {
+                const aphorism1 = document.getElementById('aphorism-1').value.trim();
+                const aphorism2 = document.getElementById('aphorism-2').value.trim();
+                const aphorism3 = document.getElementById('aphorism-3').value.trim();
+                const response4a = document.getElementById('response-4a').value.trim();
+                
+                if (!aphorism1 || !aphorism2 || !aphorism3 || !response4a) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa todos los campos de la actividad 4.';
+                }
+            } else {
+                const response = document.getElementById(`response-${activityNumber}`).value.trim();
+                if (!response) {
+                    isValid = false;
+                    feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                }
+            }
+            
+            if (!isValid) {
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('aphorisms-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

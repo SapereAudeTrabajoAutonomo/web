@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Los Cuatro Elementos de Empédocles</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .element-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--philosophy);
+            text-align: center;
+        }
+        
+        .element-name {
+            font-weight: bold;
+            color: var(--philosophy);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .element-symbol {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .forces-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .force-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .force-name {
+            font-weight: bold;
+            color: var(--philosophy);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+            
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .forces-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: Los Cuatro Elementos de Empédocles</h1>
+        <p>Explorando la teoría cosmológica que dominó el pensamiento occidental durante dos mil años</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">E</div>
+                <div class="philosopher-details">
+                    <h2>Empédocles de Agrigento</h2>
+                    <p>Filósofo, médico y poeta presocrático (c. 495-435 a.C.) - Teoría de los cuatro elementos</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá a la revolucionaria teoría de Empédocles sobre los cuatro elementos fundamentales y las fuerzas cósmicas que gobiernan su interacción. Explorarás cómo esta teoría representó un avance crucial en el pensamiento presocrático y sentó las bases para la física y química occidentales.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Los Cuatro Elementos Fundamentales</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Empédocles propuso que toda la realidad está compuesta por cuatro elementos fundamentales o "raíces" (rhizómata): tierra, agua, aire y fuego. Estos elementos son eternos, inmutables y se combinan en diferentes proporciones para formar todas las sustancias del universo.</p>
+                        
+                        <div class="elements-grid">
+                            <div class="element-card">
+                                <div class="element-symbol">🌍</div>
+                                <div class="element-name">Tierra</div>
+                                <div class="element-description">Sólido, estable, principio de solidez y permanencia</div>
+                            </div>
+                            <div class="element-card">
+                                <div class="element-symbol">💧</div>
+                                <div class="element-name">Agua</div>
+                                <div class="element-description">Líquido, fluido, principio de cohesión y vida</div>
+                            </div>
+                            <div class="element-card">
+                                <div class="element-symbol">💨</div>
+                                <div class="element-name">Aire</div>
+                                <div class="element-description">Gaseoso, expansivo, principio de movimiento y respiración</div>
+                            </div>
+                            <div class="element-card">
+                                <div class="element-symbol">🔥</div>
+                                <div class="element-name">Fuego</div>
+                                <div class="element-description">Caliente, activo, principio de transformación y energía</div>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>Características de los elementos:</h4>
+                            <ul>
+                                <li><strong>Eternos:</strong> No pueden crearse ni destruirse</li>
+                                <li><strong>Inmutables:</strong> Conservan sus propiedades esenciales</li>
+                                <li><strong>Combinables:</strong> Se mezclan en proporciones variables</li>
+                                <li><strong>Universales:</strong> Constituyen toda la realidad material</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Cuatro son las raíces de todas las cosas: fuego, agua, tierra y aire ilimitado en altura." - Empédocles
+                        </div>
+                        
+                        <p>Esta teoría representó un avance significativo sobre el monismo presocrático, ya que permitía explicar la diversidad del mundo sin recurrir a un único principio material.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿Cuáles son los cuatro elementos de Empédocles y qué propiedades fundamentales representa cada uno?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿En qué sentido la teoría de Empédocles supera las limitaciones del monismo presocrático?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica por qué la teoría de los cuatro elementos permitió dar cuenta de la diversidad y el cambio en el mundo natural de manera más satisfactoria que las teorías monistas anteriores.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Las Fuerzas Cósmicas: Amor y Discordia</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Empédocles postuló dos fuerzas cósmicas fundamentales que gobiernan la interacción de los elementos: el Amor (Philia) y la Discordia (Neikos). Estas fuerzas explican los procesos de combinación y separación que dan lugar al cambio en el universo.</p>
+                        
+                        <div class="forces-container">
+                            <div class="force-card">
+                                <div class="force-name">Amor (Philia)</div>
+                                <div class="force-description">
+                                    <p><strong>Fuerza de unión y armonía</strong></p>
+                                    <p>Atrae y combina los elementos diferentes</p>
+                                    <p>Genera orden, vida y organización</p>
+                                    <p>Tiende hacia la unidad perfecta</p>
+                                </div>
+                            </div>
+                            <div class="force-card">
+                                <div class="force-name">Discordia (Neikos)</div>
+                                <div class="force-description">
+                                    <p><strong>Fuerza de separación y conflicto</strong></p>
+                                    <p>Separa y disocia los elementos</p>
+                                    <p>Genera caos, muerte y desorganización</p>
+                                    <p>Tiende hacia la dispersión total</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>El Ciclo Cósmico:</h4>
+                            <ul>
+                                <li><strong>Estado de Amor:</strong> Todos los elementos perfectamente mezclados (Esfera)</li>
+                                <li><strong>Predominio de Discordia:</strong> Los elementos comienzan a separarse</li>
+                                <li><strong>Mundo actual:</strong> Estado intermedio de mezcla parcial</li>
+                                <li><strong>Estado de Discordia:</strong> Elementos completamente separados</li>
+                                <li><strong>Retorno al Amor:</strong> Ciclo recomienza eternamente</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Doble es el nacimiento de las cosas mortales, y doble su destrucción. Pues la unión de todas las cosas engendra una generación y la destrucción de lo que ha nacido; la otra crece y se dispersa cuando las cosas se separan." - Empédocles
+                        </div>
+                        
+                        <p>Esta visión dinámica del cosmos como un eterno conflicto entre fuerzas opuestas anticipa conceptos modernos de física y química.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Qué funciones cumplen el Amor y la Discordia en la cosmología de Empédocles?
+                            </div>
+                            <div class="quiz-question">
+                                4. Describe las diferentes etapas del ciclo cósmico según Empédocles.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Cómo explica la interacción entre Amor y Discordia los procesos de generación y corrupción en el mundo natural? Proporciona ejemplos concretos.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. La Teoría del Conocimiento y la Percepción</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Empédocles desarrolló una teoría del conocimiento basada en el principio "lo semejante conoce lo semejante". Según esta teoría, percibimos los elementos externos mediante los mismos elementos que componen nuestros órganos sensoriales.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Teoría de la Percepción:</h4>
+                            <ul>
+                                <li><strong>Emanaciones (aporrhoai):</strong> Los objetos emiten partículas de sus elementos constituyentes</li>
+                                <li><strong>Poros:</strong> Los órganos sensoriales tienen poros de diferentes tamaños</li>
+                                <li><strong>Afinidad:</strong> Solo las partículas que coinciden con los poros pueden ser percibidas</li>
+                                <li><strong>Conocimiento:</strong> El pensamiento funciona de manera similar a la percepción</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>Órganos sensoriales y elementos:</h4>
+                            <ul>
+                                <li><strong>Vista:</strong> Percibe el fuego (luz) a través del fuego interno del ojo</li>
+                                <li><strong>Oído:</strong> Percibe el aire (sonido) a través del aire interno del oído</li>
+                                <li><strong>Olfato:</strong> Percibe partículas en el aire a través de poros nasales</li>
+                                <li><strong>Tacto:</strong> Percibe la tierra (solidez) a través de la piel</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Por la tierra vemos la tierra, por el agua el agua, por el éter el éter divino, pero por el fuego el fuego destructor, por el amor el amor y por la lucha la lúgubre lucha." - Empédocles
+                        </div>
+                        
+                        <p>Esta teoría representa uno de los primeros intentos de explicar mecánicamente los procesos de percepción y conocimiento.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. Explica el principio "lo semejante conoce lo semejante" en la teoría del conocimiento de Empédocles.
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Cómo funciona el proceso de percepción visual según Empédocles?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Analiza las fortalezas y limitaciones de la teoría del conocimiento de Empédocles. ¿En qué aspectos anticipa conceptos modernos y en qué aspectos resulta insuficiente?</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Legado e Influencia de la Teoría</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>La teoría de los cuatro elementos de Empédocles ejerció una influencia profunda y duradera en el pensamiento occidental, dominando la física, la medicina y la química durante más de dos mil años.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Influencia histórica:</h4>
+                            <ul>
+                                <li><strong>Platón y Aristóteles:</strong> Adoptaron y desarrollaron la teoría</li>
+                                <li><strong>Medicina hipocrática:</strong> Teoría de los cuatro humores corporales</li>
+                                <li><strong>Alquimia medieval:</strong> Búsqueda de la transmutación de elementos</li>
+                                <li><strong>Ciencia renacentista:</strong> Base de la química premoderna</li>
+                                <li><strong>Astrología tradicional:</strong> Asociación elementos-signos zodiacales</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box">
+                            <h4>Conceptos anticipados:</h4>
+                            <ul>
+                                <li><strong>Conservación de la materia:</strong> Los elementos no se crean ni destruyen</li>
+                                <li><strong>Combinación química:</strong> Mezcla en proporciones definidas</li>
+                                <li><strong>Fuerzas fundamentales:</strong> Anticipación de conceptos de física</li>
+                                <li><strong>Teoría corpuscular:</strong> Prefiguración del atomismo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Nada surge de lo que no es, y es imposible e impensable que lo que es perezca totalmente." - Empédocles
+                        </div>
+                        
+                        <p>Aunque superada por la química moderna, la teoría de Empédocles representa un hito crucial en el desarrollo del pensamiento científico al buscar explicaciones naturales para los fenómenos del mundo.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Por qué la teoría de los cuatro elementos dominó el pensamiento científico durante tanto tiempo?
+                            </div>
+                            <div class="quiz-question">
+                                8. Menciona tres conceptos modernos que fueron anticipados por la teoría de Empédocles.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Qué aspectos de la teoría de Empédocles consideras más valiosos desde una perspectiva histórica? ¿Qué lecciones podemos aprender de su enfoque para el desarrollo del pensamiento científico?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Empedocleanos</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Rhizómata</div>
+                <div class="term-definition">Término griego para "raíces", usado por Empédocles para referirse a los cuatro elementos fundamentales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Philia</div>
+                <div class="term-definition">Amor o Amistad, la fuerza cósmica de unión y armonía que combina los elementos.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Neikos</div>
+                <div class="term-definition">Discordia o Odio, la fuerza cósmica de separación y conflicto que disocia los elementos.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Esfera (Sphairos)</div>
+                <div class="term-definition">Estado de perfecta mezcla y unidad bajo el dominio completo del Amor.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Aporrhoai</div>
+                <div class="term-definition">Emanaciones o efluvios que los objetos emiten y que permiten la percepción sensorial.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ciclo Cósmico</div>
+                <div class="term-definition">Alternancia eterna entre períodos de predominio del Amor y la Discordia.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Teoría de los Poros</div>
+                <div class="term-definition">Explicación de la percepción basada en la correspondencia entre emanaciones y poros sensoriales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Principio de Afinidad</div>
+                <div class="term-definition">"Lo semejante conoce lo semejante" - base de la teoría del conocimiento empedocleana.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice cómo la teoría de los cuatro elementos de Empédocles representa una superación del monismo presocrático. ¿Qué ventajas explicativas ofrece el pluralismo frente al monismo?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Examine la relación entre las fuerzas del Amor y la Discordia en la cosmología de Empédocles. ¿En qué sentido esta dialéctica anticipa conceptos científicos modernos?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Discuta la teoría del conocimiento de Empédocles basada en el principio "lo semejante conoce lo semejante". ¿Qué aspectos de esta teoría resultan innovadores y cuáles limitados?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Evalúe la influencia histórica de la teoría de los cuatro elementos en el desarrollo de la ciencia occidental. ¿Por qué perduró esta teoría durante más de dos mil años?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Compare la teoría de Empédocles con el atomismo de Demócrito. ¿Qué similitudes y diferencias encuentra entre estos dos sistemas pluralistas?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre Los Cuatro Elementos de Empédocles</h3>
+            <p>Has explorado una de las teorías cosmológicas más influyentes de la historia del pensamiento occidental. La visión de Empédocles de un universo regido por elementos eternos y fuerzas opuestas representa un hito crucial en el desarrollo de la filosofía natural y la ciencia.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('empedoclesElementsProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('empedoclesElementsProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

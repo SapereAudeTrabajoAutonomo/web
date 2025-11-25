@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensayo: El Problema del Cambio - Monistas vs Pluralistas</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #2980b9;
+            --essay: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--essay);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .essay-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--essay), #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .essay-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--essay);
+            backdrop-filter: blur(5px);
+        }
+        
+        .essay-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .essay-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .essay-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: var(--essay);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--essay);
+        }
+        
+        .essay-text {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--essay);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--essay);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--essay);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+        }
+        
+        .outline-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .outline-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .outline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--essay);
+        }
+        
+        .outline-content {
+            padding-left: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--essay), #8e44ad);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Ensayo: La Solución al Problema del Cambio</h1>
+        <p>Monistas vs Pluralistas Presocráticos - El Gran Debate Cosmológico</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="essay-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">Δ</div>
+                <div class="philosopher-details">
+                    <h2>Presocráticos Monistas y Pluralistas</h2>
+                    <p>El debate fundamental sobre la naturaleza del cambio en el cosmos</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="essay-description">
+                <p>Este ensayo explora uno de los problemas centrales de la filosofía presocrática: la naturaleza del cambio. Analiza cómo los filósofos monistas (Tales, Anaxímenes, Heráclito, Parménides) y pluralistas (Empédocles, Anaxágoras, Demócrito) ofrecieron soluciones radicalmente diferentes al problema de la permanencia y el cambio en el cosmos, estableciendo las bases del pensamiento científico y filosófico occidental.</p>
+            </div>
+        </section>
+        
+        <!-- Ensayo completo -->
+        <section class="essay-container">
+            <div class="essay-content">
+                <div class="essay-section">
+                    <h2 class="section-title">1. Introducción: El Problema Fundamental del Cambio</h2>
+                    <div class="essay-text">
+                        <p>El problema del cambio constituye uno de los desafíos filosóficos más antiguos y fundamentales. ¿Cómo es posible que las cosas cambien y, sin embargo, mantengan cierta identidad? ¿Qué permanece cuando todo parece transformarse? Estas preguntas, que hoy nos pueden parecer abstractas, representaban para los primeros filósofos griegos el núcleo mismo de la investigación sobre la naturaleza (physis).</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Los presocráticos, divididos entre monistas y pluralistas, ofrecieron respuestas radicalmente diferentes a este problema. Los monistas buscaron un principio único (arché) que explicara tanto la permanencia como el cambio, mientras que los pluralistas propusieron múltiples principios fundamentales que, al combinarse de diferentes maneras, daban lugar a la aparente diversidad y transformación del mundo. Este ensayo examina estas soluciones contrapuestas y su importancia para el desarrollo del pensamiento filosófico.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">2. Los Monistas: La Búsqueda del Principio Único</h2>
+                    <div class="essay-text">
+                        <p>Los filósofos monistas de la escuela de Mileto -Tales, Anaximandro y Anaxímenes- compartían la convicción de que debía existir un principio único (arché) del cual todo se originaba y al cual todo retornaba. Para Tales, este principio era el agua; para Anaxímenes, el aire; para Anaximandro, el ápeiron (lo indeterminado).</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>La solución monista al problema del cambio consistía en postular que las transformaciones aparentes no eran más que modificaciones de una sustancia fundamental que permanecía inmutable en su esencia. El agua de Tales podía convertirse en vapor o hielo, pero seguía siendo agua en su naturaleza última. El aire de Anaxímenes podía condensarse o rarefaccionarse, generando la diversidad de los fenómenos, pero la sustancia básica permanecía invariable.</p>
+                    </div>
+                    <div class="quote">
+                        "El agua es el principio (arché) de todas las cosas." - Tales de Mileto
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta perspectiva ofrecía una solución elegante al problema del cambio: la aparente multiplicidad y transformación del mundo encubría una realidad unitaria y permanente. El cambio era superficial, la permanencia era esencial. Sin embargo, esta solución enfrentaba dificultades para explicar cómo de un principio único podía surgir la enorme diversidad cualitativa del mundo sensible.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">3. Heráclito y Parménides: Los Extremos del Debate</h2>
+                    <div class="essay-text">
+                        <p>El debate sobre el cambio alcanzó su máxima tensión con las posiciones aparentemente irreconciliables de Heráclito y Parménides. Heráclito de Éfeso proclamó que "todo fluye" (panta rhei) y que el cambio era la esencia misma de la realidad. Para él, no nos bañamos dos veces en el mismo río porque tanto el río como nosotros estamos en perpetua transformación.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Paralelamente, Parménides de Elea desarrolló una posición radicalmente opuesta. A través de un riguroso ejercicio lógico, argumentó que el cambio era imposible e ilusorio. El ser es, el no-ser no es, y nada puede surgir de la nada ni convertirse en nada. Por lo tanto, la realidad debe ser única, eterna, inmutable e indivisible. Las apariencias sensibles de cambio y multiplicidad son meramente eso: apariencias engañosas.</p>
+                    </div>
+                    <div class="quote">
+                        "Todo fluye, nada permanece." - Heráclito de Éfeso
+                    </div>
+                    <div class="essay-text">
+                        <p>Estas posiciones extremas crearon lo que podríamos llamar "el problema parmenídeo": si el cambio es imposible (como argumentaba Parménides), ¿cómo explicamos la evidencia abrumadora del cambio en el mundo sensible? Si todo cambia constantemente (como sostenía Heráclito), ¿cómo es posible el conocimiento estable? Los filósofos posteriores tendrían que encontrar una manera de reconciliar estas perspectivas aparentemente contradictorias.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">4. Los Pluralistas: La Solución de Múltiples Principios</h2>
+                    <div class="essay-text">
+                        <p>Frente a las dificultades del monismo, los filósofos pluralistas propusieron una solución alternativa: en lugar de un único principio fundamental, existen múltiples principios irreductibles cuya combinación y separación explican tanto la permanencia como el cambio.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Empédocles de Agrigento postuló la existencia de cuatro "raíces" eternas e inmutables: tierra, agua, aire y fuego. El cambio aparente resulta de la combinación y separación de estos elementos bajo la acción de dos fuerzas cósmicas: el Amor (que une) y el Odio (que separa). De este modo, Empédocles podía explicar el cambio preservando la inmutabilidad de los principios fundamentales.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Anaxágoras de Clazómenas llevó el pluralismo aún más lejos, postulando la existencia de infinitas "homeomerías" o "semillas" cualitativamente distintas. Cada sustancia contiene partes de todas las demás, y el cambio ocurre cuando predominan ciertas homeomerías sobre otras. Para explicar el orden del cosmos, introdujo el Nous (Inteligencia), un principio ordenador que da forma al caos primordial.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">5. El Atomismo: La Solución Mecanicista</h2>
+                    <div class="essay-text">
+                        <p>La solución más radical y anticipatoria al problema del cambio fue propuesta por Leucipo y Demócrito: la teoría atomista. Según esta visión, la realidad está compuesta por átomos (partículas indivisibles e inmutables) que se mueven en el vacío.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Los átomos son eternos, cualitativamente idénticos, y solo se diferencian por su forma, tamaño y posición. El cambio aparente resulta del movimiento, combinación y separación de estos átomos en el vacío. Así, los atomistas podían explicar toda la diversidad del mundo sensible a partir de la recombinación mecánica de elementos permanentes e inmutables.</p>
+                    </div>
+                    <div class="quote">
+                        "Por convención, dulce; por convención, amargo; por convención, caliente; por convención, frío; por convención, color; pero en realidad, átomos y vacío." - Demócrito
+                    </div>
+                    <div class="essay-text">
+                        <p>Esta solución representaba una superación notable del problema parmenídeo: los átomos mismos son inmutables (satisfaciendo el requisito parmenídeo), pero su movimiento y recombinación en el vacío explican el cambio aparente (reconociendo la intuición heraclítea). El atomismo ofrecía así una síntesis poderosa que anticipaba en muchos aspectos la física moderna.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">6. Comparación y Evaluación de las Soluciones</h2>
+                    <div class="essay-text">
+                        <p>Al comparar las soluciones monistas y pluralistas al problema del cambio, podemos identificar ventajas y limitaciones en cada enfoque. El monismo ofrece simplicidad y unidad explicativa, pero enfrenta dificultades para dar cuenta de la diversidad cualitativa del mundo. El pluralismo explica mejor la diversidad, pero a costa de multiplicar los principios fundamentales.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Los monistas tendían a privilegiar la permanencia sobre el cambio, mientras que los pluralistas encontraban maneras de reconocer tanto la permanencia de los principios como la realidad del cambio. El atomismo, en particular, representaba la solución más sofisticada, anticipando distinciones fundamentales entre propiedades primarias (objetivas) y secundarias (subjetivas) que serían retomadas por la ciencia moderna.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Estas soluciones no fueron meramente especulativas; establecieron los paradigmas básicos que orientarían el desarrollo posterior de la filosofía y la ciencia. La distinción entre apariencia y realidad, la búsqueda de principios explicativos, y el desarrollo de modelos mecanicistas encuentran sus raíces en este debate fundamental sobre la naturaleza del cambio.</p>
+                    </div>
+                </div>
+                
+                <div class="essay-section">
+                    <h2 class="section-title">7. Conclusión: El Legado del Debate</h2>
+                    <div class="essay-text">
+                        <p>El debate entre monistas y pluralistas presocráticos sobre el problema del cambio representa uno de los momentos fundacionales del pensamiento occidental. A través de este debate, los primeros filósofos establecieron las categorías básicas y los problemas fundamentales que seguirían orientando la reflexión filosófica y científica durante milenios.</p>
+                    </div>
+                    <div class="essay-text">
+                        <p>Las soluciones propuestas -desde el monismo material de los milesios hasta el pluralismo sofisticado de los atomistas- no fueron meramente superadas por desarrollos posteriores, sino que establecieron los paradigmas explicativos básicos. La física contemporánea, con su búsqueda de partículas fundamentales y leyes de conservación, sigue enfrentando versiones actualizadas del mismo problema que ocupó a los presocráticos.</p>
+                    </div>
+                    <div class="quote">
+                        "Nada surge de la nada, y nada se convierte en nada." - Principio fundamental de los presocráticos
+                    </div>
+                    <div class="essay-text">
+                        <p>El verdadero legado de este debate no reside tanto en las soluciones específicas propuestas, sino en el establecimiento de la investigación racional de la naturaleza como empresa colectiva y acumulativa. Al plantear el problema del cambio de manera sistemática y buscar soluciones basadas en la razón más que en el mito, los presocráticos sentaron las bases no solo de la filosofía, sino de la ciencia misma.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Investiga las soluciones monistas al problema del cambio</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Investiga y reflexiona sobre cómo los filósofos monistas presocráticos abordaron el problema del cambio y la permanencia en el cosmos.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Filósofos monistas a investigar:</h4>
+                            <ul>
+                                <li>Tales de Mileto: El agua como principio</li>
+                                <li>Anaxímenes: El aire y los procesos de condensación/rarefacción</li>
+                                <li>Heráclito: El devenir perpetuo</li>
+                                <li>Parménides: La negación del cambio</li>
+                                <li>Anaximandro: El ápeiron como principio indeterminado</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu investigación:</h4>
+                    <p>Explica con tus propias palabras las diferentes soluciones monistas al problema del cambio, destacando sus similitudes y diferencias.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu investigación sobre las soluciones monistas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Analiza las soluciones pluralistas al problema del cambio</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Analiza cómo los filósofos pluralistas presocráticos desarrollaron soluciones alternativas al problema del cambio mediante la postulación de múltiples principios fundamentales.</p>
+                        
+                        <div class="outline-container">
+                            <div class="outline-section">
+                                <div class="outline-title">Empédocles: Los cuatro elementos y las fuerzas cósmicas</div>
+                                <div class="outline-content">
+                                    - Tierra, agua, aire y fuego como raíces eternas<br>
+                                    - El Amor (Philia) como fuerza unificadora<br>
+                                    - El Odio (Neikos) como fuerza separadora<br>
+                                    - El cambio como combinación y separación de elementos
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">Anaxágoras: Las homeomerías y el Nous</div>
+                                <div class="outline-content">
+                                    - Infinitas homeomerías cualitativamente distintas<br>
+                                    - "En todo hay parte de todo"<br>
+                                    - El Nous (Inteligencia) como principio ordenador<br>
+                                    - El cambio como predominio de ciertas homeomerías
+                                </div>
+                            </div>
+                            <div class="outline-section">
+                                <div class="outline-title">Atomismo: Átomos y vacío</div>
+                                <div class="outline-content">
+                                    - Átomos indivisibles e inmutables<br>
+                                    - El vacío como espacio de movimiento<br>
+                                    - Diferencias en forma, tamaño y posición<br>
+                                    - El cambio como recombinación mecánica
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Desarrolla un análisis comparativo de las soluciones pluralistas, explicando cómo cada una aborda el problema del cambio de manera diferente.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis sobre las soluciones pluralistas aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Compara monismo y pluralismo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Compara las soluciones monistas y pluralistas al problema del cambio, identificando sus ventajas, limitaciones y contribuciones al desarrollo del pensamiento filosófico.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Aspectos para comparar:</h4>
+                            <ul>
+                                <li>Capacidad para explicar la diversidad del mundo</li>
+                                <li>Capacidad para explicar la permanencia</li>
+                                <li>Simplicidad vs. complejidad explicativa</li>
+                                <li>Adecuación a la evidencia sensible</li>
+                                <li>Influencia en el pensamiento posterior</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu comparación:</h4>
+                    <p>Desarrolla una comparación detallada entre las soluciones monistas y pluralistas, evaluando críticamente sus méritos y limitaciones.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu comparación entre monismo y pluralismo aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Desarrolla tu propia posición sobre el problema del cambio</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>A partir de tu investigación y análisis anteriores, desarrolla tu propia posición filosófica sobre el problema del cambio, explicando qué solución te parece más convincente y por qué.</p>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                            <h4>Elementos a considerar en tu posición:</h4>
+                            <ul>
+                                <li>¿Qué solución explica mejor la evidencia del cambio?</li>
+                                <li>¿Qué solución es más coherente filosóficamente?</li>
+                                <li>¿Qué solución tiene mayor poder explicativo?</li>
+                                <li>¿Qué elementos de diferentes soluciones podrían combinarse?</li>
+                                <li>¿Tu posición se inclina más hacia el monismo o el pluralismo?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu posición filosófica:</h4>
+                    <p>Desarrolla y argumenta tu propia posición sobre el problema del cambio, integrando elementos de las diferentes soluciones presocráticas o proponiendo una perspectiva original.</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Desarrolla tu propia posición filosófica aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el ensayo</h3>
+            <div class="progress-bar">
+                <div class="progress" id="essay-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el ensayo sobre "La Solución al Problema del Cambio"</h3>
+            <p>Has investigado las soluciones monistas y pluralistas, analizado sus diferencias, comparado sus enfoques y desarrollado tu propia posición filosófica. Continúa explorando estos conceptos para profundizar en tu comprensión del debate fundamental sobre la naturaleza del cambio en la filosofía presocrática.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let activitiesCompleted = 0;
+        const totalActivities = 4;
+
+        // Inicializar la página
+        function initializePage() {
+            updateProgress();
+        }
+
+        // Enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (response === '') {
+                feedback.textContent = 'Por favor, completa la actividad antes de enviar.';
+                feedback.className = 'submission-feedback';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            // Marcar actividad como completada
+            activitiesCompleted++;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Desplazar a la siguiente actividad si no es la última
+            if (activityNumber < totalActivities) {
+                setTimeout(() => {
+                    document.getElementById(`activity-${activityNumber + 1}`).scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progressPercentage = Math.round((activitiesCompleted / totalActivities) * 100);
+            
+            document.getElementById('essay-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${progressPercentage}% completado`;
+            
+            // Mostrar mensaje de finalización si se completaron todas las actividades
+            if (activitiesCompleted === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // Función para simular volver al calendario
+        function goBack() {
+            alert('Volviendo al calendario de actividades...');
+            // En una implementación real, aquí iría la navegación a la página del calendario
+        }
+
+        // Inicializar la página cuando se carga
+        window.onload = initializePage;
+    </script>
+</body>
+</html>

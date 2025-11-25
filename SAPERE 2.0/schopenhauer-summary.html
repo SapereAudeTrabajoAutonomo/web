@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen: El Mundo como Voluntad y Representación - Schopenhauer</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .summary-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #6c3483);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-content {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section {
+            margin-bottom: 2rem;
+        }
+        
+        .summary-section h3 {
+            color: var(--philosophy);
+            border-bottom: 2px solid var(--philosophy);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .back-to-calendar {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Resumen: El Mundo como Voluntad y Representación</h1>
+        <p>Explorando la obra fundamental de Arthur Schopenhauer</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="summary-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">AS</div>
+                <div class="philosopher-details">
+                    <h2>Arthur Schopenhauer</h2>
+                    <p>Filósofo alemán conocido por su pesimismo filosófico y su obra "El mundo como voluntad y representación"</p>
+                    <div class="duration">Duración estimada: 80 minutos</div>
+                </div>
+            </div>
+            
+            <div class="summary-description">
+                <p>Este resumen te introducirá a los conceptos centrales de la obra maestra de Schopenhauer. Explorarás la distinción entre voluntad y representación, el pesimismo filosófico y las vías de liberación del sufrimiento.</p>
+            </div>
+        </section>
+        
+        <section class="summary-content">
+            <div class="summary-section">
+                <h3>Resumen Ejecutivo</h3>
+                <p>La filosofía de Arthur Schopenhauer representa un punto de inflexión decisivo en el pensamiento occidental al proponer que la esencia del universo no es la razón, sino una fuerza irracional, ciega e insaciable que denominó <strong>Voluntad (Wille)</strong>.</p>
+                
+                <div class="concept-box">
+                    <h4>Conceptos Clave:</h4>
+                    <ul>
+                        <li><strong>Representación (Vorstellung):</strong> El mundo tal como lo percibimos, un fenómeno condicionado por nuestra mente</li>
+                        <li><strong>Voluntad (Wille):</strong> La "cosa en sí" kantiana, la esencia irracional del universo</li>
+                        <li><strong>Pesimismo:</strong> La vida como sufrimiento inherente debido a la naturaleza de la Voluntad</li>
+                        <li><strong>Vías de Liberación:</strong> Arte, compasión y negación de la voluntad de vivir</li>
+                    </ul>
+                </div>
+                
+                <p>Su sistema postula que la realidad que percibimos (la Representación) es un mundo fenoménico, una ilusión similar al "velo de Maya" de la filosofía hindú. Detrás de esta apariencia, la Voluntad impulsa a todos los seres a un deseo perpetuo e inalcanzable, manifestado en el egoísmo y la lucha constante.</p>
+                
+                <div class="quote">
+                    "El mundo es mi representación" - Schopenhauer
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>El Núcleo Metafísico: Voluntad y Representación</h3>
+                
+                <h4>El Mundo como Representación</h4>
+                <p>Schopenhauer comienza su obra con la célebre sentencia: "El mundo es mi representación". Esto significa que el universo entero, tal como lo conocemos, no existe independientemente de un sujeto que lo percibe.</p>
+                
+                <div class="concept-box">
+                    <h4>Características de la Representación:</h4>
+                    <ul>
+                        <li><strong>Sujeto y Objeto:</strong> Son dos mitades inseparables de la misma realidad fenoménica</li>
+                        <li><strong>Principio de Razón Suficiente:</strong> Solo aplicable dentro del mundo de la representación</li>
+                        <li><strong>Fenómeno:</strong> El mundo tal como aparece a nuestros sentidos, estructurado por espacio, tiempo y causalidad</li>
+                    </ul>
+                </div>
+                
+                <h4>El Mundo como Voluntad</h4>
+                <p>Si el mundo como representación es el fenómeno, la Voluntad es el noúmeno, la "cosa en sí". Es la esencia íntima y metafísica de todo cuanto existe.</p>
+                
+                <div class="concept-box">
+                    <h4>Naturaleza de la Voluntad:</h4>
+                    <ul>
+                        <li><strong>Irracional e Inconsciente:</strong> Deseo ciego, voraz y sin fin</li>
+                        <li><strong>Única y Eterna:</strong> Una y la misma en todos los seres, fuera del tiempo y espacio</li>
+                        <li><strong>No es un Dios:</strong> Fuerza impersonal y sin propósito</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "La voluntad es un impulso ciego y universal que solo quiere sin saber qué quiere porque únicamente es voluntad y nada más que eso."
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Pesimismo Radical: La Vida como Sufrimiento</h3>
+                <p>La metafísica de la Voluntad conduce directamente a la conclusión central del sistema de Schopenhauer: "Toda vida es sufrimiento". La existencia es un error, y el mundo, "el peor de los posibles".</p>
+                
+                <div class="concept-box">
+                    <h4>Fuentes del Sufrimiento:</h4>
+                    <ul>
+                        <li><strong>Deseo Insaciable:</strong> Ciclo sin fin de carencia y frustración</li>
+                        <li><strong>Péndulo del Dolor y Aburrimiento:</strong> Oscilación entre deseo insatisfecho y vacío post-satisfacción</li>
+                        <li><strong>Lucha por la Vida:</strong> Guerra de todos contra todos por recursos y supervivencia</li>
+                        <li><strong>Egoísmo:</strong> Expresión de la afirmación de la voluntad individual</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "La vida es un momentáneo bienestar, un goce fugaz y condicionado por la carencia, un enorme y largo sufrimiento, una lucha constante y absoluta de todos contra todos"
+                </div>
+            </div>
+            
+            <div class="summary-section">
+                <h3>Vías de Liberación de la Tiranía de la Voluntad</h3>
+                <p>A pesar de su visión sombría, Schopenhauer no propone el suicidio (que considera una afirmación final de la voluntad frustrada), sino caminos para anular el poder del deseo y alcanzar la paz.</p>
+                
+                <h4>La Liberación Estética: El Arte</h4>
+                <p>El arte ofrece un alivio temporal contra el dolor de la existencia a través de la contemplación desinteresada.</p>
+                
+                <div class="concept-box">
+                    <h4>Jerarquía de las Artes según Schopenhauer:</h4>
+                    <ul>
+                        <li><strong>Arquitectura:</strong> Grados más bajos de la Voluntad (gravedad, rigidez)</li>
+                        <li><strong>Escultura/Pintura:</strong> Ideas del mundo vegetal, animal y carácter humano</li>
+                        <li><strong>Poesía/Tragedia:</strong> Idea de la humanidad, su grandeza y sufrimiento</li>
+                        <li><strong>Música:</strong> Arte supremo, copia directa de la Voluntad misma</li>
+                    </ul>
+                </div>
+                
+                <h4>La Liberación Ética: Compasión y Ascetismo</h4>
+                <p>Mientras el arte es una liberación temporal, la ética ofrece el camino hacia una anulación definitiva del sufrimiento.</p>
+                
+                <div class="concept-box">
+                    <h4>Vías de Liberación Ética:</h4>
+                    <ul>
+                        <li><strong>Compasión (Mitleid):</strong> Reconocimiento de la identidad esencial de todos los seres</li>
+                        <li><strong>Negación de la Voluntad de Vivir:</strong> Castidad, pobreza voluntaria, ascetismo</li>
+                        <li><strong>El Santo Asceta:</strong> Figura que alcanza la paz mediante la renuncia total</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "La compasión es la base de toda moral libre" - Schopenhauer
+                </div>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Lee el resumen de El Mundo como Voluntad y Representación</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Has leído el resumen de la obra fundamental de Schopenhauer. Ahora reflexiona sobre los conceptos principales:</p>
+                        
+                        <div class="concept-box">
+                            <h4>Puntos clave para recordar:</h4>
+                            <ul>
+                                <li>Distinción entre Representación (mundo fenoménico) y Voluntad (esencia del mundo)</li>
+                                <li>La Voluntad como fuerza irracional, ciega e insaciable</li>
+                                <li>El pesimismo como consecuencia de la naturaleza de la Voluntad</li>
+                                <li>Las vías de liberación: arte y ética de la compasión</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu síntesis:</h4>
+                    <p>Escribe un breve resumen con tus propias palabras de los conceptos centrales de "El Mundo como Voluntad y Representación".</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu síntesis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Identifica los conceptos de voluntad y representación</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Schopenhauer establece una distinción fundamental entre Voluntad y Representación. Comprender esta diferencia es clave para entender toda su filosofía.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Comparación Voluntad vs Representación:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Voluntad (Wille)</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Representación (Vorstellung)</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Esencia del mundo ("cosa en sí")</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Mundo fenoménico (apariencia)</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Irracional, ciega, sin propósito</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Estructurado por razón, espacio, tiempo</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Única y eterna</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Múltiple y cambiante</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Fuente de sufrimiento</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Ámbito de la ciencia y conocimiento</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica con tus propias palabras la diferencia entre Voluntad y Representación, y proporciona un ejemplo concreto de cómo se manifiesta cada una en la experiencia humana.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Explica el pesimismo filosófico</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El pesimismo de Schopenhauer no es un estado de ánimo, sino una conclusión lógica de su metafísica. La naturaleza de la Voluntad hace que el sufrimiento sea inherente a la existencia.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Argumentos del Pesimismo Schopenhaueriano:</h4>
+                            <ol>
+                                <li><strong>Insatisfacción perpetua:</strong> La Voluntad es deseo infinito que nunca se satisface completamente</li>
+                                <li><strong>Péndulo del dolor y aburrimiento:</strong> Oscilación entre deseo insatisfecho y vacío post-satisfacción</li>
+                                <li><strong>Lucha constante:</strong> La Voluntad se manifiesta como competencia entre individuos</li>
+                                <li><strong>Indiferencia de la especie:</strong> Los individuos son sacrificables para la perpetuación de la especie</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "La vida humana es como un péndulo que oscila entre el dolor y el aburrimiento." - Schopenhauer
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>¿Por qué considera Schopenhauer que el sufrimiento es inherente a la existencia humana? Explica los fundamentos metafísicos de su pesimismo.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Reflexiona sobre las vías de liberación</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Frente al sufrimiento inherente a la vida, Schopenhauer propone caminos de liberación. Estos no buscan la felicidad positiva, sino la anulación del dolor.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Vías de Liberación en Schopenhauer:</h4>
+                            <ul>
+                                <li><strong>Contemplación Estética:</strong> Liberación temporal a través del arte</li>
+                                <li><strong>Ética de la Compasión:</strong> Reconocimiento de la unidad esencial de todos los seres</li>
+                                <li><strong>Negación Ascética de la Voluntad:</strong> Renuncia total a los deseos individuales</li>
+                            </ul>
+                        </div>
+                        
+                        <p>Schopenhauer se inspiró en filosofías orientales como el budismo, que también buscan la liberación del sufrimiento mediante la extinción del deseo.</p>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que las vías de liberación propuestas por Schopenhauer son viables en el mundo contemporáneo? ¿Qué valor encuentras en su propuesta ética basada en la compasión?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el resumen</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el resumen de "El Mundo como Voluntad y Representación"</h3>
+            <p>Has explorado los conceptos centrales de una de las obras filosóficas más influyentes del siglo XIX. Reflexiona sobre estas ideas y cómo se relacionan con tu propia comprensión de la realidad y la existencia humana.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('summary-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('schopenhauerSummaryProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('schopenhauerSummaryProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+            // En la implementación real: window.location.href = 'index.html'; o similar
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

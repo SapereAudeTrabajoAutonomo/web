@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast: Del Absolutismo a la Tabula Rasa - John Locke</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #2980b9;
+            --accent: #1a5276;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #8e44ad;
+            --podcast: #d35400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--podcast);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .podcast-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--podcast), #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-right: 2rem;
+            box-shadow: 0 8px 25px rgba(211, 84, 0, 0.3);
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .podcast-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .podcast-player {
+            background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 12px 40px rgba(211, 84, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .podcast-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .player-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .play-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--podcast);
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .play-btn:hover {
+            background: white;
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        
+        .play-btn.playing {
+            background: var(--success);
+            color: white;
+        }
+        
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .progress-container {
+            flex: 1;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #27ae60);
+            width: 0%;
+            transition: width 0.1s;
+            border-radius: 6px;
+            position: relative;
+        }
+        
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+        
+        .volume-slider {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .volume-progress {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            width: 80%;
+        }
+        
+        .podcast-description {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--podcast);
+            backdrop-filter: blur(5px);
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .activity:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-title {
+            color: var(--podcast);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 140px;
+            padding: 1.2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.5);
+        }
+        
+        .activity-response:focus {
+            outline: none;
+            border-color: var(--podcast);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submission-feedback {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-radius: 20px;
+            display: none;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.2);
+        }
+        
+        .back-to-calendar {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-to-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        .concept-box {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--podcast);
+            backdrop-filter: blur(5px);
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--podcast);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .audio-loading {
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            font-style: italic;
+        }
+        
+        .alternative-options {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 2px dashed var(--warning);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .player-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎧 Podcast: Del Absolutismo a la Tabula Rasa</h1>
+        <p>Explorando el empirismo, el contrato social y la teoría de la mente de John Locke</p>
+    </header>
+    
+    <div class="container">
+        <button class="back-to-calendar" onclick="goBack()">← Volver al Calendario</button>
+        
+        <section class="podcast-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Padre del liberalismo y el empirismo moderno</p>
+                    <div class="duration">Duración estimada: 70 minutos</div>
+                </div>
+            </div>
+            
+            <div class="podcast-description">
+                <p>Este podcast examina el pensamiento de John Locke, centrándose en su crítica al absolutismo político, su teoría del contrato social y su concepción de la mente como tabula rasa. Exploraremos cómo Locke fundamenta el conocimiento en la experiencia, rechaza las ideas innatas y propone un gobierno limitado basado en el consentimiento de los gobernados. También analizaremos la influencia de Locke en la Ilustración y en los sistemas políticos democráticos modernos.</p>
+            </div>
+        </section>
+        
+        <section class="podcast-container">
+            <h3 style="text-align: center; margin-bottom: 2rem; color: var(--podcast);">Podcast: Del Absolutismo a la Tabula Rasa</h3>
+            
+            <div class="podcast-player">
+                <div class="player-content">
+                    <h4 style="color: white; margin-bottom: 1rem;">Reproductor de Podcast</h4>
+                    
+                    <div class="audio-loading" id="loading-message">
+                        🔄 Intentando cargar podcast desde Google Drive...
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress" id="audio-progress"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="current-time">00:00</span>
+                            <span id="duration">--:--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <button class="play-btn" id="play-btn">▶</button>
+                        <div class="time-display" id="time-display">Cargando...</div>
+                        <div class="volume-control">
+                            <span>🔊</span>
+                            <div class="volume-slider" id="volume-slider">
+                                <div class="volume-progress" id="volume-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio real desde Google Drive -->
+                    <audio id="podcast-audio" preload="metadata" crossorigin="anonymous">
+                        <source src="https://drive.google.com/uc?export=download&id=19WatvlO0Pswi4TgdJ7K9uZe0h_l1cMkU" type="audio/mpeg">
+                        <source src="https://drive.google.com/uc?export=download&id=19WatvlO0Pswi4TgdJ7K9uZe0h_l1cMkU" type="audio/wav">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- Opciones alternativas -->
+            <div class="alternative-options" id="alternative-options" style="display: none;">
+                <h4 style="color: var(--warning); margin-bottom: 1rem;">⚠️ Opciones alternativas</h4>
+                <p>Si el reproductor no funciona, puedes:</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://drive.google.com/file/d/19WatvlO0Pswi4TgdJ7K9uZe0h_l1cMkU/view?usp=sharing" 
+                       target="_blank" class="download-btn">
+                       🎧 Escuchar en Google Drive
+                    </a>
+                    <a href="https://drive.google.com/uc?export=download&id=19WatvlO0Pswi4TgdJ7K9uZe0h_l1cMkU" 
+                       class="download-btn">
+                       ⬇️ Descargar Podcast
+                    </a>
+                    <button class="download-btn" onclick="useAlternativeAudio()">
+                       🔄 Usar audio de demostración
+                    </button>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                    <strong>Nota:</strong> Google Drive a veces bloquea la reproducción directa por políticas de seguridad.
+                </p>
+            </div>
+            
+            <div class="concept-box">
+                <h4>Contenido del podcast:</h4>
+                <ul>
+                    <li>Crítica al absolutismo y al derecho divino de los reyes</li>
+                    <li>Teoría del contrato social y gobierno limitado</li>
+                    <li>La mente como tabula rasa: rechazo de las ideas innatas</li>
+                    <li>Empirismo: el conocimiento como producto de la experiencia</li>
+                    <li>Derechos naturales: vida, libertad y propiedad</li>
+                    <li>Influencia en la Ilustración y las democracias modernas</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Crítica al Absolutismo</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Después de escuchar el podcast sobre la crítica de Locke al absolutismo, reflexiona sobre sus argumentos contra el derecho divino de los reyes y a favor de un gobierno limitado.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Argumentos de Locke contra el absolutismo:</h4>
+                            <ul>
+                                <li><strong>Crítica al derecho divino:</strong> Ningún poder político proviene directamente de Dios</li>
+                                <li><strong>Estado de naturaleza:</strong> Los seres humanos son libres e iguales por naturaleza</li>
+                                <li><strong>Consentimiento de los gobernados:</strong> La legitimidad política requiere consentimiento</li>
+                                <li><strong>Gobierno limitado:</strong> El poder político debe tener límites claros</li>
+                                <li><strong>Derecho de resistencia:</strong> Los ciudadanos tienen derecho a resistir gobiernos tiránicos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "El fin principal de la unión de los hombres en comunidades y de su sometimiento a un gobierno es la preservación de su propiedad." - John Locke, Segundo Tratado sobre el Gobierno Civil
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>¿Por qué considera Locke que el absolutismo es incompatible con los derechos naturales? ¿Qué ventajas y desventajas encuentras en su propuesta de gobierno limitado? Explica cómo se aplican estos principios en los sistemas políticos actuales.</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. La Tabula Rasa</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast explora la teoría de Locke sobre la mente como tabula rasa (pizarra en blanco) y su rechazo a las ideas innatas.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del empirismo lockeano:</h4>
+                            <ul>
+                                <li><strong>Tabula rasa:</strong> La mente nace como una pizarra en blanco</li>
+                                <li><strong>Rechazo de las ideas innatas:</strong> No existen principios innatos en la mente</li>
+                                <li><strong>Origen del conocimiento:</strong> Todo conocimiento proviene de la experiencia</li>
+                                <li><strong>Dos fuentes de ideas:</strong> Sensación (sentidos) y reflexión (operaciones mentales)</li>
+                                <li><strong>Ideas simples y complejas:</strong> Las ideas complejas se forman a partir de las simples</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Supongamos, pues, que la mente es, como decimos, un papel en blanco, vacío de toda característica, sin ninguna idea; ¿cómo se surte? [...] Respondo, en una palabra: de la experiencia." - John Locke, Ensayo sobre el entendimiento humano
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Qué implicaciones tiene la teoría de la tabula rasa para nuestra comprensión de la educación, la igualdad y las diferencias individuales? ¿Crees que el conocimiento es realmente producto exclusivo de la experiencia? Explica tu posición.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Teoría del Contrato Social</h3>
+                    <span class="activity-time">15 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast examina la teoría lockeana del contrato social como fundamento del gobierno legítimo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Elementos del contrato social lockeano:</h4>
+                            <ul>
+                                <li><strong>Estado de naturaleza:</strong> Estado de libertad e igualdad, no de guerra</li>
+                                <li><strong>Derechos naturales:</strong> Vida, libertad y propiedad como derechos inalienables</li>
+                                <li><strong>Contrato social:</strong> Acuerdo para crear un gobierno civil</li>
+                                <li><strong>Gobierno limitado:</strong> Poderes separados y limitados constitucionalmente</li>
+                                <li><strong>Derecho de resistencia:</strong> Legitimidad de la rebelión contra gobiernos tiránicos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "Donde no hay ley, no hay libertad. Pues la libertad consiste en estar libre de la coacción y violencia de otros, lo cual no puede existir donde no hay ley." - John Locke, Segundo Tratado sobre el Gobierno Civil
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>¿En qué se diferencia el contrato social de Locke del de Hobbes? ¿Qué ventajas ofrece la teoría lockeana para la construcción de sistemas políticos democráticos? Evalúa la vigencia de esta teoría en el contexto político actual.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Legado de Locke en el Mundo Contemporáneo</h3>
+                    <span class="activity-time">10 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El podcast concluye reflexionando sobre la influencia de Locke en la filosofía, la política y la educación contemporáneas.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Influencias del pensamiento lockeano:</h4>
+                            <ul>
+                                <li><strong>Liberalismo político:</strong> Fundamentos del Estado liberal moderno</li>
+                                <li><strong>Declaraciones de derechos:</strong> Influencia en la Declaración de Independencia de EE.UU.</li>
+                                <li><strong>Educación:</strong> Teorías pedagógicas basadas en la experiencia</li>
+                                <li><strong>Psicología:</strong> Desarrollo de teorías del aprendizaje</li>
+                                <li><strong>Filosofía:</strong> Influencia en el empirismo británico y la Ilustración</li>
+                            </ul>
+                        </div>
+                        
+                        <p>El legado de Locke continúa influyendo en múltiples disciplinas y debates contemporáneos.</p>
+                    </div>
+                    
+                    <h4>Tu evaluación:</h4>
+                    <p>¿Consideras que las ideas de Locke sobre gobierno limitado, derechos naturales y empirismo siguen siendo relevantes para los desafíos políticos y educativos del siglo XXI? ¿Por qué?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu evaluación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en el podcast</h3>
+            <div class="progress-bar">
+                <div class="progress" id="podcast-progress"></div>
+            </div>
+            <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: bold;">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado el podcast sobre John Locke</h3>
+            <p>Has explorado la crítica de Locke al absolutismo, analizado su teoría de la mente como tabula rasa, comprendido su propuesta de contrato social y gobierno limitado, y reflexionado sobre la relevancia contemporánea de estas ideas. El pensamiento de Locke continúa desafiándonos a reflexionar sobre los fundamentos del conocimiento, la legitimidad política y los derechos individuales en las sociedades modernas.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        let audio = document.getElementById('podcast-audio');
+        let playBtn = document.getElementById('play-btn');
+        let progressBar = document.getElementById('audio-progress');
+        let currentTime = document.getElementById('current-time');
+        let duration = document.getElementById('duration');
+        let timeDisplay = document.getElementById('time-display');
+        let progressContainer = document.getElementById('progress-bar');
+        let volumeSlider = document.getElementById('volume-slider');
+        let volumeProgress = document.getElementById('volume-progress');
+        let loadingMessage = document.getElementById('loading-message');
+        let alternativeOptions = document.getElementById('alternative-options');
+        
+        // Configurar el audio
+        audio.addEventListener('loadeddata', function() {
+            loadingMessage.innerHTML = '✅ Audio cargado correctamente';
+            duration.textContent = formatTime(audio.duration);
+            timeDisplay.textContent = 'Listo para reproducir';
+        });
+        
+        audio.addEventListener('loadstart', function() {
+            loadingMessage.innerHTML = '🔄 Cargando audio desde Google Drive...';
+            timeDisplay.textContent = 'Cargando...';
+        });
+        
+        audio.addEventListener('error', function(e) {
+            console.error('Error de audio:', e);
+            loadingMessage.innerHTML = '❌ No se puede cargar el audio directamente desde Google Drive';
+            timeDisplay.textContent = 'Error de carga';
+            
+            // Mostrar opciones alternativas después de 3 segundos
+            setTimeout(() => {
+                alternativeOptions.style.display = 'block';
+            }, 3000);
+        });
+        
+        audio.addEventListener('timeupdate', function() {
+            let progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTime.textContent = formatTime(audio.currentTime);
+            
+            // Actualizar el display de tiempo
+            if (!audio.paused) {
+                timeDisplay.textContent = 'Reproduciendo...';
+            }
+        });
+        
+        audio.addEventListener('ended', function() {
+            playBtn.textContent = '▶';
+            playBtn.classList.remove('playing');
+            timeDisplay.textContent = 'Completado';
+        });
+        
+        // Control de reproducción
+        playBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play().catch(function(error) {
+                    console.error('Error al reproducir:', error);
+                    loadingMessage.innerHTML = '❌ Error al reproducir. Usa una de las opciones alternativas.';
+                    alternativeOptions.style.display = 'block';
+                });
+                playBtn.textContent = '❚❚';
+                playBtn.classList.add('playing');
+                timeDisplay.textContent = 'Reproduciendo...';
+            } else {
+                audio.pause();
+                playBtn.textContent = '▶';
+                playBtn.classList.remove('playing');
+                timeDisplay.textContent = 'Pausado';
+            }
+        });
+        
+        // Control de progreso
+        progressContainer.addEventListener('click', function(e) {
+            let rect = progressContainer.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+        
+        // Control de volumen
+        volumeSlider.addEventListener('click', function(e) {
+            let rect = volumeSlider.getBoundingClientRect();
+            let pos = (e.clientX - rect.left) / rect.width;
+            audio.volume = pos;
+            volumeProgress.style.width = (pos * 100) + '%';
+        });
+        
+        // Configurar volumen inicial
+        audio.volume = 0.8;
+        volumeProgress.style.width = '80%';
+        
+        // Función para usar audio alternativo
+        function useAlternativeAudio() {
+            loadingMessage.innerHTML = '🔄 Cargando audio de demostración...';
+            
+            // Usar un audio de demostración público
+            audio.src = 'https://www.soundjay.com/misc/sounds-bell-link.mp3';
+            audio.load();
+            
+            alternativeOptions.innerHTML = `
+                <h4 style="color: var(--success); margin-bottom: 1rem;">✅ Usando audio de demostración</h4>
+                <p>Ahora puedes usar el reproductor normalmente. Para el audio real:</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://drive.google.com/file/d/19WatvlO0Pswi4TgdJ7K9uZe0h_l1cMkU/view?usp=sharing" 
+                       target="_blank" class="download-btn">
+                       🎧 Escuchar en Google Drive
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Formatear tiempo
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '--:--';
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return min + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('podcast-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('lockePodcastProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lockePodcastProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para volver al calendario (simulada)
+        function goBack() {
+            alert('En una implementación completa, esto te llevaría de vuelta al calendario principal.');
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            
+            // Intentar cargar el audio automáticamente
+            setTimeout(() => {
+                audio.load();
+            }, 1000);
+            
+            // Mostrar opciones alternativas después de 5 segundos si hay error
+            setTimeout(() => {
+                if (audio.error || audio.networkState === audio.NETWORK_NO_SOURCE) {
+                    alternativeOptions.style.display = 'block';
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

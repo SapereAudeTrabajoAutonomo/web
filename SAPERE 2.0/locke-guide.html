@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Dos Tratados sobre el Gobierno Civil - John Locke</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --philosophy: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--philosophy), #219653);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .guide-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .philosopher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .philosopher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--philosophy), #219653);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-right: 1.5rem;
+        }
+        
+        .philosopher-details {
+            flex: 1;
+        }
+        
+        .duration {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .activities-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .activity {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            color: var(--philosophy);
+            font-size: 1.3rem;
+        }
+        
+        .activity-time {
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .activity-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-text {
+            margin-bottom: 1rem;
+        }
+        
+        .activity-response {
+            width: 100%;
+            height: 120px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+        
+        .submission-feedback {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .submission-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--philosophy);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--philosophy);
+        }
+        
+        .quiz-container {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .glossary-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .glossary-term {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        
+        .term-name {
+            font-weight: bold;
+            color: var(--philosophy);
+        }
+        
+        .essay-questions {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        
+        .essay-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .essay-question:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .philosopher-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .philosopher-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .activity-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .activity-time {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía: Dos Tratados sobre el Gobierno Civil</h1>
+        <p>Explorando la teoría política de John Locke sobre el gobierno legítimo y los derechos naturales</p>
+    </header>
+    
+    <div class="container">
+        <section class="guide-header">
+            <div class="philosopher-info">
+                <div class="philosopher-image">JL</div>
+                <div class="philosopher-details">
+                    <h2>John Locke</h2>
+                    <p>Filósofo y médico inglés del siglo XVII, padre del liberalismo clásico y teórico del contrato social</p>
+                    <div class="duration">Duración estimada: 90 minutos</div>
+                </div>
+            </div>
+            
+            <div class="guide-description">
+                <p>Esta guía te introducirá a la teoría política de John Locke expuesta en "Dos Tratados sobre el Gobierno Civil". Explorarás conceptos como el estado de naturaleza, los derechos naturales, el contrato social y los límites del poder político que sentaron las bases del liberalismo y la democracia moderna.</p>
+            </div>
+        </section>
+        
+        <section class="activities-container">
+            <!-- Actividad 1 -->
+            <div class="activity" id="activity-1">
+                <div class="activity-header">
+                    <h3 class="activity-title">1. Analiza el Estado de Naturaleza</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Locke concibe el estado de naturaleza como una condición previa a la sociedad civil donde los individuos gozan de libertad e igualdad natural, pero no es un estado de licencia sin límites.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Características del Estado de Naturaleza según Locke:</h4>
+                            <ol>
+                                <li><strong>Libertad e igualdad:</strong> Todos los seres humanos nacen libres e iguales por naturaleza</li>
+                                <li><strong>Ley natural:</strong> Existe una ley moral natural que obliga a todos y que la razón puede descubrir</li>
+                                <li><strong>Derechos naturales:</strong> Vida, libertad y propiedad como derechos fundamentales</li>
+                                <li><strong>Poder ejecutivo de la ley natural:</strong> Cada individuo tiene derecho a castigar a quienes violen la ley natural</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Para entender correctamente el poder político y derivarlo de su origen, debemos considerar en qué estado se encuentran naturalmente todos los hombres; y éste es un estado de perfecta libertad para ordenar sus acciones y disponer de sus posesiones y personas como mejor les parezca, dentro de los límites de la ley de la naturaleza" - Locke
+                        </div>
+                        
+                        <p>El estado de naturaleza lockeano se diferencia del hobbesiano por ser más pacífico y regido por la razón, aunque presenta inconvenientes que justifican el paso a la sociedad civil.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                1. ¿En qué se diferencia el estado de naturaleza de Locke del de Hobbes?
+                            </div>
+                            <div class="quiz-question">
+                                2. ¿Qué papel juega la ley natural en el estado de naturaleza según Locke?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Consideras que la concepción lockeana del estado de naturaleza es más realista que la hobbesiana? ¿Por qué?</p>
+                    
+                    <textarea class="activity-response" id="response-1" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(1)">Enviar Actividad 1</button>
+                    
+                    <div class="submission-feedback" id="feedback-1"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 2 -->
+            <div class="activity" id="activity-2">
+                <div class="activity-header">
+                    <h3 class="activity-title">2. Examina los Derechos Naturales</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Los derechos naturales constituyen el fundamento de la teoría política lockeana y limitan el poder del gobierno.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Los Tres Derechos Naturales Fundamentales:</h4>
+                            <ol>
+                                <li><strong>Derecho a la vida:</strong> Incluye la integridad física y la seguridad personal</li>
+                                <li><strong>Derecho a la libertad:</strong> Capacidad de actuar según la propia voluntad dentro de los límites de la ley natural</li>
+                                <li><strong>Derecho a la propiedad:</strong> Resultado del trabajo aplicado a los bienes comunes de la naturaleza</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="quote">
+                            "Los hombres son por naturaleza todos libres, iguales e independientes, y nadie puede ser sacado de este estado y sometido al poder político de otro sin su propio consentimiento" - Locke
+                        </div>
+                        
+                        <p>Para Locke, la propiedad privada surge cuando el trabajo humano se mezcla con los recursos naturales, legitimando su apropiación individual.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                3. ¿Cómo justifica Locke el derecho a la propiedad privada?
+                            </div>
+                            <div class="quiz-question">
+                                4. ¿Por qué los derechos naturales limitan el poder del gobierno según Locke?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu análisis:</h4>
+                    <p>Explica la relación entre trabajo y propiedad en la teoría de Locke y su importancia para el desarrollo del liberalismo económico.</p>
+                    
+                    <textarea class="activity-response" id="response-2" placeholder="Escribe tu análisis aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(2)">Enviar Actividad 2</button>
+                    
+                    <div class="submission-feedback" id="feedback-2"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 3 -->
+            <div class="activity" id="activity-3">
+                <div class="activity-header">
+                    <h3 class="activity-title">3. Estudia el Contrato Social</h3>
+                    <span class="activity-time">20 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>El contrato social es el mecanismo mediante el cual los individuos abandonan el estado de naturaleza para formar una sociedad civil con un gobierno legítimo.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Elementos del Contrato Social Lockeano:</h4>
+                            <ul>
+                                <li><strong>Consentimiento:</strong> Base del gobierno legítimo, expresado tácita o explícitamente</li>
+                                <li><strong>Gobierno fiduciario:</strong> El poder político es un fideicomiso conferido por el pueblo</li>
+                                <li><strong>Separación de poderes:</strong> Distinción entre poder legislativo y ejecutivo</li>
+                                <li><strong>Derecho de resistencia:</strong> Cuando el gobierno viola el contrato, el pueblo tiene derecho a rebelarse</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="quote">
+                            "La única manera en que alguien se priva a sí mismo de su libertad natural y se somete a las ataduras de la sociedad civil es mediante un acuerdo con otros hombres de unirse y asociarse en una comunidad" - Locke
+                        </div>
+                        
+                        <p>El contrato lockeano establece un gobierno limitado cuyo principal propósito es proteger los derechos naturales, especialmente la propiedad.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                5. ¿En qué se diferencia el contrato social de Locke del de Hobbes?
+                            </div>
+                            <div class="quiz-question">
+                                6. ¿Qué justifica el derecho de resistencia según Locke?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu explicación:</h4>
+                    <p>Explica por qué el consentimiento es fundamental para la legitimidad del gobierno en la teoría de Locke.</p>
+                    
+                    <textarea class="activity-response" id="response-3" placeholder="Escribe tu explicación aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(3)">Enviar Actividad 3</button>
+                    
+                    <div class="submission-feedback" id="feedback-3"></div>
+                </div>
+            </div>
+            
+            <!-- Actividad 4 -->
+            <div class="activity" id="activity-4">
+                <div class="activity-header">
+                    <h3 class="activity-title">4. Analiza los Límites del Poder Político</h3>
+                    <span class="activity-time">25 min</span>
+                </div>
+                
+                <div class="activity-content">
+                    <div class="activity-text">
+                        <p>Locke establece límites claros al poder político para prevenir la tiranía y proteger los derechos individuales.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Límites al Poder Político según Locke:</h4>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Límite</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Descripción</th>
+                                    <th style="border:1px solid #ddd; padding:8px; background:#f2f2f2;">Finalidad</th>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Ley natural</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El gobierno debe actuar conforme a la ley natural</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Proteger derechos naturales</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Bien común</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El poder debe ejercerse para el bien público</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Prevenir el arbitrio</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Leyes establecidas</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">El gobierno debe regirse por leyes conocidas</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Garantizar seguridad jurídica</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Separación de poderes</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Distinción entre poder legislativo y ejecutivo</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Evitar concentración de poder</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #ddd; padding:8px;">Derecho de resistencia</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Pueblo puede rebelarse contra gobiernos tiránicos</td>
+                                    <td style="border:1px solid #ddd; padding:8px;">Último recurso contra la tiranía</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="quote">
+                            "El fin del gobierno es el bien de la humanidad; y cuál es la mejor condición para ella: que el pueblo esté siempre expuesto a la ilimitada voluntad de la tiranía, o que los gobernantes estén a veces expuestos a la oposición si llegan a emplear su poder para la destrucción y no para la preservación de las propiedades de su pueblo" - Locke
+                        </div>
+                        
+                        <p>La teoría lockeana del gobierno limitado influyó decisivamente en el constitucionalismo moderno y en la Declaración de Independencia de Estados Unidos.</p>
+                        
+                        <div class="quiz-container">
+                            <h4>Cuestionario de Repaso:</h4>
+                            <div class="quiz-question">
+                                7. ¿Por qué Locke considera necesario establecer límites al poder político?
+                            </div>
+                            <div class="quiz-question">
+                                8. ¿Qué circunstancias justifican el derecho de resistencia según Locke?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Tu reflexión:</h4>
+                    <p>¿Qué elementos de la teoría política de Locke identificas en los sistemas democráticos contemporáneos? ¿Siguen siendo relevantes sus ideas sobre los límites del poder?</p>
+                    
+                    <textarea class="activity-response" id="response-4" placeholder="Escribe tu reflexión aquí..."></textarea>
+                    
+                    <button class="submit-btn" onclick="submitActivity(4)">Enviar Actividad 4</button>
+                    
+                    <div class="submission-feedback" id="feedback-4"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="glossary-container">
+            <h3>Glosario de Términos Clave de la Teoría Política de Locke</h3>
+            
+            <div class="glossary-term">
+                <div class="term-name">Estado de Naturaleza</div>
+                <div class="term-definition">Condición hipotética previa a la sociedad civil donde los individuos gozan de libertad e igualdad natural, regida por la ley natural.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Ley Natural</div>
+                <div class="term-definition">Ley moral universal descubrible por la razón que obliga a todos los seres humanos y protege los derechos naturales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Derechos Naturales</div>
+                <div class="term-definition">Derechos inherentes a la naturaleza humana: vida, libertad y propiedad, anteriores y superiores al Estado.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Contrato Social</div>
+                <div class="term-definition">Acuerdo mediante el cual los individuos consienten formar una sociedad civil y establecer un gobierno para proteger sus derechos.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Consentimiento</div>
+                <div class="term-definition">Base de la legitimidad política según Locke, que puede ser expreso o tácito mediante el disfrute de los beneficios de la sociedad.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Gobierno Fiduciario</div>
+                <div class="term-definition">Concepto según el cual el poder político es un fideicomiso conferido por el pueblo para ser ejercido en su beneficio.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Derecho de Resistencia</div>
+                <div class="term-definition">Derecho del pueblo a rebelarse contra un gobierno que viola el contrato social y atenta contra los derechos naturales.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Propiedad</div>
+                <div class="term-definition">Para Locke, resultado del trabajo humano aplicado a los recursos naturales, que legitima su apropiación individual.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Poder Legislativo</div>
+                <div class="term-definition">Poder supremo en la sociedad civil, encargado de hacer leyes conforme al bien público y dentro de los límites de la ley natural.</div>
+            </div>
+            
+            <div class="glossary-term">
+                <div class="term-name">Poder Ejecutivo</div>
+                <div class="term-definition">Poder encargado de aplicar y hacer cumplir las leyes establecidas por el poder legislativo.</div>
+            </div>
+        </section>
+        
+        <section class="essay-questions">
+            <h3>Preguntas para Ensayo</h3>
+            
+            <div class="essay-question">
+                <p>1. Analice la concepción lockeana del estado de naturaleza. ¿En qué se diferencia de la de Hobbes y qué implicaciones tiene esta diferencia para su teoría política?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>2. Discuta la teoría de la propiedad de Locke. ¿Cómo justifica la propiedad privada y qué límites establece a su acumulación?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>3. Examine el concepto de consentimiento en la teoría política de Locke. ¿Qué formas de consentimiento reconoce y cómo fundamentan la legitimidad del gobierno?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>4. Explique la teoría lockeana del gobierno limitado. ¿Qué mecanismos establece para prevenir la tiranía y proteger los derechos individuales?</p>
+            </div>
+            
+            <div class="essay-question">
+                <p>5. Evalúe la influencia del pensamiento de Locke en el desarrollo del liberalismo y la democracia moderna. ¿Qué elementos de su teoría identificamos en los sistemas políticos contemporáneos?</p>
+            </div>
+        </section>
+        
+        <section class="progress-container">
+            <h3>Tu progreso en la guía</h3>
+            <div class="progress-bar">
+                <div class="progress" id="guide-progress"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </section>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>¡Felicidades! Has completado la guía sobre los Dos Tratados sobre el Gobierno Civil de Locke</h3>
+            <p>Has explorado uno de los fundamentos teóricos más importantes del liberalismo y la democracia moderna. Reflexiona sobre estas ideas y cómo se relacionan con tu comprensión del poder político, los derechos individuales y la legitimidad del gobierno.</p>
+        </div>
+    </div>
+
+    <script>
+        // Estado de las actividades
+        let completedActivities = [false, false, false, false];
+        
+        // Función para enviar actividad
+        function submitActivity(activityNumber) {
+            const response = document.getElementById(`response-${activityNumber}`).value.trim();
+            const feedback = document.getElementById(`feedback-${activityNumber}`);
+            
+            if (!response) {
+                alert('Por favor, escribe tu respuesta antes de enviar.');
+                return;
+            }
+            
+            // Marcar actividad como completada
+            completedActivities[activityNumber - 1] = true;
+            
+            // Mostrar feedback
+            feedback.textContent = '¡Actividad enviada correctamente!';
+            feedback.className = 'submission-feedback submission-success';
+            feedback.style.display = 'block';
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Guardar en localStorage
+            saveProgress();
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const completedCount = completedActivities.filter(Boolean).length;
+            const totalActivities = completedActivities.length;
+            const progressPercentage = (completedCount / totalActivities) * 100;
+            
+            document.getElementById('guide-progress').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+            
+            // Mostrar mensaje de completado si todas las actividades están hechas
+            if (completedCount === totalActivities) {
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            localStorage.setItem('lockeGovernmentProgress', JSON.stringify(completedActivities));
+        }
+        
+        // Cargar progreso desde localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('lockeGovernmentProgress');
+            if (savedProgress) {
+                completedActivities = JSON.parse(savedProgress);
+                
+                // Actualizar UI según el progreso guardado
+                completedActivities.forEach((completed, index) => {
+                    if (completed) {
+                        const activityNumber = index + 1;
+                        const feedback = document.getElementById(`feedback-${activityNumber}`);
+                        feedback.textContent = 'Actividad completada';
+                        feedback.className = 'submission-feedback submission-success';
+                        feedback.style.display = 'block';
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

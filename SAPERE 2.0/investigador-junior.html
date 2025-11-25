@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Investigación Filosófica con IA</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --ai-color: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .ai-status {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .ai-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: var(--success-color);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .progress-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .sections-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .section-content {
+            margin-bottom: 15px;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .ai-suggestion {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--ai-color);
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-ai {
+            background-color: var(--ai-color);
+        }
+        
+        .btn-ai:hover {
+            background-color: #8e44ad;
+        }
+        
+        .resource-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .resource-item input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .ai-tools {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .ai-tools h3 {
+            margin-bottom: 15px;
+            color: var(--ai-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-tools h3::before {
+            content: "🤖";
+            margin-right: 10px;
+        }
+        
+        .ai-prompt {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .ai-prompt input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        
+        .ai-response {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 4px solid var(--ai-color);
+            position: relative;
+        }
+        
+        .ai-response::before {
+            content: "IA:";
+            font-weight: bold;
+            color: var(--ai-color);
+            margin-right: 5px;
+        }
+        
+        .completion-check {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .completion-check input {
+            margin-right: 10px;
+        }
+        
+        .export-container {
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .ai-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            max-height: 400px;
+        }
+        
+        .chat-header {
+            background-color: var(--ai-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-body {
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background-color: var(--secondary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: #f1f1f1;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+        
+        .toggle-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--ai-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 99;
+        }
+        
+        @media (min-width: 768px) {
+            .sections-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="ai-status">
+                <div class="ai-indicator"></div>
+                <span>IA Conectada</span>
+            </div>
+            <h1>Bitácora de Trabajo Autónomo</h1>
+            <p class="subtitle">Investigador Junior en Filosofía</p>
+        </header>
+        
+        <div class="progress-container">
+            <h3>Progreso de tu investigación</h3>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <p id="progress-text">0% completado</p>
+        </div>
+        
+        <div class="sections-container">
+            <!-- Sección 1: Tema seleccionado -->
+            <div class="section" id="section-1">
+                <h2>1. Tema seleccionado</h2>
+                <div class="section-content">
+                    <p>Escribe el tema que has seleccionado para tu investigación:</p>
+                    <textarea id="topic" placeholder="Ejemplo: El paso del mito al logos en la antigua Grecia"></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Puedes pedirle a la IA que te sugiera posibles temas de interés:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="topic-prompt" placeholder="Ejemplo: Dame cinco temas interesantes sobre el surgimiento de la filosofía en Grecia">
+                        <button class="btn btn-ai" onclick="getAISuggestion('topic')">Obtener sugerencias</button>
+                    </div>
+                    <div class="ai-response" id="topic-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="topic-complete" onchange="updateProgress()">
+                    <label for="topic-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 2: Objetivo de aprendizaje -->
+            <div class="section" id="section-2">
+                <h2>2. Objetivo de aprendizaje</h2>
+                <div class="section-content">
+                    <p>Formula tu propio objetivo de investigación:</p>
+                    <textarea id="objective" placeholder="Mi objetivo de aprendizaje es..."></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Solicita a la IA que te ayude a redactar objetivos claros y específicos:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="objective-prompt" placeholder="Ejemplo: Ayúdame a redactar un objetivo de aprendizaje sobre el paso del mito al logos en Grecia">
+                        <button class="btn btn-ai" onclick="getAISuggestion('objective')">Obtener ayuda</button>
+                    </div>
+                    <div class="ai-response" id="objective-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="objective-complete" onchange="updateProgress()">
+                    <label for="objective-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 3: Búsqueda de recursos -->
+            <div class="section" id="section-3">
+                <h2>3. Búsqueda de recursos</h2>
+                <div class="section-content">
+                    <p>Investiga y selecciona al menos 5 fuentes confiables:</p>
+                    <div id="resources-container">
+                        <div class="resource-item">
+                            <input type="text" id="resource-1" placeholder="Recurso 1">
+                        </div>
+                        <div class="resource-item">
+                            <input type="text" id="resource-2" placeholder="Recurso 2">
+                        </div>
+                        <div class="resource-item">
+                            <input type="text" id="resource-3" placeholder="Recurso 3">
+                        </div>
+                        <div class="resource-item">
+                            <input type="text" id="resource-4" placeholder="Recurso 4">
+                        </div>
+                        <div class="resource-item">
+                            <input type="text" id="resource-5" placeholder="Recurso 5">
+                        </div>
+                    </div>
+                    <button class="btn" onclick="addResource()">Añadir otro recurso</button>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Pídele a la IA que te recomiende libros, artículos o videos accesibles:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="resources-prompt" placeholder="Ejemplo: Recomiéndame recursos sencillos para estudiantes de secundaria sobre la filosofía presocrática">
+                        <button class="btn btn-ai" onclick="getAISuggestion('resources')">Obtener recomendaciones</button>
+                    </div>
+                    <div class="ai-response" id="resources-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="resources-complete" onchange="updateProgress()">
+                    <label for="resources-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 4: Explicación teórica -->
+            <div class="section" id="section-4">
+                <h2>4. Explicación teórica</h2>
+                <div class="section-content">
+                    <p>Con base en los recursos, redacta una explicación clara de tu tema:</p>
+                    <textarea id="explanation" placeholder="Escribe aquí tu explicación..."></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Usa la IA como ayuda para estructurar tu explicación:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="explanation-prompt" placeholder="Ejemplo: Explícame de manera resumida la diferencia entre mito y logos como si yo tuviera 15 años">
+                        <button class="btn btn-ai" onclick="getAISuggestion('explanation')">Obtener ayuda</button>
+                    </div>
+                    <div class="ai-response" id="explanation-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="explanation-complete" onchange="updateProgress()">
+                    <label for="explanation-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 5: Material didáctico -->
+            <div class="section" id="section-5">
+                <h2>5. Material didáctico</h2>
+                <div class="section-content">
+                    <p>Diseña un recurso visual o creativo para enseñar tu tema:</p>
+                    <textarea id="didactic-material" placeholder="Describe tu material didáctico o idea creativa..."></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Puedes usar la IA para generar esquemas, mapas conceptuales, líneas de tiempo o presentaciones:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="didactic-prompt" placeholder="Ejemplo: Crea un mapa conceptual sobre el contexto cultural, político y social del siglo VI a.C.">
+                        <button class="btn btn-ai" onclick="getAISuggestion('didactic')">Obtener ideas</button>
+                    </div>
+                    <div class="ai-response" id="didactic-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="didactic-complete" onchange="updateProgress()">
+                    <label for="didactic-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 6: Actividades prácticas -->
+            <div class="section" id="section-6">
+                <h2>6. Actividades prácticas</h2>
+                <div class="section-content">
+                    <p>Crea dos actividades autónomas que sirvan para aplicar lo aprendido:</p>
+                    <textarea id="activity-1" placeholder="Actividad 1..."></textarea>
+                    <textarea id="activity-2" placeholder="Actividad 2..."></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Pide ejemplos de actividades a la IA, pero adapta las propuestas:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="activities-prompt" placeholder="Ejemplo: Dame dos actividades prácticas para trabajar el tema mito y logos en clase de secundaria">
+                        <button class="btn btn-ai" onclick="getAISuggestion('activities')">Obtener ejemplos</button>
+                    </div>
+                    <div class="ai-response" id="activities-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="activities-complete" onchange="updateProgress()">
+                    <label for="activities-complete">He completado esta sección</label>
+                </div>
+            </div>
+            
+            <!-- Sección 7: Reto de comprensión -->
+            <div class="section" id="section-7">
+                <h2>7. Reto de comprensión</h2>
+                <div class="section-content">
+                    <p>Diseña un reto final para tu profesor-aprendiz y tus compañeros:</p>
+                    <textarea id="challenge" placeholder="Describe tu reto de comprensión..."></textarea>
+                </div>
+                <div class="ai-tools">
+                    <h3>Asistente de IA</h3>
+                    <p>Pídele a la IA sugerencias de preguntas problematizadoras:</p>
+                    <div class="ai-prompt">
+                        <input type="text" id="challenge-prompt" placeholder="Ejemplo: Hazme una pregunta con trampa sobre el paso del mito al logos">
+                        <button class="btn btn-ai" onclick="getAISuggestion('challenge')">Obtener sugerencias</button>
+                    </div>
+                    <div class="ai-response" id="challenge-response"></div>
+                </div>
+                <div class="completion-check">
+                    <input type="checkbox" id="challenge-complete" onchange="updateProgress()">
+                    <label for="challenge-complete">He completado esta sección</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-accent" onclick="saveWork()">Guardar trabajo</button>
+            <button class="btn btn-success" onclick="exportWork()">Exportar proyecto</button>
+        </div>
+        
+        <div class="export-container" id="export-container">
+            <h2>Tu proyecto de investigación está listo</h2>
+            <div id="export-content"></div>
+            <button class="btn" onclick="printProject()">Imprimir proyecto</button>
+        </div>
+    </div>
+    
+    <!-- Chat de IA -->
+    <div class="toggle-chat" onclick="toggleChat()">
+        <span style="font-size: 24px;">🤖</span>
+    </div>
+    
+    <div class="ai-chat" id="ai-chat">
+        <div class="chat-header">
+            <span>Asistente de IA</span>
+            <span class="close-modal" onclick="toggleChat()">&times;</span>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-message ai-message">
+                ¡Hola! Soy tu asistente de IA para filosofía. Estoy aquí para ayudarte con tu investigación sobre filosofía antigua. ¿En qué puedo asistirte?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Escribe tu pregunta...">
+            <button class="btn btn-ai" onclick="sendChatMessage()">Enviar</button>
+        </div>
+    </div>
+    
+    <!-- Modal para mostrar sugerencias de IA -->
+    <div class="modal" id="ai-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2>Sugerencia de IA</h2>
+            <div id="modal-content"></div>
+            <button class="btn" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables para el seguimiento del progreso
+        const totalSections = 7;
+        let completedSections = 0;
+        
+        // Base de conocimiento ampliada de la IA para filosofía
+        const aiKnowledgeBase = {
+            // Temas de filosofía con descripciones detalladas
+            topics: {
+                "El paso del mito al logos en la antigua Grecia": {
+                    description: "Este tema explora la transición fundamental del pensamiento mítico (basado en dioses y fuerzas sobrenaturales) al pensamiento racional (basado en la razón y la observación) que ocurrió en la Grecia del siglo VI a.C.",
+                    key_concepts: ["Mito", "Logos", "Razón", "Pensamiento racional", "Filosofía presocrática"],
+                    relevance: "Fundamental para entender el origen de la filosofía y la ciencia occidental"
+                },
+                "Los filósofos presocráticos y la búsqueda del arché": {
+                    description: "Estudio de los primeros filósofos que buscaron el principio originario (arché) de todas las cosas, desplazando las explicaciones mitológicas tradicionales.",
+                    key_concepts: ["Arché", "Presocráticos", "Tales de Mileto", "Anaximandro", "Heráclito", "Parménides"],
+                    relevance: "Estos pensadores sentaron las bases del pensamiento racional y científico"
+                },
+                "Sócrates y el método socrático": {
+                    description: "Análisis de la figura de Sócrates, su método de preguntas y respuestas, y su influencia en el desarrollo de la filosofía occidental.",
+                    key_concepts: ["Método socrático", "Mayéutica", "Ironía socrática", "Conócete a ti mismo", "Ética"],
+                    relevance: "Sócrates marcó un giro antropológico en la filosofía, centrándose en el ser humano"
+                },
+                "Platón y la teoría de las Ideas": {
+                    description: "Exploración del pensamiento platónico, su teoría de las Ideas o Formas, y su influencia en la filosofía, la política y la educación.",
+                    key_concepts: ["Teoría de las Ideas", "Mundo sensible", "Mundo inteligible", "Dialéctica", "Allegoría de la caverna"],
+                    relevance: "Platón estableció las bases del idealismo filosófico que influenció toda la filosofía occidental"
+                },
+                "Aristóteles y la lógica": {
+                    description: "Estudio del pensamiento aristotélico, su sistema lógico, su metafísica y su ética, que constituyen pilares del pensamiento occidental.",
+                    key_concepts: ["Lógica", "Silogismo", "Metafísica", "Ética a Nicómaco", "Filosofía práctica"],
+                    relevance: "Aristóteles desarrolló el primer sistema completo de lógica y sentó las bases del método científico"
+                },
+                "El helenismo: estoicismo, epicureísmo y escepticismo": {
+                    description: "Análisis de las principales escuelas filosóficas del período helenístico y sus propuestas para alcanzar la felicidad y la tranquilidad del alma.",
+                    key_concepts: ["Estoicismo", "Epicureísmo", "Escepticismo", "Ataraxia", "Felicidad"],
+                    relevance: "Estas escuelas representan la búsqueda de la sabiduría práctica para la vida cotidiana"
+                },
+                "Los sofistas y la educación en la Atenas clásica": {
+                    description: "Examen del movimiento sofístico, su relativismo, su enseñanza de la retórica y su papel en la democracia ateniense.",
+                    key_concepts: ["Protágoras", "Gorgias", "Relativismo", "Retórica", "Humanismo"],
+                    relevance: "Los sofistas fueron los primeros educadores profesionales y plantearon cuestiones fundamentales sobre la verdad y la moral"
+                },
+                "La filosofía política de Platón y Aristóteles": {
+                    description: "Comparación de las visiones políticas de Platón (La República) y Aristóteles (La Política) y su influencia en el pensamiento político occidental.",
+                    key_concepts: ["Justicia", "Formas de gobierno", "Bien común", "Ciudadano", "Constitución"],
+                    relevance: "Estas teorías políticas siguen siendo referencia en el pensamiento político contemporáneo"
+                },
+                "La ética en la filosofía antigua": {
+                    description: "Análisis de las diferentes propuestas éticas en la filosofía antigua, desde Sócrates hasta los estoicos, y su relevancia para la vida buena.",
+                    key_concepts: ["Virtud", "Felicidad", "Justo medio", "Deber", "Libertad"],
+                    relevance: "La ética antigua ofrece perspectivas valiosas sobre cómo vivir una vida plena y significativa"
+                },
+                "La metafísica en los pensadores presocráticos": {
+                    description: "Estudio de las primeras especulaciones metafísicas sobre la naturaleza última de la realidad en los filósofos presocráticos.",
+                    key_concepts: ["Ser", "Devenir", "Uno y múltiple", "Materia", "Espíritu"],
+                    relevance: "Estas reflexiones constituyen los fundamentos de la metafísica occidental"
+                }
+            },
+            
+            // Objetivos de aprendizaje con estructuras y ejemplos
+            objectives: {
+                structure: "Un buen objetivo de aprendizaje debe ser SMART: Específico, Medible, Alcanzable, Relevante y con un Tiempo definido.",
+                examples: [
+                    "Analizar las diferencias fundamentales entre el pensamiento mítico y el pensamiento racional en la antigua Grecia, identificando al menos tres características distintivas de cada uno.",
+                    "Comparar las explicaciones sobre el origen del universo en dos filósofos presocráticos diferentes, destacando sus similitudes y diferencias en un ensayo de 1000 palabras.",
+                    "Evaluar la relevancia del método socrático para la educación contemporánea, diseñando una actividad práctica que aplique sus principios en el aula.",
+                    "Examinar la teoría de las Ideas de Platón a través de la alegoría de la caverna, explicando su significado filosófico y su aplicación en tres situaciones actuales.",
+                    "Identificar los factores históricos, políticos y culturales que propiciaron el surgimiento de la filosofía en el siglo VI a.C., elaborando una línea de tiempo con los eventos más significativos."
+                ],
+                verbs: ["Analizar", "Comparar", "Evaluar", "Examinar", "Identificar", "Describir", "Explicar", "Interpretar", "Aplicar", "Diseñar", "Crear", "Sintetizar"]
+            },
+            
+            // Recursos con descripciones y niveles de dificultad
+            resources: {
+                "introductorios": [
+                    {
+                        name: "'El mundo de Sofía' de Jostein Gaarder",
+                        description: "Novela que introduce de manera accesible la historia de la filosofía, ideal para estudiantes de secundaria.",
+                        type: "Libro",
+                        level: "Básico"
+                    },
+                    {
+                        name: "'Filosofía para principiantes' de Rius (Eduardo del Río)",
+                        description: "Introducción visual y humorística a la filosofía, con énfasis en los filósofos más importantes.",
+                        type: "Cómic/Novela gráfica",
+                        level: "Básico"
+                    },
+                    {
+                        name: "Video: 'Los presocráticos' del canal 'Academia Play'",
+                        description: "Video animado que explica de manera sencilla las ideas de los primeros filósofos.",
+                        type: "Video educativo",
+                        level: "Básico"
+                    }
+                ],
+                "intermedios": [
+                    {
+                        name: "'Los primeros filósofos de Grecia' de Carlos García Gual",
+                        description: "Estudio accesible pero riguroso de los filósofos presocráticos y su contexto histórico.",
+                        type: "Libro",
+                        level: "Intermedio"
+                    },
+                    {
+                        name: "'Historia de la Filosofía Sin Temor Ni Pavor' de Fernando Savater",
+                        description: "Recorrido ameno por la historia de la filosofía, con explicaciones claras y ejemplos contemporáneos.",
+                        type: "Libro",
+                        level: "Intermedio"
+                    },
+                    {
+                        name: "Documental: 'La aventura del pensamiento' de la BBC",
+                        description: "Serie documental que explora la historia de la filosofía occidental de manera visual y atractiva.",
+                        type: "Documental",
+                        level: "Intermedio"
+                    }
+                ],
+                "avanzados": [
+                    {
+                        name: "'Historia de la Filosofía' de Frederick Copleston (vol. 1)",
+                        description: "Obra de referencia clásica y exhaustiva sobre la filosofía antigua.",
+                        type: "Libro",
+                        level: "Avanzado"
+                    },
+                    {
+                        name: "'El nacimiento de la filosofía' de Giorgio Colli",
+                        description: "Estudio profundo sobre los orígenes del pensamiento filosófico en la antigua Grecia.",
+                        type: "Libro",
+                        level: "Avanzado"
+                    },
+                    {
+                        name: "Stanford Encyclopedia of Philosophy (plato.stanford.edu)",
+                        description: "Enciclopedia filosófica en línea con artículos rigurosos y actualizados.",
+                        type: "Recurso web",
+                        level: "Avanzado"
+                    }
+                ]
+            },
+            
+            // Explicaciones teóricas detalladas
+            explanations: {
+                "mito_logos": {
+                    title: "El paso del mito al logos",
+                    content: "El paso del mito al logos representa una de las transiciones más importantes en la historia del pensamiento occidental. Ocurrió en la Grecia antigua alrededor del siglo VI a.C. y marcó el surgimiento de la filosofía.",
+                    comparison: {
+                        "Mito": {
+                            "Tipo de explicación": "Sobrenatural, basada en dioses y fuerzas divinas",
+                            "Fuente de conocimiento": "Tradición oral, revelación, autoridad",
+                            "Método": "Narración de historias (mitos)",
+                            "Ejemplo": "Los terremotos son causados por Poseidón golpeando el suelo con su tridente"
+                        },
+                        "Logos": {
+                            "Tipo de explicación": "Natural, basada en la razón y la observación",
+                            "Fuente de conocimiento": "Razón, experiencia, argumentación lógica",
+                            "Método": "Investigación sistemática, debate racional",
+                            "Ejemplo": "Los terremotos son fenómenos naturales con causas físicas explicables"
+                        }
+                    },
+                    key_thinkers: ["Tales de Mileto", "Anaximandro", "Anaxímenes", "Heráclito", "Parménides"],
+                    significance: "Este cambio permitió el desarrollo de la ciencia, la filosofía y el pensamiento crítico, sentando las bases de la civilización occidental."
+                },
+                "presocraticos": {
+                    title: "Los filósofos presocráticos",
+                    content: "Los filósofos presocráticos fueron los primeros pensadores que intentaron explicar el universo mediante principios naturales en lugar de mitos. Se les llama 'presocráticos' porque precedieron o fueron contemporáneos de Sócrates, quien marcó un cambio fundamental en la filosofía.",
+                    main_ideas: [
+                        "Tales de Mileto: Consideraba que el agua era el principio (arché) de todas las cosas",
+                        "Anaximandro: Propuso el 'ápeiron' (lo ilimitado o indefinido) como principio originario",
+                        "Heráclito: Destacó el cambio constante en la naturaleza con su famosa frase 'todo fluye' (panta rei)",
+                        "Parménides: Afirmó la inmutabilidad del ser y la imposibilidad del cambio real"
+                    ],
+                    contributions: "Estos pensadores sentaron las bases del pensamiento racional y científico al buscar explicaciones naturales para los fenómenos del universo."
+                },
+                "socrates": {
+                    title: "Sócrates y el método socrático",
+                    content: "Sócrates (470-399 a.C.) marcó un punto de inflexión en la filosofía al centrarse en el ser humano y la ética, desplazando el interés de la filosofía de la naturaleza física al examen del alma humana.",
+                    method: {
+                        "Ironía": "Sócrates simulaba ignorancia para exponer las contradicciones en el pensamiento de su interlocutor",
+                        "Mayéutica": "Ayudaba a 'dar a luz' la verdad mediante preguntas que guiaban hacia el conocimiento",
+                        "Diálogo": "Utilizaba la conversación como método para alcanzar definiciones precisas de conceptos como la justicia, la virtud o la belleza"
+                    },
+                    key_concepts: ["Conócete a ti mismo", "Solo sé que no sé nada", "La virtud es conocimiento", "Nadie hace el mal voluntariamente"],
+                    legacy: "Sócrates no dejó escritos, pero su método y enseñanzas, transmitidas por su discípulo Platón, influyeron profundamente en el desarrollo de la filosofía occidental."
+                }
+            },
+            
+            // Material didáctico con ideas creativas
+            didactic: {
+                "mapas_conceptuales": [
+                    "Crea un mapa conceptual que compare las características del pensamiento mítico y el pensamiento racional",
+                    "Diseña un mapa mental sobre los principales filósofos presocráticos y sus teorías sobre el arché",
+                    "Elabora un organigrama que muestre la evolución de las escuelas filosóficas en la antigua Grecia"
+                ],
+                "lineas_tiempo": [
+                    "Crea una línea de tiempo interactiva que muestre los principales filósofos presocráticos, sus ideas fundamentales y el contexto histórico",
+                    "Diseña una línea cronológica que relacione los desarrollos filosóficos con eventos históricos y culturales de la antigua Grecia"
+                ],
+                "presentaciones": [
+                    "Prepara una presentación multimedia que compare explicaciones míticas y filosóficas sobre fenómenos naturales",
+                    "Crea una presentación interactiva sobre la alegoría de la caverna de Platón, con imágenes y ejemplos contemporáneos"
+                ],
+                "actividades_interactivas": [
+                    "Diseña un juego de roles donde los estudiantes representen a diferentes filósofos y debatan sobre la naturaleza de la realidad",
+                    "Crea un crucigrama filosófico con conceptos clave de la filosofía antigua"
+                ]
+            },
+            
+            // Actividades prácticas con instrucciones detalladas
+            activities: {
+                "analisis_comparativo": {
+                    title: "Análisis comparativo: Mito vs. Logos",
+                    description: "Compara un mito griego con una explicación filosófica presocrática sobre el mismo fenómeno natural",
+                    instructions: [
+                        "Selecciona un mito griego que explique un fenómeno natural (ej: el rayo como arma de Zeus)",
+                        "Investiga la explicación que daría un filósofo presocrático sobre el mismo fenómeno",
+                        "Identifica al menos tres diferencias fundamentales entre ambas explicaciones",
+                        "Escribe un breve ensayo (500 palabras) analizando estas diferencias"
+                    ],
+                    learning_objectives: ["Diferenciar entre explicaciones míticas y racionales", "Comprender el cambio de paradigma del mito al logos"]
+                },
+                "debate_filosofico": {
+                    title: "Debate filosófico: Heráclito vs. Parménides",
+                    description: "Organiza un debate donde se confronten las posturas de Heráclito (todo cambia) y Parménides (nada cambia)",
+                    instructions: [
+                        "Divide la clase en dos grupos: uno defenderá la postura de Heráclito y otro la de Parménides",
+                        "Cada grupo investigará los argumentos principales de su filósofo",
+                        "Preparen sus argumentos y contraargumentos para el debate",
+                        "Después del debate, reflexionen sobre las limitaciones y aportes de cada postura"
+                    ],
+                    learning_objectives: ["Comprender las posturas filosóficas sobre el cambio", "Desarrollar habilidades de argumentación y pensamiento crítico"]
+                },
+                "dialogo_socratico": {
+                    title: "Simulación de diálogo socrático",
+                    description: "Representa un diálogo socrático sobre un concepto ético como 'la justicia' o 'la virtud'",
+                    instructions: [
+                        "Un estudiante hará el papel de Sócrates y otro de su interlocutor",
+                        "Sócrates utilizará el método de preguntas para guiar al interlocutor hacia una definición más precisa del concepto",
+                        "El diálogo debe exponer las contradicciones en el pensamiento inicial del interlocutor",
+                        "Al final, el grupo reflexionará sobre el proceso y lo que aprendieron"
+                    ],
+                    learning_objectives: ["Experimentar el método socrático", "Profundizar en la comprensión de conceptos éticos fundamentales"]
+                },
+                "creacion_mitos_filosoficos": {
+                    title: "Creación de mitos filosóficos",
+                    description: "Crea tu propio mito que explique un fenómeno natural, pero usando elementos racionales en lugar de sobrenaturales",
+                    instructions: [
+                        "Selecciona un fenómeno natural que quieras explicar (ej: las estaciones, los eclipses, los terremotos)",
+                        "Investiga las explicaciones científicas actuales sobre ese fenómeno",
+                        "Crea un relato mítico que incorpore elementos de esas explicaciones científicas",
+                        "Presenta tu mito filosófico al grupo y explica cómo combina elementos míticos y racionales"
+                    ],
+                    learning_objectives: ["Comprender la transición del mito al logos", "Desarrollar la creatividad en la aplicación de conceptos filosóficos"]
+                }
+            },
+            
+            // Retos de comprensión con diferentes niveles de dificultad
+            challenges: {
+                "preguntas_trampa": [
+                    {
+                        question: "¿Es cierto que el paso del mito al logos significó la completa desaparición del pensamiento mítico en la antigua Grecia?",
+                        answer: "No, el pensamiento mítico continuó coexistiendo con el pensamiento racional, e incluso algunos filósofos como Platón utilizaron elementos míticos en sus obras.",
+                        explanation: "La transición fue gradual y ambos tipos de pensamiento convivieron durante siglos."
+                    },
+                    {
+                        question: "¿Los filósofos presocráticos rechazaron completamente la religión griega?",
+                        answer: "No necesariamente. Muchos de ellos no rechazaban la religión, sino que buscaban explicaciones naturales complementarias a las explicaciones religiosas.",
+                        explanation: "La filosofía presocrática no era necesariamente atea o antirreligiosa, sino que proponía un enfoque diferente para entender el mundo."
+                    },
+                    {
+                        question: "¿Sócrates fue el primer filósofo de la historia?",
+                        answer: "No, Sócrates vivió en el siglo V a.C., mientras que los primeros filósofos presocráticos surgieron en el siglo VI a.C.",
+                        explanation: "Aunque Sócrates es una figura fundamental, la filosofía comenzó con los pensadores presocráticos como Tales de Mileto."
+                    }
+                ],
+                "problemas_filosoficos": [
+                    {
+                        problem: "Si Heráclito dice que 'todo fluye' y nada permanece, ¿cómo es posible el conocimiento estable?",
+                        approach: "Esta paradoja fue abordada posteriormente por Platón con su teoría de las Ideas, que postulaba un mundo de formas eternas e inmutables.",
+                        reflection: "El problema del cambio y la permanencia es uno de los temas centrales de la filosofía occidental."
+                    },
+                    {
+                        problem: "Si, como dice Protágoras, 'el hombre es la medida de todas las cosas', ¿existe alguna verdad objetiva?",
+                        approach: "Este relativismo sofístico fue cuestionado por Sócrates y Platón, quienes buscaban verdades universales mediante la razón.",
+                        reflection: "La tensión entre relativismo y objetividad sigue siendo relevante en la filosofía contemporánea."
+                    }
+                ],
+                "aplicaciones_contemporaneas": [
+                    {
+                        challenge: "Identifica tres situaciones actuales donde observes un 'conflicto' similar al paso del mito al logos.",
+                        examples: ["Debates sobre cambio climático (explicaciones científicas vs. negacionismo)", "Discusiones sobre vacunas (evidencia médica vs. teorías conspirativas)", "Interpretaciones históricas (investigación académica vs. revisionismos ideológicos)"],
+                        reflection: "El conflicto entre explicaciones basadas en evidencia y aquellas basadas en creencias o tradiciones continúa en la sociedad actual."
+                    }
+                ]
+            }
+        };
+        
+        // Función para actualizar la barra de progreso
+        function updateProgress() {
+            completedSections = 0;
+            for (let i = 1; i <= totalSections; i++) {
+                const checkbox = document.getElementById(`section-${i}`).querySelector('input[type="checkbox"]');
+                if (checkbox.checked) {
+                    completedSections++;
+                }
+            }
+            
+            const progressPercentage = (completedSections / totalSections) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progressPercentage)}% completado`;
+        }
+        
+        // Función para añadir recursos adicionales
+        let resourceCount = 5;
+        function addResource() {
+            resourceCount++;
+            const resourcesContainer = document.getElementById('resources-container');
+            const newResource = document.createElement('div');
+            newResource.className = 'resource-item';
+            newResource.innerHTML = `
+                <input type="text" id="resource-${resourceCount}" placeholder="Recurso ${resourceCount}">
+            `;
+            resourcesContainer.appendChild(newResource);
+        }
+        
+        // Función para obtener sugerencias de IA
+        function getAISuggestion(section) {
+            const promptInput = document.getElementById(`${section}-prompt`);
+            const responseDiv = document.getElementById(`${section}-response`);
+            
+            if (!promptInput.value.trim()) {
+                alert('Por favor, escribe una solicitud para la IA');
+                return;
+            }
+            
+            // Simular "pensamiento" de la IA
+            responseDiv.innerHTML = '<p>La IA está pensando...</p>';
+            
+            setTimeout(() => {
+                let response = "";
+                const userPrompt = promptInput.value.toLowerCase();
+                
+                if (section === 'topic') {
+                    response = generateTopicSuggestion(userPrompt);
+                } else if (section === 'objective') {
+                    response = generateObjectiveSuggestion(userPrompt);
+                } else if (section === 'resources') {
+                    response = generateResourcesSuggestion(userPrompt);
+                } else if (section === 'explanation') {
+                    response = generateExplanationSuggestion(userPrompt);
+                } else if (section === 'didactic') {
+                    response = generateDidacticSuggestion(userPrompt);
+                } else if (section === 'activities') {
+                    response = generateActivitiesSuggestion(userPrompt);
+                } else if (section === 'challenge') {
+                    response = generateChallengeSuggestion(userPrompt);
+                }
+                
+                responseDiv.innerHTML = `<p>${response}</p>`;
+                
+                // Mostrar en modal para mejor visualización
+                document.getElementById('modal-content').innerHTML = `<p><strong>Tu solicitud:</strong> "${promptInput.value}"</p><p><strong>Respuesta de IA:</strong> ${response}</p>`;
+                document.getElementById('ai-modal').style.display = 'flex';
+            }, 1500);
+        }
+        
+        // Funciones específicas para generar sugerencias por sección
+        function generateTopicSuggestion(prompt) {
+            if (prompt.includes('tema') || prompt.includes('sugerencia') || prompt.includes('interesante')) {
+                let response = "Te recomiendo estos temas para tu investigación en filosofía antigua:<br><br>";
+                
+                // Seleccionar 3 temas aleatorios con sus descripciones
+                const topicKeys = Object.keys(aiKnowledgeBase.topics);
+                const selectedTopics = getRandomElements(topicKeys, 3);
+                
+                selectedTopics.forEach(topicKey => {
+                    const topic = aiKnowledgeBase.topics[topicKey];
+                    response += `<strong>${topicKey}</strong><br>`;
+                    response += `<em>${topic.description}</em><br>`;
+                    response += `Conceptos clave: ${topic.key_concepts.join(', ')}<br><br>`;
+                });
+                
+                response += "Puedes elegir uno de estos temas o pedirme más información sobre alguno en particular.";
+                return response;
+            } else if (prompt.includes('mito') && prompt.includes('logos')) {
+                const topic = aiKnowledgeBase.topics["El paso del mito al logos en la antigua Grecia"];
+                return `<strong>${"El paso del mito al logos en la antigua Grecia"}</strong><br><br>
+                        <em>${topic.description}</em><br><br>
+                        <strong>Conceptos clave:</strong> ${topic.key_concepts.join(', ')}<br>
+                        <strong>Relevancia:</strong> ${topic.relevance}<br><br>
+                        Este es un excelente tema para investigar ya que aborda los orígenes mismos de la filosofía.`;
+            } else {
+                return "Para ayudarte a seleccionar un tema, considera estos aspectos:<br><br>" +
+                       "• <strong>Interés personal:</strong> Elige un tema que genuinamente te intrigue<br>" +
+                       "• <strong>Disponibilidad de recursos:</strong> Asegúrate de que haya material accesible para tu investigación<br>" +
+                       "• <strong>Enfoque específico:</strong> En lugar de un tema muy amplio, elige un aspecto concreto<br>" +
+                       "• <strong>Relevancia:</strong> Considera cómo el tema se relaciona con cuestiones actuales<br><br>" +
+                       "¿Te gustaría que te sugiera algunos temas específicos sobre filosofía antigua?";
+            }
+        }
+        
+        function generateObjectiveSuggestion(prompt) {
+            if (prompt.includes('objetivo') || prompt.includes('redactar') || prompt.includes('aprendizaje')) {
+                let response = "Te ayudo a formular objetivos de aprendizaje efectivos:<br><br>";
+                
+                response += `<strong>Estructura de un buen objetivo (SMART):</strong><br>`;
+                response += `• <strong>E</strong>specífico: Define claramente qué quieres lograr<br>`;
+                response += `• <strong>M</strong>edible: Incluye criterios para evaluar el logro<br>`;
+                response += `• <strong>A</strong>lcanzable: Debe ser realista para tu nivel<br>`;
+                response += `• <strong>R</strong>elevante: Relacionado con tu tema de investigación<br>`;
+                response += `• <strong>T</strong>iempo: Define un plazo para completarlo<br><br>`;
+                
+                response += `<strong>Verbos útiles para objetivos:</strong> ${aiKnowledgeBase.objectives.verbs.join(', ')}<br><br>`;
+                
+                response += `<strong>Ejemplos de objetivos bien formulados:</strong><br>`;
+                aiKnowledgeBase.objectives.examples.slice(0, 2).forEach(example => {
+                    response += `• ${example}<br>`;
+                });
+                
+                return response;
+            } else {
+                return "Para redactar buenos objetivos de aprendizaje:<br><br>" +
+                       "1. Comienza con un verbo de acción que describa lo que podrás hacer<br>" +
+                       "2. Especifica el contenido o concepto que vas a trabajar<br>" +
+                       "3. Incluye el contexto o condiciones en que demostrarás tu aprendizaje<br>" +
+                       "4. Define criterios de evaluación o el producto final<br><br>" +
+                       "¿Te gustaría que te ayude a redactar un objetivo específico para tu tema de investigación?";
+            }
+        }
+        
+        function generateResourcesSuggestion(prompt) {
+            let response = "Te recomiendo estos recursos para tu investigación:<br><br>";
+            
+            // Recursos introductorios
+            response += "<strong>Recursos introductorios (nivel básico):</strong><br>";
+            aiKnowledgeBase.resources.introductorios.forEach(resource => {
+                response += `• <strong>${resource.name}</strong> - ${resource.type}<br>`;
+                response += `  <em>${resource.description}</em><br>`;
+            });
+            
+            response += "<br><strong>Recursos intermedios:</strong><br>";
+            aiKnowledgeBase.resources.intermedios.forEach(resource => {
+                response += `• <strong>${resource.name}</strong> - ${resource.type}<br>`;
+                response += `  <em>${resource.description}</em><br>`;
+            });
+            
+            response += "<br><strong>Consejos para buscar recursos:</strong><br>";
+            response += "• Utiliza bibliotecas digitales y repositorios académicos<br>";
+            response += "• Verifica la credibilidad de las fuentes (autores reconocidos, instituciones académicas)<br>";
+            response += "• Considera diferentes formatos (libros, artículos, videos, podcasts)<br>";
+            response += "• Adapta el nivel de dificultad a tu conocimiento previo<br>";
+            
+            return response;
+        }
+        
+        function generateExplanationSuggestion(prompt) {
+            if (prompt.includes('mito') && prompt.includes('logos')) {
+                const explanation = aiKnowledgeBase.explanations.mito_logos;
+                let response = `<strong>${explanation.title}</strong><br><br>`;
+                response += `${explanation.content}<br><br>`;
+                
+                response += `<strong>Comparación entre Mito y Logos:</strong><br>`;
+                response += `<table style="width:100%; border-collapse: collapse;">`;
+                response += `<tr><th style="border:1px solid #ddd; padding:8px;">Aspecto</th><th style="border:1px solid #ddd; padding:8px;">Mito</th><th style="border:1px solid #ddd; padding:8px;">Logos</th></tr>`;
+                
+                for (const aspect in explanation.comparison.Mito) {
+                    response += `<tr>`;
+                    response += `<td style="border:1px solid #ddd; padding:8px;">${aspect}</td>`;
+                    response += `<td style="border:1px solid #ddd; padding:8px;">${explanation.comparison.Mito[aspect]}</td>`;
+                    response += `<td style="border:1px solid #ddd; padding:8px;">${explanation.comparison.Logos[aspect]}</td>`;
+                    response += `</tr>`;
+                }
+                
+                response += `</table><br>`;
+                response += `<strong>Pensadores clave:</strong> ${explanation.key_thinkers.join(', ')}<br>`;
+                response += `<strong>Significado histórico:</strong> ${explanation.significance}`;
+                
+                return response;
+            } else if (prompt.includes('presocratic')) {
+                const explanation = aiKnowledgeBase.explanations.presocraticos;
+                let response = `<strong>${explanation.title}</strong><br><br>`;
+                response += `${explanation.content}<br><br>`;
+                
+                response += `<strong>Ideas principales:</strong><br>`;
+                explanation.main_ideas.forEach(idea => {
+                    response += `• ${idea}<br>`;
+                });
+                
+                response += `<br><strong>Aportaciones:</strong> ${explanation.contributions}`;
+                
+                return response;
+            } else {
+                return "Para estructurar una buena explicación teórica:<br><br>" +
+                       "1. <strong>Introducción:</strong> Presenta el tema y su importancia<br>" +
+                       "2. <strong>Desarrollo:</strong> Explica los conceptos clave de manera ordenada<br>" +
+                       "3. <strong>Ejemplos:</strong> Ilustra con casos concretos<br>" +
+                       "4. <strong>Contexto histórico:</strong> Sitúa el tema en su época<br>" +
+                       "5. <strong>Conclusión:</strong> Resume las ideas principales y su relevancia<br><br>" +
+                       "¿Te gustaría que te ayude con la explicación de algún concepto específico de filosofía antigua?";
+            }
+        }
+        
+        function generateDidacticSuggestion(prompt) {
+            let response = "Ideas para crear material didáctico sobre filosofía antigua:<br><br>";
+            
+            response += "<strong>Mapas conceptuales:</strong><br>";
+            aiKnowledgeBase.didactic.mapas_conceptuales.forEach(idea => {
+                response += `• ${idea}<br>`;
+            });
+            
+            response += "<br><strong>Líneas de tiempo:</strong><br>";
+            aiKnowledgeBase.didactic.lineas_tiempo.forEach(idea => {
+                response += `• ${idea}<br>`;
+            });
+            
+            response += "<br><strong>Presentaciones:</strong><br>";
+            aiKnowledgeBase.didactic.presentaciones.forEach(idea => {
+                response += `• ${idea}<br>`;
+            });
+            
+            response += "<br><strong>Actividades interactivas:</strong><br>";
+            aiKnowledgeBase.didactic.actividades_interactivas.forEach(idea => {
+                response += `• ${idea}<br>`;
+            });
+            
+            response += "<br><strong>Consejos para material didáctico efectivo:</strong><br>";
+            response += "• Combina texto con elementos visuales<br>";
+            response += "• Usa un lenguaje claro y accesible<br>";
+            response += "• Incluye ejemplos y aplicaciones prácticas<br>";
+            response += "• Diseña actividades que promuevan la reflexión<br>";
+            
+            return response;
+        }
+        
+        function generateActivitiesSuggestion(prompt) {
+            let response = "Propuestas de actividades prácticas para filosofía antigua:<br><br>";
+            
+            for (const key in aiKnowledgeBase.activities) {
+                const activity = aiKnowledgeBase.activities[key];
+                response += `<strong>${activity.title}</strong><br>`;
+                response += `<em>${activity.description}</em><br>`;
+                response += `<strong>Instrucciones:</strong><br>`;
+                activity.instructions.forEach((instruction, index) => {
+                    response += `${index + 1}. ${instruction}<br>`;
+                });
+                response += `<strong>Objetivos de aprendizaje:</strong> ${activity.learning_objectives.join(', ')}<br><br>`;
+            }
+            
+            return response;
+        }
+        
+        function generateChallengeSuggestion(prompt) {
+            let response = "Ideas para retos de comprensión:<br><br>";
+            
+            response += "<strong>Preguntas con trampa:</strong><br>";
+            aiKnowledgeBase.challenges.preguntas_trampa.forEach(challenge => {
+                response += `<strong>Pregunta:</strong> ${challenge.question}<br>`;
+                response += `<strong>Respuesta:</strong> ${challenge.answer}<br>`;
+                response += `<em>${challenge.explanation}</em><br><br>`;
+            });
+            
+            response += "<strong>Problemas filosóficos:</strong><br>";
+            aiKnowledgeBase.challenges.problemas_filosoficos.forEach(problem => {
+                response += `<strong>Problema:</strong> ${problem.problem}<br>`;
+                response += `<strong>Enfoque filosófico:</strong> ${problem.approach}<br>`;
+                response += `<em>${problem.reflection}</em><br><br>`;
+            });
+            
+            response += "<strong>Aplicaciones contemporáneas:</strong><br>";
+            aiKnowledgeBase.challenges.aplicaciones_contemporaneas.forEach(application => {
+                response += `<strong>Reto:</strong> ${application.challenge}<br>`;
+                response += `<strong>Ejemplos:</strong> ${application.examples.join(', ')}<br>`;
+                response += `<em>${application.reflection}</em><br>`;
+            });
+            
+            return response;
+        }
+        
+        // Función auxiliar para obtener elementos aleatorios de un array
+        function getRandomElements(array, count) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+        
+        // Función para cerrar el modal
+        function closeModal() {
+            document.getElementById('ai-modal').style.display = 'none';
+        }
+        
+        // Funcionalidad del chat de IA
+        function toggleChat() {
+            const chat = document.getElementById('ai-chat');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+        
+        function sendChatMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const chatBody = document.getElementById('chat-body');
+            
+            if (!chatInput.value.trim()) return;
+            
+            // Agregar mensaje del usuario
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user-message';
+            userMessage.textContent = chatInput.value;
+            chatBody.appendChild(userMessage);
+            
+            // Limpiar input
+            const userQuestion = chatInput.value;
+            chatInput.value = '';
+            
+            // Simular "pensamiento" de la IA
+            const thinkingMessage = document.createElement('div');
+            thinkingMessage.className = 'chat-message ai-message';
+            thinkingMessage.textContent = 'La IA está pensando...';
+            chatBody.appendChild(thinkingMessage);
+            
+            // Hacer scroll hacia abajo
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // Generar respuesta después de un delay
+            setTimeout(() => {
+                chatBody.removeChild(thinkingMessage);
+                
+                const aiResponse = document.createElement('div');
+                aiResponse.className = 'chat-message ai-message';
+                
+                // Generar respuesta contextual basada en la pregunta
+                let response = generateAIResponse(userQuestion);
+                aiResponse.innerHTML = response;
+                
+                chatBody.appendChild(aiResponse);
+                
+                // Hacer scroll hacia abajo
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 2000);
+        }
+        
+        // Función para generar respuestas contextuales de la IA
+        function generateAIResponse(question) {
+            question = question.toLowerCase();
+            
+            // Detectar la intención de la pregunta
+            if (question.includes('hola') || question.includes('buenos días') || question.includes('buenas tardes')) {
+                return "¡Hola! Soy tu asistente de IA especializado en filosofía antigua. Estoy aquí para ayudarte con tu investigación. Puedo asistirte con temas, objetivos, recursos, explicaciones, materiales didácticos, actividades y retos de comprensión. ¿En qué puedo ayudarte?";
+            } else if (question.includes('ayuda') || question.includes('qué puedes hacer')) {
+                return "Puedo ayudarte con todos los aspectos de tu investigación en filosofía antigua:<br><br>" +
+                       "• <strong>Temas:</strong> Sugerir temas interesantes con descripciones detalladas<br>" +
+                       "• <strong>Objetivos:</strong> Ayudar a redactar objetivos de aprendizaje efectivos<br>" +
+                       "• <strong>Recursos:</strong> Recomendar libros, artículos y videos apropiados para tu nivel<br>" +
+                       "• <strong>Explicaciones:</strong> Proporcionar explicaciones claras de conceptos filosóficos<br>" +
+                       "• <strong>Material didáctico:</strong> Sugerir ideas creativas para enseñar tu tema<br>" +
+                       "• <strong>Actividades:</strong> Diseñar actividades prácticas para aplicar lo aprendido<br>" +
+                       "• <strong>Retos:</strong> Crear preguntas problematizadoras y retos de comprensión<br><br>" +
+                       "Solo tienes que preguntarme sobre lo que necesites en tu investigación.";
+            } else if (question.includes('tema') && (question.includes('sugerencia') || question.includes('elegir'))) {
+                return generateTopicSuggestion(question);
+            } else if (question.includes('objetivo') || question.includes('aprendizaje')) {
+                return generateObjectiveSuggestion(question);
+            } else if (question.includes('recurso') || question.includes('bibliografía') || question.includes('libro')) {
+                return generateResourcesSuggestion(question);
+            } else if (question.includes('explicación') || question.includes('concepto') || question.includes('qué es')) {
+                return generateExplanationSuggestion(question);
+            } else if (question.includes('material didáctico') || question.includes('enseñar') || question.includes('presentación')) {
+                return generateDidacticSuggestion(question);
+            } else if (question.includes('actividad') || question.includes('ejercicio') || question.includes('práctica')) {
+                return generateActivitiesSuggestion(question);
+            } else if (question.includes('reto') || question.includes('pregunta') || question.includes('desafío')) {
+                return generateChallengeSuggestion(question);
+            } else {
+                // Respuesta por defecto si no se detecta una intención específica
+                const defaultResponses = [
+                    "Interesante pregunta. En el contexto de la filosofía antigua, podrías explorar cómo los primeros filósofos abordaron cuestiones similares. ¿Te interesa algún período o filósofo en particular?",
+                    "Ese es un tema fascinante. La filosofía antigua ofrece muchas perspectivas valiosas. ¿Quieres que te ayude a profundizar en algún aspecto específico?",
+                    "Para responder a eso adecuadamente, necesitaríamos analizar diferentes enfoques filosóficos. ¿Te gustaría que exploremos juntos alguna escuela o pensador en particular?",
+                    "Buena pregunta. La filosofía antigua tiene mucho que aportar sobre ese tema. Podríamos examinar las perspectivas de diferentes filósofos o escuelas.",
+                    "Ese concepto tiene raíces profundas en la filosofía antigua. ¿Te interesa conocer cómo lo abordaron los presocráticos, Sócrates, Platón o Aristóteles?"
+                ];
+                
+                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+            }
+        }
+        
+        // Permitir enviar mensaje con Enter
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        
+        // Función para guardar el trabajo
+        function saveWork() {
+            const workData = {
+                topic: document.getElementById('topic').value,
+                objective: document.getElementById('objective').value,
+                resources: [],
+                explanation: document.getElementById('explanation').value,
+                didacticMaterial: document.getElementById('didactic-material').value,
+                activities: {
+                    activity1: document.getElementById('activity-1').value,
+                    activity2: document.getElementById('activity-2').value
+                },
+                challenge: document.getElementById('challenge').value
+            };
+            
+            // Recopilar recursos
+            for (let i = 1; i <= resourceCount; i++) {
+                const resource = document.getElementById(`resource-${i}`).value;
+                if (resource.trim()) {
+                    workData.resources.push(resource);
+                }
+            }
+            
+            localStorage.setItem('philosophyResearch', JSON.stringify(workData));
+            alert('Tu trabajo ha sido guardado correctamente.');
+        }
+        
+        // Función para cargar el trabajo guardado
+        function loadWork() {
+            const savedWork = localStorage.getItem('philosophyResearch');
+            if (savedWork) {
+                const workData = JSON.parse(savedWork);
+                
+                document.getElementById('topic').value = workData.topic || '';
+                document.getElementById('objective').value = workData.objective || '';
+                document.getElementById('explanation').value = workData.explanation || '';
+                document.getElementById('didactic-material').value = workData.didacticMaterial || '';
+                document.getElementById('activity-1').value = workData.activities?.activity1 || '';
+                document.getElementById('activity-2').value = workData.activities?.activity2 || '';
+                document.getElementById('challenge').value = workData.challenge || '';
+                
+                // Cargar recursos
+                if (workData.resources && workData.resources.length > 0) {
+                    for (let i = 0; i < workData.resources.length; i++) {
+                        if (i < resourceCount) {
+                            document.getElementById(`resource-${i+1}`).value = workData.resources[i];
+                        } else {
+                            addResource();
+                            document.getElementById(`resource-${resourceCount}`).value = workData.resources[i];
+                        }
+                    }
+                }
+                
+                updateProgress();
+            }
+        }
+        
+        // Función para exportar el proyecto
+        function exportWork() {
+            const topic = document.getElementById('topic').value || 'Sin definir';
+            const objective = document.getElementById('objective').value || 'Sin definir';
+            const explanation = document.getElementById('explanation').value || 'Sin definir';
+            const didacticMaterial = document.getElementById('didactic-material').value || 'Sin definir';
+            const activity1 = document.getElementById('activity-1').value || 'Sin definir';
+            const activity2 = document.getElementById('activity-2').value || 'Sin definir';
+            const challenge = document.getElementById('challenge').value || 'Sin definir';
+            
+            // Recopilar recursos
+            let resourcesHTML = '';
+            for (let i = 1; i <= resourceCount; i++) {
+                const resource = document.getElementById(`resource-${i}`).value;
+                if (resource.trim()) {
+                    resourcesHTML += `<li>${resource}</li>`;
+                }
+            }
+            
+            const exportContent = `
+                <div class="export-project">
+                    <h1>Proyecto de Investigación Filosófica</h1>
+                    <p><strong>Estudiante:</strong> Investigador Junior</p>
+                    <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
+                    
+                    <h2>1. Tema seleccionado</h2>
+                    <p>${topic}</p>
+                    
+                    <h2>2. Objetivo de aprendizaje</h2>
+                    <p>${objective}</p>
+                    
+                    <h2>3. Recursos consultados</h2>
+                    <ul>${resourcesHTML || '<li>No se han especificado recursos</li>'}</ul>
+                    
+                    <h2>4. Explicación teórica</h2>
+                    <p>${explanation}</p>
+                    
+                    <h2>5. Material didáctico</h2>
+                    <p>${didacticMaterial}</p>
+                    
+                    <h2>6. Actividades prácticas</h2>
+                    <h3>Actividad 1:</h3>
+                    <p>${activity1}</p>
+                    <h3>Actividad 2:</h3>
+                    <p>${activity2}</p>
+                    
+                    <h2>7. Reto de comprensión</h2>
+                    <p>${challenge}</p>
+                </div>
+            `;
+            
+            document.getElementById('export-content').innerHTML = exportContent;
+            document.getElementById('export-container').style.display = 'block';
+            
+            // Desplazar hacia la sección de exportación
+            document.getElementById('export-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Función para imprimir el proyecto
+        function printProject() {
+            const printContent = document.getElementById('export-content').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload();
+        }
+        
+        // Cargar trabajo guardado al iniciar
+        window.onload = function() {
+            loadWork();
+        };
+    </script>
+</body>
+</html>
